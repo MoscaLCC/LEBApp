@@ -4,41 +4,112 @@
 #Entidades:
     - Produtor
     - Distribuidor
-    - Transportador 
-
-#Registo de Pedido:
-    Deve ser possivel inserir um pedido de transporte na app, este pedido pode ser intruzido manualmente ou atravez de um serviço externo.
-    Este pedido deve conter a seguinte informação:
-        - Valor do produto
-        - Nome do produto
-        - Local Origem (V1 qual o ponto recolha, V2 morada ou ponto de recolha)
-        - Local Destino (V1 qual o ponto entrega, V2 morada ou ponto de entraga)
-        - Data de inicio (tem que ser valida para o ponto de recolha escolhido)
-        - Data de validadedwe
-        - Descrição
-        - Caracteristicas especiais do produto
-        - Dimenções do produto
-        - Peso
-        # um transporte so pode  ser efetuado se o tempo estimador dor inferiro ao prazo de validade.
-        # a registar um pedido de entra é dado um timo estimado.
-        # caso tempo de validade seja ultrapassado. é pedido ao produtor para que decida se o produto deve seguir ou se deve voltar para traz.
-        #quando é escolhido um ponto de recolha ao entre nesse ponto dos transportadores são notificados.
-        #quando é escolhido uma morada os distribuidores são notificados.
+    - Transportador
+    - Ponto
 
 #Registo de Produtor:
-    Deve ser possivel fazer o regiosto de um produtor manualmente na app. 
+    Deve ser possivel fazer o registo de um produtor manualmente na app. 
         - Nome
+        - Email
+        - Telefone
         - NIB?
         - NIF
         - Data de Nascimento
         - Morada Fiscal
         - Foto
+        - PaginaWeb/RedeSocial
         - Zona Preferencial (Distrito?Concelho?Zona?)
 
-#Registo de Distribuidor:
+#Registo de Distribuidor(comissão):
+    Deve ser possivel fazer o registo de um distribuidor.
+        - Nome
+        - Email
+        - Telefone
+        - NIB?
+        - NIF
+        - Data de Nascimento
+        - Morada Fiscal
+        - Foto
+        - Horario de disponibilidade
+        - Ponto ao qual está associado
 
-#Registo de Transportador:
+#Registo de um Ponto(comissão):
+    Deve ser possivel fazer o registo de um ponto.
+        - Nome
+        - Email
+        - Telefone
+        - NIB?
+        - NIF
+        - Morada Fiscal
+        - Horario de Funcionamento
 
+#Registo de Transportador(comissão):
+    Deve ser possivel fazer o registo de um distribuidor.
+        - Nome
+        - Email
+        - Telefone
+        - NIB?
+        - NIF
+        - Data de Nascimento
+        - Morada Fiscal
+        - Foto
+        - Lista<(Rota entre pontos, horario)>
+        - Meio de transporte preferencial
 
     
+#Registo de Pedido:
+    Deve ser possivel inserir um pedido de transporte na app, este pedido pode ser intruzido manualmente ou atravez de um serviço externo.
+    Este pedido deve conter a seguinte informação:
+        - Valor do produto
+        - Nome do produto
+        - Local Origem (Morada ou ponto de recolha)
+        - Local Destino (Morada ou ponto de entraga)
+        - Data de inicio (tem que ser valida para o ponto de recolha escolhido)
+        - Data de validade
+        - Descrição
+        - Caracteristicas especiais do produto
+        - Dimenções do produto
+        - Peso
+        # um transporte so pode  ser efetuado se o tempo estimado for inferiro ao prazo de validade.
+        # ao registar um pedido de entrega é dado um tempo estimado.
+        # caso o tempo de validade seja ultrapassado. É pedido ao produtor para que decida se o produto deve seguir ou se deve voltar para traz.
+        # quando é escolhido um ponto de recolha ao entregar nesse ponto os transportadores são notificados.
+        # quando é escolhido uma morada os distribuidores são notificados.
+        # ?? Ponto deve ser notificado? quando??
+
+
+& Produtor
+    - Nome
+    - Email
+    - Telefone
+    - NIB?
+    - NIF
+    - Data de Nascimento
+    - Morada Fiscal
+    - Foto
+    - Zona Preferencial (Distrito?Concelho?Zona?)
+    - PaginaWeb/RedeSocial
+    - Numero de pedidos registados
+    - Valor total pago
+    - Valor em divida
+    - Ranking
+
+& Pedido
+    - Valor do produto
+    - Nome do produto
+    - Local Origem (Morada ou ponto de recolha)
+    - Local Destino (Morada ou ponto de entraga)
+    - Data de inicio (tem que ser valida para o ponto de recolha escolhido)
+    - Data de validade
+    - Descrição
+    - Caracteristicas especiais do produto
+    - Dimenções do produto
+    - Peso
+    - Status
+    - Data prevista
+    - Tempo de entrega 
+    - Rota
+    - Valor de Transporte
+
+& 
 
