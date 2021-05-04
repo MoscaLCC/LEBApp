@@ -111,5 +111,55 @@
     - Rota
     - Valor de Transporte
 
-& 
+& Rota
+    - Ponto inicial
+    - Ponto final
+    - Distancia
+    - Tempo estimado
 
+& Distribuidor
+    - Nome
+    - Email
+    - Telefone
+    - NIB?
+    - NIF
+    - Data de Nascimento
+    - Morada Fiscal
+    - Foto
+    - Horario de disponibilidade
+    - Ponto ao qual está associado
+    - Numero de entragas
+    - Numero de Km
+    - Valor Recebido
+    - Valor a Receber
+    - Ranking
+
+& Transportador
+    - Nome
+    - Email
+    - Telefone
+    - NIB?
+    - NIF
+    - Data de Nascimento
+    - Morada Fiscal
+    - Foto
+    - Lista<Rotas - Horario>
+    - Meio de transporte preferencial
+    - Numero de entragas
+    - Numero de Km
+    - Valor Recebido
+    - Valor a Receber
+    - Ranking
+
+& Ponto
+    - Nome
+    - Email
+    - Telefone
+    - NIB?
+    - NIF
+    - Morada Fiscal
+    - Horario de Funcionamento
+    - Numero de entragas
+    - Valor Recebido
+    - Valor a Receber
+    - Ranking
