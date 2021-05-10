@@ -99,6 +99,7 @@
     - Nome do produto
     - Local Origem (Morada ou ponto de recolha)
     - Local Destino (Morada ou ponto de entraga)
+    - Contactos de entrega
     - Data de inicio (tem que ser valida para o ponto de recolha escolhido)
     - Data de validade
     - Descrição
@@ -110,6 +111,7 @@
     - Tempo de entrega 
     - Rota
     - Valor de Transporte
+    - Avaliação 
 
 & Rota
     - Ponto inicial
