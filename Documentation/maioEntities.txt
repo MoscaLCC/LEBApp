@@ -1,0 +1,51 @@
+& Rota
+    source String
+    destination String
+    distance String
+    estimatedTime String
+
+& Distribuidor
+    name String
+    email String
+    phoneNumber String
+    nif int
+    nib String
+    birthday LocalDate
+    address String
+    photo String
+    openingTime String
+    numberOfDeliveries int
+    numberOfKm double
+    receivedValue double
+    valueToReceive double
+    rank double
+
+& Transportador
+    name String
+    email String
+    phoneNumber String
+    nib String
+    nif int
+    birthday LocalDate
+    address String
+    photo String
+    routes List<String>
+    favouriteTransport String
+    numberOfDeliveries int
+    numberOfKm double
+    receivedValue double
+    valueToReceive double
+    rank double
+
+& Ponto
+    name String
+    email String
+    phoneNumber String
+    nib String
+    nif int
+    address String
+    openingTime String
+    numberOfDeliveries int
+    receivedValue double
+    valueToReceive double
+    rank double
