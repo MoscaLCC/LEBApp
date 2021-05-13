@@ -1,0 +1,123 @@
+entity Producer {
+    name String, 
+    mail String,
+    telefone String,
+    nib String,
+    nif Integer,
+    birthday LocalDate,
+    adress String,
+    foto String,
+    linkSocial String,
+    numberRequests Integer,
+    payedValue Double,
+    valueToPay Double,
+    ranking Double
+}
+
+entity Request {
+    productValue Double,
+    productName String,
+    source String,
+    destination String,
+    destinationContact String,
+    initDate Instant,
+    expirationDate Instant,
+    description String,
+    specialCharacteristics String,
+    productWeight Double,
+    status Status,
+    estimatedDate Instant,
+    deliveryTime Instant, 
+    shippingCosts Double,
+    rating Double
+}
+
+enum Status {
+    WAITING,
+    OPENED,
+    OPENING,
+    COMPLETING,
+    COMPLETED,
+    REFUSING,
+    REFUSED,
+    PENDING,
+    CLOSING,
+    CLOSED,
+    IN_PROGRESS,
+    PROCESSING,
+    PROCESSED,
+    PRE_PROCESSING,
+    PRE_PROCESSED,
+    LOSTED,
+    CHECKING,
+    CHECKED,
+    CANCELED,
+    CANCELING,
+    DENIED,
+    FAIL,
+    INCOMPLET,
+    PENDING,
+    SHIPPED,
+    IN_TRANSIT
+}
+     
+
+entity Rota
+     Ponto inicial
+     Ponto final
+     Distancia
+     Tempo estimado
+
+entity Distribuidor
+     Nome
+     Email
+     Telefone
+     NIB?
+     NIF
+     Data de Nascimento
+     Morada Fiscal
+     Foto
+     Horario de disponibilidade
+     Ponto ao qual está associado
+     Numero de entragas
+     Numero de Km
+     Valor Recebido
+     Valor a Receber
+     Ranking
+
+entity Transportador
+     Nome
+     Email
+     Telefone
+     NIB?
+     NIF
+     Data de Nascimento
+     Morada Fiscal
+     Foto
+     Lista<Rotas  Horario>
+     Meio de transporte preferencial
+     Numero de entragas
+     Numero de Km
+     Valor Recebido
+     Valor a Receber
+     Ranking
+
+entity Ponto
+     Nome
+     Email
+     Telefone
+     NIB?
+     NIF
+     Morada Fiscal
+     Horario de Funcionamento
+     Numero de entragas
+     Valor Recebido
+     Valor a Receber
+     Ranking
+
+
+favoriteZone Zona
+ponto -> distribuidor
+productDimension -> Dimension (x,y,z)
+enumerate STATUS+
+request - rota
