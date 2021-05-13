@@ -1,6 +1,10 @@
-<h1>RideGoods APP</h1>
+<h1>LEB APP</h1>
 
-<p>The RideGoods APP is an application to manage goods transportion by a Ride</p>
+<p>The LEB APP is an application to manage goods transportion by a Ride</p>
+<p>LEB - LOCUS Excessu Bona</p>
+
+<p> The LEB APP was born from the need to guarantee the transport of goods at more competitive prices.</br>
+This need was initially identified in the LOCUS project.</p>
 
 <h3>Development Team</h3>
 <h6>Maio António <a href="https://github.com/tozemaio">@tozemaio</a><h6>
