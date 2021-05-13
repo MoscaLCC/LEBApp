@@ -1,8 +1,7 @@
 <h1>LEB APP</h1>
 
+<h6>LEB - LOCUS Excessu Bona</h6>
 <p>The LEB APP is an application to manage goods transportion by a Ride</p>
-<p>LEB - LOCUS Excessu Bona</p>
-
 <p> The LEB APP was born from the need to guarantee the transport of goods at more competitive prices.</br>
 This need was initially identified in the LOCUS project.</p>
 
