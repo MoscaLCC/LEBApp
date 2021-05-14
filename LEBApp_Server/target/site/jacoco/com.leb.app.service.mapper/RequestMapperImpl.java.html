@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RequestMapperImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.service.mapper</a> &gt; <span class="el_source">RequestMapperImpl.java</span></div><h1>RequestMapperImpl.java</h1><pre class="source lang-java linenums">package com.leb.app.service.mapper;
+
+import com.leb.app.domain.Request;
+import com.leb.app.service.dto.RequestDTO;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.processing.Generated;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Generated(
+    value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
+    date = &quot;2021-05-14T22:42:45+0100&quot;,
+    comments = &quot;version: 1.4.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)&quot;
+)
+@Component
+<span class="nc" id="L17">public class RequestMapperImpl implements RequestMapper {</span>
+
+    @Autowired
+    private DimensionsMapper dimensionsMapper;
+    @Autowired
+    private RidePathMapper ridePathMapper;
+    @Autowired
+    private ProducerMapper producerMapper;
+
+    @Override
+    public Request toEntity(RequestDTO dto) {
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        if ( dto == null ) {</span>
+<span class="nc" id="L29">            return null;</span>
+        }
+
+<span class="nc" id="L32">        Request request = new Request();</span>
+
+<span class="nc" id="L34">        request.id( dto.getId() );</span>
+<span class="nc" id="L35">        request.setProductValue( dto.getProductValue() );</span>
+<span class="nc" id="L36">        request.setProductName( dto.getProductName() );</span>
+<span class="nc" id="L37">        request.setSource( dto.getSource() );</span>
+<span class="nc" id="L38">        request.setDestination( dto.getDestination() );</span>
+<span class="nc" id="L39">        request.setDestinationContact( dto.getDestinationContact() );</span>
+<span class="nc" id="L40">        request.setInitDate( dto.getInitDate() );</span>
+<span class="nc" id="L41">        request.setExpirationDate( dto.getExpirationDate() );</span>
+<span class="nc" id="L42">        request.setDescription( dto.getDescription() );</span>
+<span class="nc" id="L43">        request.setSpecialCharacteristics( dto.getSpecialCharacteristics() );</span>
+<span class="nc" id="L44">        request.setProductWeight( dto.getProductWeight() );</span>
+<span class="nc" id="L45">        request.setStatus( dto.getStatus() );</span>
+<span class="nc" id="L46">        request.setEstimatedDate( dto.getEstimatedDate() );</span>
+<span class="nc" id="L47">        request.setDeliveryTime( dto.getDeliveryTime() );</span>
+<span class="nc" id="L48">        request.setShippingCosts( dto.getShippingCosts() );</span>
+<span class="nc" id="L49">        request.setRating( dto.getRating() );</span>
+<span class="nc" id="L50">        request.setDimensions( dimensionsMapper.toEntity( dto.getDimensions() ) );</span>
+<span class="nc" id="L51">        request.setRidePath( ridePathMapper.toEntity( dto.getRidePath() ) );</span>
+<span class="nc" id="L52">        request.setProducer( producerMapper.toEntity( dto.getProducer() ) );</span>
+
+<span class="nc" id="L54">        return request;</span>
+    }
+
+    @Override
+    public List&lt;Request&gt; toEntity(List&lt;RequestDTO&gt; dtoList) {
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        if ( dtoList == null ) {</span>
+<span class="nc" id="L60">            return null;</span>
+        }
+
+<span class="nc" id="L63">        List&lt;Request&gt; list = new ArrayList&lt;Request&gt;( dtoList.size() );</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        for ( RequestDTO requestDTO : dtoList ) {</span>
+<span class="nc" id="L65">            list.add( toEntity( requestDTO ) );</span>
+<span class="nc" id="L66">        }</span>
+
+<span class="nc" id="L68">        return list;</span>
+    }
+
+    @Override
+    public List&lt;RequestDTO&gt; toDto(List&lt;Request&gt; entityList) {
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        if ( entityList == null ) {</span>
+<span class="nc" id="L74">            return null;</span>
+        }
+
+<span class="nc" id="L77">        List&lt;RequestDTO&gt; list = new ArrayList&lt;RequestDTO&gt;( entityList.size() );</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        for ( Request request : entityList ) {</span>
+<span class="nc" id="L79">            list.add( toDto( request ) );</span>
+<span class="nc" id="L80">        }</span>
+
+<span class="nc" id="L82">        return list;</span>
+    }
+
+    @Override
+    public void partialUpdate(Request entity, RequestDTO dto) {
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if ( dto == null ) {</span>
+<span class="nc" id="L88">            return;</span>
+        }
+
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if ( dto.getId() != null ) {</span>
+<span class="nc" id="L92">            entity.id( dto.getId() );</span>
+        }
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        if ( dto.getProductValue() != null ) {</span>
+<span class="nc" id="L95">            entity.setProductValue( dto.getProductValue() );</span>
+        }
+<span class="nc bnc" id="L97" title="All 2 branches missed.">        if ( dto.getProductName() != null ) {</span>
+<span class="nc" id="L98">            entity.setProductName( dto.getProductName() );</span>
+        }
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        if ( dto.getSource() != null ) {</span>
+<span class="nc" id="L101">            entity.setSource( dto.getSource() );</span>
+        }
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        if ( dto.getDestination() != null ) {</span>
+<span class="nc" id="L104">            entity.setDestination( dto.getDestination() );</span>
+        }
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        if ( dto.getDestinationContact() != null ) {</span>
+<span class="nc" id="L107">            entity.setDestinationContact( dto.getDestinationContact() );</span>
+        }
+<span class="nc bnc" id="L109" title="All 2 branches missed.">        if ( dto.getInitDate() != null ) {</span>
+<span class="nc" id="L110">            entity.setInitDate( dto.getInitDate() );</span>
+        }
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        if ( dto.getExpirationDate() != null ) {</span>
+<span class="nc" id="L113">            entity.setExpirationDate( dto.getExpirationDate() );</span>
+        }
+<span class="nc bnc" id="L115" title="All 2 branches missed.">        if ( dto.getDescription() != null ) {</span>
+<span class="nc" id="L116">            entity.setDescription( dto.getDescription() );</span>
+        }
+<span class="nc bnc" id="L118" title="All 2 branches missed.">        if ( dto.getSpecialCharacteristics() != null ) {</span>
+<span class="nc" id="L119">            entity.setSpecialCharacteristics( dto.getSpecialCharacteristics() );</span>
+        }
+<span class="nc bnc" id="L121" title="All 2 branches missed.">        if ( dto.getProductWeight() != null ) {</span>
+<span class="nc" id="L122">            entity.setProductWeight( dto.getProductWeight() );</span>
+        }
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        if ( dto.getStatus() != null ) {</span>
+<span class="nc" id="L125">            entity.setStatus( dto.getStatus() );</span>
+        }
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        if ( dto.getEstimatedDate() != null ) {</span>
+<span class="nc" id="L128">            entity.setEstimatedDate( dto.getEstimatedDate() );</span>
+        }
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        if ( dto.getDeliveryTime() != null ) {</span>
+<span class="nc" id="L131">            entity.setDeliveryTime( dto.getDeliveryTime() );</span>
+        }
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        if ( dto.getShippingCosts() != null ) {</span>
+<span class="nc" id="L134">            entity.setShippingCosts( dto.getShippingCosts() );</span>
+        }
+<span class="nc bnc" id="L136" title="All 2 branches missed.">        if ( dto.getRating() != null ) {</span>
+<span class="nc" id="L137">            entity.setRating( dto.getRating() );</span>
+        }
+<span class="nc bnc" id="L139" title="All 2 branches missed.">        if ( dto.getDimensions() != null ) {</span>
+<span class="nc" id="L140">            entity.setDimensions( dimensionsMapper.toEntity( dto.getDimensions() ) );</span>
+        }
+<span class="nc bnc" id="L142" title="All 2 branches missed.">        if ( dto.getRidePath() != null ) {</span>
+<span class="nc" id="L143">            entity.setRidePath( ridePathMapper.toEntity( dto.getRidePath() ) );</span>
+        }
+<span class="nc bnc" id="L145" title="All 2 branches missed.">        if ( dto.getProducer() != null ) {</span>
+<span class="nc" id="L146">            entity.setProducer( producerMapper.toEntity( dto.getProducer() ) );</span>
+        }
+<span class="nc" id="L148">    }</span>
+
+    @Override
+    public RequestDTO toDto(Request s) {
+<span class="nc bnc" id="L152" title="All 2 branches missed.">        if ( s == null ) {</span>
+<span class="nc" id="L153">            return null;</span>
+        }
+
+<span class="nc" id="L156">        RequestDTO requestDTO = new RequestDTO();</span>
+
+<span class="nc" id="L158">        requestDTO.setDimensions( dimensionsMapper.toDtoId( s.getDimensions() ) );</span>
+<span class="nc" id="L159">        requestDTO.setRidePath( ridePathMapper.toDtoId( s.getRidePath() ) );</span>
+<span class="nc" id="L160">        requestDTO.setProducer( producerMapper.toDtoId( s.getProducer() ) );</span>
+<span class="nc" id="L161">        requestDTO.setId( s.getId() );</span>
+<span class="nc" id="L162">        requestDTO.setProductValue( s.getProductValue() );</span>
+<span class="nc" id="L163">        requestDTO.setProductName( s.getProductName() );</span>
+<span class="nc" id="L164">        requestDTO.setSource( s.getSource() );</span>
+<span class="nc" id="L165">        requestDTO.setDestination( s.getDestination() );</span>
+<span class="nc" id="L166">        requestDTO.setDestinationContact( s.getDestinationContact() );</span>
+<span class="nc" id="L167">        requestDTO.setInitDate( s.getInitDate() );</span>
+<span class="nc" id="L168">        requestDTO.setExpirationDate( s.getExpirationDate() );</span>
+<span class="nc" id="L169">        requestDTO.setDescription( s.getDescription() );</span>
+<span class="nc" id="L170">        requestDTO.setSpecialCharacteristics( s.getSpecialCharacteristics() );</span>
+<span class="nc" id="L171">        requestDTO.setProductWeight( s.getProductWeight() );</span>
+<span class="nc" id="L172">        requestDTO.setStatus( s.getStatus() );</span>
+<span class="nc" id="L173">        requestDTO.setEstimatedDate( s.getEstimatedDate() );</span>
+<span class="nc" id="L174">        requestDTO.setDeliveryTime( s.getDeliveryTime() );</span>
+<span class="nc" id="L175">        requestDTO.setShippingCosts( s.getShippingCosts() );</span>
+<span class="nc" id="L176">        requestDTO.setRating( s.getRating() );</span>
+
+<span class="nc" id="L178">        return requestDTO;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

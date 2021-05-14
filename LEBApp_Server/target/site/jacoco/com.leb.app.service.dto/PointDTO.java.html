@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PointDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.service.dto</a> &gt; <span class="el_source">PointDTO.java</span></div><h1>PointDTO.java</h1><pre class="source lang-java linenums">package com.leb.app.service.dto;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+/**
+ * A DTO for the {@link com.leb.app.domain.Point} entity.
+ */
+<span class="fc" id="L9">public class PointDTO implements Serializable {</span>
+
+    private Long id;
+
+    private String name;
+
+    private String email;
+
+    private String phoneNumber;
+
+    private String nib;
+
+    private Integer nif;
+
+    private String address;
+
+    private String openingTime;
+
+    private Integer numberOfDeliveries;
+
+    private Double receivedValue;
+
+    private Double valueToReceive;
+
+    private Double ranking;
+
+    private ZoneDTO zone;
+
+    public Long getId() {
+<span class="fc" id="L38">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="fc" id="L42">        this.id = id;</span>
+<span class="fc" id="L43">    }</span>
+
+    public String getName() {
+<span class="fc" id="L46">        return name;</span>
+    }
+
+    public void setName(String name) {
+<span class="nc" id="L50">        this.name = name;</span>
+<span class="nc" id="L51">    }</span>
+
+    public String getEmail() {
+<span class="fc" id="L54">        return email;</span>
+    }
+
+    public void setEmail(String email) {
+<span class="nc" id="L58">        this.email = email;</span>
+<span class="nc" id="L59">    }</span>
+
+    public String getPhoneNumber() {
+<span class="fc" id="L62">        return phoneNumber;</span>
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+<span class="nc" id="L66">        this.phoneNumber = phoneNumber;</span>
+<span class="nc" id="L67">    }</span>
+
+    public String getNib() {
+<span class="fc" id="L70">        return nib;</span>
+    }
+
+    public void setNib(String nib) {
+<span class="nc" id="L74">        this.nib = nib;</span>
+<span class="nc" id="L75">    }</span>
+
+    public Integer getNif() {
+<span class="fc" id="L78">        return nif;</span>
+    }
+
+    public void setNif(Integer nif) {
+<span class="nc" id="L82">        this.nif = nif;</span>
+<span class="nc" id="L83">    }</span>
+
+    public String getAddress() {
+<span class="fc" id="L86">        return address;</span>
+    }
+
+    public void setAddress(String address) {
+<span class="nc" id="L90">        this.address = address;</span>
+<span class="nc" id="L91">    }</span>
+
+    public String getOpeningTime() {
+<span class="fc" id="L94">        return openingTime;</span>
+    }
+
+    public void setOpeningTime(String openingTime) {
+<span class="nc" id="L98">        this.openingTime = openingTime;</span>
+<span class="nc" id="L99">    }</span>
+
+    public Integer getNumberOfDeliveries() {
+<span class="fc" id="L102">        return numberOfDeliveries;</span>
+    }
+
+    public void setNumberOfDeliveries(Integer numberOfDeliveries) {
+<span class="nc" id="L106">        this.numberOfDeliveries = numberOfDeliveries;</span>
+<span class="nc" id="L107">    }</span>
+
+    public Double getReceivedValue() {
+<span class="fc" id="L110">        return receivedValue;</span>
+    }
+
+    public void setReceivedValue(Double receivedValue) {
+<span class="nc" id="L114">        this.receivedValue = receivedValue;</span>
+<span class="nc" id="L115">    }</span>
+
+    public Double getValueToReceive() {
+<span class="fc" id="L118">        return valueToReceive;</span>
+    }
+
+    public void setValueToReceive(Double valueToReceive) {
+<span class="nc" id="L122">        this.valueToReceive = valueToReceive;</span>
+<span class="nc" id="L123">    }</span>
+
+    public Double getRanking() {
+<span class="fc" id="L126">        return ranking;</span>
+    }
+
+    public void setRanking(Double ranking) {
+<span class="nc" id="L130">        this.ranking = ranking;</span>
+<span class="nc" id="L131">    }</span>
+
+    public ZoneDTO getZone() {
+<span class="fc" id="L134">        return zone;</span>
+    }
+
+    public void setZone(ZoneDTO zone) {
+<span class="nc" id="L138">        this.zone = zone;</span>
+<span class="nc" id="L139">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L143" title="1 of 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L144">            return true;</span>
+        }
+<span class="fc bfc" id="L146" title="All 2 branches covered.">        if (!(o instanceof PointDTO)) {</span>
+<span class="fc" id="L147">            return false;</span>
+        }
+
+<span class="fc" id="L150">        PointDTO pointDTO = (PointDTO) o;</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">        if (this.id == null) {</span>
+<span class="fc" id="L152">            return false;</span>
+        }
+<span class="fc" id="L154">        return Objects.equals(this.id, pointDTO.id);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="fc" id="L159">        return Objects.hash(this.id);</span>
+    }
+
+    // prettier-ignore
+    @Override
+    public String toString() {
+<span class="fc" id="L165">        return &quot;PointDTO{&quot; +</span>
+<span class="fc" id="L166">            &quot;id=&quot; + getId() +</span>
+<span class="fc" id="L167">            &quot;, name='&quot; + getName() + &quot;'&quot; +</span>
+<span class="fc" id="L168">            &quot;, email='&quot; + getEmail() + &quot;'&quot; +</span>
+<span class="fc" id="L169">            &quot;, phoneNumber='&quot; + getPhoneNumber() + &quot;'&quot; +</span>
+<span class="fc" id="L170">            &quot;, nib='&quot; + getNib() + &quot;'&quot; +</span>
+<span class="fc" id="L171">            &quot;, nif=&quot; + getNif() +</span>
+<span class="fc" id="L172">            &quot;, address='&quot; + getAddress() + &quot;'&quot; +</span>
+<span class="fc" id="L173">            &quot;, openingTime='&quot; + getOpeningTime() + &quot;'&quot; +</span>
+<span class="fc" id="L174">            &quot;, numberOfDeliveries=&quot; + getNumberOfDeliveries() +</span>
+<span class="fc" id="L175">            &quot;, receivedValue=&quot; + getReceivedValue() +</span>
+<span class="fc" id="L176">            &quot;, valueToReceive=&quot; + getValueToReceive() +</span>
+<span class="fc" id="L177">            &quot;, ranking=&quot; + getRanking() +</span>
+<span class="fc" id="L178">            &quot;, zone=&quot; + getZone() +</span>
+            &quot;}&quot;;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

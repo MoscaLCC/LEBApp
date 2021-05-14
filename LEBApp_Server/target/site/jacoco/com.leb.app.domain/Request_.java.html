@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Request_.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.domain</a> &gt; <span class="el_source">Request_.java</span></div><h1>Request_.java</h1><pre class="source lang-java linenums">package com.leb.app.domain;
+
+import com.leb.app.domain.enumeration.Status;
+import java.time.Instant;
+import javax.annotation.Generated;
+import javax.persistence.metamodel.SingularAttribute;
+import javax.persistence.metamodel.StaticMetamodel;
+
+@Generated(value = &quot;org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor&quot;)
+@StaticMetamodel(Request.class)
+<span class="nc" id="L11">public abstract class Request_ {</span>
+
+	public static volatile SingularAttribute&lt;Request, Instant&gt; deliveryTime;
+	public static volatile SingularAttribute&lt;Request, Instant&gt; initDate;
+	public static volatile SingularAttribute&lt;Request, String&gt; destination;
+	public static volatile SingularAttribute&lt;Request, Instant&gt; estimatedDate;
+	public static volatile SingularAttribute&lt;Request, Double&gt; rating;
+	public static volatile SingularAttribute&lt;Request, String&gt; description;
+	public static volatile SingularAttribute&lt;Request, String&gt; source;
+	public static volatile SingularAttribute&lt;Request, Double&gt; productWeight;
+	public static volatile SingularAttribute&lt;Request, String&gt; productName;
+	public static volatile SingularAttribute&lt;Request, Double&gt; shippingCosts;
+	public static volatile SingularAttribute&lt;Request, Double&gt; productValue;
+	public static volatile SingularAttribute&lt;Request, RidePath&gt; ridePath;
+	public static volatile SingularAttribute&lt;Request, String&gt; destinationContact;
+	public static volatile SingularAttribute&lt;Request, Producer&gt; producer;
+	public static volatile SingularAttribute&lt;Request, String&gt; specialCharacteristics;
+	public static volatile SingularAttribute&lt;Request, Long&gt; id;
+	public static volatile SingularAttribute&lt;Request, Instant&gt; expirationDate;
+	public static volatile SingularAttribute&lt;Request, Status&gt; status;
+	public static volatile SingularAttribute&lt;Request, Dimensions&gt; dimensions;
+
+	public static final String DELIVERY_TIME = &quot;deliveryTime&quot;;
+	public static final String INIT_DATE = &quot;initDate&quot;;
+	public static final String DESTINATION = &quot;destination&quot;;
+	public static final String ESTIMATED_DATE = &quot;estimatedDate&quot;;
+	public static final String RATING = &quot;rating&quot;;
+	public static final String DESCRIPTION = &quot;description&quot;;
+	public static final String SOURCE = &quot;source&quot;;
+	public static final String PRODUCT_WEIGHT = &quot;productWeight&quot;;
+	public static final String PRODUCT_NAME = &quot;productName&quot;;
+	public static final String SHIPPING_COSTS = &quot;shippingCosts&quot;;
+	public static final String PRODUCT_VALUE = &quot;productValue&quot;;
+	public static final String RIDE_PATH = &quot;ridePath&quot;;
+	public static final String DESTINATION_CONTACT = &quot;destinationContact&quot;;
+	public static final String PRODUCER = &quot;producer&quot;;
+	public static final String SPECIAL_CHARACTERISTICS = &quot;specialCharacteristics&quot;;
+	public static final String ID = &quot;id&quot;;
+	public static final String EXPIRATION_DATE = &quot;expirationDate&quot;;
+	public static final String STATUS = &quot;status&quot;;
+	public static final String DIMENSIONS = &quot;dimensions&quot;;
+
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProducerDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.service.dto</a> &gt; <span class="el_source">ProducerDTO.java</span></div><h1>ProducerDTO.java</h1><pre class="source lang-java linenums">package com.leb.app.service.dto;
+
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.Objects;
+
+/**
+ * A DTO for the {@link com.leb.app.domain.Producer} entity.
+ */
+<span class="fc" id="L10">public class ProducerDTO implements Serializable {</span>
+
+    private Long id;
+
+    private String name;
+
+    private String mail;
+
+    private String phoneNumber;
+
+    private String nib;
+
+    private Integer nif;
+
+    private LocalDate birthday;
+
+    private String adress;
+
+    private String photo;
+
+    private String linkSocial;
+
+    private Integer numberRequests;
+
+    private Double payedValue;
+
+    private Double valueToPay;
+
+    private Double ranking;
+
+    public Long getId() {
+<span class="fc" id="L41">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="fc" id="L45">        this.id = id;</span>
+<span class="fc" id="L46">    }</span>
+
+    public String getName() {
+<span class="fc" id="L49">        return name;</span>
+    }
+
+    public void setName(String name) {
+<span class="nc" id="L53">        this.name = name;</span>
+<span class="nc" id="L54">    }</span>
+
+    public String getMail() {
+<span class="fc" id="L57">        return mail;</span>
+    }
+
+    public void setMail(String mail) {
+<span class="nc" id="L61">        this.mail = mail;</span>
+<span class="nc" id="L62">    }</span>
+
+    public String getPhoneNumber() {
+<span class="fc" id="L65">        return phoneNumber;</span>
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+<span class="nc" id="L69">        this.phoneNumber = phoneNumber;</span>
+<span class="nc" id="L70">    }</span>
+
+    public String getNib() {
+<span class="fc" id="L73">        return nib;</span>
+    }
+
+    public void setNib(String nib) {
+<span class="nc" id="L77">        this.nib = nib;</span>
+<span class="nc" id="L78">    }</span>
+
+    public Integer getNif() {
+<span class="fc" id="L81">        return nif;</span>
+    }
+
+    public void setNif(Integer nif) {
+<span class="nc" id="L85">        this.nif = nif;</span>
+<span class="nc" id="L86">    }</span>
+
+    public LocalDate getBirthday() {
+<span class="fc" id="L89">        return birthday;</span>
+    }
+
+    public void setBirthday(LocalDate birthday) {
+<span class="nc" id="L93">        this.birthday = birthday;</span>
+<span class="nc" id="L94">    }</span>
+
+    public String getAdress() {
+<span class="fc" id="L97">        return adress;</span>
+    }
+
+    public void setAdress(String adress) {
+<span class="nc" id="L101">        this.adress = adress;</span>
+<span class="nc" id="L102">    }</span>
+
+    public String getPhoto() {
+<span class="fc" id="L105">        return photo;</span>
+    }
+
+    public void setPhoto(String photo) {
+<span class="nc" id="L109">        this.photo = photo;</span>
+<span class="nc" id="L110">    }</span>
+
+    public String getLinkSocial() {
+<span class="fc" id="L113">        return linkSocial;</span>
+    }
+
+    public void setLinkSocial(String linkSocial) {
+<span class="nc" id="L117">        this.linkSocial = linkSocial;</span>
+<span class="nc" id="L118">    }</span>
+
+    public Integer getNumberRequests() {
+<span class="fc" id="L121">        return numberRequests;</span>
+    }
+
+    public void setNumberRequests(Integer numberRequests) {
+<span class="nc" id="L125">        this.numberRequests = numberRequests;</span>
+<span class="nc" id="L126">    }</span>
+
+    public Double getPayedValue() {
+<span class="fc" id="L129">        return payedValue;</span>
+    }
+
+    public void setPayedValue(Double payedValue) {
+<span class="nc" id="L133">        this.payedValue = payedValue;</span>
+<span class="nc" id="L134">    }</span>
+
+    public Double getValueToPay() {
+<span class="fc" id="L137">        return valueToPay;</span>
+    }
+
+    public void setValueToPay(Double valueToPay) {
+<span class="nc" id="L141">        this.valueToPay = valueToPay;</span>
+<span class="nc" id="L142">    }</span>
+
+    public Double getRanking() {
+<span class="fc" id="L145">        return ranking;</span>
+    }
+
+    public void setRanking(Double ranking) {
+<span class="nc" id="L149">        this.ranking = ranking;</span>
+<span class="nc" id="L150">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L154" title="1 of 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L155">            return true;</span>
+        }
+<span class="fc bfc" id="L157" title="All 2 branches covered.">        if (!(o instanceof ProducerDTO)) {</span>
+<span class="fc" id="L158">            return false;</span>
+        }
+
+<span class="fc" id="L161">        ProducerDTO producerDTO = (ProducerDTO) o;</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">        if (this.id == null) {</span>
+<span class="fc" id="L163">            return false;</span>
+        }
+<span class="fc" id="L165">        return Objects.equals(this.id, producerDTO.id);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="fc" id="L170">        return Objects.hash(this.id);</span>
+    }
+
+    // prettier-ignore
+    @Override
+    public String toString() {
+<span class="fc" id="L176">        return &quot;ProducerDTO{&quot; +</span>
+<span class="fc" id="L177">            &quot;id=&quot; + getId() +</span>
+<span class="fc" id="L178">            &quot;, name='&quot; + getName() + &quot;'&quot; +</span>
+<span class="fc" id="L179">            &quot;, mail='&quot; + getMail() + &quot;'&quot; +</span>
+<span class="fc" id="L180">            &quot;, phoneNumber='&quot; + getPhoneNumber() + &quot;'&quot; +</span>
+<span class="fc" id="L181">            &quot;, nib='&quot; + getNib() + &quot;'&quot; +</span>
+<span class="fc" id="L182">            &quot;, nif=&quot; + getNif() +</span>
+<span class="fc" id="L183">            &quot;, birthday='&quot; + getBirthday() + &quot;'&quot; +</span>
+<span class="fc" id="L184">            &quot;, adress='&quot; + getAdress() + &quot;'&quot; +</span>
+<span class="fc" id="L185">            &quot;, photo='&quot; + getPhoto() + &quot;'&quot; +</span>
+<span class="fc" id="L186">            &quot;, linkSocial='&quot; + getLinkSocial() + &quot;'&quot; +</span>
+<span class="fc" id="L187">            &quot;, numberRequests=&quot; + getNumberRequests() +</span>
+<span class="fc" id="L188">            &quot;, payedValue=&quot; + getPayedValue() +</span>
+<span class="fc" id="L189">            &quot;, valueToPay=&quot; + getValueToPay() +</span>
+<span class="fc" id="L190">            &quot;, ranking=&quot; + getRanking() +</span>
+            &quot;}&quot;;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

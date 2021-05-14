@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RidePath.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.domain</a> &gt; <span class="el_source">RidePath.java</span></div><h1>RidePath.java</h1><pre class="source lang-java linenums">package com.leb.app.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+/**
+ * A RidePath.
+ */
+@Entity
+@Table(name = &quot;ride_path&quot;)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+<span class="fc" id="L17">public class RidePath implements Serializable {</span>
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = &quot;source&quot;)
+    private String source;
+
+    @Column(name = &quot;destination&quot;)
+    private String destination;
+
+    @Column(name = &quot;distance&quot;)
+    private String distance;
+
+    @Column(name = &quot;estimated_time&quot;)
+    private String estimatedTime;
+
+<span class="fc" id="L37">    @OneToMany(mappedBy = &quot;ridePath&quot;)</span>
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { &quot;dimensions&quot;, &quot;ridePath&quot;, &quot;producer&quot; }, allowSetters = true)
+    private Set&lt;Request&gt; requests = new HashSet&lt;&gt;();
+
+<span class="fc" id="L42">    @ManyToMany(mappedBy = &quot;ridePaths&quot;)</span>
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { &quot;ridePaths&quot;, &quot;zones&quot; }, allowSetters = true)
+    private Set&lt;Transporter&gt; transports = new HashSet&lt;&gt;();
+
+    // jhipster-needle-entity-add-field - JHipster will add fields here
+    public Long getId() {
+<span class="fc" id="L49">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="fc" id="L53">        this.id = id;</span>
+<span class="fc" id="L54">    }</span>
+
+    public RidePath id(Long id) {
+<span class="nc" id="L57">        this.id = id;</span>
+<span class="nc" id="L58">        return this;</span>
+    }
+
+    public String getSource() {
+<span class="fc" id="L62">        return this.source;</span>
+    }
+
+    public RidePath source(String source) {
+<span class="nc" id="L66">        this.source = source;</span>
+<span class="nc" id="L67">        return this;</span>
+    }
+
+    public void setSource(String source) {
+<span class="nc" id="L71">        this.source = source;</span>
+<span class="nc" id="L72">    }</span>
+
+    public String getDestination() {
+<span class="fc" id="L75">        return this.destination;</span>
+    }
+
+    public RidePath destination(String destination) {
+<span class="nc" id="L79">        this.destination = destination;</span>
+<span class="nc" id="L80">        return this;</span>
+    }
+
+    public void setDestination(String destination) {
+<span class="nc" id="L84">        this.destination = destination;</span>
+<span class="nc" id="L85">    }</span>
+
+    public String getDistance() {
+<span class="fc" id="L88">        return this.distance;</span>
+    }
+
+    public RidePath distance(String distance) {
+<span class="nc" id="L92">        this.distance = distance;</span>
+<span class="nc" id="L93">        return this;</span>
+    }
+
+    public void setDistance(String distance) {
+<span class="nc" id="L97">        this.distance = distance;</span>
+<span class="nc" id="L98">    }</span>
+
+    public String getEstimatedTime() {
+<span class="fc" id="L101">        return this.estimatedTime;</span>
+    }
+
+    public RidePath estimatedTime(String estimatedTime) {
+<span class="nc" id="L105">        this.estimatedTime = estimatedTime;</span>
+<span class="nc" id="L106">        return this;</span>
+    }
+
+    public void setEstimatedTime(String estimatedTime) {
+<span class="nc" id="L110">        this.estimatedTime = estimatedTime;</span>
+<span class="nc" id="L111">    }</span>
+
+    public Set&lt;Request&gt; getRequests() {
+<span class="nc" id="L114">        return this.requests;</span>
+    }
+
+    public RidePath requests(Set&lt;Request&gt; requests) {
+<span class="nc" id="L118">        this.setRequests(requests);</span>
+<span class="nc" id="L119">        return this;</span>
+    }
+
+    public RidePath addRequest(Request request) {
+<span class="nc" id="L123">        this.requests.add(request);</span>
+<span class="nc" id="L124">        request.setRidePath(this);</span>
+<span class="nc" id="L125">        return this;</span>
+    }
+
+    public RidePath removeRequest(Request request) {
+<span class="nc" id="L129">        this.requests.remove(request);</span>
+<span class="nc" id="L130">        request.setRidePath(null);</span>
+<span class="nc" id="L131">        return this;</span>
+    }
+
+    public void setRequests(Set&lt;Request&gt; requests) {
+<span class="nc bnc" id="L135" title="All 2 branches missed.">        if (this.requests != null) {</span>
+<span class="nc" id="L136">            this.requests.forEach(i -&gt; i.setRidePath(null));</span>
+        }
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        if (requests != null) {</span>
+<span class="nc" id="L139">            requests.forEach(i -&gt; i.setRidePath(this));</span>
+        }
+<span class="nc" id="L141">        this.requests = requests;</span>
+<span class="nc" id="L142">    }</span>
+
+    public Set&lt;Transporter&gt; getTransports() {
+<span class="nc" id="L145">        return this.transports;</span>
+    }
+
+    public RidePath transports(Set&lt;Transporter&gt; transporters) {
+<span class="nc" id="L149">        this.setTransports(transporters);</span>
+<span class="nc" id="L150">        return this;</span>
+    }
+
+    public RidePath addTransports(Transporter transporter) {
+<span class="nc" id="L154">        this.transports.add(transporter);</span>
+<span class="nc" id="L155">        transporter.getRidePaths().add(this);</span>
+<span class="nc" id="L156">        return this;</span>
+    }
+
+    public RidePath removeTransports(Transporter transporter) {
+<span class="nc" id="L160">        this.transports.remove(transporter);</span>
+<span class="nc" id="L161">        transporter.getRidePaths().remove(this);</span>
+<span class="nc" id="L162">        return this;</span>
+    }
+
+    public void setTransports(Set&lt;Transporter&gt; transporters) {
+<span class="nc bnc" id="L166" title="All 2 branches missed.">        if (this.transports != null) {</span>
+<span class="nc" id="L167">            this.transports.forEach(i -&gt; i.removeRidePath(this));</span>
+        }
+<span class="nc bnc" id="L169" title="All 2 branches missed.">        if (transporters != null) {</span>
+<span class="nc" id="L170">            transporters.forEach(i -&gt; i.addRidePath(this));</span>
+        }
+<span class="nc" id="L172">        this.transports = transporters;</span>
+<span class="nc" id="L173">    }</span>
+
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L179" title="1 of 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L180">            return true;</span>
+        }
+<span class="fc bfc" id="L182" title="All 2 branches covered.">        if (!(o instanceof RidePath)) {</span>
+<span class="fc" id="L183">            return false;</span>
+        }
+<span class="fc bfc" id="L185" title="All 4 branches covered.">        return id != null &amp;&amp; id.equals(((RidePath) o).id);</span>
+    }
+
+    @Override
+    public int hashCode() {
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+<span class="fc" id="L191">        return getClass().hashCode();</span>
+    }
+
+    // prettier-ignore
+    @Override
+    public String toString() {
+<span class="fc" id="L197">        return &quot;RidePath{&quot; +</span>
+<span class="fc" id="L198">            &quot;id=&quot; + getId() +</span>
+<span class="fc" id="L199">            &quot;, source='&quot; + getSource() + &quot;'&quot; +</span>
+<span class="fc" id="L200">            &quot;, destination='&quot; + getDestination() + &quot;'&quot; +</span>
+<span class="fc" id="L201">            &quot;, distance='&quot; + getDistance() + &quot;'&quot; +</span>
+<span class="fc" id="L202">            &quot;, estimatedTime='&quot; + getEstimatedTime() + &quot;'&quot; +</span>
+            &quot;}&quot;;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

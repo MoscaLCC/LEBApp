@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PointCriteria.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.service.criteria</a> &gt; <span class="el_source">PointCriteria.java</span></div><h1>PointCriteria.java</h1><pre class="source lang-java linenums">package com.leb.app.service.criteria;
+
+import java.io.Serializable;
+import java.util.Objects;
+import tech.jhipster.service.Criteria;
+import tech.jhipster.service.filter.BooleanFilter;
+import tech.jhipster.service.filter.DoubleFilter;
+import tech.jhipster.service.filter.Filter;
+import tech.jhipster.service.filter.FloatFilter;
+import tech.jhipster.service.filter.IntegerFilter;
+import tech.jhipster.service.filter.LongFilter;
+import tech.jhipster.service.filter.StringFilter;
+
+/**
+ * Criteria class for the {@link com.leb.app.domain.Point} entity. This class is used
+ * in {@link com.leb.app.web.rest.PointResource} to receive all the possible filtering options from
+ * the Http GET request parameters.
+ * For example the following could be a valid request:
+ * {@code /points?id.greaterThan=5&amp;attr1.contains=something&amp;attr2.specified=false}
+ * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
+ * fix type specific filters.
+ */
+public class PointCriteria implements Serializable, Criteria {
+
+    private static final long serialVersionUID = 1L;
+
+    private LongFilter id;
+
+    private StringFilter name;
+
+    private StringFilter email;
+
+    private StringFilter phoneNumber;
+
+    private StringFilter nib;
+
+    private IntegerFilter nif;
+
+    private StringFilter address;
+
+    private StringFilter openingTime;
+
+    private IntegerFilter numberOfDeliveries;
+
+    private DoubleFilter receivedValue;
+
+    private DoubleFilter valueToReceive;
+
+    private DoubleFilter ranking;
+
+    private LongFilter deliveryManId;
+
+    private LongFilter zoneId;
+
+<span class="nc" id="L55">    public PointCriteria() {}</span>
+
+<span class="nc" id="L57">    public PointCriteria(PointCriteria other) {</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        this.id = other.id == null ? null : other.id.copy();</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        this.name = other.name == null ? null : other.name.copy();</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        this.email = other.email == null ? null : other.email.copy();</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        this.phoneNumber = other.phoneNumber == null ? null : other.phoneNumber.copy();</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        this.nib = other.nib == null ? null : other.nib.copy();</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">        this.nif = other.nif == null ? null : other.nif.copy();</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        this.address = other.address == null ? null : other.address.copy();</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        this.openingTime = other.openingTime == null ? null : other.openingTime.copy();</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        this.numberOfDeliveries = other.numberOfDeliveries == null ? null : other.numberOfDeliveries.copy();</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        this.receivedValue = other.receivedValue == null ? null : other.receivedValue.copy();</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        this.valueToReceive = other.valueToReceive == null ? null : other.valueToReceive.copy();</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        this.ranking = other.ranking == null ? null : other.ranking.copy();</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        this.deliveryManId = other.deliveryManId == null ? null : other.deliveryManId.copy();</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        this.zoneId = other.zoneId == null ? null : other.zoneId.copy();</span>
+<span class="nc" id="L72">    }</span>
+
+    @Override
+    public PointCriteria copy() {
+<span class="nc" id="L76">        return new PointCriteria(this);</span>
+    }
+
+    public LongFilter getId() {
+<span class="nc" id="L80">        return id;</span>
+    }
+
+    public LongFilter id() {
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (id == null) {</span>
+<span class="nc" id="L85">            id = new LongFilter();</span>
+        }
+<span class="nc" id="L87">        return id;</span>
+    }
+
+    public void setId(LongFilter id) {
+<span class="nc" id="L91">        this.id = id;</span>
+<span class="nc" id="L92">    }</span>
+
+    public StringFilter getName() {
+<span class="nc" id="L95">        return name;</span>
+    }
+
+    public StringFilter name() {
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        if (name == null) {</span>
+<span class="nc" id="L100">            name = new StringFilter();</span>
+        }
+<span class="nc" id="L102">        return name;</span>
+    }
+
+    public void setName(StringFilter name) {
+<span class="nc" id="L106">        this.name = name;</span>
+<span class="nc" id="L107">    }</span>
+
+    public StringFilter getEmail() {
+<span class="nc" id="L110">        return email;</span>
+    }
+
+    public StringFilter email() {
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        if (email == null) {</span>
+<span class="nc" id="L115">            email = new StringFilter();</span>
+        }
+<span class="nc" id="L117">        return email;</span>
+    }
+
+    public void setEmail(StringFilter email) {
+<span class="nc" id="L121">        this.email = email;</span>
+<span class="nc" id="L122">    }</span>
+
+    public StringFilter getPhoneNumber() {
+<span class="nc" id="L125">        return phoneNumber;</span>
+    }
+
+    public StringFilter phoneNumber() {
+<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (phoneNumber == null) {</span>
+<span class="nc" id="L130">            phoneNumber = new StringFilter();</span>
+        }
+<span class="nc" id="L132">        return phoneNumber;</span>
+    }
+
+    public void setPhoneNumber(StringFilter phoneNumber) {
+<span class="nc" id="L136">        this.phoneNumber = phoneNumber;</span>
+<span class="nc" id="L137">    }</span>
+
+    public StringFilter getNib() {
+<span class="nc" id="L140">        return nib;</span>
+    }
+
+    public StringFilter nib() {
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        if (nib == null) {</span>
+<span class="nc" id="L145">            nib = new StringFilter();</span>
+        }
+<span class="nc" id="L147">        return nib;</span>
+    }
+
+    public void setNib(StringFilter nib) {
+<span class="nc" id="L151">        this.nib = nib;</span>
+<span class="nc" id="L152">    }</span>
+
+    public IntegerFilter getNif() {
+<span class="nc" id="L155">        return nif;</span>
+    }
+
+    public IntegerFilter nif() {
+<span class="nc bnc" id="L159" title="All 2 branches missed.">        if (nif == null) {</span>
+<span class="nc" id="L160">            nif = new IntegerFilter();</span>
+        }
+<span class="nc" id="L162">        return nif;</span>
+    }
+
+    public void setNif(IntegerFilter nif) {
+<span class="nc" id="L166">        this.nif = nif;</span>
+<span class="nc" id="L167">    }</span>
+
+    public StringFilter getAddress() {
+<span class="nc" id="L170">        return address;</span>
+    }
+
+    public StringFilter address() {
+<span class="nc bnc" id="L174" title="All 2 branches missed.">        if (address == null) {</span>
+<span class="nc" id="L175">            address = new StringFilter();</span>
+        }
+<span class="nc" id="L177">        return address;</span>
+    }
+
+    public void setAddress(StringFilter address) {
+<span class="nc" id="L181">        this.address = address;</span>
+<span class="nc" id="L182">    }</span>
+
+    public StringFilter getOpeningTime() {
+<span class="nc" id="L185">        return openingTime;</span>
+    }
+
+    public StringFilter openingTime() {
+<span class="nc bnc" id="L189" title="All 2 branches missed.">        if (openingTime == null) {</span>
+<span class="nc" id="L190">            openingTime = new StringFilter();</span>
+        }
+<span class="nc" id="L192">        return openingTime;</span>
+    }
+
+    public void setOpeningTime(StringFilter openingTime) {
+<span class="nc" id="L196">        this.openingTime = openingTime;</span>
+<span class="nc" id="L197">    }</span>
+
+    public IntegerFilter getNumberOfDeliveries() {
+<span class="nc" id="L200">        return numberOfDeliveries;</span>
+    }
+
+    public IntegerFilter numberOfDeliveries() {
+<span class="nc bnc" id="L204" title="All 2 branches missed.">        if (numberOfDeliveries == null) {</span>
+<span class="nc" id="L205">            numberOfDeliveries = new IntegerFilter();</span>
+        }
+<span class="nc" id="L207">        return numberOfDeliveries;</span>
+    }
+
+    public void setNumberOfDeliveries(IntegerFilter numberOfDeliveries) {
+<span class="nc" id="L211">        this.numberOfDeliveries = numberOfDeliveries;</span>
+<span class="nc" id="L212">    }</span>
+
+    public DoubleFilter getReceivedValue() {
+<span class="nc" id="L215">        return receivedValue;</span>
+    }
+
+    public DoubleFilter receivedValue() {
+<span class="nc bnc" id="L219" title="All 2 branches missed.">        if (receivedValue == null) {</span>
+<span class="nc" id="L220">            receivedValue = new DoubleFilter();</span>
+        }
+<span class="nc" id="L222">        return receivedValue;</span>
+    }
+
+    public void setReceivedValue(DoubleFilter receivedValue) {
+<span class="nc" id="L226">        this.receivedValue = receivedValue;</span>
+<span class="nc" id="L227">    }</span>
+
+    public DoubleFilter getValueToReceive() {
+<span class="nc" id="L230">        return valueToReceive;</span>
+    }
+
+    public DoubleFilter valueToReceive() {
+<span class="nc bnc" id="L234" title="All 2 branches missed.">        if (valueToReceive == null) {</span>
+<span class="nc" id="L235">            valueToReceive = new DoubleFilter();</span>
+        }
+<span class="nc" id="L237">        return valueToReceive;</span>
+    }
+
+    public void setValueToReceive(DoubleFilter valueToReceive) {
+<span class="nc" id="L241">        this.valueToReceive = valueToReceive;</span>
+<span class="nc" id="L242">    }</span>
+
+    public DoubleFilter getRanking() {
+<span class="nc" id="L245">        return ranking;</span>
+    }
+
+    public DoubleFilter ranking() {
+<span class="nc bnc" id="L249" title="All 2 branches missed.">        if (ranking == null) {</span>
+<span class="nc" id="L250">            ranking = new DoubleFilter();</span>
+        }
+<span class="nc" id="L252">        return ranking;</span>
+    }
+
+    public void setRanking(DoubleFilter ranking) {
+<span class="nc" id="L256">        this.ranking = ranking;</span>
+<span class="nc" id="L257">    }</span>
+
+    public LongFilter getDeliveryManId() {
+<span class="nc" id="L260">        return deliveryManId;</span>
+    }
+
+    public LongFilter deliveryManId() {
+<span class="nc bnc" id="L264" title="All 2 branches missed.">        if (deliveryManId == null) {</span>
+<span class="nc" id="L265">            deliveryManId = new LongFilter();</span>
+        }
+<span class="nc" id="L267">        return deliveryManId;</span>
+    }
+
+    public void setDeliveryManId(LongFilter deliveryManId) {
+<span class="nc" id="L271">        this.deliveryManId = deliveryManId;</span>
+<span class="nc" id="L272">    }</span>
+
+    public LongFilter getZoneId() {
+<span class="nc" id="L275">        return zoneId;</span>
+    }
+
+    public LongFilter zoneId() {
+<span class="nc bnc" id="L279" title="All 2 branches missed.">        if (zoneId == null) {</span>
+<span class="nc" id="L280">            zoneId = new LongFilter();</span>
+        }
+<span class="nc" id="L282">        return zoneId;</span>
+    }
+
+    public void setZoneId(LongFilter zoneId) {
+<span class="nc" id="L286">        this.zoneId = zoneId;</span>
+<span class="nc" id="L287">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L291" title="All 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L292">            return true;</span>
+        }
+<span class="nc bnc" id="L294" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L295">            return false;</span>
+        }
+<span class="nc" id="L297">        final PointCriteria that = (PointCriteria) o;</span>
+<span class="nc" id="L298">        return (</span>
+<span class="nc bnc" id="L299" title="All 2 branches missed.">            Objects.equals(id, that.id) &amp;&amp;</span>
+<span class="nc bnc" id="L300" title="All 2 branches missed.">            Objects.equals(name, that.name) &amp;&amp;</span>
+<span class="nc bnc" id="L301" title="All 2 branches missed.">            Objects.equals(email, that.email) &amp;&amp;</span>
+<span class="nc bnc" id="L302" title="All 2 branches missed.">            Objects.equals(phoneNumber, that.phoneNumber) &amp;&amp;</span>
+<span class="nc bnc" id="L303" title="All 2 branches missed.">            Objects.equals(nib, that.nib) &amp;&amp;</span>
+<span class="nc bnc" id="L304" title="All 2 branches missed.">            Objects.equals(nif, that.nif) &amp;&amp;</span>
+<span class="nc bnc" id="L305" title="All 2 branches missed.">            Objects.equals(address, that.address) &amp;&amp;</span>
+<span class="nc bnc" id="L306" title="All 2 branches missed.">            Objects.equals(openingTime, that.openingTime) &amp;&amp;</span>
+<span class="nc bnc" id="L307" title="All 2 branches missed.">            Objects.equals(numberOfDeliveries, that.numberOfDeliveries) &amp;&amp;</span>
+<span class="nc bnc" id="L308" title="All 2 branches missed.">            Objects.equals(receivedValue, that.receivedValue) &amp;&amp;</span>
+<span class="nc bnc" id="L309" title="All 2 branches missed.">            Objects.equals(valueToReceive, that.valueToReceive) &amp;&amp;</span>
+<span class="nc bnc" id="L310" title="All 2 branches missed.">            Objects.equals(ranking, that.ranking) &amp;&amp;</span>
+<span class="nc bnc" id="L311" title="All 2 branches missed.">            Objects.equals(deliveryManId, that.deliveryManId) &amp;&amp;</span>
+<span class="nc bnc" id="L312" title="All 2 branches missed.">            Objects.equals(zoneId, that.zoneId)</span>
+        );
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L318">        return Objects.hash(</span>
+            id,
+            name,
+            email,
+            phoneNumber,
+            nib,
+            nif,
+            address,
+            openingTime,
+            numberOfDeliveries,
+            receivedValue,
+            valueToReceive,
+            ranking,
+            deliveryManId,
+            zoneId
+        );
+    }
+
+    // prettier-ignore
+    @Override
+    public String toString() {
+<span class="nc" id="L339">        return &quot;PointCriteria{&quot; +</span>
+<span class="nc bnc" id="L340" title="All 2 branches missed.">            (id != null ? &quot;id=&quot; + id + &quot;, &quot; : &quot;&quot;) +</span>
+<span class="nc bnc" id="L341" title="All 2 branches missed.">            (name != null ? &quot;name=&quot; + name + &quot;, &quot; : &quot;&quot;) +</span>
+<span class="nc bnc" id="L342" title="All 2 branches missed.">            (email != null ? &quot;email=&quot; + email + &quot;, &quot; : &quot;&quot;) +</span>
+<span class="nc bnc" id="L343" title="All 2 branches missed.">            (phoneNumber != null ? &quot;phoneNumber=&quot; + phoneNumber + &quot;, &quot; : &quot;&quot;) +</span>
+<span class="nc bnc" id="L344" title="All 2 branches missed.">            (nib != null ? &quot;nib=&quot; + nib + &quot;, &quot; : &quot;&quot;) +</span>
+<span class="nc bnc" id="L345" title="All 2 branches missed.">            (nif != null ? &quot;nif=&quot; + nif + &quot;, &quot; : &quot;&quot;) +</span>
+<span class="nc bnc" id="L346" title="All 2 branches missed.">            (address != null ? &quot;address=&quot; + address + &quot;, &quot; : &quot;&quot;) +</span>
+<span class="nc bnc" id="L347" title="All 2 branches missed.">            (openingTime != null ? &quot;openingTime=&quot; + openingTime + &quot;, &quot; : &quot;&quot;) +</span>
+<span class="nc bnc" id="L348" title="All 2 branches missed.">            (numberOfDeliveries != null ? &quot;numberOfDeliveries=&quot; + numberOfDeliveries + &quot;, &quot; : &quot;&quot;) +</span>
+<span class="nc bnc" id="L349" title="All 2 branches missed.">            (receivedValue != null ? &quot;receivedValue=&quot; + receivedValue + &quot;, &quot; : &quot;&quot;) +</span>
+<span class="nc bnc" id="L350" title="All 2 branches missed.">            (valueToReceive != null ? &quot;valueToReceive=&quot; + valueToReceive + &quot;, &quot; : &quot;&quot;) +</span>
+<span class="nc bnc" id="L351" title="All 2 branches missed.">            (ranking != null ? &quot;ranking=&quot; + ranking + &quot;, &quot; : &quot;&quot;) +</span>
+<span class="nc bnc" id="L352" title="All 2 branches missed.">            (deliveryManId != null ? &quot;deliveryManId=&quot; + deliveryManId + &quot;, &quot; : &quot;&quot;) +</span>
+<span class="nc bnc" id="L353" title="All 2 branches missed.">            (zoneId != null ? &quot;zoneId=&quot; + zoneId + &quot;, &quot; : &quot;&quot;) +</span>
+            &quot;}&quot;;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

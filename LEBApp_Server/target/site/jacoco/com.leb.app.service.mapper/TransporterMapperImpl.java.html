@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TransporterMapperImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.service.mapper</a> &gt; <span class="el_source">TransporterMapperImpl.java</span></div><h1>TransporterMapperImpl.java</h1><pre class="source lang-java linenums">package com.leb.app.service.mapper;
+
+import com.leb.app.domain.RidePath;
+import com.leb.app.domain.Transporter;
+import com.leb.app.service.dto.RidePathDTO;
+import com.leb.app.service.dto.TransporterDTO;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.annotation.processing.Generated;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Generated(
+    value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
+    date = &quot;2021-05-14T22:42:45+0100&quot;,
+    comments = &quot;version: 1.4.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)&quot;
+)
+@Component
+<span class="nc" id="L21">public class TransporterMapperImpl implements TransporterMapper {</span>
+
+    @Autowired
+    private RidePathMapper ridePathMapper;
+
+    @Override
+    public List&lt;Transporter&gt; toEntity(List&lt;TransporterDTO&gt; dtoList) {
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        if ( dtoList == null ) {</span>
+<span class="nc" id="L29">            return null;</span>
+        }
+
+<span class="nc" id="L32">        List&lt;Transporter&gt; list = new ArrayList&lt;Transporter&gt;( dtoList.size() );</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        for ( TransporterDTO transporterDTO : dtoList ) {</span>
+<span class="nc" id="L34">            list.add( toEntity( transporterDTO ) );</span>
+<span class="nc" id="L35">        }</span>
+
+<span class="nc" id="L37">        return list;</span>
+    }
+
+    @Override
+    public List&lt;TransporterDTO&gt; toDto(List&lt;Transporter&gt; entityList) {
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        if ( entityList == null ) {</span>
+<span class="nc" id="L43">            return null;</span>
+        }
+
+<span class="nc" id="L46">        List&lt;TransporterDTO&gt; list = new ArrayList&lt;TransporterDTO&gt;( entityList.size() );</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        for ( Transporter transporter : entityList ) {</span>
+<span class="nc" id="L48">            list.add( toDto( transporter ) );</span>
+<span class="nc" id="L49">        }</span>
+
+<span class="nc" id="L51">        return list;</span>
+    }
+
+    @Override
+    public void partialUpdate(Transporter entity, TransporterDTO dto) {
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        if ( dto == null ) {</span>
+<span class="nc" id="L57">            return;</span>
+        }
+
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if ( dto.getId() != null ) {</span>
+<span class="nc" id="L61">            entity.id( dto.getId() );</span>
+        }
+<span class="nc bnc" id="L63" title="All 2 branches missed.">        if ( dto.getName() != null ) {</span>
+<span class="nc" id="L64">            entity.setName( dto.getName() );</span>
+        }
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if ( dto.getEmail() != null ) {</span>
+<span class="nc" id="L67">            entity.setEmail( dto.getEmail() );</span>
+        }
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if ( dto.getPhoneNumber() != null ) {</span>
+<span class="nc" id="L70">            entity.setPhoneNumber( dto.getPhoneNumber() );</span>
+        }
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        if ( dto.getNib() != null ) {</span>
+<span class="nc" id="L73">            entity.setNib( dto.getNib() );</span>
+        }
+<span class="nc bnc" id="L75" title="All 2 branches missed.">        if ( dto.getNif() != null ) {</span>
+<span class="nc" id="L76">            entity.setNif( dto.getNif() );</span>
+        }
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        if ( dto.getBirthday() != null ) {</span>
+<span class="nc" id="L79">            entity.setBirthday( dto.getBirthday() );</span>
+        }
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if ( dto.getAddress() != null ) {</span>
+<span class="nc" id="L82">            entity.setAddress( dto.getAddress() );</span>
+        }
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if ( dto.getPhoto() != null ) {</span>
+<span class="nc" id="L85">            entity.setPhoto( dto.getPhoto() );</span>
+        }
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if ( dto.getFavouriteTransport() != null ) {</span>
+<span class="nc" id="L88">            entity.setFavouriteTransport( dto.getFavouriteTransport() );</span>
+        }
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        if ( dto.getNumberOfDeliveries() != null ) {</span>
+<span class="nc" id="L91">            entity.setNumberOfDeliveries( dto.getNumberOfDeliveries() );</span>
+        }
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        if ( dto.getNumberOfKm() != null ) {</span>
+<span class="nc" id="L94">            entity.setNumberOfKm( dto.getNumberOfKm() );</span>
+        }
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if ( dto.getReceivedValue() != null ) {</span>
+<span class="nc" id="L97">            entity.setReceivedValue( dto.getReceivedValue() );</span>
+        }
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        if ( dto.getValueToReceive() != null ) {</span>
+<span class="nc" id="L100">            entity.setValueToReceive( dto.getValueToReceive() );</span>
+        }
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        if ( dto.getRanking() != null ) {</span>
+<span class="nc" id="L103">            entity.setRanking( dto.getRanking() );</span>
+        }
+<span class="nc bnc" id="L105" title="All 2 branches missed.">        if ( entity.getRidePaths() != null ) {</span>
+<span class="nc" id="L106">            Set&lt;RidePath&gt; set = ridePathDTOSetToRidePathSet( dto.getRidePaths() );</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">            if ( set != null ) {</span>
+<span class="nc" id="L108">                entity.getRidePaths().clear();</span>
+<span class="nc" id="L109">                entity.getRidePaths().addAll( set );</span>
+            }
+<span class="nc" id="L111">        }</span>
+        else {
+<span class="nc" id="L113">            Set&lt;RidePath&gt; set = ridePathDTOSetToRidePathSet( dto.getRidePaths() );</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">            if ( set != null ) {</span>
+<span class="nc" id="L115">                entity.setRidePaths( set );</span>
+            }
+        }
+<span class="nc" id="L118">    }</span>
+
+    @Override
+    public TransporterDTO toDto(Transporter s) {
+<span class="nc bnc" id="L122" title="All 2 branches missed.">        if ( s == null ) {</span>
+<span class="nc" id="L123">            return null;</span>
+        }
+
+<span class="nc" id="L126">        TransporterDTO transporterDTO = new TransporterDTO();</span>
+
+<span class="nc" id="L128">        transporterDTO.setRidePaths( ridePathMapper.toDtoIdSet( s.getRidePaths() ) );</span>
+<span class="nc" id="L129">        transporterDTO.setId( s.getId() );</span>
+<span class="nc" id="L130">        transporterDTO.setName( s.getName() );</span>
+<span class="nc" id="L131">        transporterDTO.setEmail( s.getEmail() );</span>
+<span class="nc" id="L132">        transporterDTO.setPhoneNumber( s.getPhoneNumber() );</span>
+<span class="nc" id="L133">        transporterDTO.setNib( s.getNib() );</span>
+<span class="nc" id="L134">        transporterDTO.setNif( s.getNif() );</span>
+<span class="nc" id="L135">        transporterDTO.setBirthday( s.getBirthday() );</span>
+<span class="nc" id="L136">        transporterDTO.setAddress( s.getAddress() );</span>
+<span class="nc" id="L137">        transporterDTO.setPhoto( s.getPhoto() );</span>
+<span class="nc" id="L138">        transporterDTO.setFavouriteTransport( s.getFavouriteTransport() );</span>
+<span class="nc" id="L139">        transporterDTO.setNumberOfDeliveries( s.getNumberOfDeliveries() );</span>
+<span class="nc" id="L140">        transporterDTO.setNumberOfKm( s.getNumberOfKm() );</span>
+<span class="nc" id="L141">        transporterDTO.setReceivedValue( s.getReceivedValue() );</span>
+<span class="nc" id="L142">        transporterDTO.setValueToReceive( s.getValueToReceive() );</span>
+<span class="nc" id="L143">        transporterDTO.setRanking( s.getRanking() );</span>
+
+<span class="nc" id="L145">        return transporterDTO;</span>
+    }
+
+    @Override
+    public Set&lt;TransporterDTO&gt; toDtoIdSet(Set&lt;Transporter&gt; transporter) {
+<span class="nc bnc" id="L150" title="All 2 branches missed.">        if ( transporter == null ) {</span>
+<span class="nc" id="L151">            return null;</span>
+        }
+
+<span class="nc" id="L154">        Set&lt;TransporterDTO&gt; set = new HashSet&lt;TransporterDTO&gt;( Math.max( (int) ( transporter.size() / .75f ) + 1, 16 ) );</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">        for ( Transporter transporter1 : transporter ) {</span>
+<span class="nc" id="L156">            set.add( toDto( transporter1 ) );</span>
+<span class="nc" id="L157">        }</span>
+
+<span class="nc" id="L159">        return set;</span>
+    }
+
+    @Override
+    public Transporter toEntity(TransporterDTO transporterDTO) {
+<span class="nc bnc" id="L164" title="All 2 branches missed.">        if ( transporterDTO == null ) {</span>
+<span class="nc" id="L165">            return null;</span>
+        }
+
+<span class="nc" id="L168">        Transporter transporter = new Transporter();</span>
+
+<span class="nc" id="L170">        transporter.id( transporterDTO.getId() );</span>
+<span class="nc" id="L171">        transporter.setName( transporterDTO.getName() );</span>
+<span class="nc" id="L172">        transporter.setEmail( transporterDTO.getEmail() );</span>
+<span class="nc" id="L173">        transporter.setPhoneNumber( transporterDTO.getPhoneNumber() );</span>
+<span class="nc" id="L174">        transporter.setNib( transporterDTO.getNib() );</span>
+<span class="nc" id="L175">        transporter.setNif( transporterDTO.getNif() );</span>
+<span class="nc" id="L176">        transporter.setBirthday( transporterDTO.getBirthday() );</span>
+<span class="nc" id="L177">        transporter.setAddress( transporterDTO.getAddress() );</span>
+<span class="nc" id="L178">        transporter.setPhoto( transporterDTO.getPhoto() );</span>
+<span class="nc" id="L179">        transporter.setFavouriteTransport( transporterDTO.getFavouriteTransport() );</span>
+<span class="nc" id="L180">        transporter.setNumberOfDeliveries( transporterDTO.getNumberOfDeliveries() );</span>
+<span class="nc" id="L181">        transporter.setNumberOfKm( transporterDTO.getNumberOfKm() );</span>
+<span class="nc" id="L182">        transporter.setReceivedValue( transporterDTO.getReceivedValue() );</span>
+<span class="nc" id="L183">        transporter.setValueToReceive( transporterDTO.getValueToReceive() );</span>
+<span class="nc" id="L184">        transporter.setRanking( transporterDTO.getRanking() );</span>
+<span class="nc" id="L185">        transporter.setRidePaths( ridePathDTOSetToRidePathSet( transporterDTO.getRidePaths() ) );</span>
+
+<span class="nc" id="L187">        return transporter;</span>
+    }
+
+    protected Set&lt;RidePath&gt; ridePathDTOSetToRidePathSet(Set&lt;RidePathDTO&gt; set) {
+<span class="nc bnc" id="L191" title="All 2 branches missed.">        if ( set == null ) {</span>
+<span class="nc" id="L192">            return null;</span>
+        }
+
+<span class="nc" id="L195">        Set&lt;RidePath&gt; set1 = new HashSet&lt;RidePath&gt;( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">        for ( RidePathDTO ridePathDTO : set ) {</span>
+<span class="nc" id="L197">            set1.add( ridePathMapper.toEntity( ridePathDTO ) );</span>
+<span class="nc" id="L198">        }</span>
+
+<span class="nc" id="L200">        return set1;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

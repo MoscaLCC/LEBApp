@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ZoneResource.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.web.rest</a> &gt; <span class="el_source">ZoneResource.java</span></div><h1>ZoneResource.java</h1><pre class="source lang-java linenums">package com.leb.app.web.rest;
+
+import com.leb.app.repository.ZoneRepository;
+import com.leb.app.service.ZoneQueryService;
+import com.leb.app.service.ZoneService;
+import com.leb.app.service.criteria.ZoneCriteria;
+import com.leb.app.service.dto.ZoneDTO;
+import com.leb.app.web.rest.errors.BadRequestAlertException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.PaginationUtil;
+import tech.jhipster.web.util.ResponseUtil;
+
+/**
+ * REST controller for managing {@link com.leb.app.domain.Zone}.
+ */
+@RestController
+@RequestMapping(&quot;/api&quot;)
+public class ZoneResource {
+
+<span class="nc" id="L35">    private final Logger log = LoggerFactory.getLogger(ZoneResource.class);</span>
+
+    private static final String ENTITY_NAME = &quot;zone&quot;;
+
+    @Value(&quot;${jhipster.clientApp.name}&quot;)
+    private String applicationName;
+
+    private final ZoneService zoneService;
+
+    private final ZoneRepository zoneRepository;
+
+    private final ZoneQueryService zoneQueryService;
+
+<span class="nc" id="L48">    public ZoneResource(ZoneService zoneService, ZoneRepository zoneRepository, ZoneQueryService zoneQueryService) {</span>
+<span class="nc" id="L49">        this.zoneService = zoneService;</span>
+<span class="nc" id="L50">        this.zoneRepository = zoneRepository;</span>
+<span class="nc" id="L51">        this.zoneQueryService = zoneQueryService;</span>
+<span class="nc" id="L52">    }</span>
+
+    /**
+     * {@code POST  /zones} : Create a new zone.
+     *
+     * @param zoneDTO the zoneDTO to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new zoneDTO, or with status {@code 400 (Bad Request)} if the zone has already an ID.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PostMapping(&quot;/zones&quot;)
+    public ResponseEntity&lt;ZoneDTO&gt; createZone(@RequestBody ZoneDTO zoneDTO) throws URISyntaxException {
+<span class="nc" id="L63">        log.debug(&quot;REST request to save Zone : {}&quot;, zoneDTO);</span>
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (zoneDTO.getId() != null) {</span>
+<span class="nc" id="L65">            throw new BadRequestAlertException(&quot;A new zone cannot already have an ID&quot;, ENTITY_NAME, &quot;idexists&quot;);</span>
+        }
+<span class="nc" id="L67">        ZoneDTO result = zoneService.save(zoneDTO);</span>
+<span class="nc" id="L68">        return ResponseEntity</span>
+<span class="nc" id="L69">            .created(new URI(&quot;/api/zones/&quot; + result.getId()))</span>
+<span class="nc" id="L70">            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))</span>
+<span class="nc" id="L71">            .body(result);</span>
+    }
+
+    /**
+     * {@code PUT  /zones/:id} : Updates an existing zone.
+     *
+     * @param id the id of the zoneDTO to save.
+     * @param zoneDTO the zoneDTO to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated zoneDTO,
+     * or with status {@code 400 (Bad Request)} if the zoneDTO is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the zoneDTO couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PutMapping(&quot;/zones/{id}&quot;)
+    public ResponseEntity&lt;ZoneDTO&gt; updateZone(@PathVariable(value = &quot;id&quot;, required = false) final Long id, @RequestBody ZoneDTO zoneDTO)
+        throws URISyntaxException {
+<span class="nc" id="L87">        log.debug(&quot;REST request to update Zone : {}, {}&quot;, id, zoneDTO);</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if (zoneDTO.getId() == null) {</span>
+<span class="nc" id="L89">            throw new BadRequestAlertException(&quot;Invalid id&quot;, ENTITY_NAME, &quot;idnull&quot;);</span>
+        }
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        if (!Objects.equals(id, zoneDTO.getId())) {</span>
+<span class="nc" id="L92">            throw new BadRequestAlertException(&quot;Invalid ID&quot;, ENTITY_NAME, &quot;idinvalid&quot;);</span>
+        }
+
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (!zoneRepository.existsById(id)) {</span>
+<span class="nc" id="L96">            throw new BadRequestAlertException(&quot;Entity not found&quot;, ENTITY_NAME, &quot;idnotfound&quot;);</span>
+        }
+
+<span class="nc" id="L99">        ZoneDTO result = zoneService.save(zoneDTO);</span>
+<span class="nc" id="L100">        return ResponseEntity</span>
+<span class="nc" id="L101">            .ok()</span>
+<span class="nc" id="L102">            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, zoneDTO.getId().toString()))</span>
+<span class="nc" id="L103">            .body(result);</span>
+    }
+
+    /**
+     * {@code PATCH  /zones/:id} : Partial updates given fields of an existing zone, field will ignore if it is null
+     *
+     * @param id the id of the zoneDTO to save.
+     * @param zoneDTO the zoneDTO to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated zoneDTO,
+     * or with status {@code 400 (Bad Request)} if the zoneDTO is not valid,
+     * or with status {@code 404 (Not Found)} if the zoneDTO is not found,
+     * or with status {@code 500 (Internal Server Error)} if the zoneDTO couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PatchMapping(value = &quot;/zones/{id}&quot;, consumes = &quot;application/merge-patch+json&quot;)
+    public ResponseEntity&lt;ZoneDTO&gt; partialUpdateZone(
+        @PathVariable(value = &quot;id&quot;, required = false) final Long id,
+        @RequestBody ZoneDTO zoneDTO
+    ) throws URISyntaxException {
+<span class="nc" id="L122">        log.debug(&quot;REST request to partial update Zone partially : {}, {}&quot;, id, zoneDTO);</span>
+<span class="nc bnc" id="L123" title="All 2 branches missed.">        if (zoneDTO.getId() == null) {</span>
+<span class="nc" id="L124">            throw new BadRequestAlertException(&quot;Invalid id&quot;, ENTITY_NAME, &quot;idnull&quot;);</span>
+        }
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        if (!Objects.equals(id, zoneDTO.getId())) {</span>
+<span class="nc" id="L127">            throw new BadRequestAlertException(&quot;Invalid ID&quot;, ENTITY_NAME, &quot;idinvalid&quot;);</span>
+        }
+
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        if (!zoneRepository.existsById(id)) {</span>
+<span class="nc" id="L131">            throw new BadRequestAlertException(&quot;Entity not found&quot;, ENTITY_NAME, &quot;idnotfound&quot;);</span>
+        }
+
+<span class="nc" id="L134">        Optional&lt;ZoneDTO&gt; result = zoneService.partialUpdate(zoneDTO);</span>
+
+<span class="nc" id="L136">        return ResponseUtil.wrapOrNotFound(</span>
+            result,
+<span class="nc" id="L138">            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, zoneDTO.getId().toString())</span>
+        );
+    }
+
+    /**
+     * {@code GET  /zones} : get all the zones.
+     *
+     * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of zones in body.
+     */
+    @GetMapping(&quot;/zones&quot;)
+    public ResponseEntity&lt;List&lt;ZoneDTO&gt;&gt; getAllZones(ZoneCriteria criteria, Pageable pageable) {
+<span class="nc" id="L151">        log.debug(&quot;REST request to get Zones by criteria: {}&quot;, criteria);</span>
+<span class="nc" id="L152">        Page&lt;ZoneDTO&gt; page = zoneQueryService.findByCriteria(criteria, pageable);</span>
+<span class="nc" id="L153">        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);</span>
+<span class="nc" id="L154">        return ResponseEntity.ok().headers(headers).body(page.getContent());</span>
+    }
+
+    /**
+     * {@code GET  /zones/count} : count all the zones.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping(&quot;/zones/count&quot;)
+    public ResponseEntity&lt;Long&gt; countZones(ZoneCriteria criteria) {
+<span class="nc" id="L165">        log.debug(&quot;REST request to count Zones by criteria: {}&quot;, criteria);</span>
+<span class="nc" id="L166">        return ResponseEntity.ok().body(zoneQueryService.countByCriteria(criteria));</span>
+    }
+
+    /**
+     * {@code GET  /zones/:id} : get the &quot;id&quot; zone.
+     *
+     * @param id the id of the zoneDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the zoneDTO, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping(&quot;/zones/{id}&quot;)
+    public ResponseEntity&lt;ZoneDTO&gt; getZone(@PathVariable Long id) {
+<span class="nc" id="L177">        log.debug(&quot;REST request to get Zone : {}&quot;, id);</span>
+<span class="nc" id="L178">        Optional&lt;ZoneDTO&gt; zoneDTO = zoneService.findOne(id);</span>
+<span class="nc" id="L179">        return ResponseUtil.wrapOrNotFound(zoneDTO);</span>
+    }
+
+    /**
+     * {@code DELETE  /zones/:id} : delete the &quot;id&quot; zone.
+     *
+     * @param id the id of the zoneDTO to delete.
+     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
+     */
+    @DeleteMapping(&quot;/zones/{id}&quot;)
+    public ResponseEntity&lt;Void&gt; deleteZone(@PathVariable Long id) {
+<span class="nc" id="L190">        log.debug(&quot;REST request to delete Zone : {}&quot;, id);</span>
+<span class="nc" id="L191">        zoneService.delete(id);</span>
+<span class="nc" id="L192">        return ResponseEntity</span>
+<span class="nc" id="L193">            .noContent()</span>
+<span class="nc" id="L194">            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))</span>
+<span class="nc" id="L195">            .build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
