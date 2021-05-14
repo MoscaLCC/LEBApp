@@ -1,0 +1,142 @@
+<div>
+  <h2 id="page-heading" data-cy="RequestHeading">
+    <span>Requests</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-request"
+        [routerLink]="['/request/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Create a new Request </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="requests?.length === 0">
+    <span>No requests found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="requests && requests.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+          <th scope="col" jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="productValue"><span>Product Value</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="productName"><span>Product Name</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="source"><span>Source</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="destination"><span>Destination</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="destinationContact"><span>Destination Contact</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="initDate"><span>Init Date</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="expirationDate"><span>Expiration Date</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="description"><span>Description</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="specialCharacteristics"><span>Special Characteristics</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="productWeight"><span>Product Weight</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="status"><span>Status</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="estimatedDate"><span>Estimated Date</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="deliveryTime"><span>Delivery Time</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="shippingCosts"><span>Shipping Costs</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="rating"><span>Rating</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="dimensions.id"><span>Dimensions</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="route.id"><span>Route</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="producer.id"><span>Producer</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let request of requests; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/request', request.id, 'view']">{{ request.id }}</a>
+          </td>
+          <td>{{ request.productValue }}</td>
+          <td>{{ request.productName }}</td>
+          <td>{{ request.source }}</td>
+          <td>{{ request.destination }}</td>
+          <td>{{ request.destinationContact }}</td>
+          <td>{{ request.initDate | formatMediumDatetime }}</td>
+          <td>{{ request.expirationDate | formatMediumDatetime }}</td>
+          <td>{{ request.description }}</td>
+          <td>{{ request.specialCharacteristics }}</td>
+          <td>{{ request.productWeight }}</td>
+          <td>{{ request.status }}</td>
+          <td>{{ request.estimatedDate | formatMediumDatetime }}</td>
+          <td>{{ request.deliveryTime | formatMediumDatetime }}</td>
+          <td>{{ request.shippingCosts }}</td>
+          <td>{{ request.rating }}</td>
+          <td>
+            <div *ngIf="request.dimensions">
+              <a [routerLink]="['/dimensions', request.dimensions?.id, 'view']">{{ request.dimensions?.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="request.route">
+              <a [routerLink]="['/route', request.route?.id, 'view']">{{ request.route?.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="request.producer">
+              <a [routerLink]="['/producer', request.producer?.id, 'view']">{{ request.producer?.id }}</a>
+            </div>
+          </td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/request', request.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/request', request.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(request)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="requests && requests.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

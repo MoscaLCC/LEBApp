@@ -1,0 +1,73 @@
+{
+  "name": "Point",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "phoneNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nib",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nif",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "openingTime",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "numberOfDeliveries",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "receivedValue",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "valueToReceive",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "ranking",
+      "fieldType": "Double"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "deliveryMan",
+      "otherEntityRelationshipName": "point",
+      "relationshipName": "deliveryMan"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "zone",
+      "otherEntityRelationshipName": "point",
+      "relationshipName": "zone"
+    }
+  ],
+  "entityTableName": "point",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210514000037"
+}

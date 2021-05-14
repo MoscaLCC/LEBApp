@@ -41,6 +41,8 @@
     "jwtSecretKey": "NzUxYmNhNjhjOTYxOWYxMjk4ZTQwZTY0MmU5ODZkNTNlMDc1N2M1ODY4N2QzNjE0YTEyZDRmMDkxY2FhMjQ0NjU1Yjk4NmY4MGQxMDMxNGFhNTY1NTEwNDVjZDQ3ZTkwYjMwYmEyNTVlZTBkYWJjM2YwNWM3ZjJiNWZlNjlhOTQ=",
     "clientPackageManager": "npm",
     "otherModules": [],
-    "languages": ["en", "fr"]
+    "languages": ["en", "fr"],
+    "entities": ["Producer", "Request", "Route", "DeliveryMan", "Transporter", "Point", "Dimensions", "Zone"],
+    "lastLiquibaseTimestamp": 1620950439000
   }
 }

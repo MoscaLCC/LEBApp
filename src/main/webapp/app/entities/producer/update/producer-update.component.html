@@ -1,0 +1,146 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-producer-heading" data-cy="ProducerCreateUpdateHeading">Create or edit a Producer</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_mail">Mail</label>
+          <input type="text" class="form-control" name="mail" id="field_mail" data-cy="mail" formControlName="mail" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_phoneNumber">Phone Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="phoneNumber"
+            id="field_phoneNumber"
+            data-cy="phoneNumber"
+            formControlName="phoneNumber"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_nib">Nib</label>
+          <input type="text" class="form-control" name="nib" id="field_nib" data-cy="nib" formControlName="nib" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_nif">Nif</label>
+          <input type="number" class="form-control" name="nif" id="field_nif" data-cy="nif" formControlName="nif" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_birthday">Birthday</label>
+          <div class="input-group">
+            <input
+              id="field_birthday"
+              data-cy="birthday"
+              type="text"
+              class="form-control"
+              name="birthday"
+              ngbDatepicker
+              #birthdayDp="ngbDatepicker"
+              formControlName="birthday"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="birthdayDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_adress">Adress</label>
+          <input type="text" class="form-control" name="adress" id="field_adress" data-cy="adress" formControlName="adress" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_photo">Photo</label>
+          <input type="text" class="form-control" name="photo" id="field_photo" data-cy="photo" formControlName="photo" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_linkSocial">Link Social</label>
+          <input
+            type="text"
+            class="form-control"
+            name="linkSocial"
+            id="field_linkSocial"
+            data-cy="linkSocial"
+            formControlName="linkSocial"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_numberRequests">Number Requests</label>
+          <input
+            type="number"
+            class="form-control"
+            name="numberRequests"
+            id="field_numberRequests"
+            data-cy="numberRequests"
+            formControlName="numberRequests"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_payedValue">Payed Value</label>
+          <input
+            type="number"
+            class="form-control"
+            name="payedValue"
+            id="field_payedValue"
+            data-cy="payedValue"
+            formControlName="payedValue"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_valueToPay">Value To Pay</label>
+          <input
+            type="number"
+            class="form-control"
+            name="valueToPay"
+            id="field_valueToPay"
+            data-cy="valueToPay"
+            formControlName="valueToPay"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_ranking">Ranking</label>
+          <input type="number" class="form-control" name="ranking" id="field_ranking" data-cy="ranking" formControlName="ranking" />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

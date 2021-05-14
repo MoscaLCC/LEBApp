@@ -1,0 +1,78 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="point">
+      <h2 data-cy="pointDetailsHeading"><span>Point</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ point.id }}</span>
+        </dd>
+        <dt><span>Name</span></dt>
+        <dd>
+          <span>{{ point.name }}</span>
+        </dd>
+        <dt><span>Email</span></dt>
+        <dd>
+          <span>{{ point.email }}</span>
+        </dd>
+        <dt><span>Phone Number</span></dt>
+        <dd>
+          <span>{{ point.phoneNumber }}</span>
+        </dd>
+        <dt><span>Nib</span></dt>
+        <dd>
+          <span>{{ point.nib }}</span>
+        </dd>
+        <dt><span>Nif</span></dt>
+        <dd>
+          <span>{{ point.nif }}</span>
+        </dd>
+        <dt><span>Address</span></dt>
+        <dd>
+          <span>{{ point.address }}</span>
+        </dd>
+        <dt><span>Opening Time</span></dt>
+        <dd>
+          <span>{{ point.openingTime }}</span>
+        </dd>
+        <dt><span>Number Of Deliveries</span></dt>
+        <dd>
+          <span>{{ point.numberOfDeliveries }}</span>
+        </dd>
+        <dt><span>Received Value</span></dt>
+        <dd>
+          <span>{{ point.receivedValue }}</span>
+        </dd>
+        <dt><span>Value To Receive</span></dt>
+        <dd>
+          <span>{{ point.valueToReceive }}</span>
+        </dd>
+        <dt><span>Ranking</span></dt>
+        <dd>
+          <span>{{ point.ranking }}</span>
+        </dd>
+        <dt><span>Zone</span></dt>
+        <dd>
+          <div *ngIf="point.zone">
+            <a [routerLink]="['/zone', point.zone?.id, 'view']">{{ point.zone?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/point', point.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

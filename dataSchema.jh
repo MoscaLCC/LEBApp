@@ -1,12 +1,12 @@
 entity Producer {
     name String, 
     mail String,
-    telefone String,
+    phoneNumber String,
     nib String,
     nif Integer,
     birthday LocalDate,
     adress String,
-    foto String,
+    photo String,
     linkSocial String,
     numberRequests Integer,
     payedValue Double,
@@ -60,64 +60,89 @@ enum Status {
     SHIPPED,
     IN_TRANSIT
 }
-     
 
-entity Rota
-     Ponto inicial
-     Ponto final
-     Distancia
-     Tempo estimado
+entity RidePath {
+    source String,
+    destination String,
+    distance String,
+    estimatedTime String
+}
 
-entity Distribuidor
-     Nome
-     Email
-     Telefone
-     NIB?
-     NIF
-     Data de Nascimento
-     Morada Fiscal
-     Foto
-     Horario de disponibilidade
-     Ponto ao qual está associado
-     Numero de entragas
-     Numero de Km
-     Valor Recebido
-     Valor a Receber
-     Ranking
+entity DeliveryMan {
+    name String,
+    email String,
+    phoneNumber String,
+    nif Integer,
+    nib String,
+    birthday LocalDate,
+    address String,
+    photo String,
+    openingTime String,
+    numberOfDeliveries Integer,
+    numberOfKm Double,
+    receivedValue Double,
+    valueToReceive Double,
+    ranking Double
+}
 
-entity Transportador
-     Nome
-     Email
-     Telefone
-     NIB?
-     NIF
-     Data de Nascimento
-     Morada Fiscal
-     Foto
-     Lista<Rotas  Horario>
-     Meio de transporte preferencial
-     Numero de entragas
-     Numero de Km
-     Valor Recebido
-     Valor a Receber
-     Ranking
+entity Transporter {
+    name String,
+    email String,
+    phoneNumber String,
+    nib String,
+    nif Integer,
+    birthday LocalDate,
+    address String,
+    photo String,
+    favouriteTransport String,
+    numberOfDeliveries Integer,
+    numberOfKm Double,
+    receivedValue Double,
+    valueToReceive Double,
+    ranking Double
+}
 
-entity Ponto
-     Nome
-     Email
-     Telefone
-     NIB?
-     NIF
-     Morada Fiscal
-     Horario de Funcionamento
-     Numero de entragas
-     Valor Recebido
-     Valor a Receber
-     Ranking
+entity Point {
+    name String,
+    email String,
+    phoneNumber String,
+    nib String,
+    nif Integer,
+    address String,
+    openingTime String,
+    numberOfDeliveries Integer,
+    receivedValue Double,
+    valueToReceive Double,
+    ranking Double
+}
 
+entity Dimensions {
+    height Double,
+    width Double,
+    depth Double
+}
 
-favoriteZone Zona
-ponto -> distribuidor
-productDimension -> Dimension (x,y,z)
-enumerate STATUS+
-request - rota
+entity Zone {
+    name String
+}
+
+relationship OneToMany {
+	Point to DeliveryMan{point required},
+    RidePath to Request{ridePath required},
+    Producer to Request{producer required},
+    Zone to Point{zone}
+}
+
+relationship OneToOne {
+	Request to Dimensions
+}
+
+relationship ManyToMany {
+	Transporter{ridePath} to RidePath{transports}
+    Zone{transporters} to Transporter{zones}
+}
+
+service * with serviceImpl
+dto * with mapstruct
+paginate * with pagination
+filter all

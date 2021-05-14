@@ -1,0 +1,91 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="transporter">
+      <h2 data-cy="transporterDetailsHeading"><span>Transporter</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ transporter.id }}</span>
+        </dd>
+        <dt><span>Name</span></dt>
+        <dd>
+          <span>{{ transporter.name }}</span>
+        </dd>
+        <dt><span>Email</span></dt>
+        <dd>
+          <span>{{ transporter.email }}</span>
+        </dd>
+        <dt><span>Phone Number</span></dt>
+        <dd>
+          <span>{{ transporter.phoneNumber }}</span>
+        </dd>
+        <dt><span>Nib</span></dt>
+        <dd>
+          <span>{{ transporter.nib }}</span>
+        </dd>
+        <dt><span>Nif</span></dt>
+        <dd>
+          <span>{{ transporter.nif }}</span>
+        </dd>
+        <dt><span>Birthday</span></dt>
+        <dd>
+          <span>{{ transporter.birthday | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Address</span></dt>
+        <dd>
+          <span>{{ transporter.address }}</span>
+        </dd>
+        <dt><span>Photo</span></dt>
+        <dd>
+          <span>{{ transporter.photo }}</span>
+        </dd>
+        <dt><span>Favourite Transport</span></dt>
+        <dd>
+          <span>{{ transporter.favouriteTransport }}</span>
+        </dd>
+        <dt><span>Number Of Deliveries</span></dt>
+        <dd>
+          <span>{{ transporter.numberOfDeliveries }}</span>
+        </dd>
+        <dt><span>Number Of Km</span></dt>
+        <dd>
+          <span>{{ transporter.numberOfKm }}</span>
+        </dd>
+        <dt><span>Received Value</span></dt>
+        <dd>
+          <span>{{ transporter.receivedValue }}</span>
+        </dd>
+        <dt><span>Value To Receive</span></dt>
+        <dd>
+          <span>{{ transporter.valueToReceive }}</span>
+        </dd>
+        <dt><span>Ranking</span></dt>
+        <dd>
+          <span>{{ transporter.ranking }}</span>
+        </dd>
+        <dt><span>Routes</span></dt>
+        <dd>
+          <span *ngFor="let routes of transporter.routes; let last = last">
+            <a [routerLink]="['/route', routes?.id, 'view']">{{ routes.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/transporter', transporter.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

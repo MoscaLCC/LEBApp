@@ -1,0 +1,250 @@
+import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import * as dayjs from 'dayjs';
+
+import { DATE_FORMAT } from 'app/config/input.constants';
+import { IProducer, Producer } from '../producer.model';
+
+import { ProducerService } from './producer.service';
+
+describe('Service Tests', () => {
+  describe('Producer Service', () => {
+    let service: ProducerService;
+    let httpMock: HttpTestingController;
+    let elemDefault: IProducer;
+    let expectedResult: IProducer | IProducer[] | boolean | null;
+    let currentDate: dayjs.Dayjs;
+
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [HttpClientTestingModule],
+      });
+      expectedResult = null;
+      service = TestBed.inject(ProducerService);
+      httpMock = TestBed.inject(HttpTestingController);
+      currentDate = dayjs();
+
+      elemDefault = {
+        id: 0,
+        name: 'AAAAAAA',
+        mail: 'AAAAAAA',
+        phoneNumber: 'AAAAAAA',
+        nib: 'AAAAAAA',
+        nif: 0,
+        birthday: currentDate,
+        adress: 'AAAAAAA',
+        photo: 'AAAAAAA',
+        linkSocial: 'AAAAAAA',
+        numberRequests: 0,
+        payedValue: 0,
+        valueToPay: 0,
+        ranking: 0,
+      };
+    });
+
+    describe('Service methods', () => {
+      it('should find an element', () => {
+        const returnedFromService = Object.assign(
+          {
+            birthday: currentDate.format(DATE_FORMAT),
+          },
+          elemDefault
+        );
+
+        service.find(123).subscribe(resp => (expectedResult = resp.body));
+
+        const req = httpMock.expectOne({ method: 'GET' });
+        req.flush(returnedFromService);
+        expect(expectedResult).toMatchObject(elemDefault);
+      });
+
+      it('should create a Producer', () => {
+        const returnedFromService = Object.assign(
+          {
+            id: 0,
+            birthday: currentDate.format(DATE_FORMAT),
+          },
+          elemDefault
+        );
+
+        const expected = Object.assign(
+          {
+            birthday: currentDate,
+          },
+          returnedFromService
+        );
+
+        service.create(new Producer()).subscribe(resp => (expectedResult = resp.body));
+
+        const req = httpMock.expectOne({ method: 'POST' });
+        req.flush(returnedFromService);
+        expect(expectedResult).toMatchObject(expected);
+      });
+
+      it('should update a Producer', () => {
+        const returnedFromService = Object.assign(
+          {
+            id: 1,
+            name: 'BBBBBB',
+            mail: 'BBBBBB',
+            phoneNumber: 'BBBBBB',
+            nib: 'BBBBBB',
+            nif: 1,
+            birthday: currentDate.format(DATE_FORMAT),
+            adress: 'BBBBBB',
+            photo: 'BBBBBB',
+            linkSocial: 'BBBBBB',
+            numberRequests: 1,
+            payedValue: 1,
+            valueToPay: 1,
+            ranking: 1,
+          },
+          elemDefault
+        );
+
+        const expected = Object.assign(
+          {
+            birthday: currentDate,
+          },
+          returnedFromService
+        );
+
+        service.update(expected).subscribe(resp => (expectedResult = resp.body));
+
+        const req = httpMock.expectOne({ method: 'PUT' });
+        req.flush(returnedFromService);
+        expect(expectedResult).toMatchObject(expected);
+      });
+
+      it('should partial update a Producer', () => {
+        const patchObject = Object.assign(
+          {
+            mail: 'BBBBBB',
+            phoneNumber: 'BBBBBB',
+            birthday: currentDate.format(DATE_FORMAT),
+            photo: 'BBBBBB',
+            linkSocial: 'BBBBBB',
+            valueToPay: 1,
+            ranking: 1,
+          },
+          new Producer()
+        );
+
+        const returnedFromService = Object.assign(patchObject, elemDefault);
+
+        const expected = Object.assign(
+          {
+            birthday: currentDate,
+          },
+          returnedFromService
+        );
+
+        service.partialUpdate(patchObject).subscribe(resp => (expectedResult = resp.body));
+
+        const req = httpMock.expectOne({ method: 'PATCH' });
+        req.flush(returnedFromService);
+        expect(expectedResult).toMatchObject(expected);
+      });
+
+      it('should return a list of Producer', () => {
+        const returnedFromService = Object.assign(
+          {
+            id: 1,
+            name: 'BBBBBB',
+            mail: 'BBBBBB',
+            phoneNumber: 'BBBBBB',
+            nib: 'BBBBBB',
+            nif: 1,
+            birthday: currentDate.format(DATE_FORMAT),
+            adress: 'BBBBBB',
+            photo: 'BBBBBB',
+            linkSocial: 'BBBBBB',
+            numberRequests: 1,
+            payedValue: 1,
+            valueToPay: 1,
+            ranking: 1,
+          },
+          elemDefault
+        );
+
+        const expected = Object.assign(
+          {
+            birthday: currentDate,
+          },
+          returnedFromService
+        );
+
+        service.query().subscribe(resp => (expectedResult = resp.body));
+
+        const req = httpMock.expectOne({ method: 'GET' });
+        req.flush([returnedFromService]);
+        httpMock.verify();
+        expect(expectedResult).toContainEqual(expected);
+      });
+
+      it('should delete a Producer', () => {
+        service.delete(123).subscribe(resp => (expectedResult = resp.ok));
+
+        const req = httpMock.expectOne({ method: 'DELETE' });
+        req.flush({ status: 200 });
+        expect(expectedResult);
+      });
+
+      describe('addProducerToCollectionIfMissing', () => {
+        it('should add a Producer to an empty array', () => {
+          const producer: IProducer = { id: 123 };
+          expectedResult = service.addProducerToCollectionIfMissing([], producer);
+          expect(expectedResult).toHaveLength(1);
+          expect(expectedResult).toContain(producer);
+        });
+
+        it('should not add a Producer to an array that contains it', () => {
+          const producer: IProducer = { id: 123 };
+          const producerCollection: IProducer[] = [
+            {
+              ...producer,
+            },
+            { id: 456 },
+          ];
+          expectedResult = service.addProducerToCollectionIfMissing(producerCollection, producer);
+          expect(expectedResult).toHaveLength(2);
+        });
+
+        it("should add a Producer to an array that doesn't contain it", () => {
+          const producer: IProducer = { id: 123 };
+          const producerCollection: IProducer[] = [{ id: 456 }];
+          expectedResult = service.addProducerToCollectionIfMissing(producerCollection, producer);
+          expect(expectedResult).toHaveLength(2);
+          expect(expectedResult).toContain(producer);
+        });
+
+        it('should add only unique Producer to an array', () => {
+          const producerArray: IProducer[] = [{ id: 123 }, { id: 456 }, { id: 74623 }];
+          const producerCollection: IProducer[] = [{ id: 123 }];
+          expectedResult = service.addProducerToCollectionIfMissing(producerCollection, ...producerArray);
+          expect(expectedResult).toHaveLength(3);
+        });
+
+        it('should accept varargs', () => {
+          const producer: IProducer = { id: 123 };
+          const producer2: IProducer = { id: 456 };
+          expectedResult = service.addProducerToCollectionIfMissing([], producer, producer2);
+          expect(expectedResult).toHaveLength(2);
+          expect(expectedResult).toContain(producer);
+          expect(expectedResult).toContain(producer2);
+        });
+
+        it('should accept null and undefined values', () => {
+          const producer: IProducer = { id: 123 };
+          expectedResult = service.addProducerToCollectionIfMissing([], null, producer, undefined);
+          expect(expectedResult).toHaveLength(1);
+          expect(expectedResult).toContain(producer);
+        });
+      });
+    });
+
+    afterEach(() => {
+      httpMock.verify();
+    });
+  });
+});

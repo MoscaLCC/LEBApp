@@ -1,0 +1,80 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="producer">
+      <h2 data-cy="producerDetailsHeading"><span>Producer</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ producer.id }}</span>
+        </dd>
+        <dt><span>Name</span></dt>
+        <dd>
+          <span>{{ producer.name }}</span>
+        </dd>
+        <dt><span>Mail</span></dt>
+        <dd>
+          <span>{{ producer.mail }}</span>
+        </dd>
+        <dt><span>Phone Number</span></dt>
+        <dd>
+          <span>{{ producer.phoneNumber }}</span>
+        </dd>
+        <dt><span>Nib</span></dt>
+        <dd>
+          <span>{{ producer.nib }}</span>
+        </dd>
+        <dt><span>Nif</span></dt>
+        <dd>
+          <span>{{ producer.nif }}</span>
+        </dd>
+        <dt><span>Birthday</span></dt>
+        <dd>
+          <span>{{ producer.birthday | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Adress</span></dt>
+        <dd>
+          <span>{{ producer.adress }}</span>
+        </dd>
+        <dt><span>Photo</span></dt>
+        <dd>
+          <span>{{ producer.photo }}</span>
+        </dd>
+        <dt><span>Link Social</span></dt>
+        <dd>
+          <span>{{ producer.linkSocial }}</span>
+        </dd>
+        <dt><span>Number Requests</span></dt>
+        <dd>
+          <span>{{ producer.numberRequests }}</span>
+        </dd>
+        <dt><span>Payed Value</span></dt>
+        <dd>
+          <span>{{ producer.payedValue }}</span>
+        </dd>
+        <dt><span>Value To Pay</span></dt>
+        <dd>
+          <span>{{ producer.valueToPay }}</span>
+        </dd>
+        <dt><span>Ranking</span></dt>
+        <dd>
+          <span>{{ producer.ranking }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/producer', producer.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
