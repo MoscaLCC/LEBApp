@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+    <!--
+        Added the constraints for entity Transporter.
+    -->
+    <changeSet id="20210514212836-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="transporter_id"
+                                 baseTableName="rel_transporter__ride_path"
+                                 constraintName="fk_rel_transporter__ride_path__transporter_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="transporter"/>
+
+        <addForeignKeyConstraint baseColumnNames="ride_path_id"
+                                 baseTableName="rel_transporter__ride_path"
+                                 constraintName="fk_rel_transporter__ride_path__ride_path_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="ride_path"/>
+    </changeSet>
+</databaseChangeLog>

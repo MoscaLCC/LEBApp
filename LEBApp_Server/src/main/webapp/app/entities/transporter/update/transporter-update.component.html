@@ -1,0 +1,170 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-transporter-heading" data-cy="TransporterCreateUpdateHeading">Create or edit a Transporter</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_email">Email</label>
+          <input type="text" class="form-control" name="email" id="field_email" data-cy="email" formControlName="email" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_phoneNumber">Phone Number</label>
+          <input
+            type="text"
+            class="form-control"
+            name="phoneNumber"
+            id="field_phoneNumber"
+            data-cy="phoneNumber"
+            formControlName="phoneNumber"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_nib">Nib</label>
+          <input type="text" class="form-control" name="nib" id="field_nib" data-cy="nib" formControlName="nib" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_nif">Nif</label>
+          <input type="number" class="form-control" name="nif" id="field_nif" data-cy="nif" formControlName="nif" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_birthday">Birthday</label>
+          <div class="input-group">
+            <input
+              id="field_birthday"
+              data-cy="birthday"
+              type="text"
+              class="form-control"
+              name="birthday"
+              ngbDatepicker
+              #birthdayDp="ngbDatepicker"
+              formControlName="birthday"
+            />
+            <span class="input-group-append">
+              <button type="button" class="btn btn-secondary" (click)="birthdayDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_address">Address</label>
+          <input type="text" class="form-control" name="address" id="field_address" data-cy="address" formControlName="address" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_photo">Photo</label>
+          <input type="text" class="form-control" name="photo" id="field_photo" data-cy="photo" formControlName="photo" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_favouriteTransport">Favourite Transport</label>
+          <input
+            type="text"
+            class="form-control"
+            name="favouriteTransport"
+            id="field_favouriteTransport"
+            data-cy="favouriteTransport"
+            formControlName="favouriteTransport"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_numberOfDeliveries">Number Of Deliveries</label>
+          <input
+            type="number"
+            class="form-control"
+            name="numberOfDeliveries"
+            id="field_numberOfDeliveries"
+            data-cy="numberOfDeliveries"
+            formControlName="numberOfDeliveries"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_numberOfKm">Number Of Km</label>
+          <input
+            type="number"
+            class="form-control"
+            name="numberOfKm"
+            id="field_numberOfKm"
+            data-cy="numberOfKm"
+            formControlName="numberOfKm"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_receivedValue">Received Value</label>
+          <input
+            type="number"
+            class="form-control"
+            name="receivedValue"
+            id="field_receivedValue"
+            data-cy="receivedValue"
+            formControlName="receivedValue"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_valueToReceive">Value To Receive</label>
+          <input
+            type="number"
+            class="form-control"
+            name="valueToReceive"
+            id="field_valueToReceive"
+            data-cy="valueToReceive"
+            formControlName="valueToReceive"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_ranking">Ranking</label>
+          <input type="number" class="form-control" name="ranking" id="field_ranking" data-cy="ranking" formControlName="ranking" />
+        </div>
+
+        <div class="form-group">
+          <label for="field_ridePaths">Ride Path</label>
+          <select class="form-control" id="field_ridePaths" data-cy="ridePath" multiple name="ridePaths" formControlName="ridePaths">
+            <option
+              [ngValue]="getSelectedRidePath(ridePathOption, editForm.get('ridePaths')!.value)"
+              *ngFor="let ridePathOption of ridePathsSharedCollection; trackBy: trackRidePathById"
+            >
+              {{ ridePathOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

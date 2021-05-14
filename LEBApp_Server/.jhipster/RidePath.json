@@ -1,0 +1,46 @@
+{
+  "name": "RidePath",
+  "fields": [
+    {
+      "fieldName": "source",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "destination",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "distance",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "estimatedTime",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "request",
+      "otherEntityRelationshipName": "ridePath",
+      "relationshipName": "request"
+    },
+    {
+      "relationshipType": "many-to-many",
+      "otherEntityName": "transporter",
+      "otherEntityRelationshipName": "ridePath",
+      "relationshipName": "transports",
+      "ownerSide": false
+    }
+  ],
+  "entityTableName": "ride_path",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210514212834"
+}

@@ -1,0 +1,106 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="request">
+      <h2 data-cy="requestDetailsHeading"><span>Request</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ request.id }}</span>
+        </dd>
+        <dt><span>Product Value</span></dt>
+        <dd>
+          <span>{{ request.productValue }}</span>
+        </dd>
+        <dt><span>Product Name</span></dt>
+        <dd>
+          <span>{{ request.productName }}</span>
+        </dd>
+        <dt><span>Source</span></dt>
+        <dd>
+          <span>{{ request.source }}</span>
+        </dd>
+        <dt><span>Destination</span></dt>
+        <dd>
+          <span>{{ request.destination }}</span>
+        </dd>
+        <dt><span>Destination Contact</span></dt>
+        <dd>
+          <span>{{ request.destinationContact }}</span>
+        </dd>
+        <dt><span>Init Date</span></dt>
+        <dd>
+          <span>{{ request.initDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Expiration Date</span></dt>
+        <dd>
+          <span>{{ request.expirationDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Description</span></dt>
+        <dd>
+          <span>{{ request.description }}</span>
+        </dd>
+        <dt><span>Special Characteristics</span></dt>
+        <dd>
+          <span>{{ request.specialCharacteristics }}</span>
+        </dd>
+        <dt><span>Product Weight</span></dt>
+        <dd>
+          <span>{{ request.productWeight }}</span>
+        </dd>
+        <dt><span>Status</span></dt>
+        <dd>
+          <span>{{ request.status }}</span>
+        </dd>
+        <dt><span>Estimated Date</span></dt>
+        <dd>
+          <span>{{ request.estimatedDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Delivery Time</span></dt>
+        <dd>
+          <span>{{ request.deliveryTime | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span>Shipping Costs</span></dt>
+        <dd>
+          <span>{{ request.shippingCosts }}</span>
+        </dd>
+        <dt><span>Rating</span></dt>
+        <dd>
+          <span>{{ request.rating }}</span>
+        </dd>
+        <dt><span>Dimensions</span></dt>
+        <dd>
+          <div *ngIf="request.dimensions">
+            <a [routerLink]="['/dimensions', request.dimensions?.id, 'view']">{{ request.dimensions?.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Ride Path</span></dt>
+        <dd>
+          <div *ngIf="request.ridePath">
+            <a [routerLink]="['/ride-path', request.ridePath?.id, 'view']">{{ request.ridePath?.id }}</a>
+          </div>
+        </dd>
+        <dt><span>Producer</span></dt>
+        <dd>
+          <div *ngIf="request.producer">
+            <a [routerLink]="['/producer', request.producer?.id, 'view']">{{ request.producer?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/request', request.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
