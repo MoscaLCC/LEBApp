@@ -134,7 +134,7 @@ public class ZoneResource {
 <span class="nc" id="L134">        Optional&lt;ZoneDTO&gt; result = zoneService.partialUpdate(zoneDTO);</span>
 
 <span class="nc" id="L136">        return ResponseUtil.wrapOrNotFound(</span>
-            result,
+<span class="nc" id="L137">            result,</span>
 <span class="nc" id="L138">            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, zoneDTO.getId().toString())</span>
         );
     }

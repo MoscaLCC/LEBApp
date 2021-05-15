@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import * as dayjs from 'dayjs';
 
 import { isPresent } from 'app/core/util/operators';
-import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { ITransporter, getTransporterIdentifier } from '../transporter.model';
@@ -20,37 +17,28 @@ export class TransporterService {
   constructor(protected http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
 
   create(transporter: ITransporter): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(transporter);
-    return this.http
-      .post<ITransporter>(this.resourceUrl, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.post<ITransporter>(this.resourceUrl, transporter, { observe: 'response' });
   }
 
   update(transporter: ITransporter): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(transporter);
-    return this.http
-      .put<ITransporter>(`${this.resourceUrl}/${getTransporterIdentifier(transporter) as number}`, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.put<ITransporter>(`${this.resourceUrl}/${getTransporterIdentifier(transporter) as number}`, transporter, {
+      observe: 'response',
+    });
   }
 
   partialUpdate(transporter: ITransporter): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(transporter);
-    return this.http
-      .patch<ITransporter>(`${this.resourceUrl}/${getTransporterIdentifier(transporter) as number}`, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.patch<ITransporter>(`${this.resourceUrl}/${getTransporterIdentifier(transporter) as number}`, transporter, {
+      observe: 'response',
+    });
   }
 
   find(id: number): Observable<EntityResponseType> {
-    return this.http
-      .get<ITransporter>(`${this.resourceUrl}/${id}`, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+    return this.http.get<ITransporter>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
-    return this.http
-      .get<ITransporter[]>(this.resourceUrl, { params: options, observe: 'response' })
-      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+    return this.http.get<ITransporter[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {
@@ -75,27 +63,5 @@ export class TransporterService {
       return [...transportersToAdd, ...transporterCollection];
     }
     return transporterCollection;
-  }
-
-  protected convertDateFromClient(transporter: ITransporter): ITransporter {
-    return Object.assign({}, transporter, {
-      birthday: transporter.birthday?.isValid() ? transporter.birthday.format(DATE_FORMAT) : undefined,
-    });
-  }
-
-  protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
-    if (res.body) {
-      res.body.birthday = res.body.birthday ? dayjs(res.body.birthday) : undefined;
-    }
-    return res;
-  }
-
-  protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
-    if (res.body) {
-      res.body.forEach((transporter: ITransporter) => {
-        transporter.birthday = transporter.birthday ? dayjs(transporter.birthday) : undefined;
-      });
-    }
-    return res;
   }
 }

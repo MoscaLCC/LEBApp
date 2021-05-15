@@ -2,38 +2,6 @@
   "name": "Transporter",
   "fields": [
     {
-      "fieldName": "name",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "email",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "phoneNumber",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "nib",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "nif",
-      "fieldType": "Integer"
-    },
-    {
-      "fieldName": "birthday",
-      "fieldType": "LocalDate"
-    },
-    {
-      "fieldName": "address",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "photo",
-      "fieldType": "String"
-    },
-    {
       "fieldName": "favouriteTransport",
       "fieldType": "String"
     },
@@ -59,6 +27,14 @@
     }
   ],
   "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "userInfo",
+      "otherEntityRelationshipName": "transporter",
+      "relationshipValidateRules": "required",
+      "relationshipName": "userInfo",
+      "ownerSide": true
+    },
     {
       "relationshipType": "many-to-many",
       "otherEntityName": "ridePath",

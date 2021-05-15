@@ -10,12 +10,14 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-05-14T22:42:45+0100",
-    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)"
+    date = "2021-05-15T01:03:53+0100",
+    comments = "version: 1.4.2.Final, compiler: Eclipse JDT (IDE) 1.3.1300.v20210331-0708, environment: Java 11.0.11 (Oracle Corporation)"
 )
 @Component
 public class PointMapperImpl implements PointMapper {
 
+    @Autowired
+    private UserInfoMapper userInfoMapper;
     @Autowired
     private ZoneMapper zoneMapper;
 
@@ -28,17 +30,12 @@ public class PointMapperImpl implements PointMapper {
         Point point = new Point();
 
         point.id( dto.getId() );
-        point.setName( dto.getName() );
-        point.setEmail( dto.getEmail() );
-        point.setPhoneNumber( dto.getPhoneNumber() );
-        point.setNib( dto.getNib() );
-        point.setNif( dto.getNif() );
-        point.setAddress( dto.getAddress() );
         point.setOpeningTime( dto.getOpeningTime() );
         point.setNumberOfDeliveries( dto.getNumberOfDeliveries() );
         point.setReceivedValue( dto.getReceivedValue() );
         point.setValueToReceive( dto.getValueToReceive() );
         point.setRanking( dto.getRanking() );
+        point.setUserInfo( userInfoMapper.toEntity( dto.getUserInfo() ) );
         point.setZone( zoneMapper.toEntity( dto.getZone() ) );
 
         return point;
@@ -81,24 +78,6 @@ public class PointMapperImpl implements PointMapper {
         if ( dto.getId() != null ) {
             entity.id( dto.getId() );
         }
-        if ( dto.getName() != null ) {
-            entity.setName( dto.getName() );
-        }
-        if ( dto.getEmail() != null ) {
-            entity.setEmail( dto.getEmail() );
-        }
-        if ( dto.getPhoneNumber() != null ) {
-            entity.setPhoneNumber( dto.getPhoneNumber() );
-        }
-        if ( dto.getNib() != null ) {
-            entity.setNib( dto.getNib() );
-        }
-        if ( dto.getNif() != null ) {
-            entity.setNif( dto.getNif() );
-        }
-        if ( dto.getAddress() != null ) {
-            entity.setAddress( dto.getAddress() );
-        }
         if ( dto.getOpeningTime() != null ) {
             entity.setOpeningTime( dto.getOpeningTime() );
         }
@@ -114,6 +93,9 @@ public class PointMapperImpl implements PointMapper {
         if ( dto.getRanking() != null ) {
             entity.setRanking( dto.getRanking() );
         }
+        if ( dto.getUserInfo() != null ) {
+            entity.setUserInfo( userInfoMapper.toEntity( dto.getUserInfo() ) );
+        }
         if ( dto.getZone() != null ) {
             entity.setZone( zoneMapper.toEntity( dto.getZone() ) );
         }
@@ -127,14 +109,9 @@ public class PointMapperImpl implements PointMapper {
 
         PointDTO pointDTO = new PointDTO();
 
+        pointDTO.setUserInfo( userInfoMapper.toDtoId( s.getUserInfo() ) );
         pointDTO.setZone( zoneMapper.toDtoId( s.getZone() ) );
         pointDTO.setId( s.getId() );
-        pointDTO.setName( s.getName() );
-        pointDTO.setEmail( s.getEmail() );
-        pointDTO.setPhoneNumber( s.getPhoneNumber() );
-        pointDTO.setNib( s.getNib() );
-        pointDTO.setNif( s.getNif() );
-        pointDTO.setAddress( s.getAddress() );
         pointDTO.setOpeningTime( s.getOpeningTime() );
         pointDTO.setNumberOfDeliveries( s.getNumberOfDeliveries() );
         pointDTO.setReceivedValue( s.getReceivedValue() );

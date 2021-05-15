@@ -41,7 +41,7 @@ public class RidePath implements Serializable {
 
     @ManyToMany(mappedBy = "ridePaths")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "ridePaths", "zones" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "userInfo", "ridePaths", "zones" }, allowSetters = true)
     private Set<Transporter> transports = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

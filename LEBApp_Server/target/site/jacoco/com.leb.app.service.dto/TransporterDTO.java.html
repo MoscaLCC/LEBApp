@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TransporterDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.service.dto</a> &gt; <span class="el_source">TransporterDTO.java</span></div><h1>TransporterDTO.java</h1><pre class="source lang-java linenums">package com.leb.app.service.dto;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import javax.validation.constraints.*;
 
 /**
  * A DTO for the {@link com.leb.app.domain.Transporter} entity.
@@ -12,22 +12,6 @@ import java.util.Set;
 <span class="fc" id="L12">public class TransporterDTO implements Serializable {</span>
 
     private Long id;
-
-    private String name;
-
-    private String email;
-
-    private String phoneNumber;
-
-    private String nib;
-
-    private Integer nif;
-
-    private LocalDate birthday;
-
-    private String address;
-
-    private String photo;
 
     private String favouriteTransport;
 
@@ -41,178 +25,117 @@ import java.util.Set;
 
     private Double ranking;
 
-<span class="fc" id="L44">    private Set&lt;RidePathDTO&gt; ridePaths = new HashSet&lt;&gt;();</span>
+    private UserInfoDTO userInfo;
+
+<span class="fc" id="L30">    private Set&lt;RidePathDTO&gt; ridePaths = new HashSet&lt;&gt;();</span>
 
     public Long getId() {
-<span class="fc" id="L47">        return id;</span>
+<span class="fc" id="L33">        return id;</span>
     }
 
     public void setId(Long id) {
-<span class="fc" id="L51">        this.id = id;</span>
-<span class="fc" id="L52">    }</span>
-
-    public String getName() {
-<span class="fc" id="L55">        return name;</span>
-    }
-
-    public void setName(String name) {
-<span class="nc" id="L59">        this.name = name;</span>
-<span class="nc" id="L60">    }</span>
-
-    public String getEmail() {
-<span class="fc" id="L63">        return email;</span>
-    }
-
-    public void setEmail(String email) {
-<span class="nc" id="L67">        this.email = email;</span>
-<span class="nc" id="L68">    }</span>
-
-    public String getPhoneNumber() {
-<span class="fc" id="L71">        return phoneNumber;</span>
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-<span class="nc" id="L75">        this.phoneNumber = phoneNumber;</span>
-<span class="nc" id="L76">    }</span>
-
-    public String getNib() {
-<span class="fc" id="L79">        return nib;</span>
-    }
-
-    public void setNib(String nib) {
-<span class="nc" id="L83">        this.nib = nib;</span>
-<span class="nc" id="L84">    }</span>
-
-    public Integer getNif() {
-<span class="fc" id="L87">        return nif;</span>
-    }
-
-    public void setNif(Integer nif) {
-<span class="nc" id="L91">        this.nif = nif;</span>
-<span class="nc" id="L92">    }</span>
-
-    public LocalDate getBirthday() {
-<span class="fc" id="L95">        return birthday;</span>
-    }
-
-    public void setBirthday(LocalDate birthday) {
-<span class="nc" id="L99">        this.birthday = birthday;</span>
-<span class="nc" id="L100">    }</span>
-
-    public String getAddress() {
-<span class="fc" id="L103">        return address;</span>
-    }
-
-    public void setAddress(String address) {
-<span class="nc" id="L107">        this.address = address;</span>
-<span class="nc" id="L108">    }</span>
-
-    public String getPhoto() {
-<span class="fc" id="L111">        return photo;</span>
-    }
-
-    public void setPhoto(String photo) {
-<span class="nc" id="L115">        this.photo = photo;</span>
-<span class="nc" id="L116">    }</span>
+<span class="fc" id="L37">        this.id = id;</span>
+<span class="fc" id="L38">    }</span>
 
     public String getFavouriteTransport() {
-<span class="fc" id="L119">        return favouriteTransport;</span>
+<span class="fc" id="L41">        return favouriteTransport;</span>
     }
 
     public void setFavouriteTransport(String favouriteTransport) {
-<span class="nc" id="L123">        this.favouriteTransport = favouriteTransport;</span>
-<span class="nc" id="L124">    }</span>
+<span class="nc" id="L45">        this.favouriteTransport = favouriteTransport;</span>
+<span class="nc" id="L46">    }</span>
 
     public Integer getNumberOfDeliveries() {
-<span class="fc" id="L127">        return numberOfDeliveries;</span>
+<span class="fc" id="L49">        return numberOfDeliveries;</span>
     }
 
     public void setNumberOfDeliveries(Integer numberOfDeliveries) {
-<span class="nc" id="L131">        this.numberOfDeliveries = numberOfDeliveries;</span>
-<span class="nc" id="L132">    }</span>
+<span class="nc" id="L53">        this.numberOfDeliveries = numberOfDeliveries;</span>
+<span class="nc" id="L54">    }</span>
 
     public Double getNumberOfKm() {
-<span class="fc" id="L135">        return numberOfKm;</span>
+<span class="fc" id="L57">        return numberOfKm;</span>
     }
 
     public void setNumberOfKm(Double numberOfKm) {
-<span class="nc" id="L139">        this.numberOfKm = numberOfKm;</span>
-<span class="nc" id="L140">    }</span>
+<span class="nc" id="L61">        this.numberOfKm = numberOfKm;</span>
+<span class="nc" id="L62">    }</span>
 
     public Double getReceivedValue() {
-<span class="fc" id="L143">        return receivedValue;</span>
+<span class="fc" id="L65">        return receivedValue;</span>
     }
 
     public void setReceivedValue(Double receivedValue) {
-<span class="nc" id="L147">        this.receivedValue = receivedValue;</span>
-<span class="nc" id="L148">    }</span>
+<span class="nc" id="L69">        this.receivedValue = receivedValue;</span>
+<span class="nc" id="L70">    }</span>
 
     public Double getValueToReceive() {
-<span class="fc" id="L151">        return valueToReceive;</span>
+<span class="fc" id="L73">        return valueToReceive;</span>
     }
 
     public void setValueToReceive(Double valueToReceive) {
-<span class="nc" id="L155">        this.valueToReceive = valueToReceive;</span>
-<span class="nc" id="L156">    }</span>
+<span class="nc" id="L77">        this.valueToReceive = valueToReceive;</span>
+<span class="nc" id="L78">    }</span>
 
     public Double getRanking() {
-<span class="fc" id="L159">        return ranking;</span>
+<span class="fc" id="L81">        return ranking;</span>
     }
 
     public void setRanking(Double ranking) {
-<span class="nc" id="L163">        this.ranking = ranking;</span>
-<span class="nc" id="L164">    }</span>
+<span class="nc" id="L85">        this.ranking = ranking;</span>
+<span class="nc" id="L86">    }</span>
+
+    public UserInfoDTO getUserInfo() {
+<span class="fc" id="L89">        return userInfo;</span>
+    }
+
+    public void setUserInfo(UserInfoDTO userInfo) {
+<span class="nc" id="L93">        this.userInfo = userInfo;</span>
+<span class="nc" id="L94">    }</span>
 
     public Set&lt;RidePathDTO&gt; getRidePaths() {
-<span class="fc" id="L167">        return ridePaths;</span>
+<span class="fc" id="L97">        return ridePaths;</span>
     }
 
     public void setRidePaths(Set&lt;RidePathDTO&gt; ridePaths) {
-<span class="nc" id="L171">        this.ridePaths = ridePaths;</span>
-<span class="nc" id="L172">    }</span>
+<span class="nc" id="L101">        this.ridePaths = ridePaths;</span>
+<span class="nc" id="L102">    }</span>
 
     @Override
     public boolean equals(Object o) {
-<span class="pc bpc" id="L176" title="1 of 2 branches missed.">        if (this == o) {</span>
-<span class="nc" id="L177">            return true;</span>
+<span class="pc bpc" id="L106" title="1 of 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L107">            return true;</span>
         }
-<span class="fc bfc" id="L179" title="All 2 branches covered.">        if (!(o instanceof TransporterDTO)) {</span>
-<span class="fc" id="L180">            return false;</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">        if (!(o instanceof TransporterDTO)) {</span>
+<span class="fc" id="L110">            return false;</span>
         }
 
-<span class="fc" id="L183">        TransporterDTO transporterDTO = (TransporterDTO) o;</span>
-<span class="fc bfc" id="L184" title="All 2 branches covered.">        if (this.id == null) {</span>
-<span class="fc" id="L185">            return false;</span>
+<span class="fc" id="L113">        TransporterDTO transporterDTO = (TransporterDTO) o;</span>
+<span class="fc bfc" id="L114" title="All 2 branches covered.">        if (this.id == null) {</span>
+<span class="fc" id="L115">            return false;</span>
         }
-<span class="fc" id="L187">        return Objects.equals(this.id, transporterDTO.id);</span>
+<span class="fc" id="L117">        return Objects.equals(this.id, transporterDTO.id);</span>
     }
 
     @Override
     public int hashCode() {
-<span class="fc" id="L192">        return Objects.hash(this.id);</span>
+<span class="fc" id="L122">        return Objects.hash(this.id);</span>
     }
 
     // prettier-ignore
     @Override
     public String toString() {
-<span class="fc" id="L198">        return &quot;TransporterDTO{&quot; +</span>
-<span class="fc" id="L199">            &quot;id=&quot; + getId() +</span>
-<span class="fc" id="L200">            &quot;, name='&quot; + getName() + &quot;'&quot; +</span>
-<span class="fc" id="L201">            &quot;, email='&quot; + getEmail() + &quot;'&quot; +</span>
-<span class="fc" id="L202">            &quot;, phoneNumber='&quot; + getPhoneNumber() + &quot;'&quot; +</span>
-<span class="fc" id="L203">            &quot;, nib='&quot; + getNib() + &quot;'&quot; +</span>
-<span class="fc" id="L204">            &quot;, nif=&quot; + getNif() +</span>
-<span class="fc" id="L205">            &quot;, birthday='&quot; + getBirthday() + &quot;'&quot; +</span>
-<span class="fc" id="L206">            &quot;, address='&quot; + getAddress() + &quot;'&quot; +</span>
-<span class="fc" id="L207">            &quot;, photo='&quot; + getPhoto() + &quot;'&quot; +</span>
-<span class="fc" id="L208">            &quot;, favouriteTransport='&quot; + getFavouriteTransport() + &quot;'&quot; +</span>
-<span class="fc" id="L209">            &quot;, numberOfDeliveries=&quot; + getNumberOfDeliveries() +</span>
-<span class="fc" id="L210">            &quot;, numberOfKm=&quot; + getNumberOfKm() +</span>
-<span class="fc" id="L211">            &quot;, receivedValue=&quot; + getReceivedValue() +</span>
-<span class="fc" id="L212">            &quot;, valueToReceive=&quot; + getValueToReceive() +</span>
-<span class="fc" id="L213">            &quot;, ranking=&quot; + getRanking() +</span>
-<span class="fc" id="L214">            &quot;, ridePaths=&quot; + getRidePaths() +</span>
-            &quot;}&quot;;
+<span class="fc" id="L128">        return &quot;TransporterDTO{&quot; +</span>
+<span class="fc" id="L129">            &quot;id=&quot; + getId() +</span>
+<span class="fc" id="L130">            &quot;, favouriteTransport='&quot; + getFavouriteTransport() + &quot;'&quot; +</span>
+<span class="fc" id="L131">            &quot;, numberOfDeliveries=&quot; + getNumberOfDeliveries() +</span>
+<span class="fc" id="L132">            &quot;, numberOfKm=&quot; + getNumberOfKm() +</span>
+<span class="fc" id="L133">            &quot;, receivedValue=&quot; + getReceivedValue() +</span>
+<span class="fc" id="L134">            &quot;, valueToReceive=&quot; + getValueToReceive() +</span>
+<span class="fc" id="L135">            &quot;, ranking=&quot; + getRanking() +</span>
+<span class="fc" id="L136">            &quot;, userInfo=&quot; + getUserInfo() +</span>
+<span class="fc" id="L137">            &quot;, ridePaths=&quot; + getRidePaths() +</span>
+<span class="fc" id="L138">            &quot;}&quot;;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -7,8 +7,9 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Point} and its DTO {@link PointDTO}.
  */
-@Mapper(componentModel = "spring", uses = { ZoneMapper.class })
+@Mapper(componentModel = "spring", uses = { UserInfoMapper.class, ZoneMapper.class })
 public interface PointMapper extends EntityMapper<PointDTO, Point> {
+    @Mapping(target = "userInfo", source = "userInfo", qualifiedByName = "id")
     @Mapping(target = "zone", source = "zone", qualifiedByName = "id")
     PointDTO toDto(Point s);
 

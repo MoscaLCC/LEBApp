@@ -14,30 +14,6 @@
         <dd>
           <span>{{ point.id }}</span>
         </dd>
-        <dt><span>Name</span></dt>
-        <dd>
-          <span>{{ point.name }}</span>
-        </dd>
-        <dt><span>Email</span></dt>
-        <dd>
-          <span>{{ point.email }}</span>
-        </dd>
-        <dt><span>Phone Number</span></dt>
-        <dd>
-          <span>{{ point.phoneNumber }}</span>
-        </dd>
-        <dt><span>Nib</span></dt>
-        <dd>
-          <span>{{ point.nib }}</span>
-        </dd>
-        <dt><span>Nif</span></dt>
-        <dd>
-          <span>{{ point.nif }}</span>
-        </dd>
-        <dt><span>Address</span></dt>
-        <dd>
-          <span>{{ point.address }}</span>
-        </dd>
         <dt><span>Opening Time</span></dt>
         <dd>
           <span>{{ point.openingTime }}</span>
@@ -57,6 +33,12 @@
         <dt><span>Ranking</span></dt>
         <dd>
           <span>{{ point.ranking }}</span>
+        </dd>
+        <dt><span>User Info</span></dt>
+        <dd>
+          <div *ngIf="point.userInfo">
+            <a [routerLink]="['/user-info', point.userInfo?.id, 'view']">{{ point.userInfo?.id }}</a>
+          </div>
         </dd>
         <dt><span>Zone</span></dt>
         <dd>

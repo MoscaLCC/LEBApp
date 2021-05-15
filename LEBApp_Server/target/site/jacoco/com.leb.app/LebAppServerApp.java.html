@@ -40,20 +40,20 @@ public class LebAppServerApp {
     @PostConstruct
     public void initApplication() {
 <span class="nc" id="L42">        Collection&lt;String&gt; activeProfiles = Arrays.asList(env.getActiveProfiles());</span>
-<span class="nc" id="L43">        if (</span>
+        if (
 <span class="nc bnc" id="L44" title="All 2 branches missed.">            activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT) &amp;&amp;</span>
 <span class="nc bnc" id="L45" title="All 2 branches missed.">            activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_PRODUCTION)</span>
         ) {
 <span class="nc" id="L47">            log.error(</span>
-                &quot;You have misconfigured your application! It should not run &quot; + &quot;with both the 'dev' and 'prod' profiles at the same time.&quot;
+<span class="nc" id="L48">                &quot;You have misconfigured your application! It should not run &quot; + &quot;with both the 'dev' and 'prod' profiles at the same time.&quot;</span>
             );
         }
-<span class="nc" id="L51">        if (</span>
+        if (
 <span class="nc bnc" id="L52" title="All 2 branches missed.">            activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_DEVELOPMENT) &amp;&amp;</span>
 <span class="nc bnc" id="L53" title="All 2 branches missed.">            activeProfiles.contains(JHipsterConstants.SPRING_PROFILE_CLOUD)</span>
         ) {
 <span class="nc" id="L55">            log.error(</span>
-                &quot;You have misconfigured your application! It should not &quot; + &quot;run with both the 'dev' and 'cloud' profiles at the same time.&quot;
+<span class="nc" id="L56">                &quot;You have misconfigured your application! It should not &quot; + &quot;run with both the 'dev' and 'cloud' profiles at the same time.&quot;</span>
             );
         }
 <span class="nc" id="L59">    }</span>
@@ -82,21 +82,21 @@ public class LebAppServerApp {
 <span class="nc" id="L82">            hostAddress = InetAddress.getLocalHost().getHostAddress();</span>
 <span class="nc" id="L83">        } catch (UnknownHostException e) {</span>
 <span class="nc" id="L84">            log.warn(&quot;The host name could not be determined, using `localhost` as fallback&quot;);</span>
-<span class="nc" id="L85">        }</span>
+        }
 <span class="nc" id="L86">        log.info(</span>
-            &quot;\n----------------------------------------------------------\n\t&quot; +
+<span class="nc" id="L87">            &quot;\n----------------------------------------------------------\n\t&quot; +</span>
             &quot;Application '{}' is running! Access URLs:\n\t&quot; +
             &quot;Local: \t\t{}://localhost:{}{}\n\t&quot; +
             &quot;External: \t{}://{}:{}{}\n\t&quot; +
             &quot;Profile(s): \t{}\n----------------------------------------------------------&quot;,
 <span class="nc" id="L92">            env.getProperty(&quot;spring.application.name&quot;),</span>
-            protocol,
-            serverPort,
-            contextPath,
-            protocol,
-            hostAddress,
-            serverPort,
-            contextPath,
+<span class="nc" id="L93">            protocol,</span>
+<span class="nc" id="L94">            serverPort,</span>
+<span class="nc" id="L95">            contextPath,</span>
+<span class="nc" id="L96">            protocol,</span>
+<span class="nc" id="L97">            hostAddress,</span>
+<span class="nc" id="L98">            serverPort,</span>
+<span class="nc" id="L99">            contextPath,</span>
 <span class="nc" id="L100">            env.getActiveProfiles()</span>
         );
 <span class="nc" id="L102">    }</span>

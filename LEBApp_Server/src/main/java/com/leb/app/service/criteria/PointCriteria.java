@@ -26,18 +26,6 @@ public class PointCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private StringFilter name;
-
-    private StringFilter email;
-
-    private StringFilter phoneNumber;
-
-    private StringFilter nib;
-
-    private IntegerFilter nif;
-
-    private StringFilter address;
-
     private StringFilter openingTime;
 
     private IntegerFilter numberOfDeliveries;
@@ -48,6 +36,8 @@ public class PointCriteria implements Serializable, Criteria {
 
     private DoubleFilter ranking;
 
+    private LongFilter userInfoId;
+
     private LongFilter deliveryManId;
 
     private LongFilter zoneId;
@@ -56,17 +46,12 @@ public class PointCriteria implements Serializable, Criteria {
 
     public PointCriteria(PointCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
-        this.name = other.name == null ? null : other.name.copy();
-        this.email = other.email == null ? null : other.email.copy();
-        this.phoneNumber = other.phoneNumber == null ? null : other.phoneNumber.copy();
-        this.nib = other.nib == null ? null : other.nib.copy();
-        this.nif = other.nif == null ? null : other.nif.copy();
-        this.address = other.address == null ? null : other.address.copy();
         this.openingTime = other.openingTime == null ? null : other.openingTime.copy();
         this.numberOfDeliveries = other.numberOfDeliveries == null ? null : other.numberOfDeliveries.copy();
         this.receivedValue = other.receivedValue == null ? null : other.receivedValue.copy();
         this.valueToReceive = other.valueToReceive == null ? null : other.valueToReceive.copy();
         this.ranking = other.ranking == null ? null : other.ranking.copy();
+        this.userInfoId = other.userInfoId == null ? null : other.userInfoId.copy();
         this.deliveryManId = other.deliveryManId == null ? null : other.deliveryManId.copy();
         this.zoneId = other.zoneId == null ? null : other.zoneId.copy();
     }
@@ -89,96 +74,6 @@ public class PointCriteria implements Serializable, Criteria {
 
     public void setId(LongFilter id) {
         this.id = id;
-    }
-
-    public StringFilter getName() {
-        return name;
-    }
-
-    public StringFilter name() {
-        if (name == null) {
-            name = new StringFilter();
-        }
-        return name;
-    }
-
-    public void setName(StringFilter name) {
-        this.name = name;
-    }
-
-    public StringFilter getEmail() {
-        return email;
-    }
-
-    public StringFilter email() {
-        if (email == null) {
-            email = new StringFilter();
-        }
-        return email;
-    }
-
-    public void setEmail(StringFilter email) {
-        this.email = email;
-    }
-
-    public StringFilter getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public StringFilter phoneNumber() {
-        if (phoneNumber == null) {
-            phoneNumber = new StringFilter();
-        }
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(StringFilter phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public StringFilter getNib() {
-        return nib;
-    }
-
-    public StringFilter nib() {
-        if (nib == null) {
-            nib = new StringFilter();
-        }
-        return nib;
-    }
-
-    public void setNib(StringFilter nib) {
-        this.nib = nib;
-    }
-
-    public IntegerFilter getNif() {
-        return nif;
-    }
-
-    public IntegerFilter nif() {
-        if (nif == null) {
-            nif = new IntegerFilter();
-        }
-        return nif;
-    }
-
-    public void setNif(IntegerFilter nif) {
-        this.nif = nif;
-    }
-
-    public StringFilter getAddress() {
-        return address;
-    }
-
-    public StringFilter address() {
-        if (address == null) {
-            address = new StringFilter();
-        }
-        return address;
-    }
-
-    public void setAddress(StringFilter address) {
-        this.address = address;
     }
 
     public StringFilter getOpeningTime() {
@@ -256,6 +151,21 @@ public class PointCriteria implements Serializable, Criteria {
         this.ranking = ranking;
     }
 
+    public LongFilter getUserInfoId() {
+        return userInfoId;
+    }
+
+    public LongFilter userInfoId() {
+        if (userInfoId == null) {
+            userInfoId = new LongFilter();
+        }
+        return userInfoId;
+    }
+
+    public void setUserInfoId(LongFilter userInfoId) {
+        this.userInfoId = userInfoId;
+    }
+
     public LongFilter getDeliveryManId() {
         return deliveryManId;
     }
@@ -297,17 +207,12 @@ public class PointCriteria implements Serializable, Criteria {
         final PointCriteria that = (PointCriteria) o;
         return (
             Objects.equals(id, that.id) &&
-            Objects.equals(name, that.name) &&
-            Objects.equals(email, that.email) &&
-            Objects.equals(phoneNumber, that.phoneNumber) &&
-            Objects.equals(nib, that.nib) &&
-            Objects.equals(nif, that.nif) &&
-            Objects.equals(address, that.address) &&
             Objects.equals(openingTime, that.openingTime) &&
             Objects.equals(numberOfDeliveries, that.numberOfDeliveries) &&
             Objects.equals(receivedValue, that.receivedValue) &&
             Objects.equals(valueToReceive, that.valueToReceive) &&
             Objects.equals(ranking, that.ranking) &&
+            Objects.equals(userInfoId, that.userInfoId) &&
             Objects.equals(deliveryManId, that.deliveryManId) &&
             Objects.equals(zoneId, that.zoneId)
         );
@@ -315,22 +220,7 @@ public class PointCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(
-            id,
-            name,
-            email,
-            phoneNumber,
-            nib,
-            nif,
-            address,
-            openingTime,
-            numberOfDeliveries,
-            receivedValue,
-            valueToReceive,
-            ranking,
-            deliveryManId,
-            zoneId
-        );
+        return Objects.hash(id, openingTime, numberOfDeliveries, receivedValue, valueToReceive, ranking, userInfoId, deliveryManId, zoneId);
     }
 
     // prettier-ignore
@@ -338,17 +228,12 @@ public class PointCriteria implements Serializable, Criteria {
     public String toString() {
         return "PointCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
-            (name != null ? "name=" + name + ", " : "") +
-            (email != null ? "email=" + email + ", " : "") +
-            (phoneNumber != null ? "phoneNumber=" + phoneNumber + ", " : "") +
-            (nib != null ? "nib=" + nib + ", " : "") +
-            (nif != null ? "nif=" + nif + ", " : "") +
-            (address != null ? "address=" + address + ", " : "") +
             (openingTime != null ? "openingTime=" + openingTime + ", " : "") +
             (numberOfDeliveries != null ? "numberOfDeliveries=" + numberOfDeliveries + ", " : "") +
             (receivedValue != null ? "receivedValue=" + receivedValue + ", " : "") +
             (valueToReceive != null ? "valueToReceive=" + valueToReceive + ", " : "") +
             (ranking != null ? "ranking=" + ranking + ", " : "") +
+            (userInfoId != null ? "userInfoId=" + userInfoId + ", " : "") +
             (deliveryManId != null ? "deliveryManId=" + deliveryManId + ", " : "") +
             (zoneId != null ? "zoneId=" + zoneId + ", " : "") +
             "}";

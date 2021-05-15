@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
 import { IPoint, Point } from '../point.model';
 import { PointService } from '../service/point.service';
+import { IUserInfo } from 'app/entities/user-info/user-info.model';
+import { UserInfoService } from 'app/entities/user-info/service/user-info.service';
 import { IZone } from 'app/entities/zone/zone.model';
 import { ZoneService } from 'app/entities/zone/service/zone.service';
 
@@ -17,26 +19,23 @@ import { ZoneService } from 'app/entities/zone/service/zone.service';
 export class PointUpdateComponent implements OnInit {
   isSaving = false;
 
+  userInfosCollection: IUserInfo[] = [];
   zonesSharedCollection: IZone[] = [];
 
   editForm = this.fb.group({
     id: [],
-    name: [],
-    email: [],
-    phoneNumber: [],
-    nib: [],
-    nif: [],
-    address: [],
     openingTime: [],
     numberOfDeliveries: [],
     receivedValue: [],
     valueToReceive: [],
     ranking: [],
+    userInfo: [null, Validators.required],
     zone: [],
   });
 
   constructor(
     protected pointService: PointService,
+    protected userInfoService: UserInfoService,
     protected zoneService: ZoneService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
@@ -62,6 +61,10 @@ export class PointUpdateComponent implements OnInit {
     } else {
       this.subscribeToSaveResponse(this.pointService.create(point));
     }
+  }
+
+  trackUserInfoById(index: number, item: IUserInfo): number {
+    return item.id!;
   }
 
   trackZoneById(index: number, item: IZone): number {
@@ -90,24 +93,30 @@ export class PointUpdateComponent implements OnInit {
   protected updateForm(point: IPoint): void {
     this.editForm.patchValue({
       id: point.id,
-      name: point.name,
-      email: point.email,
-      phoneNumber: point.phoneNumber,
-      nib: point.nib,
-      nif: point.nif,
-      address: point.address,
       openingTime: point.openingTime,
       numberOfDeliveries: point.numberOfDeliveries,
       receivedValue: point.receivedValue,
       valueToReceive: point.valueToReceive,
       ranking: point.ranking,
+      userInfo: point.userInfo,
       zone: point.zone,
     });
 
+    this.userInfosCollection = this.userInfoService.addUserInfoToCollectionIfMissing(this.userInfosCollection, point.userInfo);
     this.zonesSharedCollection = this.zoneService.addZoneToCollectionIfMissing(this.zonesSharedCollection, point.zone);
   }
 
   protected loadRelationshipsOptions(): void {
+    this.userInfoService
+      .query({ 'pointId.specified': 'false' })
+      .pipe(map((res: HttpResponse<IUserInfo[]>) => res.body ?? []))
+      .pipe(
+        map((userInfos: IUserInfo[]) =>
+          this.userInfoService.addUserInfoToCollectionIfMissing(userInfos, this.editForm.get('userInfo')!.value)
+        )
+      )
+      .subscribe((userInfos: IUserInfo[]) => (this.userInfosCollection = userInfos));
+
     this.zoneService
       .query()
       .pipe(map((res: HttpResponse<IZone[]>) => res.body ?? []))
@@ -119,17 +128,12 @@ export class PointUpdateComponent implements OnInit {
     return {
       ...new Point(),
       id: this.editForm.get(['id'])!.value,
-      name: this.editForm.get(['name'])!.value,
-      email: this.editForm.get(['email'])!.value,
-      phoneNumber: this.editForm.get(['phoneNumber'])!.value,
-      nib: this.editForm.get(['nib'])!.value,
-      nif: this.editForm.get(['nif'])!.value,
-      address: this.editForm.get(['address'])!.value,
       openingTime: this.editForm.get(['openingTime'])!.value,
       numberOfDeliveries: this.editForm.get(['numberOfDeliveries'])!.value,
       receivedValue: this.editForm.get(['receivedValue'])!.value,
       valueToReceive: this.editForm.get(['valueToReceive'])!.value,
       ranking: this.editForm.get(['ranking'])!.value,
+      userInfo: this.editForm.get(['userInfo'])!.value,
       zone: this.editForm.get(['zone'])!.value,
     };
   }

@@ -44,6 +44,11 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'Zones' },
         loadChildren: () => import('./zone/zone.module').then(m => m.ZoneModule),
       },
+      {
+        path: 'user-info',
+        data: { pageTitle: 'UserInfos' },
+        loadChildren: () => import('./user-info/user-info.module').then(m => m.UserInfoModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

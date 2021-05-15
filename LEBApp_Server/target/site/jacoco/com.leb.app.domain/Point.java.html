@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -14,31 +15,13 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = &quot;point&quot;)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-<span class="fc" id="L17">public class Point implements Serializable {</span>
+<span class="fc" id="L18">public class Point implements Serializable {</span>
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = &quot;name&quot;)
-    private String name;
-
-    @Column(name = &quot;email&quot;)
-    private String email;
-
-    @Column(name = &quot;phone_number&quot;)
-    private String phoneNumber;
-
-    @Column(name = &quot;nib&quot;)
-    private String nib;
-
-    @Column(name = &quot;nif&quot;)
-    private Integer nif;
-
-    @Column(name = &quot;address&quot;)
-    private String address;
 
     @Column(name = &quot;opening_time&quot;)
     private String openingTime;
@@ -55,10 +38,15 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
     @Column(name = &quot;ranking&quot;)
     private Double ranking;
 
-<span class="fc" id="L58">    @OneToMany(mappedBy = &quot;point&quot;)</span>
+    @OneToOne(optional = false)
+    @NotNull
+    @JoinColumn(unique = true)
+    private UserInfo userInfo;
+
+    @OneToMany(mappedBy = &quot;point&quot;)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { &quot;point&quot; }, allowSetters = true)
-    private Set&lt;DeliveryMan&gt; deliveryMen = new HashSet&lt;&gt;();
+    @JsonIgnoreProperties(value = { &quot;userInfo&quot;, &quot;point&quot; }, allowSetters = true)
+<span class="fc" id="L49">    private Set&lt;DeliveryMan&gt; deliveryMen = new HashSet&lt;&gt;();</span>
 
     @ManyToOne
     @JsonIgnoreProperties(value = { &quot;points&quot;, &quot;transporters&quot; }, allowSetters = true)
@@ -66,241 +54,170 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
-<span class="fc" id="L69">        return id;</span>
+<span class="fc" id="L57">        return id;</span>
     }
 
     public void setId(Long id) {
-<span class="fc" id="L73">        this.id = id;</span>
-<span class="fc" id="L74">    }</span>
+<span class="fc" id="L61">        this.id = id;</span>
+<span class="fc" id="L62">    }</span>
 
     public Point id(Long id) {
-<span class="nc" id="L77">        this.id = id;</span>
-<span class="nc" id="L78">        return this;</span>
+<span class="nc" id="L65">        this.id = id;</span>
+<span class="nc" id="L66">        return this;</span>
     }
-
-    public String getName() {
-<span class="fc" id="L82">        return this.name;</span>
-    }
-
-    public Point name(String name) {
-<span class="nc" id="L86">        this.name = name;</span>
-<span class="nc" id="L87">        return this;</span>
-    }
-
-    public void setName(String name) {
-<span class="nc" id="L91">        this.name = name;</span>
-<span class="nc" id="L92">    }</span>
-
-    public String getEmail() {
-<span class="fc" id="L95">        return this.email;</span>
-    }
-
-    public Point email(String email) {
-<span class="nc" id="L99">        this.email = email;</span>
-<span class="nc" id="L100">        return this;</span>
-    }
-
-    public void setEmail(String email) {
-<span class="nc" id="L104">        this.email = email;</span>
-<span class="nc" id="L105">    }</span>
-
-    public String getPhoneNumber() {
-<span class="fc" id="L108">        return this.phoneNumber;</span>
-    }
-
-    public Point phoneNumber(String phoneNumber) {
-<span class="nc" id="L112">        this.phoneNumber = phoneNumber;</span>
-<span class="nc" id="L113">        return this;</span>
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-<span class="nc" id="L117">        this.phoneNumber = phoneNumber;</span>
-<span class="nc" id="L118">    }</span>
-
-    public String getNib() {
-<span class="fc" id="L121">        return this.nib;</span>
-    }
-
-    public Point nib(String nib) {
-<span class="nc" id="L125">        this.nib = nib;</span>
-<span class="nc" id="L126">        return this;</span>
-    }
-
-    public void setNib(String nib) {
-<span class="nc" id="L130">        this.nib = nib;</span>
-<span class="nc" id="L131">    }</span>
-
-    public Integer getNif() {
-<span class="fc" id="L134">        return this.nif;</span>
-    }
-
-    public Point nif(Integer nif) {
-<span class="nc" id="L138">        this.nif = nif;</span>
-<span class="nc" id="L139">        return this;</span>
-    }
-
-    public void setNif(Integer nif) {
-<span class="nc" id="L143">        this.nif = nif;</span>
-<span class="nc" id="L144">    }</span>
-
-    public String getAddress() {
-<span class="fc" id="L147">        return this.address;</span>
-    }
-
-    public Point address(String address) {
-<span class="nc" id="L151">        this.address = address;</span>
-<span class="nc" id="L152">        return this;</span>
-    }
-
-    public void setAddress(String address) {
-<span class="nc" id="L156">        this.address = address;</span>
-<span class="nc" id="L157">    }</span>
 
     public String getOpeningTime() {
-<span class="fc" id="L160">        return this.openingTime;</span>
+<span class="fc" id="L70">        return this.openingTime;</span>
     }
 
     public Point openingTime(String openingTime) {
-<span class="nc" id="L164">        this.openingTime = openingTime;</span>
-<span class="nc" id="L165">        return this;</span>
+<span class="nc" id="L74">        this.openingTime = openingTime;</span>
+<span class="nc" id="L75">        return this;</span>
     }
 
     public void setOpeningTime(String openingTime) {
-<span class="nc" id="L169">        this.openingTime = openingTime;</span>
-<span class="nc" id="L170">    }</span>
+<span class="nc" id="L79">        this.openingTime = openingTime;</span>
+<span class="nc" id="L80">    }</span>
 
     public Integer getNumberOfDeliveries() {
-<span class="fc" id="L173">        return this.numberOfDeliveries;</span>
+<span class="fc" id="L83">        return this.numberOfDeliveries;</span>
     }
 
     public Point numberOfDeliveries(Integer numberOfDeliveries) {
-<span class="nc" id="L177">        this.numberOfDeliveries = numberOfDeliveries;</span>
-<span class="nc" id="L178">        return this;</span>
+<span class="nc" id="L87">        this.numberOfDeliveries = numberOfDeliveries;</span>
+<span class="nc" id="L88">        return this;</span>
     }
 
     public void setNumberOfDeliveries(Integer numberOfDeliveries) {
-<span class="nc" id="L182">        this.numberOfDeliveries = numberOfDeliveries;</span>
-<span class="nc" id="L183">    }</span>
+<span class="nc" id="L92">        this.numberOfDeliveries = numberOfDeliveries;</span>
+<span class="nc" id="L93">    }</span>
 
     public Double getReceivedValue() {
-<span class="fc" id="L186">        return this.receivedValue;</span>
+<span class="fc" id="L96">        return this.receivedValue;</span>
     }
 
     public Point receivedValue(Double receivedValue) {
-<span class="nc" id="L190">        this.receivedValue = receivedValue;</span>
-<span class="nc" id="L191">        return this;</span>
+<span class="nc" id="L100">        this.receivedValue = receivedValue;</span>
+<span class="nc" id="L101">        return this;</span>
     }
 
     public void setReceivedValue(Double receivedValue) {
-<span class="nc" id="L195">        this.receivedValue = receivedValue;</span>
-<span class="nc" id="L196">    }</span>
+<span class="nc" id="L105">        this.receivedValue = receivedValue;</span>
+<span class="nc" id="L106">    }</span>
 
     public Double getValueToReceive() {
-<span class="fc" id="L199">        return this.valueToReceive;</span>
+<span class="fc" id="L109">        return this.valueToReceive;</span>
     }
 
     public Point valueToReceive(Double valueToReceive) {
-<span class="nc" id="L203">        this.valueToReceive = valueToReceive;</span>
-<span class="nc" id="L204">        return this;</span>
+<span class="nc" id="L113">        this.valueToReceive = valueToReceive;</span>
+<span class="nc" id="L114">        return this;</span>
     }
 
     public void setValueToReceive(Double valueToReceive) {
-<span class="nc" id="L208">        this.valueToReceive = valueToReceive;</span>
-<span class="nc" id="L209">    }</span>
+<span class="nc" id="L118">        this.valueToReceive = valueToReceive;</span>
+<span class="nc" id="L119">    }</span>
 
     public Double getRanking() {
-<span class="fc" id="L212">        return this.ranking;</span>
+<span class="fc" id="L122">        return this.ranking;</span>
     }
 
     public Point ranking(Double ranking) {
-<span class="nc" id="L216">        this.ranking = ranking;</span>
-<span class="nc" id="L217">        return this;</span>
+<span class="nc" id="L126">        this.ranking = ranking;</span>
+<span class="nc" id="L127">        return this;</span>
     }
 
     public void setRanking(Double ranking) {
-<span class="nc" id="L221">        this.ranking = ranking;</span>
-<span class="nc" id="L222">    }</span>
+<span class="nc" id="L131">        this.ranking = ranking;</span>
+<span class="nc" id="L132">    }</span>
+
+    public UserInfo getUserInfo() {
+<span class="nc" id="L135">        return this.userInfo;</span>
+    }
+
+    public Point userInfo(UserInfo userInfo) {
+<span class="nc" id="L139">        this.setUserInfo(userInfo);</span>
+<span class="nc" id="L140">        return this;</span>
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+<span class="nc" id="L144">        this.userInfo = userInfo;</span>
+<span class="nc" id="L145">    }</span>
 
     public Set&lt;DeliveryMan&gt; getDeliveryMen() {
-<span class="nc" id="L225">        return this.deliveryMen;</span>
+<span class="nc" id="L148">        return this.deliveryMen;</span>
     }
 
     public Point deliveryMen(Set&lt;DeliveryMan&gt; deliveryMen) {
-<span class="nc" id="L229">        this.setDeliveryMen(deliveryMen);</span>
-<span class="nc" id="L230">        return this;</span>
+<span class="nc" id="L152">        this.setDeliveryMen(deliveryMen);</span>
+<span class="nc" id="L153">        return this;</span>
     }
 
     public Point addDeliveryMan(DeliveryMan deliveryMan) {
-<span class="nc" id="L234">        this.deliveryMen.add(deliveryMan);</span>
-<span class="nc" id="L235">        deliveryMan.setPoint(this);</span>
-<span class="nc" id="L236">        return this;</span>
+<span class="nc" id="L157">        this.deliveryMen.add(deliveryMan);</span>
+<span class="nc" id="L158">        deliveryMan.setPoint(this);</span>
+<span class="nc" id="L159">        return this;</span>
     }
 
     public Point removeDeliveryMan(DeliveryMan deliveryMan) {
-<span class="nc" id="L240">        this.deliveryMen.remove(deliveryMan);</span>
-<span class="nc" id="L241">        deliveryMan.setPoint(null);</span>
-<span class="nc" id="L242">        return this;</span>
+<span class="nc" id="L163">        this.deliveryMen.remove(deliveryMan);</span>
+<span class="nc" id="L164">        deliveryMan.setPoint(null);</span>
+<span class="nc" id="L165">        return this;</span>
     }
 
     public void setDeliveryMen(Set&lt;DeliveryMan&gt; deliveryMen) {
-<span class="nc bnc" id="L246" title="All 2 branches missed.">        if (this.deliveryMen != null) {</span>
-<span class="nc" id="L247">            this.deliveryMen.forEach(i -&gt; i.setPoint(null));</span>
+<span class="nc bnc" id="L169" title="All 2 branches missed.">        if (this.deliveryMen != null) {</span>
+<span class="nc" id="L170">            this.deliveryMen.forEach(i -&gt; i.setPoint(null));</span>
         }
-<span class="nc bnc" id="L249" title="All 2 branches missed.">        if (deliveryMen != null) {</span>
-<span class="nc" id="L250">            deliveryMen.forEach(i -&gt; i.setPoint(this));</span>
+<span class="nc bnc" id="L172" title="All 2 branches missed.">        if (deliveryMen != null) {</span>
+<span class="nc" id="L173">            deliveryMen.forEach(i -&gt; i.setPoint(this));</span>
         }
-<span class="nc" id="L252">        this.deliveryMen = deliveryMen;</span>
-<span class="nc" id="L253">    }</span>
+<span class="nc" id="L175">        this.deliveryMen = deliveryMen;</span>
+<span class="nc" id="L176">    }</span>
 
     public Zone getZone() {
-<span class="nc" id="L256">        return this.zone;</span>
+<span class="nc" id="L179">        return this.zone;</span>
     }
 
     public Point zone(Zone zone) {
-<span class="nc" id="L260">        this.setZone(zone);</span>
-<span class="nc" id="L261">        return this;</span>
+<span class="nc" id="L183">        this.setZone(zone);</span>
+<span class="nc" id="L184">        return this;</span>
     }
 
     public void setZone(Zone zone) {
-<span class="nc" id="L265">        this.zone = zone;</span>
-<span class="nc" id="L266">    }</span>
+<span class="nc" id="L188">        this.zone = zone;</span>
+<span class="nc" id="L189">    }</span>
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
     public boolean equals(Object o) {
-<span class="pc bpc" id="L272" title="1 of 2 branches missed.">        if (this == o) {</span>
-<span class="nc" id="L273">            return true;</span>
+<span class="pc bpc" id="L195" title="1 of 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L196">            return true;</span>
         }
-<span class="fc bfc" id="L275" title="All 2 branches covered.">        if (!(o instanceof Point)) {</span>
-<span class="fc" id="L276">            return false;</span>
+<span class="fc bfc" id="L198" title="All 2 branches covered.">        if (!(o instanceof Point)) {</span>
+<span class="fc" id="L199">            return false;</span>
         }
-<span class="fc bfc" id="L278" title="All 4 branches covered.">        return id != null &amp;&amp; id.equals(((Point) o).id);</span>
+<span class="fc bfc" id="L201" title="All 4 branches covered.">        return id != null &amp;&amp; id.equals(((Point) o).id);</span>
     }
 
     @Override
     public int hashCode() {
         // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
-<span class="fc" id="L284">        return getClass().hashCode();</span>
+<span class="fc" id="L207">        return getClass().hashCode();</span>
     }
 
     // prettier-ignore
     @Override
     public String toString() {
-<span class="fc" id="L290">        return &quot;Point{&quot; +</span>
-<span class="fc" id="L291">            &quot;id=&quot; + getId() +</span>
-<span class="fc" id="L292">            &quot;, name='&quot; + getName() + &quot;'&quot; +</span>
-<span class="fc" id="L293">            &quot;, email='&quot; + getEmail() + &quot;'&quot; +</span>
-<span class="fc" id="L294">            &quot;, phoneNumber='&quot; + getPhoneNumber() + &quot;'&quot; +</span>
-<span class="fc" id="L295">            &quot;, nib='&quot; + getNib() + &quot;'&quot; +</span>
-<span class="fc" id="L296">            &quot;, nif=&quot; + getNif() +</span>
-<span class="fc" id="L297">            &quot;, address='&quot; + getAddress() + &quot;'&quot; +</span>
-<span class="fc" id="L298">            &quot;, openingTime='&quot; + getOpeningTime() + &quot;'&quot; +</span>
-<span class="fc" id="L299">            &quot;, numberOfDeliveries=&quot; + getNumberOfDeliveries() +</span>
-<span class="fc" id="L300">            &quot;, receivedValue=&quot; + getReceivedValue() +</span>
-<span class="fc" id="L301">            &quot;, valueToReceive=&quot; + getValueToReceive() +</span>
-<span class="fc" id="L302">            &quot;, ranking=&quot; + getRanking() +</span>
-            &quot;}&quot;;
+<span class="fc" id="L213">        return &quot;Point{&quot; +</span>
+<span class="fc" id="L214">            &quot;id=&quot; + getId() +</span>
+<span class="fc" id="L215">            &quot;, openingTime='&quot; + getOpeningTime() + &quot;'&quot; +</span>
+<span class="fc" id="L216">            &quot;, numberOfDeliveries=&quot; + getNumberOfDeliveries() +</span>
+<span class="fc" id="L217">            &quot;, receivedValue=&quot; + getReceivedValue() +</span>
+<span class="fc" id="L218">            &quot;, valueToReceive=&quot; + getValueToReceive() +</span>
+<span class="fc" id="L219">            &quot;, ranking=&quot; + getRanking() +</span>
+<span class="fc" id="L220">            &quot;}&quot;;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

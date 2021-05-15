@@ -46,7 +46,7 @@ public class PointServiceImpl implements PointService {
 <span class="nc" id="L46">        return pointRepository</span>
 <span class="nc" id="L47">            .findById(pointDTO.getId())</span>
 <span class="nc" id="L48">            .map(</span>
-                existingPoint -&gt; {
+<span class="nc" id="L49">                existingPoint -&gt; {</span>
 <span class="nc" id="L50">                    pointMapper.partialUpdate(existingPoint, pointDTO);</span>
 <span class="nc" id="L51">                    return existingPoint;</span>
                 }

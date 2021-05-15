@@ -2,6 +2,8 @@ C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\web\rest\C
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\domain\ProducerTest.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\service\mapper\PointMapperTest.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\config\NoOpMailConfiguration.java
+C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\domain\UserInfoTest.java
+C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\service\mapper\UserInfoMapperTest.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\service\dto\ZoneDTOTest.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\web\rest\UserJWTControllerIT.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\service\mapper\ZoneMapperTest.java
@@ -36,6 +38,7 @@ C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\web\rest\R
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\security\DomainUserDetailsServiceIT.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\service\UserServiceIT.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\service\dto\RidePathDTOTest.java
+C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\service\dto\UserInfoDTOTest.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\service\dto\RequestDTOTest.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\security\SecurityUtilsUnitTest.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\web\rest\errors\ExceptionTranslatorIT.java
@@ -50,6 +53,7 @@ C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\config\Web
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\service\mapper\DimensionsMapperTest.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\web\rest\ZoneResourceIT.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\service\mapper\RequestMapperTest.java
+C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\web\rest\UserInfoResourceIT.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\IntegrationTest.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\domain\DimensionsTest.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\test\java\com\leb\app\domain\PointTest.java

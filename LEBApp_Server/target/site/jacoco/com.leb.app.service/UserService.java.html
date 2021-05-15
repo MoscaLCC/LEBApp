@@ -41,12 +41,12 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
-    public UserService(
+<span class="nc" id="L44">    public UserService(</span>
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
         CacheManager cacheManager
-<span class="nc" id="L49">    ) {</span>
+    ) {
 <span class="nc" id="L50">        this.userRepository = userRepository;</span>
 <span class="nc" id="L51">        this.passwordEncoder = passwordEncoder;</span>
 <span class="nc" id="L52">        this.authorityRepository = authorityRepository;</span>
@@ -58,7 +58,7 @@ public class UserService {
 <span class="nc" id="L58">        return userRepository</span>
 <span class="nc" id="L59">            .findOneByActivationKey(key)</span>
 <span class="nc" id="L60">            .map(</span>
-                user -&gt; {
+<span class="nc" id="L61">                user -&gt; {</span>
                     // activate given user for the registration key.
 <span class="nc" id="L63">                    user.setActivated(true);</span>
 <span class="nc" id="L64">                    user.setActivationKey(null);</span>
@@ -75,7 +75,7 @@ public class UserService {
 <span class="nc" id="L75">            .findOneByResetKey(key)</span>
 <span class="nc" id="L76">            .filter(user -&gt; user.getResetDate().isAfter(Instant.now().minusSeconds(86400)))</span>
 <span class="nc" id="L77">            .map(</span>
-                user -&gt; {
+<span class="nc" id="L78">                user -&gt; {</span>
 <span class="nc" id="L79">                    user.setPassword(passwordEncoder.encode(newPassword));</span>
 <span class="nc" id="L80">                    user.setResetKey(null);</span>
 <span class="nc" id="L81">                    user.setResetDate(null);</span>
@@ -90,7 +90,7 @@ public class UserService {
 <span class="nc" id="L90">            .findOneByEmailIgnoreCase(mail)</span>
 <span class="nc" id="L91">            .filter(User::isActivated)</span>
 <span class="nc" id="L92">            .map(</span>
-                user -&gt; {
+<span class="nc" id="L93">                user -&gt; {</span>
 <span class="nc" id="L94">                    user.setResetKey(RandomUtil.generateResetKey());</span>
 <span class="nc" id="L95">                    user.setResetDate(Instant.now());</span>
 <span class="nc" id="L96">                    this.clearUserCaches(user);</span>
@@ -103,7 +103,7 @@ public class UserService {
 <span class="nc" id="L103">        userRepository</span>
 <span class="nc" id="L104">            .findOneByLogin(userDTO.getLogin().toLowerCase())</span>
 <span class="nc" id="L105">            .ifPresent(</span>
-                existingUser -&gt; {
+<span class="nc" id="L106">                existingUser -&gt; {</span>
 <span class="nc" id="L107">                    boolean removed = removeNonActivatedUser(existingUser);</span>
 <span class="nc bnc" id="L108" title="All 2 branches missed.">                    if (!removed) {</span>
 <span class="nc" id="L109">                        throw new UsernameAlreadyUsedException();</span>
@@ -113,7 +113,7 @@ public class UserService {
 <span class="nc" id="L113">        userRepository</span>
 <span class="nc" id="L114">            .findOneByEmailIgnoreCase(userDTO.getEmail())</span>
 <span class="nc" id="L115">            .ifPresent(</span>
-                existingUser -&gt; {
+<span class="nc" id="L116">                existingUser -&gt; {</span>
 <span class="nc" id="L117">                    boolean removed = removeNonActivatedUser(existingUser);</span>
 <span class="nc bnc" id="L118" title="All 2 branches missed.">                    if (!removed) {</span>
 <span class="nc" id="L119">                        throw new EmailAlreadyUsedException();</span>
@@ -166,7 +166,7 @@ public class UserService {
 <span class="nc" id="L166">        user.setImageUrl(userDTO.getImageUrl());</span>
 <span class="nc bnc" id="L167" title="All 2 branches missed.">        if (userDTO.getLangKey() == null) {</span>
 <span class="nc" id="L168">            user.setLangKey(Constants.DEFAULT_LANGUAGE); // default language</span>
-        } else {
+<span class="nc" id="L169">        } else {</span>
 <span class="nc" id="L170">            user.setLangKey(userDTO.getLangKey());</span>
         }
 <span class="nc" id="L172">        String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());</span>
@@ -202,7 +202,7 @@ public class UserService {
 <span class="nc" id="L202">            .filter(Optional::isPresent)</span>
 <span class="nc" id="L203">            .map(Optional::get)</span>
 <span class="nc" id="L204">            .map(</span>
-                user -&gt; {
+<span class="nc" id="L205">                user -&gt; {</span>
 <span class="nc" id="L206">                    this.clearUserCaches(user);</span>
 <span class="nc" id="L207">                    user.setLogin(userDTO.getLogin().toLowerCase());</span>
 <span class="nc" id="L208">                    user.setFirstName(userDTO.getFirstName());</span>
@@ -234,7 +234,7 @@ public class UserService {
 <span class="nc" id="L234">        userRepository</span>
 <span class="nc" id="L235">            .findOneByLogin(login)</span>
 <span class="nc" id="L236">            .ifPresent(</span>
-                user -&gt; {
+<span class="nc" id="L237">                user -&gt; {</span>
 <span class="nc" id="L238">                    userRepository.delete(user);</span>
 <span class="nc" id="L239">                    this.clearUserCaches(user);</span>
 <span class="nc" id="L240">                    log.debug(&quot;Deleted User: {}&quot;, user);</span>
@@ -256,7 +256,7 @@ public class UserService {
 <span class="nc" id="L256">            .getCurrentUserLogin()</span>
 <span class="nc" id="L257">            .flatMap(userRepository::findOneByLogin)</span>
 <span class="nc" id="L258">            .ifPresent(</span>
-                user -&gt; {
+<span class="nc" id="L259">                user -&gt; {</span>
 <span class="nc" id="L260">                    user.setFirstName(firstName);</span>
 <span class="nc" id="L261">                    user.setLastName(lastName);</span>
 <span class="nc bnc" id="L262" title="All 2 branches missed.">                    if (email != null) {</span>
@@ -276,7 +276,7 @@ public class UserService {
 <span class="nc" id="L276">            .getCurrentUserLogin()</span>
 <span class="nc" id="L277">            .flatMap(userRepository::findOneByLogin)</span>
 <span class="nc" id="L278">            .ifPresent(</span>
-                user -&gt; {
+<span class="nc" id="L279">                user -&gt; {</span>
 <span class="nc" id="L280">                    String currentEncryptedPassword = user.getPassword();</span>
 <span class="nc bnc" id="L281" title="All 2 branches missed.">                    if (!passwordEncoder.matches(currentClearTextPassword, currentEncryptedPassword)) {</span>
 <span class="nc" id="L282">                        throw new InvalidPasswordException();</span>
@@ -319,7 +319,7 @@ public class UserService {
 <span class="nc" id="L319">        userRepository</span>
 <span class="nc" id="L320">            .findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(Instant.now().minus(3, ChronoUnit.DAYS))</span>
 <span class="nc" id="L321">            .forEach(</span>
-                user -&gt; {
+<span class="nc" id="L322">                user -&gt; {</span>
 <span class="nc" id="L323">                    log.debug(&quot;Deleting not activated user {}&quot;, user.getLogin());</span>
 <span class="nc" id="L324">                    userRepository.delete(user);</span>
 <span class="nc" id="L325">                    this.clearUserCaches(user);</span>

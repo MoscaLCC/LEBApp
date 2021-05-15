@@ -2,38 +2,6 @@
   "name": "DeliveryMan",
   "fields": [
     {
-      "fieldName": "name",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "email",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "phoneNumber",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "nif",
-      "fieldType": "Integer"
-    },
-    {
-      "fieldName": "nib",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "birthday",
-      "fieldType": "LocalDate"
-    },
-    {
-      "fieldName": "address",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "photo",
-      "fieldType": "String"
-    },
-    {
       "fieldName": "openingTime",
       "fieldType": "String"
     },
@@ -59,6 +27,14 @@
     }
   ],
   "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "userInfo",
+      "otherEntityRelationshipName": "deliveryMan",
+      "relationshipValidateRules": "required",
+      "relationshipName": "userInfo",
+      "ownerSide": true
+    },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "point",

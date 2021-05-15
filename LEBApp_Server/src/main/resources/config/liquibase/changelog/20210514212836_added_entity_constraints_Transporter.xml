@@ -8,6 +8,12 @@
     -->
     <changeSet id="20210514212836-2" author="jhipster">
 
+        <addForeignKeyConstraint baseColumnNames="user_info_id"
+                                 baseTableName="transporter"
+                                 constraintName="fk_transporter__user_info_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_info"/>
+
         <addForeignKeyConstraint baseColumnNames="transporter_id"
                                  baseTableName="rel_transporter__ride_path"
                                  constraintName="fk_rel_transporter__ride_path__transporter_id"

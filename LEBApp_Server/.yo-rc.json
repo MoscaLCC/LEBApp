@@ -42,7 +42,7 @@
     "clientPackageManager": "npm",
     "otherModules": [],
     "languages": ["en", "fr"],
-    "entities": ["Producer", "Request", "RidePath", "DeliveryMan", "Transporter", "Point", "Dimensions", "Zone"],
-    "lastLiquibaseTimestamp": 1621027719000
+    "entities": ["Producer", "Request", "RidePath", "DeliveryMan", "Transporter", "Point", "Dimensions", "Zone", "UserInfo"],
+    "lastLiquibaseTimestamp": 1621030665000
   }
 }

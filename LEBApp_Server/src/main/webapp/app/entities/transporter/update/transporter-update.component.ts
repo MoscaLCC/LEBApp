@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
 import { ITransporter, Transporter } from '../transporter.model';
 import { TransporterService } from '../service/transporter.service';
+import { IUserInfo } from 'app/entities/user-info/user-info.model';
+import { UserInfoService } from 'app/entities/user-info/service/user-info.service';
 import { IRidePath } from 'app/entities/ride-path/ride-path.model';
 import { RidePathService } from 'app/entities/ride-path/service/ride-path.service';
 
@@ -17,29 +19,24 @@ import { RidePathService } from 'app/entities/ride-path/service/ride-path.servic
 export class TransporterUpdateComponent implements OnInit {
   isSaving = false;
 
+  userInfosCollection: IUserInfo[] = [];
   ridePathsSharedCollection: IRidePath[] = [];
 
   editForm = this.fb.group({
     id: [],
-    name: [],
-    email: [],
-    phoneNumber: [],
-    nib: [],
-    nif: [],
-    birthday: [],
-    address: [],
-    photo: [],
     favouriteTransport: [],
     numberOfDeliveries: [],
     numberOfKm: [],
     receivedValue: [],
     valueToReceive: [],
     ranking: [],
+    userInfo: [null, Validators.required],
     ridePaths: [],
   });
 
   constructor(
     protected transporterService: TransporterService,
+    protected userInfoService: UserInfoService,
     protected ridePathService: RidePathService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
@@ -65,6 +62,10 @@ export class TransporterUpdateComponent implements OnInit {
     } else {
       this.subscribeToSaveResponse(this.transporterService.create(transporter));
     }
+  }
+
+  trackUserInfoById(index: number, item: IUserInfo): number {
+    return item.id!;
   }
 
   trackRidePathById(index: number, item: IRidePath): number {
@@ -104,23 +105,17 @@ export class TransporterUpdateComponent implements OnInit {
   protected updateForm(transporter: ITransporter): void {
     this.editForm.patchValue({
       id: transporter.id,
-      name: transporter.name,
-      email: transporter.email,
-      phoneNumber: transporter.phoneNumber,
-      nib: transporter.nib,
-      nif: transporter.nif,
-      birthday: transporter.birthday,
-      address: transporter.address,
-      photo: transporter.photo,
       favouriteTransport: transporter.favouriteTransport,
       numberOfDeliveries: transporter.numberOfDeliveries,
       numberOfKm: transporter.numberOfKm,
       receivedValue: transporter.receivedValue,
       valueToReceive: transporter.valueToReceive,
       ranking: transporter.ranking,
+      userInfo: transporter.userInfo,
       ridePaths: transporter.ridePaths,
     });
 
+    this.userInfosCollection = this.userInfoService.addUserInfoToCollectionIfMissing(this.userInfosCollection, transporter.userInfo);
     this.ridePathsSharedCollection = this.ridePathService.addRidePathToCollectionIfMissing(
       this.ridePathsSharedCollection,
       ...(transporter.ridePaths ?? [])
@@ -128,6 +123,16 @@ export class TransporterUpdateComponent implements OnInit {
   }
 
   protected loadRelationshipsOptions(): void {
+    this.userInfoService
+      .query({ 'transporterId.specified': 'false' })
+      .pipe(map((res: HttpResponse<IUserInfo[]>) => res.body ?? []))
+      .pipe(
+        map((userInfos: IUserInfo[]) =>
+          this.userInfoService.addUserInfoToCollectionIfMissing(userInfos, this.editForm.get('userInfo')!.value)
+        )
+      )
+      .subscribe((userInfos: IUserInfo[]) => (this.userInfosCollection = userInfos));
+
     this.ridePathService
       .query()
       .pipe(map((res: HttpResponse<IRidePath[]>) => res.body ?? []))
@@ -143,20 +148,13 @@ export class TransporterUpdateComponent implements OnInit {
     return {
       ...new Transporter(),
       id: this.editForm.get(['id'])!.value,
-      name: this.editForm.get(['name'])!.value,
-      email: this.editForm.get(['email'])!.value,
-      phoneNumber: this.editForm.get(['phoneNumber'])!.value,
-      nib: this.editForm.get(['nib'])!.value,
-      nif: this.editForm.get(['nif'])!.value,
-      birthday: this.editForm.get(['birthday'])!.value,
-      address: this.editForm.get(['address'])!.value,
-      photo: this.editForm.get(['photo'])!.value,
       favouriteTransport: this.editForm.get(['favouriteTransport'])!.value,
       numberOfDeliveries: this.editForm.get(['numberOfDeliveries'])!.value,
       numberOfKm: this.editForm.get(['numberOfKm'])!.value,
       receivedValue: this.editForm.get(['receivedValue'])!.value,
       valueToReceive: this.editForm.get(['valueToReceive'])!.value,
       ranking: this.editForm.get(['ranking'])!.value,
+      userInfo: this.editForm.get(['userInfo'])!.value,
       ridePaths: this.editForm.get(['ridePaths'])!.value,
     };
   }

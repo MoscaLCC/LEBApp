@@ -2,30 +2,6 @@
   "name": "Point",
   "fields": [
     {
-      "fieldName": "name",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "email",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "phoneNumber",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "nib",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "nif",
-      "fieldType": "Integer"
-    },
-    {
-      "fieldName": "address",
-      "fieldType": "String"
-    },
-    {
       "fieldName": "openingTime",
       "fieldType": "String"
     },
@@ -47,6 +23,14 @@
     }
   ],
   "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "userInfo",
+      "otherEntityRelationshipName": "point",
+      "relationshipValidateRules": "required",
+      "relationshipName": "userInfo",
+      "ownerSide": true
+    },
     {
       "relationshipType": "one-to-many",
       "otherEntityName": "deliveryMan",

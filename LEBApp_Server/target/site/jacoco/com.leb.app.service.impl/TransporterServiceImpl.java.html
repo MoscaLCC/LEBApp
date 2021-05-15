@@ -46,7 +46,7 @@ public class TransporterServiceImpl implements TransporterService {
 <span class="nc" id="L46">        return transporterRepository</span>
 <span class="nc" id="L47">            .findById(transporterDTO.getId())</span>
 <span class="nc" id="L48">            .map(</span>
-                existingTransporter -&gt; {
+<span class="nc" id="L49">                existingTransporter -&gt; {</span>
 <span class="nc" id="L50">                    transporterMapper.partialUpdate(existingTransporter, transporterDTO);</span>
 <span class="nc" id="L51">                    return existingTransporter;</span>
                 }

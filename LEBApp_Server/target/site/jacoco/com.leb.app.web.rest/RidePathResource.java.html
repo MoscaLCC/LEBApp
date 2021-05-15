@@ -45,11 +45,11 @@ public class RidePathResource {
 
     private final RidePathQueryService ridePathQueryService;
 
-    public RidePathResource(
+<span class="nc" id="L48">    public RidePathResource(</span>
         RidePathService ridePathService,
         RidePathRepository ridePathRepository,
         RidePathQueryService ridePathQueryService
-<span class="nc" id="L52">    ) {</span>
+    ) {
 <span class="nc" id="L53">        this.ridePathService = ridePathService;</span>
 <span class="nc" id="L54">        this.ridePathRepository = ridePathRepository;</span>
 <span class="nc" id="L55">        this.ridePathQueryService = ridePathQueryService;</span>
@@ -140,7 +140,7 @@ public class RidePathResource {
 <span class="nc" id="L140">        Optional&lt;RidePathDTO&gt; result = ridePathService.partialUpdate(ridePathDTO);</span>
 
 <span class="nc" id="L142">        return ResponseUtil.wrapOrNotFound(</span>
-            result,
+<span class="nc" id="L143">            result,</span>
 <span class="nc" id="L144">            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, ridePathDTO.getId().toString())</span>
         );
     }

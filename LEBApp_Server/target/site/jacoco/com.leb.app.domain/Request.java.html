@@ -81,7 +81,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { &quot;requests&quot; }, allowSetters = true)
+    @JsonIgnoreProperties(value = { &quot;userInfo&quot;, &quot;requests&quot; }, allowSetters = true)
     private Producer producer;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -371,7 +371,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 <span class="fc" id="L371">            &quot;, deliveryTime='&quot; + getDeliveryTime() + &quot;'&quot; +</span>
 <span class="fc" id="L372">            &quot;, shippingCosts=&quot; + getShippingCosts() +</span>
 <span class="fc" id="L373">            &quot;, rating=&quot; + getRating() +</span>
-            &quot;}&quot;;
+<span class="fc" id="L374">            &quot;}&quot;;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

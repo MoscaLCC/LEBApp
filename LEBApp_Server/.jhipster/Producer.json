@@ -2,38 +2,6 @@
   "name": "Producer",
   "fields": [
     {
-      "fieldName": "name",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "mail",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "phoneNumber",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "nib",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "nif",
-      "fieldType": "Integer"
-    },
-    {
-      "fieldName": "birthday",
-      "fieldType": "LocalDate"
-    },
-    {
-      "fieldName": "adress",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "photo",
-      "fieldType": "String"
-    },
-    {
       "fieldName": "linkSocial",
       "fieldType": "String"
     },
@@ -55,6 +23,14 @@
     }
   ],
   "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "userInfo",
+      "otherEntityRelationshipName": "producer",
+      "relationshipValidateRules": "required",
+      "relationshipName": "userInfo",
+      "ownerSide": true
+    },
     {
       "relationshipType": "one-to-many",
       "otherEntityName": "request",

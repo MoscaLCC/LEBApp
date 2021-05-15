@@ -25,20 +25,20 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
     @Column(name = &quot;name&quot;)
     private String name;
 
-<span class="fc" id="L28">    @OneToMany(mappedBy = &quot;zone&quot;)</span>
+    @OneToMany(mappedBy = &quot;zone&quot;)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { &quot;deliveryMen&quot;, &quot;zone&quot; }, allowSetters = true)
-    private Set&lt;Point&gt; points = new HashSet&lt;&gt;();
+    @JsonIgnoreProperties(value = { &quot;userInfo&quot;, &quot;deliveryMen&quot;, &quot;zone&quot; }, allowSetters = true)
+<span class="fc" id="L31">    private Set&lt;Point&gt; points = new HashSet&lt;&gt;();</span>
 
-<span class="fc" id="L33">    @ManyToMany</span>
+    @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JoinTable(
         name = &quot;rel_zone__transporters&quot;,
         joinColumns = @JoinColumn(name = &quot;zone_id&quot;),
         inverseJoinColumns = @JoinColumn(name = &quot;transporters_id&quot;)
     )
-    @JsonIgnoreProperties(value = { &quot;ridePaths&quot;, &quot;zones&quot; }, allowSetters = true)
-    private Set&lt;Transporter&gt; transporters = new HashSet&lt;&gt;();
+    @JsonIgnoreProperties(value = { &quot;userInfo&quot;, &quot;ridePaths&quot;, &quot;zones&quot; }, allowSetters = true)
+<span class="fc" id="L41">    private Set&lt;Transporter&gt; transporters = new HashSet&lt;&gt;();</span>
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -148,7 +148,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 <span class="fc" id="L148">        return &quot;Zone{&quot; +</span>
 <span class="fc" id="L149">            &quot;id=&quot; + getId() +</span>
 <span class="fc" id="L150">            &quot;, name='&quot; + getName() + &quot;'&quot; +</span>
-            &quot;}&quot;;
+<span class="fc" id="L151">            &quot;}&quot;;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.leb.app.IntegrationTest;
 import com.leb.app.domain.DeliveryMan;
 import com.leb.app.domain.Point;
+import com.leb.app.domain.UserInfo;
 import com.leb.app.domain.Zone;
 import com.leb.app.repository.PointRepository;
 import com.leb.app.service.criteria.PointCriteria;
@@ -33,25 +34,6 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @WithMockUser
 class PointResourceIT {
-
-    private static final String DEFAULT_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_NAME = "BBBBBBBBBB";
-
-    private static final String DEFAULT_EMAIL = "AAAAAAAAAA";
-    private static final String UPDATED_EMAIL = "BBBBBBBBBB";
-
-    private static final String DEFAULT_PHONE_NUMBER = "AAAAAAAAAA";
-    private static final String UPDATED_PHONE_NUMBER = "BBBBBBBBBB";
-
-    private static final String DEFAULT_NIB = "AAAAAAAAAA";
-    private static final String UPDATED_NIB = "BBBBBBBBBB";
-
-    private static final Integer DEFAULT_NIF = 1;
-    private static final Integer UPDATED_NIF = 2;
-    private static final Integer SMALLER_NIF = 1 - 1;
-
-    private static final String DEFAULT_ADDRESS = "AAAAAAAAAA";
-    private static final String UPDATED_ADDRESS = "BBBBBBBBBB";
 
     private static final String DEFAULT_OPENING_TIME = "AAAAAAAAAA";
     private static final String UPDATED_OPENING_TIME = "BBBBBBBBBB";
@@ -100,17 +82,21 @@ class PointResourceIT {
      */
     public static Point createEntity(EntityManager em) {
         Point point = new Point()
-            .name(DEFAULT_NAME)
-            .email(DEFAULT_EMAIL)
-            .phoneNumber(DEFAULT_PHONE_NUMBER)
-            .nib(DEFAULT_NIB)
-            .nif(DEFAULT_NIF)
-            .address(DEFAULT_ADDRESS)
             .openingTime(DEFAULT_OPENING_TIME)
             .numberOfDeliveries(DEFAULT_NUMBER_OF_DELIVERIES)
             .receivedValue(DEFAULT_RECEIVED_VALUE)
             .valueToReceive(DEFAULT_VALUE_TO_RECEIVE)
             .ranking(DEFAULT_RANKING);
+        // Add required entity
+        UserInfo userInfo;
+        if (TestUtil.findAll(em, UserInfo.class).isEmpty()) {
+            userInfo = UserInfoResourceIT.createEntity(em);
+            em.persist(userInfo);
+            em.flush();
+        } else {
+            userInfo = TestUtil.findAll(em, UserInfo.class).get(0);
+        }
+        point.setUserInfo(userInfo);
         return point;
     }
 
@@ -122,17 +108,21 @@ class PointResourceIT {
      */
     public static Point createUpdatedEntity(EntityManager em) {
         Point point = new Point()
-            .name(UPDATED_NAME)
-            .email(UPDATED_EMAIL)
-            .phoneNumber(UPDATED_PHONE_NUMBER)
-            .nib(UPDATED_NIB)
-            .nif(UPDATED_NIF)
-            .address(UPDATED_ADDRESS)
             .openingTime(UPDATED_OPENING_TIME)
             .numberOfDeliveries(UPDATED_NUMBER_OF_DELIVERIES)
             .receivedValue(UPDATED_RECEIVED_VALUE)
             .valueToReceive(UPDATED_VALUE_TO_RECEIVE)
             .ranking(UPDATED_RANKING);
+        // Add required entity
+        UserInfo userInfo;
+        if (TestUtil.findAll(em, UserInfo.class).isEmpty()) {
+            userInfo = UserInfoResourceIT.createUpdatedEntity(em);
+            em.persist(userInfo);
+            em.flush();
+        } else {
+            userInfo = TestUtil.findAll(em, UserInfo.class).get(0);
+        }
+        point.setUserInfo(userInfo);
         return point;
     }
 
@@ -155,12 +145,6 @@ class PointResourceIT {
         List<Point> pointList = pointRepository.findAll();
         assertThat(pointList).hasSize(databaseSizeBeforeCreate + 1);
         Point testPoint = pointList.get(pointList.size() - 1);
-        assertThat(testPoint.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testPoint.getEmail()).isEqualTo(DEFAULT_EMAIL);
-        assertThat(testPoint.getPhoneNumber()).isEqualTo(DEFAULT_PHONE_NUMBER);
-        assertThat(testPoint.getNib()).isEqualTo(DEFAULT_NIB);
-        assertThat(testPoint.getNif()).isEqualTo(DEFAULT_NIF);
-        assertThat(testPoint.getAddress()).isEqualTo(DEFAULT_ADDRESS);
         assertThat(testPoint.getOpeningTime()).isEqualTo(DEFAULT_OPENING_TIME);
         assertThat(testPoint.getNumberOfDeliveries()).isEqualTo(DEFAULT_NUMBER_OF_DELIVERIES);
         assertThat(testPoint.getReceivedValue()).isEqualTo(DEFAULT_RECEIVED_VALUE);
@@ -199,12 +183,6 @@ class PointResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(point.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
-            .andExpect(jsonPath("$.[*].phoneNumber").value(hasItem(DEFAULT_PHONE_NUMBER)))
-            .andExpect(jsonPath("$.[*].nib").value(hasItem(DEFAULT_NIB)))
-            .andExpect(jsonPath("$.[*].nif").value(hasItem(DEFAULT_NIF)))
-            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
             .andExpect(jsonPath("$.[*].openingTime").value(hasItem(DEFAULT_OPENING_TIME)))
             .andExpect(jsonPath("$.[*].numberOfDeliveries").value(hasItem(DEFAULT_NUMBER_OF_DELIVERIES)))
             .andExpect(jsonPath("$.[*].receivedValue").value(hasItem(DEFAULT_RECEIVED_VALUE.doubleValue())))
@@ -224,12 +202,6 @@ class PointResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(point.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
-            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
-            .andExpect(jsonPath("$.phoneNumber").value(DEFAULT_PHONE_NUMBER))
-            .andExpect(jsonPath("$.nib").value(DEFAULT_NIB))
-            .andExpect(jsonPath("$.nif").value(DEFAULT_NIF))
-            .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS))
             .andExpect(jsonPath("$.openingTime").value(DEFAULT_OPENING_TIME))
             .andExpect(jsonPath("$.numberOfDeliveries").value(DEFAULT_NUMBER_OF_DELIVERIES))
             .andExpect(jsonPath("$.receivedValue").value(DEFAULT_RECEIVED_VALUE.doubleValue()))
@@ -253,500 +225,6 @@ class PointResourceIT {
 
         defaultPointShouldBeFound("id.lessThanOrEqual=" + id);
         defaultPointShouldNotBeFound("id.lessThan=" + id);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByNameIsEqualToSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where name equals to DEFAULT_NAME
-        defaultPointShouldBeFound("name.equals=" + DEFAULT_NAME);
-
-        // Get all the pointList where name equals to UPDATED_NAME
-        defaultPointShouldNotBeFound("name.equals=" + UPDATED_NAME);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByNameIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where name not equals to DEFAULT_NAME
-        defaultPointShouldNotBeFound("name.notEquals=" + DEFAULT_NAME);
-
-        // Get all the pointList where name not equals to UPDATED_NAME
-        defaultPointShouldBeFound("name.notEquals=" + UPDATED_NAME);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByNameIsInShouldWork() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where name in DEFAULT_NAME or UPDATED_NAME
-        defaultPointShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
-
-        // Get all the pointList where name equals to UPDATED_NAME
-        defaultPointShouldNotBeFound("name.in=" + UPDATED_NAME);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByNameIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where name is not null
-        defaultPointShouldBeFound("name.specified=true");
-
-        // Get all the pointList where name is null
-        defaultPointShouldNotBeFound("name.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByNameContainsSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where name contains DEFAULT_NAME
-        defaultPointShouldBeFound("name.contains=" + DEFAULT_NAME);
-
-        // Get all the pointList where name contains UPDATED_NAME
-        defaultPointShouldNotBeFound("name.contains=" + UPDATED_NAME);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByNameNotContainsSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where name does not contain DEFAULT_NAME
-        defaultPointShouldNotBeFound("name.doesNotContain=" + DEFAULT_NAME);
-
-        // Get all the pointList where name does not contain UPDATED_NAME
-        defaultPointShouldBeFound("name.doesNotContain=" + UPDATED_NAME);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByEmailIsEqualToSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where email equals to DEFAULT_EMAIL
-        defaultPointShouldBeFound("email.equals=" + DEFAULT_EMAIL);
-
-        // Get all the pointList where email equals to UPDATED_EMAIL
-        defaultPointShouldNotBeFound("email.equals=" + UPDATED_EMAIL);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByEmailIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where email not equals to DEFAULT_EMAIL
-        defaultPointShouldNotBeFound("email.notEquals=" + DEFAULT_EMAIL);
-
-        // Get all the pointList where email not equals to UPDATED_EMAIL
-        defaultPointShouldBeFound("email.notEquals=" + UPDATED_EMAIL);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByEmailIsInShouldWork() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where email in DEFAULT_EMAIL or UPDATED_EMAIL
-        defaultPointShouldBeFound("email.in=" + DEFAULT_EMAIL + "," + UPDATED_EMAIL);
-
-        // Get all the pointList where email equals to UPDATED_EMAIL
-        defaultPointShouldNotBeFound("email.in=" + UPDATED_EMAIL);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByEmailIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where email is not null
-        defaultPointShouldBeFound("email.specified=true");
-
-        // Get all the pointList where email is null
-        defaultPointShouldNotBeFound("email.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByEmailContainsSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where email contains DEFAULT_EMAIL
-        defaultPointShouldBeFound("email.contains=" + DEFAULT_EMAIL);
-
-        // Get all the pointList where email contains UPDATED_EMAIL
-        defaultPointShouldNotBeFound("email.contains=" + UPDATED_EMAIL);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByEmailNotContainsSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where email does not contain DEFAULT_EMAIL
-        defaultPointShouldNotBeFound("email.doesNotContain=" + DEFAULT_EMAIL);
-
-        // Get all the pointList where email does not contain UPDATED_EMAIL
-        defaultPointShouldBeFound("email.doesNotContain=" + UPDATED_EMAIL);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByPhoneNumberIsEqualToSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where phoneNumber equals to DEFAULT_PHONE_NUMBER
-        defaultPointShouldBeFound("phoneNumber.equals=" + DEFAULT_PHONE_NUMBER);
-
-        // Get all the pointList where phoneNumber equals to UPDATED_PHONE_NUMBER
-        defaultPointShouldNotBeFound("phoneNumber.equals=" + UPDATED_PHONE_NUMBER);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByPhoneNumberIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where phoneNumber not equals to DEFAULT_PHONE_NUMBER
-        defaultPointShouldNotBeFound("phoneNumber.notEquals=" + DEFAULT_PHONE_NUMBER);
-
-        // Get all the pointList where phoneNumber not equals to UPDATED_PHONE_NUMBER
-        defaultPointShouldBeFound("phoneNumber.notEquals=" + UPDATED_PHONE_NUMBER);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByPhoneNumberIsInShouldWork() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where phoneNumber in DEFAULT_PHONE_NUMBER or UPDATED_PHONE_NUMBER
-        defaultPointShouldBeFound("phoneNumber.in=" + DEFAULT_PHONE_NUMBER + "," + UPDATED_PHONE_NUMBER);
-
-        // Get all the pointList where phoneNumber equals to UPDATED_PHONE_NUMBER
-        defaultPointShouldNotBeFound("phoneNumber.in=" + UPDATED_PHONE_NUMBER);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByPhoneNumberIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where phoneNumber is not null
-        defaultPointShouldBeFound("phoneNumber.specified=true");
-
-        // Get all the pointList where phoneNumber is null
-        defaultPointShouldNotBeFound("phoneNumber.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByPhoneNumberContainsSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where phoneNumber contains DEFAULT_PHONE_NUMBER
-        defaultPointShouldBeFound("phoneNumber.contains=" + DEFAULT_PHONE_NUMBER);
-
-        // Get all the pointList where phoneNumber contains UPDATED_PHONE_NUMBER
-        defaultPointShouldNotBeFound("phoneNumber.contains=" + UPDATED_PHONE_NUMBER);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByPhoneNumberNotContainsSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where phoneNumber does not contain DEFAULT_PHONE_NUMBER
-        defaultPointShouldNotBeFound("phoneNumber.doesNotContain=" + DEFAULT_PHONE_NUMBER);
-
-        // Get all the pointList where phoneNumber does not contain UPDATED_PHONE_NUMBER
-        defaultPointShouldBeFound("phoneNumber.doesNotContain=" + UPDATED_PHONE_NUMBER);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByNibIsEqualToSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where nib equals to DEFAULT_NIB
-        defaultPointShouldBeFound("nib.equals=" + DEFAULT_NIB);
-
-        // Get all the pointList where nib equals to UPDATED_NIB
-        defaultPointShouldNotBeFound("nib.equals=" + UPDATED_NIB);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByNibIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where nib not equals to DEFAULT_NIB
-        defaultPointShouldNotBeFound("nib.notEquals=" + DEFAULT_NIB);
-
-        // Get all the pointList where nib not equals to UPDATED_NIB
-        defaultPointShouldBeFound("nib.notEquals=" + UPDATED_NIB);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByNibIsInShouldWork() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where nib in DEFAULT_NIB or UPDATED_NIB
-        defaultPointShouldBeFound("nib.in=" + DEFAULT_NIB + "," + UPDATED_NIB);
-
-        // Get all the pointList where nib equals to UPDATED_NIB
-        defaultPointShouldNotBeFound("nib.in=" + UPDATED_NIB);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByNibIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where nib is not null
-        defaultPointShouldBeFound("nib.specified=true");
-
-        // Get all the pointList where nib is null
-        defaultPointShouldNotBeFound("nib.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByNibContainsSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where nib contains DEFAULT_NIB
-        defaultPointShouldBeFound("nib.contains=" + DEFAULT_NIB);
-
-        // Get all the pointList where nib contains UPDATED_NIB
-        defaultPointShouldNotBeFound("nib.contains=" + UPDATED_NIB);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByNibNotContainsSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where nib does not contain DEFAULT_NIB
-        defaultPointShouldNotBeFound("nib.doesNotContain=" + DEFAULT_NIB);
-
-        // Get all the pointList where nib does not contain UPDATED_NIB
-        defaultPointShouldBeFound("nib.doesNotContain=" + UPDATED_NIB);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByNifIsEqualToSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where nif equals to DEFAULT_NIF
-        defaultPointShouldBeFound("nif.equals=" + DEFAULT_NIF);
-
-        // Get all the pointList where nif equals to UPDATED_NIF
-        defaultPointShouldNotBeFound("nif.equals=" + UPDATED_NIF);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByNifIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where nif not equals to DEFAULT_NIF
-        defaultPointShouldNotBeFound("nif.notEquals=" + DEFAULT_NIF);
-
-        // Get all the pointList where nif not equals to UPDATED_NIF
-        defaultPointShouldBeFound("nif.notEquals=" + UPDATED_NIF);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByNifIsInShouldWork() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where nif in DEFAULT_NIF or UPDATED_NIF
-        defaultPointShouldBeFound("nif.in=" + DEFAULT_NIF + "," + UPDATED_NIF);
-
-        // Get all the pointList where nif equals to UPDATED_NIF
-        defaultPointShouldNotBeFound("nif.in=" + UPDATED_NIF);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByNifIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where nif is not null
-        defaultPointShouldBeFound("nif.specified=true");
-
-        // Get all the pointList where nif is null
-        defaultPointShouldNotBeFound("nif.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByNifIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where nif is greater than or equal to DEFAULT_NIF
-        defaultPointShouldBeFound("nif.greaterThanOrEqual=" + DEFAULT_NIF);
-
-        // Get all the pointList where nif is greater than or equal to UPDATED_NIF
-        defaultPointShouldNotBeFound("nif.greaterThanOrEqual=" + UPDATED_NIF);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByNifIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where nif is less than or equal to DEFAULT_NIF
-        defaultPointShouldBeFound("nif.lessThanOrEqual=" + DEFAULT_NIF);
-
-        // Get all the pointList where nif is less than or equal to SMALLER_NIF
-        defaultPointShouldNotBeFound("nif.lessThanOrEqual=" + SMALLER_NIF);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByNifIsLessThanSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where nif is less than DEFAULT_NIF
-        defaultPointShouldNotBeFound("nif.lessThan=" + DEFAULT_NIF);
-
-        // Get all the pointList where nif is less than UPDATED_NIF
-        defaultPointShouldBeFound("nif.lessThan=" + UPDATED_NIF);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByNifIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where nif is greater than DEFAULT_NIF
-        defaultPointShouldNotBeFound("nif.greaterThan=" + DEFAULT_NIF);
-
-        // Get all the pointList where nif is greater than SMALLER_NIF
-        defaultPointShouldBeFound("nif.greaterThan=" + SMALLER_NIF);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByAddressIsEqualToSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where address equals to DEFAULT_ADDRESS
-        defaultPointShouldBeFound("address.equals=" + DEFAULT_ADDRESS);
-
-        // Get all the pointList where address equals to UPDATED_ADDRESS
-        defaultPointShouldNotBeFound("address.equals=" + UPDATED_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByAddressIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where address not equals to DEFAULT_ADDRESS
-        defaultPointShouldNotBeFound("address.notEquals=" + DEFAULT_ADDRESS);
-
-        // Get all the pointList where address not equals to UPDATED_ADDRESS
-        defaultPointShouldBeFound("address.notEquals=" + UPDATED_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByAddressIsInShouldWork() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where address in DEFAULT_ADDRESS or UPDATED_ADDRESS
-        defaultPointShouldBeFound("address.in=" + DEFAULT_ADDRESS + "," + UPDATED_ADDRESS);
-
-        // Get all the pointList where address equals to UPDATED_ADDRESS
-        defaultPointShouldNotBeFound("address.in=" + UPDATED_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByAddressIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where address is not null
-        defaultPointShouldBeFound("address.specified=true");
-
-        // Get all the pointList where address is null
-        defaultPointShouldNotBeFound("address.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByAddressContainsSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where address contains DEFAULT_ADDRESS
-        defaultPointShouldBeFound("address.contains=" + DEFAULT_ADDRESS);
-
-        // Get all the pointList where address contains UPDATED_ADDRESS
-        defaultPointShouldNotBeFound("address.contains=" + UPDATED_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllPointsByAddressNotContainsSomething() throws Exception {
-        // Initialize the database
-        pointRepository.saveAndFlush(point);
-
-        // Get all the pointList where address does not contain DEFAULT_ADDRESS
-        defaultPointShouldNotBeFound("address.doesNotContain=" + DEFAULT_ADDRESS);
-
-        // Get all the pointList where address does not contain UPDATED_ADDRESS
-        defaultPointShouldBeFound("address.doesNotContain=" + UPDATED_ADDRESS);
     }
 
     @Test
@@ -1245,6 +723,21 @@ class PointResourceIT {
 
     @Test
     @Transactional
+    void getAllPointsByUserInfoIsEqualToSomething() throws Exception {
+        // Get already existing entity
+        UserInfo userInfo = point.getUserInfo();
+        pointRepository.saveAndFlush(point);
+        Long userInfoId = userInfo.getId();
+
+        // Get all the pointList where userInfo equals to userInfoId
+        defaultPointShouldBeFound("userInfoId.equals=" + userInfoId);
+
+        // Get all the pointList where userInfo equals to (userInfoId + 1)
+        defaultPointShouldNotBeFound("userInfoId.equals=" + (userInfoId + 1));
+    }
+
+    @Test
+    @Transactional
     void getAllPointsByDeliveryManIsEqualToSomething() throws Exception {
         // Initialize the database
         pointRepository.saveAndFlush(point);
@@ -1290,12 +783,6 @@ class PointResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(point.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
-            .andExpect(jsonPath("$.[*].phoneNumber").value(hasItem(DEFAULT_PHONE_NUMBER)))
-            .andExpect(jsonPath("$.[*].nib").value(hasItem(DEFAULT_NIB)))
-            .andExpect(jsonPath("$.[*].nif").value(hasItem(DEFAULT_NIF)))
-            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
             .andExpect(jsonPath("$.[*].openingTime").value(hasItem(DEFAULT_OPENING_TIME)))
             .andExpect(jsonPath("$.[*].numberOfDeliveries").value(hasItem(DEFAULT_NUMBER_OF_DELIVERIES)))
             .andExpect(jsonPath("$.[*].receivedValue").value(hasItem(DEFAULT_RECEIVED_VALUE.doubleValue())))
@@ -1349,12 +836,6 @@ class PointResourceIT {
         // Disconnect from session so that the updates on updatedPoint are not directly saved in db
         em.detach(updatedPoint);
         updatedPoint
-            .name(UPDATED_NAME)
-            .email(UPDATED_EMAIL)
-            .phoneNumber(UPDATED_PHONE_NUMBER)
-            .nib(UPDATED_NIB)
-            .nif(UPDATED_NIF)
-            .address(UPDATED_ADDRESS)
             .openingTime(UPDATED_OPENING_TIME)
             .numberOfDeliveries(UPDATED_NUMBER_OF_DELIVERIES)
             .receivedValue(UPDATED_RECEIVED_VALUE)
@@ -1374,12 +855,6 @@ class PointResourceIT {
         List<Point> pointList = pointRepository.findAll();
         assertThat(pointList).hasSize(databaseSizeBeforeUpdate);
         Point testPoint = pointList.get(pointList.size() - 1);
-        assertThat(testPoint.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testPoint.getEmail()).isEqualTo(UPDATED_EMAIL);
-        assertThat(testPoint.getPhoneNumber()).isEqualTo(UPDATED_PHONE_NUMBER);
-        assertThat(testPoint.getNib()).isEqualTo(UPDATED_NIB);
-        assertThat(testPoint.getNif()).isEqualTo(UPDATED_NIF);
-        assertThat(testPoint.getAddress()).isEqualTo(UPDATED_ADDRESS);
         assertThat(testPoint.getOpeningTime()).isEqualTo(UPDATED_OPENING_TIME);
         assertThat(testPoint.getNumberOfDeliveries()).isEqualTo(UPDATED_NUMBER_OF_DELIVERIES);
         assertThat(testPoint.getReceivedValue()).isEqualTo(UPDATED_RECEIVED_VALUE);
@@ -1464,12 +939,7 @@ class PointResourceIT {
         Point partialUpdatedPoint = new Point();
         partialUpdatedPoint.setId(point.getId());
 
-        partialUpdatedPoint
-            .name(UPDATED_NAME)
-            .phoneNumber(UPDATED_PHONE_NUMBER)
-            .openingTime(UPDATED_OPENING_TIME)
-            .valueToReceive(UPDATED_VALUE_TO_RECEIVE)
-            .ranking(UPDATED_RANKING);
+        partialUpdatedPoint.openingTime(UPDATED_OPENING_TIME).receivedValue(UPDATED_RECEIVED_VALUE);
 
         restPointMockMvc
             .perform(
@@ -1483,17 +953,11 @@ class PointResourceIT {
         List<Point> pointList = pointRepository.findAll();
         assertThat(pointList).hasSize(databaseSizeBeforeUpdate);
         Point testPoint = pointList.get(pointList.size() - 1);
-        assertThat(testPoint.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testPoint.getEmail()).isEqualTo(DEFAULT_EMAIL);
-        assertThat(testPoint.getPhoneNumber()).isEqualTo(UPDATED_PHONE_NUMBER);
-        assertThat(testPoint.getNib()).isEqualTo(DEFAULT_NIB);
-        assertThat(testPoint.getNif()).isEqualTo(DEFAULT_NIF);
-        assertThat(testPoint.getAddress()).isEqualTo(DEFAULT_ADDRESS);
         assertThat(testPoint.getOpeningTime()).isEqualTo(UPDATED_OPENING_TIME);
         assertThat(testPoint.getNumberOfDeliveries()).isEqualTo(DEFAULT_NUMBER_OF_DELIVERIES);
-        assertThat(testPoint.getReceivedValue()).isEqualTo(DEFAULT_RECEIVED_VALUE);
-        assertThat(testPoint.getValueToReceive()).isEqualTo(UPDATED_VALUE_TO_RECEIVE);
-        assertThat(testPoint.getRanking()).isEqualTo(UPDATED_RANKING);
+        assertThat(testPoint.getReceivedValue()).isEqualTo(UPDATED_RECEIVED_VALUE);
+        assertThat(testPoint.getValueToReceive()).isEqualTo(DEFAULT_VALUE_TO_RECEIVE);
+        assertThat(testPoint.getRanking()).isEqualTo(DEFAULT_RANKING);
     }
 
     @Test
@@ -1509,12 +973,6 @@ class PointResourceIT {
         partialUpdatedPoint.setId(point.getId());
 
         partialUpdatedPoint
-            .name(UPDATED_NAME)
-            .email(UPDATED_EMAIL)
-            .phoneNumber(UPDATED_PHONE_NUMBER)
-            .nib(UPDATED_NIB)
-            .nif(UPDATED_NIF)
-            .address(UPDATED_ADDRESS)
             .openingTime(UPDATED_OPENING_TIME)
             .numberOfDeliveries(UPDATED_NUMBER_OF_DELIVERIES)
             .receivedValue(UPDATED_RECEIVED_VALUE)
@@ -1533,12 +991,6 @@ class PointResourceIT {
         List<Point> pointList = pointRepository.findAll();
         assertThat(pointList).hasSize(databaseSizeBeforeUpdate);
         Point testPoint = pointList.get(pointList.size() - 1);
-        assertThat(testPoint.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testPoint.getEmail()).isEqualTo(UPDATED_EMAIL);
-        assertThat(testPoint.getPhoneNumber()).isEqualTo(UPDATED_PHONE_NUMBER);
-        assertThat(testPoint.getNib()).isEqualTo(UPDATED_NIB);
-        assertThat(testPoint.getNif()).isEqualTo(UPDATED_NIF);
-        assertThat(testPoint.getAddress()).isEqualTo(UPDATED_ADDRESS);
         assertThat(testPoint.getOpeningTime()).isEqualTo(UPDATED_OPENING_TIME);
         assertThat(testPoint.getNumberOfDeliveries()).isEqualTo(UPDATED_NUMBER_OF_DELIVERIES);
         assertThat(testPoint.getReceivedValue()).isEqualTo(UPDATED_RECEIVED_VALUE);

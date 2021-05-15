@@ -1,11 +1,4 @@
-id;name;email;phone_number;nif;nib;birthday;address;photo;opening_time;number_of_deliveries;number_of_km;received_value;value_to_receive;ranking;point_id
-1;Fresh;Gianni_Weissnat@gmail.com;input;36643;Savings overriding Washington;2021-05-14;parsing program generation;matrix Refined Rubber;teal;57382;97432;35810;61330;62104;1
-2;Account;Destinee6@yahoo.com;state;7045;Heights Identity Human;2021-05-14;generate;Falls multi-byte navigate;FTP yellow;6845;26026;7642;42432;56663;2
-3;functionalities Handmade;Kristian.Grady@hotmail.com;discrete;91363;Handcrafted navigating architecture;2021-05-13;Metal compress;Account Jersey sticky;4th Manager Legacy;83026;95646;69846;50266;8633;3
-4;Markets global Rwanda;Nils67@yahoo.com;asynchronous Jewelery backing;75561;Developer Station;2021-05-14;program hard;optical;encompassing Tanzanian Central;27704;65368;61317;73662;72161;4
-5;Cotton;Easton_Rutherford80@gmail.com;collaborative framework;20602;Assimilated protocol Berkshire;2021-05-14;mint Wooden interface;Alaska;schemas service-desk;98785;32511;91443;32132;22745;5
-6;enterprise;Joaquin49@hotmail.com;Oklahoma;99391;Garden Buckinghamshire invoice;2021-05-14;primary Bacon Streamlined;hack French;matrix Producer generating;11382;52607;44543;70306;83578;6
-7;Hollow;Ivah_Bednar50@gmail.com;Applications mission-critical;62153;Refined Concrete;2021-05-14;withdrawal Computer;Plastic;paradigms synthesize SAS;56726;53247;1998;68505;58083;7
-8;Unbranded panel Yen;Danial15@yahoo.com;SSL Buckinghamshire Plastic;9040;engage Islands Customizable;2021-05-14;driver;SMTP Multi-tiered;navigating SMTP empowering;72041;63063;29280;71190;70825;8
-9;Licensed Illinois silver;Loyal_Treutel@hotmail.com;Investor;24071;system Creative;2021-05-14;mindshare matrices Savings;Shoes primary;Awesome Nevada copy;79403;98441;85874;89605;62060;9
-10;magnetic Wyoming Associate;Gaetano.Pagac13@hotmail.com;moderator Handmade;1780;RAM Account Norway;2021-05-14;virtual index;bandwidth Books withdrawal;Hat Shoes;76924;70795;41930;66335;4619;10
+id;opening_time;number_of_deliveries;number_of_km;received_value;value_to_receive;ranking;user_info_id;point_id
+1;Fresh;7326;38753;94213;49628;53585;1;1
+2;input;36643;89240;60671;16451;40718;2;2
+

@@ -2,7 +2,6 @@ package com.leb.app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.LocalDate;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -22,30 +21,6 @@ public class DeliveryMan implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "phone_number")
-    private String phoneNumber;
-
-    @Column(name = "nif")
-    private Integer nif;
-
-    @Column(name = "nib")
-    private String nib;
-
-    @Column(name = "birthday")
-    private LocalDate birthday;
-
-    @Column(name = "address")
-    private String address;
-
-    @Column(name = "photo")
-    private String photo;
-
     @Column(name = "opening_time")
     private String openingTime;
 
@@ -64,9 +39,14 @@ public class DeliveryMan implements Serializable {
     @Column(name = "ranking")
     private Double ranking;
 
+    @OneToOne(optional = false)
+    @NotNull
+    @JoinColumn(unique = true)
+    private UserInfo userInfo;
+
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { "deliveryMen", "zone" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "userInfo", "deliveryMen", "zone" }, allowSetters = true)
     private Point point;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -81,110 +61,6 @@ public class DeliveryMan implements Serializable {
     public DeliveryMan id(Long id) {
         this.id = id;
         return this;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public DeliveryMan name(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public DeliveryMan email(String email) {
-        this.email = email;
-        return this;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return this.phoneNumber;
-    }
-
-    public DeliveryMan phoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-        return this;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Integer getNif() {
-        return this.nif;
-    }
-
-    public DeliveryMan nif(Integer nif) {
-        this.nif = nif;
-        return this;
-    }
-
-    public void setNif(Integer nif) {
-        this.nif = nif;
-    }
-
-    public String getNib() {
-        return this.nib;
-    }
-
-    public DeliveryMan nib(String nib) {
-        this.nib = nib;
-        return this;
-    }
-
-    public void setNib(String nib) {
-        this.nib = nib;
-    }
-
-    public LocalDate getBirthday() {
-        return this.birthday;
-    }
-
-    public DeliveryMan birthday(LocalDate birthday) {
-        this.birthday = birthday;
-        return this;
-    }
-
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getAddress() {
-        return this.address;
-    }
-
-    public DeliveryMan address(String address) {
-        this.address = address;
-        return this;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhoto() {
-        return this.photo;
-    }
-
-    public DeliveryMan photo(String photo) {
-        this.photo = photo;
-        return this;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
     }
 
     public String getOpeningTime() {
@@ -265,6 +141,19 @@ public class DeliveryMan implements Serializable {
         this.ranking = ranking;
     }
 
+    public UserInfo getUserInfo() {
+        return this.userInfo;
+    }
+
+    public DeliveryMan userInfo(UserInfo userInfo) {
+        this.setUserInfo(userInfo);
+        return this;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
+    }
+
     public Point getPoint() {
         return this.point;
     }
@@ -302,14 +191,6 @@ public class DeliveryMan implements Serializable {
     public String toString() {
         return "DeliveryMan{" +
             "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", email='" + getEmail() + "'" +
-            ", phoneNumber='" + getPhoneNumber() + "'" +
-            ", nif=" + getNif() +
-            ", nib='" + getNib() + "'" +
-            ", birthday='" + getBirthday() + "'" +
-            ", address='" + getAddress() + "'" +
-            ", photo='" + getPhoto() + "'" +
             ", openingTime='" + getOpeningTime() + "'" +
             ", numberOfDeliveries=" + getNumberOfDeliveries() +
             ", numberOfKm=" + getNumberOfKm() +

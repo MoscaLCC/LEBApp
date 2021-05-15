@@ -1,8 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import * as dayjs from 'dayjs';
 
-import { DATE_FORMAT } from 'app/config/input.constants';
 import { IDeliveryMan, DeliveryMan } from '../delivery-man.model';
 
 import { DeliveryManService } from './delivery-man.service';
@@ -13,7 +11,6 @@ describe('Service Tests', () => {
     let httpMock: HttpTestingController;
     let elemDefault: IDeliveryMan;
     let expectedResult: IDeliveryMan | IDeliveryMan[] | boolean | null;
-    let currentDate: dayjs.Dayjs;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -22,18 +19,9 @@ describe('Service Tests', () => {
       expectedResult = null;
       service = TestBed.inject(DeliveryManService);
       httpMock = TestBed.inject(HttpTestingController);
-      currentDate = dayjs();
 
       elemDefault = {
         id: 0,
-        name: 'AAAAAAA',
-        email: 'AAAAAAA',
-        phoneNumber: 'AAAAAAA',
-        nif: 0,
-        nib: 'AAAAAAA',
-        birthday: currentDate,
-        address: 'AAAAAAA',
-        photo: 'AAAAAAA',
         openingTime: 'AAAAAAA',
         numberOfDeliveries: 0,
         numberOfKm: 0,
@@ -45,12 +33,7 @@ describe('Service Tests', () => {
 
     describe('Service methods', () => {
       it('should find an element', () => {
-        const returnedFromService = Object.assign(
-          {
-            birthday: currentDate.format(DATE_FORMAT),
-          },
-          elemDefault
-        );
+        const returnedFromService = Object.assign({}, elemDefault);
 
         service.find(123).subscribe(resp => (expectedResult = resp.body));
 
@@ -63,17 +46,11 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            birthday: currentDate.format(DATE_FORMAT),
           },
           elemDefault
         );
 
-        const expected = Object.assign(
-          {
-            birthday: currentDate,
-          },
-          returnedFromService
-        );
+        const expected = Object.assign({}, returnedFromService);
 
         service.create(new DeliveryMan()).subscribe(resp => (expectedResult = resp.body));
 
@@ -86,14 +63,6 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            name: 'BBBBBB',
-            email: 'BBBBBB',
-            phoneNumber: 'BBBBBB',
-            nif: 1,
-            nib: 'BBBBBB',
-            birthday: currentDate.format(DATE_FORMAT),
-            address: 'BBBBBB',
-            photo: 'BBBBBB',
             openingTime: 'BBBBBB',
             numberOfDeliveries: 1,
             numberOfKm: 1,
@@ -104,12 +73,7 @@ describe('Service Tests', () => {
           elemDefault
         );
 
-        const expected = Object.assign(
-          {
-            birthday: currentDate,
-          },
-          returnedFromService
-        );
+        const expected = Object.assign({}, returnedFromService);
 
         service.update(expected).subscribe(resp => (expectedResult = resp.body));
 
@@ -121,10 +85,6 @@ describe('Service Tests', () => {
       it('should partial update a DeliveryMan', () => {
         const patchObject = Object.assign(
           {
-            phoneNumber: 'BBBBBB',
-            nif: 1,
-            address: 'BBBBBB',
-            openingTime: 'BBBBBB',
             numberOfKm: 1,
             receivedValue: 1,
           },
@@ -133,12 +93,7 @@ describe('Service Tests', () => {
 
         const returnedFromService = Object.assign(patchObject, elemDefault);
 
-        const expected = Object.assign(
-          {
-            birthday: currentDate,
-          },
-          returnedFromService
-        );
+        const expected = Object.assign({}, returnedFromService);
 
         service.partialUpdate(patchObject).subscribe(resp => (expectedResult = resp.body));
 
@@ -151,14 +106,6 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            name: 'BBBBBB',
-            email: 'BBBBBB',
-            phoneNumber: 'BBBBBB',
-            nif: 1,
-            nib: 'BBBBBB',
-            birthday: currentDate.format(DATE_FORMAT),
-            address: 'BBBBBB',
-            photo: 'BBBBBB',
             openingTime: 'BBBBBB',
             numberOfDeliveries: 1,
             numberOfKm: 1,
@@ -169,12 +116,7 @@ describe('Service Tests', () => {
           elemDefault
         );
 
-        const expected = Object.assign(
-          {
-            birthday: currentDate,
-          },
-          returnedFromService
-        );
+        const expected = Object.assign({}, returnedFromService);
 
         service.query().subscribe(resp => (expectedResult = resp.body));
 
@@ -221,7 +163,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique DeliveryMan to an array', () => {
-          const deliveryManArray: IDeliveryMan[] = [{ id: 123 }, { id: 456 }, { id: 89240 }];
+          const deliveryManArray: IDeliveryMan[] = [{ id: 123 }, { id: 456 }, { id: 94213 }];
           const deliveryManCollection: IDeliveryMan[] = [{ id: 123 }];
           expectedResult = service.addDeliveryManToCollectionIfMissing(deliveryManCollection, ...deliveryManArray);
           expect(expectedResult).toHaveLength(3);

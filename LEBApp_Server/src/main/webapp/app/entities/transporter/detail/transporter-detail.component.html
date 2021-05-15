@@ -14,38 +14,6 @@
         <dd>
           <span>{{ transporter.id }}</span>
         </dd>
-        <dt><span>Name</span></dt>
-        <dd>
-          <span>{{ transporter.name }}</span>
-        </dd>
-        <dt><span>Email</span></dt>
-        <dd>
-          <span>{{ transporter.email }}</span>
-        </dd>
-        <dt><span>Phone Number</span></dt>
-        <dd>
-          <span>{{ transporter.phoneNumber }}</span>
-        </dd>
-        <dt><span>Nib</span></dt>
-        <dd>
-          <span>{{ transporter.nib }}</span>
-        </dd>
-        <dt><span>Nif</span></dt>
-        <dd>
-          <span>{{ transporter.nif }}</span>
-        </dd>
-        <dt><span>Birthday</span></dt>
-        <dd>
-          <span>{{ transporter.birthday | formatMediumDate }}</span>
-        </dd>
-        <dt><span>Address</span></dt>
-        <dd>
-          <span>{{ transporter.address }}</span>
-        </dd>
-        <dt><span>Photo</span></dt>
-        <dd>
-          <span>{{ transporter.photo }}</span>
-        </dd>
         <dt><span>Favourite Transport</span></dt>
         <dd>
           <span>{{ transporter.favouriteTransport }}</span>
@@ -69,6 +37,12 @@
         <dt><span>Ranking</span></dt>
         <dd>
           <span>{{ transporter.ranking }}</span>
+        </dd>
+        <dt><span>User Info</span></dt>
+        <dd>
+          <div *ngIf="transporter.userInfo">
+            <a [routerLink]="['/user-info', transporter.userInfo?.id, 'view']">{{ transporter.userInfo?.id }}</a>
+          </div>
         </dd>
         <dt><span>Ride Path</span></dt>
         <dd>

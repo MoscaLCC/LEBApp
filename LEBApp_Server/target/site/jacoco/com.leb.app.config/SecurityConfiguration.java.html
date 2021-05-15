@@ -31,12 +31,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final CorsFilter corsFilter;
     private final SecurityProblemSupport problemSupport;
 
-    public SecurityConfiguration(
+<span class="nc" id="L34">    public SecurityConfiguration(</span>
         TokenProvider tokenProvider,
         CorsFilter corsFilter,
         JHipsterProperties jHipsterProperties,
         SecurityProblemSupport problemSupport
-<span class="nc" id="L39">    ) {</span>
+    ) {
 <span class="nc" id="L40">        this.tokenProvider = tokenProvider;</span>
 <span class="nc" id="L41">        this.corsFilter = corsFilter;</span>
 <span class="nc" id="L42">        this.problemSupport = problemSupport;</span>

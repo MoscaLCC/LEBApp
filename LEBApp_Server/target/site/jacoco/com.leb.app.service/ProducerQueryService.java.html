@@ -86,53 +86,35 @@ public class ProducerQueryService extends QueryService&lt;Producer&gt; {
 <span class="nc bnc" id="L86" title="All 2 branches missed.">            if (criteria.getId() != null) {</span>
 <span class="nc" id="L87">                specification = specification.and(buildRangeSpecification(criteria.getId(), Producer_.id));</span>
             }
-<span class="nc bnc" id="L89" title="All 2 branches missed.">            if (criteria.getName() != null) {</span>
-<span class="nc" id="L90">                specification = specification.and(buildStringSpecification(criteria.getName(), Producer_.name));</span>
+<span class="nc bnc" id="L89" title="All 2 branches missed.">            if (criteria.getLinkSocial() != null) {</span>
+<span class="nc" id="L90">                specification = specification.and(buildStringSpecification(criteria.getLinkSocial(), Producer_.linkSocial));</span>
             }
-<span class="nc bnc" id="L92" title="All 2 branches missed.">            if (criteria.getMail() != null) {</span>
-<span class="nc" id="L93">                specification = specification.and(buildStringSpecification(criteria.getMail(), Producer_.mail));</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">            if (criteria.getNumberRequests() != null) {</span>
+<span class="nc" id="L93">                specification = specification.and(buildRangeSpecification(criteria.getNumberRequests(), Producer_.numberRequests));</span>
             }
-<span class="nc bnc" id="L95" title="All 2 branches missed.">            if (criteria.getPhoneNumber() != null) {</span>
-<span class="nc" id="L96">                specification = specification.and(buildStringSpecification(criteria.getPhoneNumber(), Producer_.phoneNumber));</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">            if (criteria.getPayedValue() != null) {</span>
+<span class="nc" id="L96">                specification = specification.and(buildRangeSpecification(criteria.getPayedValue(), Producer_.payedValue));</span>
             }
-<span class="nc bnc" id="L98" title="All 2 branches missed.">            if (criteria.getNib() != null) {</span>
-<span class="nc" id="L99">                specification = specification.and(buildStringSpecification(criteria.getNib(), Producer_.nib));</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">            if (criteria.getValueToPay() != null) {</span>
+<span class="nc" id="L99">                specification = specification.and(buildRangeSpecification(criteria.getValueToPay(), Producer_.valueToPay));</span>
             }
-<span class="nc bnc" id="L101" title="All 2 branches missed.">            if (criteria.getNif() != null) {</span>
-<span class="nc" id="L102">                specification = specification.and(buildRangeSpecification(criteria.getNif(), Producer_.nif));</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">            if (criteria.getRanking() != null) {</span>
+<span class="nc" id="L102">                specification = specification.and(buildRangeSpecification(criteria.getRanking(), Producer_.ranking));</span>
             }
-<span class="nc bnc" id="L104" title="All 2 branches missed.">            if (criteria.getBirthday() != null) {</span>
-<span class="nc" id="L105">                specification = specification.and(buildRangeSpecification(criteria.getBirthday(), Producer_.birthday));</span>
+<span class="nc bnc" id="L104" title="All 2 branches missed.">            if (criteria.getUserInfoId() != null) {</span>
+<span class="nc" id="L105">                specification =</span>
+<span class="nc" id="L106">                    specification.and(</span>
+<span class="nc" id="L107">                        buildSpecification(criteria.getUserInfoId(), root -&gt; root.join(Producer_.userInfo, JoinType.LEFT).get(UserInfo_.id))</span>
+                    );
             }
-<span class="nc bnc" id="L107" title="All 2 branches missed.">            if (criteria.getAdress() != null) {</span>
-<span class="nc" id="L108">                specification = specification.and(buildStringSpecification(criteria.getAdress(), Producer_.adress));</span>
-            }
-<span class="nc bnc" id="L110" title="All 2 branches missed.">            if (criteria.getPhoto() != null) {</span>
-<span class="nc" id="L111">                specification = specification.and(buildStringSpecification(criteria.getPhoto(), Producer_.photo));</span>
-            }
-<span class="nc bnc" id="L113" title="All 2 branches missed.">            if (criteria.getLinkSocial() != null) {</span>
-<span class="nc" id="L114">                specification = specification.and(buildStringSpecification(criteria.getLinkSocial(), Producer_.linkSocial));</span>
-            }
-<span class="nc bnc" id="L116" title="All 2 branches missed.">            if (criteria.getNumberRequests() != null) {</span>
-<span class="nc" id="L117">                specification = specification.and(buildRangeSpecification(criteria.getNumberRequests(), Producer_.numberRequests));</span>
-            }
-<span class="nc bnc" id="L119" title="All 2 branches missed.">            if (criteria.getPayedValue() != null) {</span>
-<span class="nc" id="L120">                specification = specification.and(buildRangeSpecification(criteria.getPayedValue(), Producer_.payedValue));</span>
-            }
-<span class="nc bnc" id="L122" title="All 2 branches missed.">            if (criteria.getValueToPay() != null) {</span>
-<span class="nc" id="L123">                specification = specification.and(buildRangeSpecification(criteria.getValueToPay(), Producer_.valueToPay));</span>
-            }
-<span class="nc bnc" id="L125" title="All 2 branches missed.">            if (criteria.getRanking() != null) {</span>
-<span class="nc" id="L126">                specification = specification.and(buildRangeSpecification(criteria.getRanking(), Producer_.ranking));</span>
-            }
-<span class="nc bnc" id="L128" title="All 2 branches missed.">            if (criteria.getRequestId() != null) {</span>
-<span class="nc" id="L129">                specification =</span>
-<span class="nc" id="L130">                    specification.and(</span>
-<span class="nc" id="L131">                        buildSpecification(criteria.getRequestId(), root -&gt; root.join(Producer_.requests, JoinType.LEFT).get(Request_.id))</span>
+<span class="nc bnc" id="L110" title="All 2 branches missed.">            if (criteria.getRequestId() != null) {</span>
+<span class="nc" id="L111">                specification =</span>
+<span class="nc" id="L112">                    specification.and(</span>
+<span class="nc" id="L113">                        buildSpecification(criteria.getRequestId(), root -&gt; root.join(Producer_.requests, JoinType.LEFT).get(Request_.id))</span>
                     );
             }
         }
-<span class="nc" id="L135">        return specification;</span>
+<span class="nc" id="L117">        return specification;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

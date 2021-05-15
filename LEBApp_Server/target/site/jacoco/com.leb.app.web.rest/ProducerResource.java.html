@@ -11,6 +11,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +34,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping(&quot;/api&quot;)
 public class ProducerResource {
 
-<span class="nc" id="L35">    private final Logger log = LoggerFactory.getLogger(ProducerResource.class);</span>
+<span class="nc" id="L37">    private final Logger log = LoggerFactory.getLogger(ProducerResource.class);</span>
 
     private static final String ENTITY_NAME = &quot;producer&quot;;
 
@@ -45,15 +47,15 @@ public class ProducerResource {
 
     private final ProducerQueryService producerQueryService;
 
-    public ProducerResource(
+<span class="nc" id="L50">    public ProducerResource(</span>
         ProducerService producerService,
         ProducerRepository producerRepository,
         ProducerQueryService producerQueryService
-<span class="nc" id="L52">    ) {</span>
-<span class="nc" id="L53">        this.producerService = producerService;</span>
-<span class="nc" id="L54">        this.producerRepository = producerRepository;</span>
-<span class="nc" id="L55">        this.producerQueryService = producerQueryService;</span>
-<span class="nc" id="L56">    }</span>
+    ) {
+<span class="nc" id="L55">        this.producerService = producerService;</span>
+<span class="nc" id="L56">        this.producerRepository = producerRepository;</span>
+<span class="nc" id="L57">        this.producerQueryService = producerQueryService;</span>
+<span class="nc" id="L58">    }</span>
 
     /**
      * {@code POST  /producers} : Create a new producer.
@@ -63,16 +65,16 @@ public class ProducerResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping(&quot;/producers&quot;)
-    public ResponseEntity&lt;ProducerDTO&gt; createProducer(@RequestBody ProducerDTO producerDTO) throws URISyntaxException {
-<span class="nc" id="L67">        log.debug(&quot;REST request to save Producer : {}&quot;, producerDTO);</span>
-<span class="nc bnc" id="L68" title="All 2 branches missed.">        if (producerDTO.getId() != null) {</span>
-<span class="nc" id="L69">            throw new BadRequestAlertException(&quot;A new producer cannot already have an ID&quot;, ENTITY_NAME, &quot;idexists&quot;);</span>
+    public ResponseEntity&lt;ProducerDTO&gt; createProducer(@Valid @RequestBody ProducerDTO producerDTO) throws URISyntaxException {
+<span class="nc" id="L69">        log.debug(&quot;REST request to save Producer : {}&quot;, producerDTO);</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (producerDTO.getId() != null) {</span>
+<span class="nc" id="L71">            throw new BadRequestAlertException(&quot;A new producer cannot already have an ID&quot;, ENTITY_NAME, &quot;idexists&quot;);</span>
         }
-<span class="nc" id="L71">        ProducerDTO result = producerService.save(producerDTO);</span>
-<span class="nc" id="L72">        return ResponseEntity</span>
-<span class="nc" id="L73">            .created(new URI(&quot;/api/producers/&quot; + result.getId()))</span>
-<span class="nc" id="L74">            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))</span>
-<span class="nc" id="L75">            .body(result);</span>
+<span class="nc" id="L73">        ProducerDTO result = producerService.save(producerDTO);</span>
+<span class="nc" id="L74">        return ResponseEntity</span>
+<span class="nc" id="L75">            .created(new URI(&quot;/api/producers/&quot; + result.getId()))</span>
+<span class="nc" id="L76">            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))</span>
+<span class="nc" id="L77">            .body(result);</span>
     }
 
     /**
@@ -88,25 +90,25 @@ public class ProducerResource {
     @PutMapping(&quot;/producers/{id}&quot;)
     public ResponseEntity&lt;ProducerDTO&gt; updateProducer(
         @PathVariable(value = &quot;id&quot;, required = false) final Long id,
-        @RequestBody ProducerDTO producerDTO
+        @Valid @RequestBody ProducerDTO producerDTO
     ) throws URISyntaxException {
-<span class="nc" id="L93">        log.debug(&quot;REST request to update Producer : {}, {}&quot;, id, producerDTO);</span>
-<span class="nc bnc" id="L94" title="All 2 branches missed.">        if (producerDTO.getId() == null) {</span>
-<span class="nc" id="L95">            throw new BadRequestAlertException(&quot;Invalid id&quot;, ENTITY_NAME, &quot;idnull&quot;);</span>
+<span class="nc" id="L95">        log.debug(&quot;REST request to update Producer : {}, {}&quot;, id, producerDTO);</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if (producerDTO.getId() == null) {</span>
+<span class="nc" id="L97">            throw new BadRequestAlertException(&quot;Invalid id&quot;, ENTITY_NAME, &quot;idnull&quot;);</span>
         }
-<span class="nc bnc" id="L97" title="All 2 branches missed.">        if (!Objects.equals(id, producerDTO.getId())) {</span>
-<span class="nc" id="L98">            throw new BadRequestAlertException(&quot;Invalid ID&quot;, ENTITY_NAME, &quot;idinvalid&quot;);</span>
-        }
-
-<span class="nc bnc" id="L101" title="All 2 branches missed.">        if (!producerRepository.existsById(id)) {</span>
-<span class="nc" id="L102">            throw new BadRequestAlertException(&quot;Entity not found&quot;, ENTITY_NAME, &quot;idnotfound&quot;);</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        if (!Objects.equals(id, producerDTO.getId())) {</span>
+<span class="nc" id="L100">            throw new BadRequestAlertException(&quot;Invalid ID&quot;, ENTITY_NAME, &quot;idinvalid&quot;);</span>
         }
 
-<span class="nc" id="L105">        ProducerDTO result = producerService.save(producerDTO);</span>
-<span class="nc" id="L106">        return ResponseEntity</span>
-<span class="nc" id="L107">            .ok()</span>
-<span class="nc" id="L108">            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, producerDTO.getId().toString()))</span>
-<span class="nc" id="L109">            .body(result);</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        if (!producerRepository.existsById(id)) {</span>
+<span class="nc" id="L104">            throw new BadRequestAlertException(&quot;Entity not found&quot;, ENTITY_NAME, &quot;idnotfound&quot;);</span>
+        }
+
+<span class="nc" id="L107">        ProducerDTO result = producerService.save(producerDTO);</span>
+<span class="nc" id="L108">        return ResponseEntity</span>
+<span class="nc" id="L109">            .ok()</span>
+<span class="nc" id="L110">            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, producerDTO.getId().toString()))</span>
+<span class="nc" id="L111">            .body(result);</span>
     }
 
     /**
@@ -123,25 +125,25 @@ public class ProducerResource {
     @PatchMapping(value = &quot;/producers/{id}&quot;, consumes = &quot;application/merge-patch+json&quot;)
     public ResponseEntity&lt;ProducerDTO&gt; partialUpdateProducer(
         @PathVariable(value = &quot;id&quot;, required = false) final Long id,
-        @RequestBody ProducerDTO producerDTO
+        @NotNull @RequestBody ProducerDTO producerDTO
     ) throws URISyntaxException {
-<span class="nc" id="L128">        log.debug(&quot;REST request to partial update Producer partially : {}, {}&quot;, id, producerDTO);</span>
-<span class="nc bnc" id="L129" title="All 2 branches missed.">        if (producerDTO.getId() == null) {</span>
-<span class="nc" id="L130">            throw new BadRequestAlertException(&quot;Invalid id&quot;, ENTITY_NAME, &quot;idnull&quot;);</span>
+<span class="nc" id="L130">        log.debug(&quot;REST request to partial update Producer partially : {}, {}&quot;, id, producerDTO);</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        if (producerDTO.getId() == null) {</span>
+<span class="nc" id="L132">            throw new BadRequestAlertException(&quot;Invalid id&quot;, ENTITY_NAME, &quot;idnull&quot;);</span>
         }
-<span class="nc bnc" id="L132" title="All 2 branches missed.">        if (!Objects.equals(id, producerDTO.getId())) {</span>
-<span class="nc" id="L133">            throw new BadRequestAlertException(&quot;Invalid ID&quot;, ENTITY_NAME, &quot;idinvalid&quot;);</span>
-        }
-
-<span class="nc bnc" id="L136" title="All 2 branches missed.">        if (!producerRepository.existsById(id)) {</span>
-<span class="nc" id="L137">            throw new BadRequestAlertException(&quot;Entity not found&quot;, ENTITY_NAME, &quot;idnotfound&quot;);</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        if (!Objects.equals(id, producerDTO.getId())) {</span>
+<span class="nc" id="L135">            throw new BadRequestAlertException(&quot;Invalid ID&quot;, ENTITY_NAME, &quot;idinvalid&quot;);</span>
         }
 
-<span class="nc" id="L140">        Optional&lt;ProducerDTO&gt; result = producerService.partialUpdate(producerDTO);</span>
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        if (!producerRepository.existsById(id)) {</span>
+<span class="nc" id="L139">            throw new BadRequestAlertException(&quot;Entity not found&quot;, ENTITY_NAME, &quot;idnotfound&quot;);</span>
+        }
 
-<span class="nc" id="L142">        return ResponseUtil.wrapOrNotFound(</span>
-            result,
-<span class="nc" id="L144">            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, producerDTO.getId().toString())</span>
+<span class="nc" id="L142">        Optional&lt;ProducerDTO&gt; result = producerService.partialUpdate(producerDTO);</span>
+
+<span class="nc" id="L144">        return ResponseUtil.wrapOrNotFound(</span>
+<span class="nc" id="L145">            result,</span>
+<span class="nc" id="L146">            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, producerDTO.getId().toString())</span>
         );
     }
 
@@ -154,10 +156,10 @@ public class ProducerResource {
      */
     @GetMapping(&quot;/producers&quot;)
     public ResponseEntity&lt;List&lt;ProducerDTO&gt;&gt; getAllProducers(ProducerCriteria criteria, Pageable pageable) {
-<span class="nc" id="L157">        log.debug(&quot;REST request to get Producers by criteria: {}&quot;, criteria);</span>
-<span class="nc" id="L158">        Page&lt;ProducerDTO&gt; page = producerQueryService.findByCriteria(criteria, pageable);</span>
-<span class="nc" id="L159">        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);</span>
-<span class="nc" id="L160">        return ResponseEntity.ok().headers(headers).body(page.getContent());</span>
+<span class="nc" id="L159">        log.debug(&quot;REST request to get Producers by criteria: {}&quot;, criteria);</span>
+<span class="nc" id="L160">        Page&lt;ProducerDTO&gt; page = producerQueryService.findByCriteria(criteria, pageable);</span>
+<span class="nc" id="L161">        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);</span>
+<span class="nc" id="L162">        return ResponseEntity.ok().headers(headers).body(page.getContent());</span>
     }
 
     /**
@@ -168,8 +170,8 @@ public class ProducerResource {
      */
     @GetMapping(&quot;/producers/count&quot;)
     public ResponseEntity&lt;Long&gt; countProducers(ProducerCriteria criteria) {
-<span class="nc" id="L171">        log.debug(&quot;REST request to count Producers by criteria: {}&quot;, criteria);</span>
-<span class="nc" id="L172">        return ResponseEntity.ok().body(producerQueryService.countByCriteria(criteria));</span>
+<span class="nc" id="L173">        log.debug(&quot;REST request to count Producers by criteria: {}&quot;, criteria);</span>
+<span class="nc" id="L174">        return ResponseEntity.ok().body(producerQueryService.countByCriteria(criteria));</span>
     }
 
     /**
@@ -180,9 +182,9 @@ public class ProducerResource {
      */
     @GetMapping(&quot;/producers/{id}&quot;)
     public ResponseEntity&lt;ProducerDTO&gt; getProducer(@PathVariable Long id) {
-<span class="nc" id="L183">        log.debug(&quot;REST request to get Producer : {}&quot;, id);</span>
-<span class="nc" id="L184">        Optional&lt;ProducerDTO&gt; producerDTO = producerService.findOne(id);</span>
-<span class="nc" id="L185">        return ResponseUtil.wrapOrNotFound(producerDTO);</span>
+<span class="nc" id="L185">        log.debug(&quot;REST request to get Producer : {}&quot;, id);</span>
+<span class="nc" id="L186">        Optional&lt;ProducerDTO&gt; producerDTO = producerService.findOne(id);</span>
+<span class="nc" id="L187">        return ResponseUtil.wrapOrNotFound(producerDTO);</span>
     }
 
     /**
@@ -193,12 +195,12 @@ public class ProducerResource {
      */
     @DeleteMapping(&quot;/producers/{id}&quot;)
     public ResponseEntity&lt;Void&gt; deleteProducer(@PathVariable Long id) {
-<span class="nc" id="L196">        log.debug(&quot;REST request to delete Producer : {}&quot;, id);</span>
-<span class="nc" id="L197">        producerService.delete(id);</span>
-<span class="nc" id="L198">        return ResponseEntity</span>
-<span class="nc" id="L199">            .noContent()</span>
-<span class="nc" id="L200">            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))</span>
-<span class="nc" id="L201">            .build();</span>
+<span class="nc" id="L198">        log.debug(&quot;REST request to delete Producer : {}&quot;, id);</span>
+<span class="nc" id="L199">        producerService.delete(id);</span>
+<span class="nc" id="L200">        return ResponseEntity</span>
+<span class="nc" id="L201">            .noContent()</span>
+<span class="nc" id="L202">            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))</span>
+<span class="nc" id="L203">            .build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

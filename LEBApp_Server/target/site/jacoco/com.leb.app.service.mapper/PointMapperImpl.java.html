@@ -10,151 +10,128 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
-    date = &quot;2021-05-14T22:42:45+0100&quot;,
-    comments = &quot;version: 1.4.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)&quot;
+    date = &quot;2021-05-15T01:03:53+0100&quot;,
+    comments = &quot;version: 1.4.2.Final, compiler: Eclipse JDT (IDE) 1.3.1300.v20210331-0708, environment: Java 11.0.11 (Oracle Corporation)&quot;
 )
 @Component
 <span class="nc" id="L17">public class PointMapperImpl implements PointMapper {</span>
 
     @Autowired
+    private UserInfoMapper userInfoMapper;
+    @Autowired
     private ZoneMapper zoneMapper;
 
     @Override
     public Point toEntity(PointDTO dto) {
-<span class="nc bnc" id="L24" title="All 2 branches missed.">        if ( dto == null ) {</span>
-<span class="nc" id="L25">            return null;</span>
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        if ( dto == null ) {</span>
+<span class="nc" id="L27">            return null;</span>
         }
 
-<span class="nc" id="L28">        Point point = new Point();</span>
+<span class="nc" id="L30">        Point point = new Point();</span>
 
-<span class="nc" id="L30">        point.id( dto.getId() );</span>
-<span class="nc" id="L31">        point.setName( dto.getName() );</span>
-<span class="nc" id="L32">        point.setEmail( dto.getEmail() );</span>
-<span class="nc" id="L33">        point.setPhoneNumber( dto.getPhoneNumber() );</span>
-<span class="nc" id="L34">        point.setNib( dto.getNib() );</span>
-<span class="nc" id="L35">        point.setNif( dto.getNif() );</span>
-<span class="nc" id="L36">        point.setAddress( dto.getAddress() );</span>
-<span class="nc" id="L37">        point.setOpeningTime( dto.getOpeningTime() );</span>
-<span class="nc" id="L38">        point.setNumberOfDeliveries( dto.getNumberOfDeliveries() );</span>
-<span class="nc" id="L39">        point.setReceivedValue( dto.getReceivedValue() );</span>
-<span class="nc" id="L40">        point.setValueToReceive( dto.getValueToReceive() );</span>
-<span class="nc" id="L41">        point.setRanking( dto.getRanking() );</span>
-<span class="nc" id="L42">        point.setZone( zoneMapper.toEntity( dto.getZone() ) );</span>
+<span class="nc" id="L32">        point.id( dto.getId() );</span>
+<span class="nc" id="L33">        point.setOpeningTime( dto.getOpeningTime() );</span>
+<span class="nc" id="L34">        point.setNumberOfDeliveries( dto.getNumberOfDeliveries() );</span>
+<span class="nc" id="L35">        point.setReceivedValue( dto.getReceivedValue() );</span>
+<span class="nc" id="L36">        point.setValueToReceive( dto.getValueToReceive() );</span>
+<span class="nc" id="L37">        point.setRanking( dto.getRanking() );</span>
+<span class="nc" id="L38">        point.setUserInfo( userInfoMapper.toEntity( dto.getUserInfo() ) );</span>
+<span class="nc" id="L39">        point.setZone( zoneMapper.toEntity( dto.getZone() ) );</span>
 
-<span class="nc" id="L44">        return point;</span>
+<span class="nc" id="L41">        return point;</span>
     }
 
     @Override
     public List&lt;Point&gt; toEntity(List&lt;PointDTO&gt; dtoList) {
-<span class="nc bnc" id="L49" title="All 2 branches missed.">        if ( dtoList == null ) {</span>
-<span class="nc" id="L50">            return null;</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        if ( dtoList == null ) {</span>
+<span class="nc" id="L47">            return null;</span>
         }
 
-<span class="nc" id="L53">        List&lt;Point&gt; list = new ArrayList&lt;Point&gt;( dtoList.size() );</span>
-<span class="nc bnc" id="L54" title="All 2 branches missed.">        for ( PointDTO pointDTO : dtoList ) {</span>
-<span class="nc" id="L55">            list.add( toEntity( pointDTO ) );</span>
-<span class="nc" id="L56">        }</span>
+<span class="nc" id="L50">        List&lt;Point&gt; list = new ArrayList&lt;Point&gt;( dtoList.size() );</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        for ( PointDTO pointDTO : dtoList ) {</span>
+<span class="nc" id="L52">            list.add( toEntity( pointDTO ) );</span>
+        }
 
-<span class="nc" id="L58">        return list;</span>
+<span class="nc" id="L55">        return list;</span>
     }
 
     @Override
     public List&lt;PointDTO&gt; toDto(List&lt;Point&gt; entityList) {
-<span class="nc bnc" id="L63" title="All 2 branches missed.">        if ( entityList == null ) {</span>
-<span class="nc" id="L64">            return null;</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if ( entityList == null ) {</span>
+<span class="nc" id="L61">            return null;</span>
         }
 
-<span class="nc" id="L67">        List&lt;PointDTO&gt; list = new ArrayList&lt;PointDTO&gt;( entityList.size() );</span>
-<span class="nc bnc" id="L68" title="All 2 branches missed.">        for ( Point point : entityList ) {</span>
-<span class="nc" id="L69">            list.add( toDto( point ) );</span>
-<span class="nc" id="L70">        }</span>
+<span class="nc" id="L64">        List&lt;PointDTO&gt; list = new ArrayList&lt;PointDTO&gt;( entityList.size() );</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        for ( Point point : entityList ) {</span>
+<span class="nc" id="L66">            list.add( toDto( point ) );</span>
+        }
 
-<span class="nc" id="L72">        return list;</span>
+<span class="nc" id="L69">        return list;</span>
     }
 
     @Override
     public void partialUpdate(Point entity, PointDTO dto) {
-<span class="nc bnc" id="L77" title="All 2 branches missed.">        if ( dto == null ) {</span>
-<span class="nc" id="L78">            return;</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        if ( dto == null ) {</span>
+<span class="nc" id="L75">            return;</span>
         }
 
-<span class="nc bnc" id="L81" title="All 2 branches missed.">        if ( dto.getId() != null ) {</span>
-<span class="nc" id="L82">            entity.id( dto.getId() );</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        if ( dto.getId() != null ) {</span>
+<span class="nc" id="L79">            entity.id( dto.getId() );</span>
         }
-<span class="nc bnc" id="L84" title="All 2 branches missed.">        if ( dto.getName() != null ) {</span>
-<span class="nc" id="L85">            entity.setName( dto.getName() );</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if ( dto.getOpeningTime() != null ) {</span>
+<span class="nc" id="L82">            entity.setOpeningTime( dto.getOpeningTime() );</span>
         }
-<span class="nc bnc" id="L87" title="All 2 branches missed.">        if ( dto.getEmail() != null ) {</span>
-<span class="nc" id="L88">            entity.setEmail( dto.getEmail() );</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if ( dto.getNumberOfDeliveries() != null ) {</span>
+<span class="nc" id="L85">            entity.setNumberOfDeliveries( dto.getNumberOfDeliveries() );</span>
         }
-<span class="nc bnc" id="L90" title="All 2 branches missed.">        if ( dto.getPhoneNumber() != null ) {</span>
-<span class="nc" id="L91">            entity.setPhoneNumber( dto.getPhoneNumber() );</span>
+<span class="nc bnc" id="L87" title="All 2 branches missed.">        if ( dto.getReceivedValue() != null ) {</span>
+<span class="nc" id="L88">            entity.setReceivedValue( dto.getReceivedValue() );</span>
         }
-<span class="nc bnc" id="L93" title="All 2 branches missed.">        if ( dto.getNib() != null ) {</span>
-<span class="nc" id="L94">            entity.setNib( dto.getNib() );</span>
+<span class="nc bnc" id="L90" title="All 2 branches missed.">        if ( dto.getValueToReceive() != null ) {</span>
+<span class="nc" id="L91">            entity.setValueToReceive( dto.getValueToReceive() );</span>
         }
-<span class="nc bnc" id="L96" title="All 2 branches missed.">        if ( dto.getNif() != null ) {</span>
-<span class="nc" id="L97">            entity.setNif( dto.getNif() );</span>
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        if ( dto.getRanking() != null ) {</span>
+<span class="nc" id="L94">            entity.setRanking( dto.getRanking() );</span>
         }
-<span class="nc bnc" id="L99" title="All 2 branches missed.">        if ( dto.getAddress() != null ) {</span>
-<span class="nc" id="L100">            entity.setAddress( dto.getAddress() );</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if ( dto.getUserInfo() != null ) {</span>
+<span class="nc" id="L97">            entity.setUserInfo( userInfoMapper.toEntity( dto.getUserInfo() ) );</span>
         }
-<span class="nc bnc" id="L102" title="All 2 branches missed.">        if ( dto.getOpeningTime() != null ) {</span>
-<span class="nc" id="L103">            entity.setOpeningTime( dto.getOpeningTime() );</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        if ( dto.getZone() != null ) {</span>
+<span class="nc" id="L100">            entity.setZone( zoneMapper.toEntity( dto.getZone() ) );</span>
         }
-<span class="nc bnc" id="L105" title="All 2 branches missed.">        if ( dto.getNumberOfDeliveries() != null ) {</span>
-<span class="nc" id="L106">            entity.setNumberOfDeliveries( dto.getNumberOfDeliveries() );</span>
-        }
-<span class="nc bnc" id="L108" title="All 2 branches missed.">        if ( dto.getReceivedValue() != null ) {</span>
-<span class="nc" id="L109">            entity.setReceivedValue( dto.getReceivedValue() );</span>
-        }
-<span class="nc bnc" id="L111" title="All 2 branches missed.">        if ( dto.getValueToReceive() != null ) {</span>
-<span class="nc" id="L112">            entity.setValueToReceive( dto.getValueToReceive() );</span>
-        }
-<span class="nc bnc" id="L114" title="All 2 branches missed.">        if ( dto.getRanking() != null ) {</span>
-<span class="nc" id="L115">            entity.setRanking( dto.getRanking() );</span>
-        }
-<span class="nc bnc" id="L117" title="All 2 branches missed.">        if ( dto.getZone() != null ) {</span>
-<span class="nc" id="L118">            entity.setZone( zoneMapper.toEntity( dto.getZone() ) );</span>
-        }
-<span class="nc" id="L120">    }</span>
+<span class="nc" id="L102">    }</span>
 
     @Override
     public PointDTO toDto(Point s) {
-<span class="nc bnc" id="L124" title="All 2 branches missed.">        if ( s == null ) {</span>
-<span class="nc" id="L125">            return null;</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">        if ( s == null ) {</span>
+<span class="nc" id="L107">            return null;</span>
         }
 
-<span class="nc" id="L128">        PointDTO pointDTO = new PointDTO();</span>
+<span class="nc" id="L110">        PointDTO pointDTO = new PointDTO();</span>
 
-<span class="nc" id="L130">        pointDTO.setZone( zoneMapper.toDtoId( s.getZone() ) );</span>
-<span class="nc" id="L131">        pointDTO.setId( s.getId() );</span>
-<span class="nc" id="L132">        pointDTO.setName( s.getName() );</span>
-<span class="nc" id="L133">        pointDTO.setEmail( s.getEmail() );</span>
-<span class="nc" id="L134">        pointDTO.setPhoneNumber( s.getPhoneNumber() );</span>
-<span class="nc" id="L135">        pointDTO.setNib( s.getNib() );</span>
-<span class="nc" id="L136">        pointDTO.setNif( s.getNif() );</span>
-<span class="nc" id="L137">        pointDTO.setAddress( s.getAddress() );</span>
-<span class="nc" id="L138">        pointDTO.setOpeningTime( s.getOpeningTime() );</span>
-<span class="nc" id="L139">        pointDTO.setNumberOfDeliveries( s.getNumberOfDeliveries() );</span>
-<span class="nc" id="L140">        pointDTO.setReceivedValue( s.getReceivedValue() );</span>
-<span class="nc" id="L141">        pointDTO.setValueToReceive( s.getValueToReceive() );</span>
-<span class="nc" id="L142">        pointDTO.setRanking( s.getRanking() );</span>
+<span class="nc" id="L112">        pointDTO.setUserInfo( userInfoMapper.toDtoId( s.getUserInfo() ) );</span>
+<span class="nc" id="L113">        pointDTO.setZone( zoneMapper.toDtoId( s.getZone() ) );</span>
+<span class="nc" id="L114">        pointDTO.setId( s.getId() );</span>
+<span class="nc" id="L115">        pointDTO.setOpeningTime( s.getOpeningTime() );</span>
+<span class="nc" id="L116">        pointDTO.setNumberOfDeliveries( s.getNumberOfDeliveries() );</span>
+<span class="nc" id="L117">        pointDTO.setReceivedValue( s.getReceivedValue() );</span>
+<span class="nc" id="L118">        pointDTO.setValueToReceive( s.getValueToReceive() );</span>
+<span class="nc" id="L119">        pointDTO.setRanking( s.getRanking() );</span>
 
-<span class="nc" id="L144">        return pointDTO;</span>
+<span class="nc" id="L121">        return pointDTO;</span>
     }
 
     @Override
     public PointDTO toDtoId(Point point) {
-<span class="nc bnc" id="L149" title="All 2 branches missed.">        if ( point == null ) {</span>
-<span class="nc" id="L150">            return null;</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        if ( point == null ) {</span>
+<span class="nc" id="L127">            return null;</span>
         }
 
-<span class="nc" id="L153">        PointDTO pointDTO = new PointDTO();</span>
+<span class="nc" id="L130">        PointDTO pointDTO = new PointDTO();</span>
 
-<span class="nc" id="L155">        pointDTO.setId( point.getId() );</span>
+<span class="nc" id="L132">        pointDTO.setId( point.getId() );</span>
 
-<span class="nc" id="L157">        return pointDTO;</span>
+<span class="nc" id="L134">        return pointDTO;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

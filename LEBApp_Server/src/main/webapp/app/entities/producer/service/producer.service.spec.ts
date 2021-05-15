@@ -1,8 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import * as dayjs from 'dayjs';
 
-import { DATE_FORMAT } from 'app/config/input.constants';
 import { IProducer, Producer } from '../producer.model';
 
 import { ProducerService } from './producer.service';
@@ -13,7 +11,6 @@ describe('Service Tests', () => {
     let httpMock: HttpTestingController;
     let elemDefault: IProducer;
     let expectedResult: IProducer | IProducer[] | boolean | null;
-    let currentDate: dayjs.Dayjs;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -22,18 +19,9 @@ describe('Service Tests', () => {
       expectedResult = null;
       service = TestBed.inject(ProducerService);
       httpMock = TestBed.inject(HttpTestingController);
-      currentDate = dayjs();
 
       elemDefault = {
         id: 0,
-        name: 'AAAAAAA',
-        mail: 'AAAAAAA',
-        phoneNumber: 'AAAAAAA',
-        nib: 'AAAAAAA',
-        nif: 0,
-        birthday: currentDate,
-        adress: 'AAAAAAA',
-        photo: 'AAAAAAA',
         linkSocial: 'AAAAAAA',
         numberRequests: 0,
         payedValue: 0,
@@ -44,12 +32,7 @@ describe('Service Tests', () => {
 
     describe('Service methods', () => {
       it('should find an element', () => {
-        const returnedFromService = Object.assign(
-          {
-            birthday: currentDate.format(DATE_FORMAT),
-          },
-          elemDefault
-        );
+        const returnedFromService = Object.assign({}, elemDefault);
 
         service.find(123).subscribe(resp => (expectedResult = resp.body));
 
@@ -62,17 +45,11 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            birthday: currentDate.format(DATE_FORMAT),
           },
           elemDefault
         );
 
-        const expected = Object.assign(
-          {
-            birthday: currentDate,
-          },
-          returnedFromService
-        );
+        const expected = Object.assign({}, returnedFromService);
 
         service.create(new Producer()).subscribe(resp => (expectedResult = resp.body));
 
@@ -85,14 +62,6 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            name: 'BBBBBB',
-            mail: 'BBBBBB',
-            phoneNumber: 'BBBBBB',
-            nib: 'BBBBBB',
-            nif: 1,
-            birthday: currentDate.format(DATE_FORMAT),
-            adress: 'BBBBBB',
-            photo: 'BBBBBB',
             linkSocial: 'BBBBBB',
             numberRequests: 1,
             payedValue: 1,
@@ -102,12 +71,7 @@ describe('Service Tests', () => {
           elemDefault
         );
 
-        const expected = Object.assign(
-          {
-            birthday: currentDate,
-          },
-          returnedFromService
-        );
+        const expected = Object.assign({}, returnedFromService);
 
         service.update(expected).subscribe(resp => (expectedResult = resp.body));
 
@@ -119,25 +83,15 @@ describe('Service Tests', () => {
       it('should partial update a Producer', () => {
         const patchObject = Object.assign(
           {
-            mail: 'BBBBBB',
-            phoneNumber: 'BBBBBB',
-            birthday: currentDate.format(DATE_FORMAT),
-            photo: 'BBBBBB',
-            linkSocial: 'BBBBBB',
-            valueToPay: 1,
-            ranking: 1,
+            numberRequests: 1,
+            payedValue: 1,
           },
           new Producer()
         );
 
         const returnedFromService = Object.assign(patchObject, elemDefault);
 
-        const expected = Object.assign(
-          {
-            birthday: currentDate,
-          },
-          returnedFromService
-        );
+        const expected = Object.assign({}, returnedFromService);
 
         service.partialUpdate(patchObject).subscribe(resp => (expectedResult = resp.body));
 
@@ -150,14 +104,6 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            name: 'BBBBBB',
-            mail: 'BBBBBB',
-            phoneNumber: 'BBBBBB',
-            nib: 'BBBBBB',
-            nif: 1,
-            birthday: currentDate.format(DATE_FORMAT),
-            adress: 'BBBBBB',
-            photo: 'BBBBBB',
             linkSocial: 'BBBBBB',
             numberRequests: 1,
             payedValue: 1,
@@ -167,12 +113,7 @@ describe('Service Tests', () => {
           elemDefault
         );
 
-        const expected = Object.assign(
-          {
-            birthday: currentDate,
-          },
-          returnedFromService
-        );
+        const expected = Object.assign({}, returnedFromService);
 
         service.query().subscribe(resp => (expectedResult = resp.body));
 
@@ -219,7 +160,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique Producer to an array', () => {
-          const producerArray: IProducer[] = [{ id: 123 }, { id: 456 }, { id: 74623 }];
+          const producerArray: IProducer[] = [{ id: 123 }, { id: 456 }, { id: 98059 }];
           const producerCollection: IProducer[] = [{ id: 123 }];
           expectedResult = service.addProducerToCollectionIfMissing(producerCollection, ...producerArray);
           expect(expectedResult).toHaveLength(3);

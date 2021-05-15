@@ -8,12 +8,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.leb.app.IntegrationTest;
 import com.leb.app.domain.DeliveryMan;
 import com.leb.app.domain.Point;
+import com.leb.app.domain.UserInfo;
 import com.leb.app.repository.DeliveryManRepository;
 import com.leb.app.service.criteria.DeliveryManCriteria;
 import com.leb.app.service.dto.DeliveryManDTO;
 import com.leb.app.service.mapper.DeliveryManMapper;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
@@ -34,32 +33,6 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @WithMockUser
 class DeliveryManResourceIT {
-
-    private static final String DEFAULT_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_NAME = "BBBBBBBBBB";
-
-    private static final String DEFAULT_EMAIL = "AAAAAAAAAA";
-    private static final String UPDATED_EMAIL = "BBBBBBBBBB";
-
-    private static final String DEFAULT_PHONE_NUMBER = "AAAAAAAAAA";
-    private static final String UPDATED_PHONE_NUMBER = "BBBBBBBBBB";
-
-    private static final Integer DEFAULT_NIF = 1;
-    private static final Integer UPDATED_NIF = 2;
-    private static final Integer SMALLER_NIF = 1 - 1;
-
-    private static final String DEFAULT_NIB = "AAAAAAAAAA";
-    private static final String UPDATED_NIB = "BBBBBBBBBB";
-
-    private static final LocalDate DEFAULT_BIRTHDAY = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_BIRTHDAY = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_BIRTHDAY = LocalDate.ofEpochDay(-1L);
-
-    private static final String DEFAULT_ADDRESS = "AAAAAAAAAA";
-    private static final String UPDATED_ADDRESS = "BBBBBBBBBB";
-
-    private static final String DEFAULT_PHOTO = "AAAAAAAAAA";
-    private static final String UPDATED_PHOTO = "BBBBBBBBBB";
 
     private static final String DEFAULT_OPENING_TIME = "AAAAAAAAAA";
     private static final String UPDATED_OPENING_TIME = "BBBBBBBBBB";
@@ -112,20 +85,22 @@ class DeliveryManResourceIT {
      */
     public static DeliveryMan createEntity(EntityManager em) {
         DeliveryMan deliveryMan = new DeliveryMan()
-            .name(DEFAULT_NAME)
-            .email(DEFAULT_EMAIL)
-            .phoneNumber(DEFAULT_PHONE_NUMBER)
-            .nif(DEFAULT_NIF)
-            .nib(DEFAULT_NIB)
-            .birthday(DEFAULT_BIRTHDAY)
-            .address(DEFAULT_ADDRESS)
-            .photo(DEFAULT_PHOTO)
             .openingTime(DEFAULT_OPENING_TIME)
             .numberOfDeliveries(DEFAULT_NUMBER_OF_DELIVERIES)
             .numberOfKm(DEFAULT_NUMBER_OF_KM)
             .receivedValue(DEFAULT_RECEIVED_VALUE)
             .valueToReceive(DEFAULT_VALUE_TO_RECEIVE)
             .ranking(DEFAULT_RANKING);
+        // Add required entity
+        UserInfo userInfo;
+        if (TestUtil.findAll(em, UserInfo.class).isEmpty()) {
+            userInfo = UserInfoResourceIT.createEntity(em);
+            em.persist(userInfo);
+            em.flush();
+        } else {
+            userInfo = TestUtil.findAll(em, UserInfo.class).get(0);
+        }
+        deliveryMan.setUserInfo(userInfo);
         // Add required entity
         Point point;
         if (TestUtil.findAll(em, Point.class).isEmpty()) {
@@ -147,20 +122,22 @@ class DeliveryManResourceIT {
      */
     public static DeliveryMan createUpdatedEntity(EntityManager em) {
         DeliveryMan deliveryMan = new DeliveryMan()
-            .name(UPDATED_NAME)
-            .email(UPDATED_EMAIL)
-            .phoneNumber(UPDATED_PHONE_NUMBER)
-            .nif(UPDATED_NIF)
-            .nib(UPDATED_NIB)
-            .birthday(UPDATED_BIRTHDAY)
-            .address(UPDATED_ADDRESS)
-            .photo(UPDATED_PHOTO)
             .openingTime(UPDATED_OPENING_TIME)
             .numberOfDeliveries(UPDATED_NUMBER_OF_DELIVERIES)
             .numberOfKm(UPDATED_NUMBER_OF_KM)
             .receivedValue(UPDATED_RECEIVED_VALUE)
             .valueToReceive(UPDATED_VALUE_TO_RECEIVE)
             .ranking(UPDATED_RANKING);
+        // Add required entity
+        UserInfo userInfo;
+        if (TestUtil.findAll(em, UserInfo.class).isEmpty()) {
+            userInfo = UserInfoResourceIT.createUpdatedEntity(em);
+            em.persist(userInfo);
+            em.flush();
+        } else {
+            userInfo = TestUtil.findAll(em, UserInfo.class).get(0);
+        }
+        deliveryMan.setUserInfo(userInfo);
         // Add required entity
         Point point;
         if (TestUtil.findAll(em, Point.class).isEmpty()) {
@@ -195,14 +172,6 @@ class DeliveryManResourceIT {
         List<DeliveryMan> deliveryManList = deliveryManRepository.findAll();
         assertThat(deliveryManList).hasSize(databaseSizeBeforeCreate + 1);
         DeliveryMan testDeliveryMan = deliveryManList.get(deliveryManList.size() - 1);
-        assertThat(testDeliveryMan.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testDeliveryMan.getEmail()).isEqualTo(DEFAULT_EMAIL);
-        assertThat(testDeliveryMan.getPhoneNumber()).isEqualTo(DEFAULT_PHONE_NUMBER);
-        assertThat(testDeliveryMan.getNif()).isEqualTo(DEFAULT_NIF);
-        assertThat(testDeliveryMan.getNib()).isEqualTo(DEFAULT_NIB);
-        assertThat(testDeliveryMan.getBirthday()).isEqualTo(DEFAULT_BIRTHDAY);
-        assertThat(testDeliveryMan.getAddress()).isEqualTo(DEFAULT_ADDRESS);
-        assertThat(testDeliveryMan.getPhoto()).isEqualTo(DEFAULT_PHOTO);
         assertThat(testDeliveryMan.getOpeningTime()).isEqualTo(DEFAULT_OPENING_TIME);
         assertThat(testDeliveryMan.getNumberOfDeliveries()).isEqualTo(DEFAULT_NUMBER_OF_DELIVERIES);
         assertThat(testDeliveryMan.getNumberOfKm()).isEqualTo(DEFAULT_NUMBER_OF_KM);
@@ -244,14 +213,6 @@ class DeliveryManResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(deliveryMan.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
-            .andExpect(jsonPath("$.[*].phoneNumber").value(hasItem(DEFAULT_PHONE_NUMBER)))
-            .andExpect(jsonPath("$.[*].nif").value(hasItem(DEFAULT_NIF)))
-            .andExpect(jsonPath("$.[*].nib").value(hasItem(DEFAULT_NIB)))
-            .andExpect(jsonPath("$.[*].birthday").value(hasItem(DEFAULT_BIRTHDAY.toString())))
-            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
-            .andExpect(jsonPath("$.[*].photo").value(hasItem(DEFAULT_PHOTO)))
             .andExpect(jsonPath("$.[*].openingTime").value(hasItem(DEFAULT_OPENING_TIME)))
             .andExpect(jsonPath("$.[*].numberOfDeliveries").value(hasItem(DEFAULT_NUMBER_OF_DELIVERIES)))
             .andExpect(jsonPath("$.[*].numberOfKm").value(hasItem(DEFAULT_NUMBER_OF_KM.doubleValue())))
@@ -272,14 +233,6 @@ class DeliveryManResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(deliveryMan.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
-            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
-            .andExpect(jsonPath("$.phoneNumber").value(DEFAULT_PHONE_NUMBER))
-            .andExpect(jsonPath("$.nif").value(DEFAULT_NIF))
-            .andExpect(jsonPath("$.nib").value(DEFAULT_NIB))
-            .andExpect(jsonPath("$.birthday").value(DEFAULT_BIRTHDAY.toString()))
-            .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS))
-            .andExpect(jsonPath("$.photo").value(DEFAULT_PHOTO))
             .andExpect(jsonPath("$.openingTime").value(DEFAULT_OPENING_TIME))
             .andExpect(jsonPath("$.numberOfDeliveries").value(DEFAULT_NUMBER_OF_DELIVERIES))
             .andExpect(jsonPath("$.numberOfKm").value(DEFAULT_NUMBER_OF_KM.doubleValue()))
@@ -304,682 +257,6 @@ class DeliveryManResourceIT {
 
         defaultDeliveryManShouldBeFound("id.lessThanOrEqual=" + id);
         defaultDeliveryManShouldNotBeFound("id.lessThan=" + id);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByNameIsEqualToSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where name equals to DEFAULT_NAME
-        defaultDeliveryManShouldBeFound("name.equals=" + DEFAULT_NAME);
-
-        // Get all the deliveryManList where name equals to UPDATED_NAME
-        defaultDeliveryManShouldNotBeFound("name.equals=" + UPDATED_NAME);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByNameIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where name not equals to DEFAULT_NAME
-        defaultDeliveryManShouldNotBeFound("name.notEquals=" + DEFAULT_NAME);
-
-        // Get all the deliveryManList where name not equals to UPDATED_NAME
-        defaultDeliveryManShouldBeFound("name.notEquals=" + UPDATED_NAME);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByNameIsInShouldWork() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where name in DEFAULT_NAME or UPDATED_NAME
-        defaultDeliveryManShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
-
-        // Get all the deliveryManList where name equals to UPDATED_NAME
-        defaultDeliveryManShouldNotBeFound("name.in=" + UPDATED_NAME);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByNameIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where name is not null
-        defaultDeliveryManShouldBeFound("name.specified=true");
-
-        // Get all the deliveryManList where name is null
-        defaultDeliveryManShouldNotBeFound("name.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByNameContainsSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where name contains DEFAULT_NAME
-        defaultDeliveryManShouldBeFound("name.contains=" + DEFAULT_NAME);
-
-        // Get all the deliveryManList where name contains UPDATED_NAME
-        defaultDeliveryManShouldNotBeFound("name.contains=" + UPDATED_NAME);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByNameNotContainsSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where name does not contain DEFAULT_NAME
-        defaultDeliveryManShouldNotBeFound("name.doesNotContain=" + DEFAULT_NAME);
-
-        // Get all the deliveryManList where name does not contain UPDATED_NAME
-        defaultDeliveryManShouldBeFound("name.doesNotContain=" + UPDATED_NAME);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByEmailIsEqualToSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where email equals to DEFAULT_EMAIL
-        defaultDeliveryManShouldBeFound("email.equals=" + DEFAULT_EMAIL);
-
-        // Get all the deliveryManList where email equals to UPDATED_EMAIL
-        defaultDeliveryManShouldNotBeFound("email.equals=" + UPDATED_EMAIL);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByEmailIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where email not equals to DEFAULT_EMAIL
-        defaultDeliveryManShouldNotBeFound("email.notEquals=" + DEFAULT_EMAIL);
-
-        // Get all the deliveryManList where email not equals to UPDATED_EMAIL
-        defaultDeliveryManShouldBeFound("email.notEquals=" + UPDATED_EMAIL);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByEmailIsInShouldWork() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where email in DEFAULT_EMAIL or UPDATED_EMAIL
-        defaultDeliveryManShouldBeFound("email.in=" + DEFAULT_EMAIL + "," + UPDATED_EMAIL);
-
-        // Get all the deliveryManList where email equals to UPDATED_EMAIL
-        defaultDeliveryManShouldNotBeFound("email.in=" + UPDATED_EMAIL);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByEmailIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where email is not null
-        defaultDeliveryManShouldBeFound("email.specified=true");
-
-        // Get all the deliveryManList where email is null
-        defaultDeliveryManShouldNotBeFound("email.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByEmailContainsSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where email contains DEFAULT_EMAIL
-        defaultDeliveryManShouldBeFound("email.contains=" + DEFAULT_EMAIL);
-
-        // Get all the deliveryManList where email contains UPDATED_EMAIL
-        defaultDeliveryManShouldNotBeFound("email.contains=" + UPDATED_EMAIL);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByEmailNotContainsSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where email does not contain DEFAULT_EMAIL
-        defaultDeliveryManShouldNotBeFound("email.doesNotContain=" + DEFAULT_EMAIL);
-
-        // Get all the deliveryManList where email does not contain UPDATED_EMAIL
-        defaultDeliveryManShouldBeFound("email.doesNotContain=" + UPDATED_EMAIL);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByPhoneNumberIsEqualToSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where phoneNumber equals to DEFAULT_PHONE_NUMBER
-        defaultDeliveryManShouldBeFound("phoneNumber.equals=" + DEFAULT_PHONE_NUMBER);
-
-        // Get all the deliveryManList where phoneNumber equals to UPDATED_PHONE_NUMBER
-        defaultDeliveryManShouldNotBeFound("phoneNumber.equals=" + UPDATED_PHONE_NUMBER);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByPhoneNumberIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where phoneNumber not equals to DEFAULT_PHONE_NUMBER
-        defaultDeliveryManShouldNotBeFound("phoneNumber.notEquals=" + DEFAULT_PHONE_NUMBER);
-
-        // Get all the deliveryManList where phoneNumber not equals to UPDATED_PHONE_NUMBER
-        defaultDeliveryManShouldBeFound("phoneNumber.notEquals=" + UPDATED_PHONE_NUMBER);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByPhoneNumberIsInShouldWork() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where phoneNumber in DEFAULT_PHONE_NUMBER or UPDATED_PHONE_NUMBER
-        defaultDeliveryManShouldBeFound("phoneNumber.in=" + DEFAULT_PHONE_NUMBER + "," + UPDATED_PHONE_NUMBER);
-
-        // Get all the deliveryManList where phoneNumber equals to UPDATED_PHONE_NUMBER
-        defaultDeliveryManShouldNotBeFound("phoneNumber.in=" + UPDATED_PHONE_NUMBER);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByPhoneNumberIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where phoneNumber is not null
-        defaultDeliveryManShouldBeFound("phoneNumber.specified=true");
-
-        // Get all the deliveryManList where phoneNumber is null
-        defaultDeliveryManShouldNotBeFound("phoneNumber.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByPhoneNumberContainsSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where phoneNumber contains DEFAULT_PHONE_NUMBER
-        defaultDeliveryManShouldBeFound("phoneNumber.contains=" + DEFAULT_PHONE_NUMBER);
-
-        // Get all the deliveryManList where phoneNumber contains UPDATED_PHONE_NUMBER
-        defaultDeliveryManShouldNotBeFound("phoneNumber.contains=" + UPDATED_PHONE_NUMBER);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByPhoneNumberNotContainsSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where phoneNumber does not contain DEFAULT_PHONE_NUMBER
-        defaultDeliveryManShouldNotBeFound("phoneNumber.doesNotContain=" + DEFAULT_PHONE_NUMBER);
-
-        // Get all the deliveryManList where phoneNumber does not contain UPDATED_PHONE_NUMBER
-        defaultDeliveryManShouldBeFound("phoneNumber.doesNotContain=" + UPDATED_PHONE_NUMBER);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByNifIsEqualToSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where nif equals to DEFAULT_NIF
-        defaultDeliveryManShouldBeFound("nif.equals=" + DEFAULT_NIF);
-
-        // Get all the deliveryManList where nif equals to UPDATED_NIF
-        defaultDeliveryManShouldNotBeFound("nif.equals=" + UPDATED_NIF);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByNifIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where nif not equals to DEFAULT_NIF
-        defaultDeliveryManShouldNotBeFound("nif.notEquals=" + DEFAULT_NIF);
-
-        // Get all the deliveryManList where nif not equals to UPDATED_NIF
-        defaultDeliveryManShouldBeFound("nif.notEquals=" + UPDATED_NIF);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByNifIsInShouldWork() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where nif in DEFAULT_NIF or UPDATED_NIF
-        defaultDeliveryManShouldBeFound("nif.in=" + DEFAULT_NIF + "," + UPDATED_NIF);
-
-        // Get all the deliveryManList where nif equals to UPDATED_NIF
-        defaultDeliveryManShouldNotBeFound("nif.in=" + UPDATED_NIF);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByNifIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where nif is not null
-        defaultDeliveryManShouldBeFound("nif.specified=true");
-
-        // Get all the deliveryManList where nif is null
-        defaultDeliveryManShouldNotBeFound("nif.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByNifIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where nif is greater than or equal to DEFAULT_NIF
-        defaultDeliveryManShouldBeFound("nif.greaterThanOrEqual=" + DEFAULT_NIF);
-
-        // Get all the deliveryManList where nif is greater than or equal to UPDATED_NIF
-        defaultDeliveryManShouldNotBeFound("nif.greaterThanOrEqual=" + UPDATED_NIF);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByNifIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where nif is less than or equal to DEFAULT_NIF
-        defaultDeliveryManShouldBeFound("nif.lessThanOrEqual=" + DEFAULT_NIF);
-
-        // Get all the deliveryManList where nif is less than or equal to SMALLER_NIF
-        defaultDeliveryManShouldNotBeFound("nif.lessThanOrEqual=" + SMALLER_NIF);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByNifIsLessThanSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where nif is less than DEFAULT_NIF
-        defaultDeliveryManShouldNotBeFound("nif.lessThan=" + DEFAULT_NIF);
-
-        // Get all the deliveryManList where nif is less than UPDATED_NIF
-        defaultDeliveryManShouldBeFound("nif.lessThan=" + UPDATED_NIF);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByNifIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where nif is greater than DEFAULT_NIF
-        defaultDeliveryManShouldNotBeFound("nif.greaterThan=" + DEFAULT_NIF);
-
-        // Get all the deliveryManList where nif is greater than SMALLER_NIF
-        defaultDeliveryManShouldBeFound("nif.greaterThan=" + SMALLER_NIF);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByNibIsEqualToSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where nib equals to DEFAULT_NIB
-        defaultDeliveryManShouldBeFound("nib.equals=" + DEFAULT_NIB);
-
-        // Get all the deliveryManList where nib equals to UPDATED_NIB
-        defaultDeliveryManShouldNotBeFound("nib.equals=" + UPDATED_NIB);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByNibIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where nib not equals to DEFAULT_NIB
-        defaultDeliveryManShouldNotBeFound("nib.notEquals=" + DEFAULT_NIB);
-
-        // Get all the deliveryManList where nib not equals to UPDATED_NIB
-        defaultDeliveryManShouldBeFound("nib.notEquals=" + UPDATED_NIB);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByNibIsInShouldWork() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where nib in DEFAULT_NIB or UPDATED_NIB
-        defaultDeliveryManShouldBeFound("nib.in=" + DEFAULT_NIB + "," + UPDATED_NIB);
-
-        // Get all the deliveryManList where nib equals to UPDATED_NIB
-        defaultDeliveryManShouldNotBeFound("nib.in=" + UPDATED_NIB);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByNibIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where nib is not null
-        defaultDeliveryManShouldBeFound("nib.specified=true");
-
-        // Get all the deliveryManList where nib is null
-        defaultDeliveryManShouldNotBeFound("nib.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByNibContainsSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where nib contains DEFAULT_NIB
-        defaultDeliveryManShouldBeFound("nib.contains=" + DEFAULT_NIB);
-
-        // Get all the deliveryManList where nib contains UPDATED_NIB
-        defaultDeliveryManShouldNotBeFound("nib.contains=" + UPDATED_NIB);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByNibNotContainsSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where nib does not contain DEFAULT_NIB
-        defaultDeliveryManShouldNotBeFound("nib.doesNotContain=" + DEFAULT_NIB);
-
-        // Get all the deliveryManList where nib does not contain UPDATED_NIB
-        defaultDeliveryManShouldBeFound("nib.doesNotContain=" + UPDATED_NIB);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByBirthdayIsEqualToSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where birthday equals to DEFAULT_BIRTHDAY
-        defaultDeliveryManShouldBeFound("birthday.equals=" + DEFAULT_BIRTHDAY);
-
-        // Get all the deliveryManList where birthday equals to UPDATED_BIRTHDAY
-        defaultDeliveryManShouldNotBeFound("birthday.equals=" + UPDATED_BIRTHDAY);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByBirthdayIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where birthday not equals to DEFAULT_BIRTHDAY
-        defaultDeliveryManShouldNotBeFound("birthday.notEquals=" + DEFAULT_BIRTHDAY);
-
-        // Get all the deliveryManList where birthday not equals to UPDATED_BIRTHDAY
-        defaultDeliveryManShouldBeFound("birthday.notEquals=" + UPDATED_BIRTHDAY);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByBirthdayIsInShouldWork() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where birthday in DEFAULT_BIRTHDAY or UPDATED_BIRTHDAY
-        defaultDeliveryManShouldBeFound("birthday.in=" + DEFAULT_BIRTHDAY + "," + UPDATED_BIRTHDAY);
-
-        // Get all the deliveryManList where birthday equals to UPDATED_BIRTHDAY
-        defaultDeliveryManShouldNotBeFound("birthday.in=" + UPDATED_BIRTHDAY);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByBirthdayIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where birthday is not null
-        defaultDeliveryManShouldBeFound("birthday.specified=true");
-
-        // Get all the deliveryManList where birthday is null
-        defaultDeliveryManShouldNotBeFound("birthday.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByBirthdayIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where birthday is greater than or equal to DEFAULT_BIRTHDAY
-        defaultDeliveryManShouldBeFound("birthday.greaterThanOrEqual=" + DEFAULT_BIRTHDAY);
-
-        // Get all the deliveryManList where birthday is greater than or equal to UPDATED_BIRTHDAY
-        defaultDeliveryManShouldNotBeFound("birthday.greaterThanOrEqual=" + UPDATED_BIRTHDAY);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByBirthdayIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where birthday is less than or equal to DEFAULT_BIRTHDAY
-        defaultDeliveryManShouldBeFound("birthday.lessThanOrEqual=" + DEFAULT_BIRTHDAY);
-
-        // Get all the deliveryManList where birthday is less than or equal to SMALLER_BIRTHDAY
-        defaultDeliveryManShouldNotBeFound("birthday.lessThanOrEqual=" + SMALLER_BIRTHDAY);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByBirthdayIsLessThanSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where birthday is less than DEFAULT_BIRTHDAY
-        defaultDeliveryManShouldNotBeFound("birthday.lessThan=" + DEFAULT_BIRTHDAY);
-
-        // Get all the deliveryManList where birthday is less than UPDATED_BIRTHDAY
-        defaultDeliveryManShouldBeFound("birthday.lessThan=" + UPDATED_BIRTHDAY);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByBirthdayIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where birthday is greater than DEFAULT_BIRTHDAY
-        defaultDeliveryManShouldNotBeFound("birthday.greaterThan=" + DEFAULT_BIRTHDAY);
-
-        // Get all the deliveryManList where birthday is greater than SMALLER_BIRTHDAY
-        defaultDeliveryManShouldBeFound("birthday.greaterThan=" + SMALLER_BIRTHDAY);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByAddressIsEqualToSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where address equals to DEFAULT_ADDRESS
-        defaultDeliveryManShouldBeFound("address.equals=" + DEFAULT_ADDRESS);
-
-        // Get all the deliveryManList where address equals to UPDATED_ADDRESS
-        defaultDeliveryManShouldNotBeFound("address.equals=" + UPDATED_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByAddressIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where address not equals to DEFAULT_ADDRESS
-        defaultDeliveryManShouldNotBeFound("address.notEquals=" + DEFAULT_ADDRESS);
-
-        // Get all the deliveryManList where address not equals to UPDATED_ADDRESS
-        defaultDeliveryManShouldBeFound("address.notEquals=" + UPDATED_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByAddressIsInShouldWork() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where address in DEFAULT_ADDRESS or UPDATED_ADDRESS
-        defaultDeliveryManShouldBeFound("address.in=" + DEFAULT_ADDRESS + "," + UPDATED_ADDRESS);
-
-        // Get all the deliveryManList where address equals to UPDATED_ADDRESS
-        defaultDeliveryManShouldNotBeFound("address.in=" + UPDATED_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByAddressIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where address is not null
-        defaultDeliveryManShouldBeFound("address.specified=true");
-
-        // Get all the deliveryManList where address is null
-        defaultDeliveryManShouldNotBeFound("address.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByAddressContainsSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where address contains DEFAULT_ADDRESS
-        defaultDeliveryManShouldBeFound("address.contains=" + DEFAULT_ADDRESS);
-
-        // Get all the deliveryManList where address contains UPDATED_ADDRESS
-        defaultDeliveryManShouldNotBeFound("address.contains=" + UPDATED_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByAddressNotContainsSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where address does not contain DEFAULT_ADDRESS
-        defaultDeliveryManShouldNotBeFound("address.doesNotContain=" + DEFAULT_ADDRESS);
-
-        // Get all the deliveryManList where address does not contain UPDATED_ADDRESS
-        defaultDeliveryManShouldBeFound("address.doesNotContain=" + UPDATED_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByPhotoIsEqualToSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where photo equals to DEFAULT_PHOTO
-        defaultDeliveryManShouldBeFound("photo.equals=" + DEFAULT_PHOTO);
-
-        // Get all the deliveryManList where photo equals to UPDATED_PHOTO
-        defaultDeliveryManShouldNotBeFound("photo.equals=" + UPDATED_PHOTO);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByPhotoIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where photo not equals to DEFAULT_PHOTO
-        defaultDeliveryManShouldNotBeFound("photo.notEquals=" + DEFAULT_PHOTO);
-
-        // Get all the deliveryManList where photo not equals to UPDATED_PHOTO
-        defaultDeliveryManShouldBeFound("photo.notEquals=" + UPDATED_PHOTO);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByPhotoIsInShouldWork() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where photo in DEFAULT_PHOTO or UPDATED_PHOTO
-        defaultDeliveryManShouldBeFound("photo.in=" + DEFAULT_PHOTO + "," + UPDATED_PHOTO);
-
-        // Get all the deliveryManList where photo equals to UPDATED_PHOTO
-        defaultDeliveryManShouldNotBeFound("photo.in=" + UPDATED_PHOTO);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByPhotoIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where photo is not null
-        defaultDeliveryManShouldBeFound("photo.specified=true");
-
-        // Get all the deliveryManList where photo is null
-        defaultDeliveryManShouldNotBeFound("photo.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByPhotoContainsSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where photo contains DEFAULT_PHOTO
-        defaultDeliveryManShouldBeFound("photo.contains=" + DEFAULT_PHOTO);
-
-        // Get all the deliveryManList where photo contains UPDATED_PHOTO
-        defaultDeliveryManShouldNotBeFound("photo.contains=" + UPDATED_PHOTO);
-    }
-
-    @Test
-    @Transactional
-    void getAllDeliveryMenByPhotoNotContainsSomething() throws Exception {
-        // Initialize the database
-        deliveryManRepository.saveAndFlush(deliveryMan);
-
-        // Get all the deliveryManList where photo does not contain DEFAULT_PHOTO
-        defaultDeliveryManShouldNotBeFound("photo.doesNotContain=" + DEFAULT_PHOTO);
-
-        // Get all the deliveryManList where photo does not contain UPDATED_PHOTO
-        defaultDeliveryManShouldBeFound("photo.doesNotContain=" + UPDATED_PHOTO);
     }
 
     @Test
@@ -1582,6 +859,21 @@ class DeliveryManResourceIT {
 
     @Test
     @Transactional
+    void getAllDeliveryMenByUserInfoIsEqualToSomething() throws Exception {
+        // Get already existing entity
+        UserInfo userInfo = deliveryMan.getUserInfo();
+        deliveryManRepository.saveAndFlush(deliveryMan);
+        Long userInfoId = userInfo.getId();
+
+        // Get all the deliveryManList where userInfo equals to userInfoId
+        defaultDeliveryManShouldBeFound("userInfoId.equals=" + userInfoId);
+
+        // Get all the deliveryManList where userInfo equals to (userInfoId + 1)
+        defaultDeliveryManShouldNotBeFound("userInfoId.equals=" + (userInfoId + 1));
+    }
+
+    @Test
+    @Transactional
     void getAllDeliveryMenByPointIsEqualToSomething() throws Exception {
         // Initialize the database
         deliveryManRepository.saveAndFlush(deliveryMan);
@@ -1608,14 +900,6 @@ class DeliveryManResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(deliveryMan.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
-            .andExpect(jsonPath("$.[*].phoneNumber").value(hasItem(DEFAULT_PHONE_NUMBER)))
-            .andExpect(jsonPath("$.[*].nif").value(hasItem(DEFAULT_NIF)))
-            .andExpect(jsonPath("$.[*].nib").value(hasItem(DEFAULT_NIB)))
-            .andExpect(jsonPath("$.[*].birthday").value(hasItem(DEFAULT_BIRTHDAY.toString())))
-            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
-            .andExpect(jsonPath("$.[*].photo").value(hasItem(DEFAULT_PHOTO)))
             .andExpect(jsonPath("$.[*].openingTime").value(hasItem(DEFAULT_OPENING_TIME)))
             .andExpect(jsonPath("$.[*].numberOfDeliveries").value(hasItem(DEFAULT_NUMBER_OF_DELIVERIES)))
             .andExpect(jsonPath("$.[*].numberOfKm").value(hasItem(DEFAULT_NUMBER_OF_KM.doubleValue())))
@@ -1670,14 +954,6 @@ class DeliveryManResourceIT {
         // Disconnect from session so that the updates on updatedDeliveryMan are not directly saved in db
         em.detach(updatedDeliveryMan);
         updatedDeliveryMan
-            .name(UPDATED_NAME)
-            .email(UPDATED_EMAIL)
-            .phoneNumber(UPDATED_PHONE_NUMBER)
-            .nif(UPDATED_NIF)
-            .nib(UPDATED_NIB)
-            .birthday(UPDATED_BIRTHDAY)
-            .address(UPDATED_ADDRESS)
-            .photo(UPDATED_PHOTO)
             .openingTime(UPDATED_OPENING_TIME)
             .numberOfDeliveries(UPDATED_NUMBER_OF_DELIVERIES)
             .numberOfKm(UPDATED_NUMBER_OF_KM)
@@ -1698,14 +974,6 @@ class DeliveryManResourceIT {
         List<DeliveryMan> deliveryManList = deliveryManRepository.findAll();
         assertThat(deliveryManList).hasSize(databaseSizeBeforeUpdate);
         DeliveryMan testDeliveryMan = deliveryManList.get(deliveryManList.size() - 1);
-        assertThat(testDeliveryMan.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testDeliveryMan.getEmail()).isEqualTo(UPDATED_EMAIL);
-        assertThat(testDeliveryMan.getPhoneNumber()).isEqualTo(UPDATED_PHONE_NUMBER);
-        assertThat(testDeliveryMan.getNif()).isEqualTo(UPDATED_NIF);
-        assertThat(testDeliveryMan.getNib()).isEqualTo(UPDATED_NIB);
-        assertThat(testDeliveryMan.getBirthday()).isEqualTo(UPDATED_BIRTHDAY);
-        assertThat(testDeliveryMan.getAddress()).isEqualTo(UPDATED_ADDRESS);
-        assertThat(testDeliveryMan.getPhoto()).isEqualTo(UPDATED_PHOTO);
         assertThat(testDeliveryMan.getOpeningTime()).isEqualTo(UPDATED_OPENING_TIME);
         assertThat(testDeliveryMan.getNumberOfDeliveries()).isEqualTo(UPDATED_NUMBER_OF_DELIVERIES);
         assertThat(testDeliveryMan.getNumberOfKm()).isEqualTo(UPDATED_NUMBER_OF_KM);
@@ -1791,13 +1059,7 @@ class DeliveryManResourceIT {
         DeliveryMan partialUpdatedDeliveryMan = new DeliveryMan();
         partialUpdatedDeliveryMan.setId(deliveryMan.getId());
 
-        partialUpdatedDeliveryMan
-            .phoneNumber(UPDATED_PHONE_NUMBER)
-            .nif(UPDATED_NIF)
-            .address(UPDATED_ADDRESS)
-            .openingTime(UPDATED_OPENING_TIME)
-            .numberOfKm(UPDATED_NUMBER_OF_KM)
-            .receivedValue(UPDATED_RECEIVED_VALUE);
+        partialUpdatedDeliveryMan.numberOfKm(UPDATED_NUMBER_OF_KM).receivedValue(UPDATED_RECEIVED_VALUE);
 
         restDeliveryManMockMvc
             .perform(
@@ -1811,15 +1073,7 @@ class DeliveryManResourceIT {
         List<DeliveryMan> deliveryManList = deliveryManRepository.findAll();
         assertThat(deliveryManList).hasSize(databaseSizeBeforeUpdate);
         DeliveryMan testDeliveryMan = deliveryManList.get(deliveryManList.size() - 1);
-        assertThat(testDeliveryMan.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testDeliveryMan.getEmail()).isEqualTo(DEFAULT_EMAIL);
-        assertThat(testDeliveryMan.getPhoneNumber()).isEqualTo(UPDATED_PHONE_NUMBER);
-        assertThat(testDeliveryMan.getNif()).isEqualTo(UPDATED_NIF);
-        assertThat(testDeliveryMan.getNib()).isEqualTo(DEFAULT_NIB);
-        assertThat(testDeliveryMan.getBirthday()).isEqualTo(DEFAULT_BIRTHDAY);
-        assertThat(testDeliveryMan.getAddress()).isEqualTo(UPDATED_ADDRESS);
-        assertThat(testDeliveryMan.getPhoto()).isEqualTo(DEFAULT_PHOTO);
-        assertThat(testDeliveryMan.getOpeningTime()).isEqualTo(UPDATED_OPENING_TIME);
+        assertThat(testDeliveryMan.getOpeningTime()).isEqualTo(DEFAULT_OPENING_TIME);
         assertThat(testDeliveryMan.getNumberOfDeliveries()).isEqualTo(DEFAULT_NUMBER_OF_DELIVERIES);
         assertThat(testDeliveryMan.getNumberOfKm()).isEqualTo(UPDATED_NUMBER_OF_KM);
         assertThat(testDeliveryMan.getReceivedValue()).isEqualTo(UPDATED_RECEIVED_VALUE);
@@ -1840,14 +1094,6 @@ class DeliveryManResourceIT {
         partialUpdatedDeliveryMan.setId(deliveryMan.getId());
 
         partialUpdatedDeliveryMan
-            .name(UPDATED_NAME)
-            .email(UPDATED_EMAIL)
-            .phoneNumber(UPDATED_PHONE_NUMBER)
-            .nif(UPDATED_NIF)
-            .nib(UPDATED_NIB)
-            .birthday(UPDATED_BIRTHDAY)
-            .address(UPDATED_ADDRESS)
-            .photo(UPDATED_PHOTO)
             .openingTime(UPDATED_OPENING_TIME)
             .numberOfDeliveries(UPDATED_NUMBER_OF_DELIVERIES)
             .numberOfKm(UPDATED_NUMBER_OF_KM)
@@ -1867,14 +1113,6 @@ class DeliveryManResourceIT {
         List<DeliveryMan> deliveryManList = deliveryManRepository.findAll();
         assertThat(deliveryManList).hasSize(databaseSizeBeforeUpdate);
         DeliveryMan testDeliveryMan = deliveryManList.get(deliveryManList.size() - 1);
-        assertThat(testDeliveryMan.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testDeliveryMan.getEmail()).isEqualTo(UPDATED_EMAIL);
-        assertThat(testDeliveryMan.getPhoneNumber()).isEqualTo(UPDATED_PHONE_NUMBER);
-        assertThat(testDeliveryMan.getNif()).isEqualTo(UPDATED_NIF);
-        assertThat(testDeliveryMan.getNib()).isEqualTo(UPDATED_NIB);
-        assertThat(testDeliveryMan.getBirthday()).isEqualTo(UPDATED_BIRTHDAY);
-        assertThat(testDeliveryMan.getAddress()).isEqualTo(UPDATED_ADDRESS);
-        assertThat(testDeliveryMan.getPhoto()).isEqualTo(UPDATED_PHOTO);
         assertThat(testDeliveryMan.getOpeningTime()).isEqualTo(UPDATED_OPENING_TIME);
         assertThat(testDeliveryMan.getNumberOfDeliveries()).isEqualTo(UPDATED_NUMBER_OF_DELIVERIES);
         assertThat(testDeliveryMan.getNumberOfKm()).isEqualTo(UPDATED_NUMBER_OF_KM);

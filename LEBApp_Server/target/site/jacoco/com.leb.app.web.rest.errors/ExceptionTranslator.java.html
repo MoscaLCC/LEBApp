@@ -68,7 +68,7 @@ public class ExceptionTranslator implements ProblemHandling, SecurityAdviceTrait
 
 <span class="nc" id="L69">        HttpServletRequest nativeRequest = request.getNativeRequest(HttpServletRequest.class);</span>
 <span class="nc bnc" id="L70" title="All 2 branches missed.">        String requestUri = nativeRequest != null ? nativeRequest.getRequestURI() : StringUtils.EMPTY;</span>
-        ProblemBuilder builder = Problem
+<span class="nc" id="L71">        ProblemBuilder builder = Problem</span>
 <span class="nc" id="L72">            .builder()</span>
 <span class="nc bnc" id="L73" title="All 2 branches missed.">            .withType(Problem.DEFAULT_TYPE.equals(problem.getType()) ? ErrorConstants.DEFAULT_TYPE : problem.getType())</span>
 <span class="nc" id="L74">            .withStatus(problem.getStatus())</span>
@@ -79,7 +79,7 @@ public class ExceptionTranslator implements ProblemHandling, SecurityAdviceTrait
 <span class="nc" id="L79">            builder</span>
 <span class="nc" id="L80">                .with(VIOLATIONS_KEY, ((ConstraintViolationProblem) problem).getViolations())</span>
 <span class="nc" id="L81">                .with(MESSAGE_KEY, ErrorConstants.ERR_VALIDATION);</span>
-        } else {
+<span class="nc" id="L82">        } else {</span>
 <span class="nc" id="L83">            builder.withCause(((DefaultProblem) problem).getCause()).withDetail(problem.getDetail()).withInstance(problem.getInstance());</span>
 <span class="nc" id="L84">            problem.getParameters().forEach(builder::with);</span>
 <span class="nc bnc" id="L85" title="All 4 branches missed.">            if (!problem.getParameters().containsKey(MESSAGE_KEY) &amp;&amp; problem.getStatus() != null) {</span>
@@ -96,16 +96,16 @@ public class ExceptionTranslator implements ProblemHandling, SecurityAdviceTrait
 <span class="nc" id="L96">            .getFieldErrors()</span>
 <span class="nc" id="L97">            .stream()</span>
 <span class="nc" id="L98">            .map(</span>
-                f -&gt;
+<span class="nc" id="L99">                f -&gt;</span>
 <span class="nc" id="L100">                    new FieldErrorVM(</span>
 <span class="nc" id="L101">                        f.getObjectName().replaceFirst(&quot;DTO$&quot;, &quot;&quot;),</span>
 <span class="nc" id="L102">                        f.getField(),</span>
 <span class="nc bnc" id="L103" title="All 2 branches missed.">                        StringUtils.isNotBlank(f.getDefaultMessage()) ? f.getDefaultMessage() : f.getCode()</span>
-                    )
+<span class="nc" id="L104">                    )</span>
             )
 <span class="nc" id="L106">            .collect(Collectors.toList());</span>
 
-        Problem problem = Problem
+<span class="nc" id="L108">        Problem problem = Problem</span>
 <span class="nc" id="L109">            .builder()</span>
 <span class="nc" id="L110">            .withType(ErrorConstants.CONSTRAINT_VIOLATION_TYPE)</span>
 <span class="nc" id="L111">            .withTitle(&quot;Method argument not valid&quot;)</span>
@@ -123,8 +123,8 @@ public class ExceptionTranslator implements ProblemHandling, SecurityAdviceTrait
     ) {
 <span class="nc" id="L124">        EmailAlreadyUsedException problem = new EmailAlreadyUsedException();</span>
 <span class="nc" id="L125">        return create(</span>
-            problem,
-            request,
+<span class="nc" id="L126">            problem,</span>
+<span class="nc" id="L127">            request,</span>
 <span class="nc" id="L128">            HeaderUtil.createFailureAlert(applicationName, false, problem.getEntityName(), problem.getErrorKey(), problem.getMessage())</span>
         );
     }
@@ -136,8 +136,8 @@ public class ExceptionTranslator implements ProblemHandling, SecurityAdviceTrait
     ) {
 <span class="nc" id="L137">        LoginAlreadyUsedException problem = new LoginAlreadyUsedException();</span>
 <span class="nc" id="L138">        return create(</span>
-            problem,
-            request,
+<span class="nc" id="L139">            problem,</span>
+<span class="nc" id="L140">            request,</span>
 <span class="nc" id="L141">            HeaderUtil.createFailureAlert(applicationName, false, problem.getEntityName(), problem.getErrorKey(), problem.getMessage())</span>
         );
     }
@@ -153,8 +153,8 @@ public class ExceptionTranslator implements ProblemHandling, SecurityAdviceTrait
     @ExceptionHandler
     public ResponseEntity&lt;Problem&gt; handleBadRequestAlertException(BadRequestAlertException ex, NativeWebRequest request) {
 <span class="nc" id="L155">        return create(</span>
-            ex,
-            request,
+<span class="nc" id="L156">            ex,</span>
+<span class="nc" id="L157">            request,</span>
 <span class="nc" id="L158">            HeaderUtil.createFailureAlert(applicationName, false, ex.getEntityName(), ex.getErrorKey(), ex.getMessage())</span>
         );
     }

@@ -3,7 +3,9 @@ com\leb\app\web\rest\errors\ErrorConstants.class
 com\leb\app\web\rest\vm\ManagedUserVM.class
 com\leb\app\config\AsyncConfiguration.class
 com\leb\app\domain\Request.class
+com\leb\app\domain\UserInfo.class
 com\leb\app\service\mapper\ZoneMapper.class
+com\leb\app\domain\UserInfo_.class
 com\leb\app\service\criteria\ProducerCriteria.class
 com\leb\app\config\LocaleConfiguration.class
 com\leb\app\service\mapper\EntityMapper.class
@@ -13,6 +15,7 @@ com\leb\app\web\rest\UserJWTController$JWTToken.class
 com\leb\app\web\rest\AccountResource.class
 com\leb\app\service\dto\DimensionsDTO.class
 com\leb\app\service\mapper\ProducerMapperImpl.class
+com\leb\app\web\rest\UserInfoResource.class
 com\leb\app\service\mapper\RidePathMapperImpl.class
 com\leb\app\web\rest\PointResource.class
 com\leb\app\security\SpringSecurityAuditorAware.class
@@ -24,6 +27,7 @@ com\leb\app\repository\RequestRepository.class
 com\leb\app\config\Constants.class
 com\leb\app\service\RidePathQueryService.class
 com\leb\app\service\mapper\ZoneMapperImpl.class
+com\leb\app\service\UserInfoQueryService.class
 com\leb\app\service\dto\UserDTO.class
 com\leb\app\config\ApplicationProperties.class
 com\leb\app\service\criteria\RidePathCriteria.class
@@ -50,6 +54,7 @@ com\leb\app\service\EmailAlreadyUsedException.class
 com\leb\app\web\rest\RidePathResource.class
 com\leb\app\security\jwt\JWTFilter.class
 com\leb\app\security\jwt\JWTConfigurer.class
+com\leb\app\repository\UserInfoRepository.class
 com\leb\app\security\DomainUserDetailsService.class
 com\leb\app\domain\Zone_.class
 com\leb\app\repository\ZoneRepository.class
@@ -70,12 +75,14 @@ com\leb\app\config\LoggingConfiguration.class
 com\leb\app\domain\User_.class
 com\leb\app\service\mapper\RequestMapper.class
 com\leb\app\service\DimensionsService.class
+com\leb\app\service\UserInfoService.class
 com\leb\app\service\UsernameAlreadyUsedException.class
 com\leb\app\service\impl\ZoneServiceImpl.class
 com\leb\app\config\SecurityConfiguration.class
 com\leb\app\service\dto\PasswordChangeDTO.class
 com\leb\app\service\mapper\DimensionsMapper.class
 com\leb\app\service\criteria\DeliveryManCriteria.class
+com\leb\app\service\dto\UserInfoDTO.class
 com\leb\app\service\RequestQueryService.class
 com\leb\app\web\rest\ProducerResource.class
 com\leb\app\service\criteria\TransporterCriteria.class
@@ -96,8 +103,10 @@ com\leb\app\service\mapper\TransporterMapperImpl.class
 com\leb\app\service\DeliveryManQueryService.class
 com\leb\app\service\impl\DimensionsServiceImpl.class
 com\leb\app\service\mapper\ProducerMapper.class
+com\leb\app\service\mapper\UserInfoMapperImpl.class
 com\leb\app\service\dto\ProducerDTO.class
 com\leb\app\service\RidePathService.class
+com\leb\app\service\mapper\UserInfoMapper.class
 com\leb\app\service\dto\TransporterDTO.class
 com\leb\app\web\rest\TransporterResource.class
 com\leb\app\repository\TransporterRepository.class
@@ -137,7 +146,9 @@ com\leb\app\security\jwt\TokenProvider.class
 com\leb\app\config\JacksonConfiguration.class
 com\leb\app\service\criteria\DimensionsCriteria.class
 com\leb\app\web\rest\errors\EmailAlreadyUsedException.class
+com\leb\app\service\criteria\UserInfoCriteria.class
 com\leb\app\web\rest\AccountResource$AccountResourceException.class
+com\leb\app\service\impl\UserInfoServiceImpl.class
 com\leb\app\repository\PointRepository.class
 com\leb\app\config\WebConfigurer.class
 com\leb\app\config\DateTimeFormatConfiguration.class

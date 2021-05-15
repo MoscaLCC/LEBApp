@@ -2,10 +2,10 @@
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -22,30 +22,6 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = &quot;name&quot;)
-    private String name;
-
-    @Column(name = &quot;email&quot;)
-    private String email;
-
-    @Column(name = &quot;phone_number&quot;)
-    private String phoneNumber;
-
-    @Column(name = &quot;nib&quot;)
-    private String nib;
-
-    @Column(name = &quot;nif&quot;)
-    private Integer nif;
-
-    @Column(name = &quot;birthday&quot;)
-    private LocalDate birthday;
-
-    @Column(name = &quot;address&quot;)
-    private String address;
-
-    @Column(name = &quot;photo&quot;)
-    private String photo;
 
     @Column(name = &quot;favourite_transport&quot;)
     private String favouriteTransport;
@@ -65,7 +41,12 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
     @Column(name = &quot;ranking&quot;)
     private Double ranking;
 
-<span class="fc" id="L68">    @ManyToMany</span>
+    @OneToOne(optional = false)
+    @NotNull
+    @JoinColumn(unique = true)
+    private UserInfo userInfo;
+
+    @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JoinTable(
         name = &quot;rel_transporter__ride_path&quot;,
@@ -73,304 +54,205 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
         inverseJoinColumns = @JoinColumn(name = &quot;ride_path_id&quot;)
     )
     @JsonIgnoreProperties(value = { &quot;requests&quot;, &quot;transports&quot; }, allowSetters = true)
-    private Set&lt;RidePath&gt; ridePaths = new HashSet&lt;&gt;();
+<span class="fc" id="L57">    private Set&lt;RidePath&gt; ridePaths = new HashSet&lt;&gt;();</span>
 
-<span class="fc" id="L78">    @ManyToMany(mappedBy = &quot;transporters&quot;)</span>
+    @ManyToMany(mappedBy = &quot;transporters&quot;)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { &quot;points&quot;, &quot;transporters&quot; }, allowSetters = true)
-    private Set&lt;Zone&gt; zones = new HashSet&lt;&gt;();
+<span class="fc" id="L62">    private Set&lt;Zone&gt; zones = new HashSet&lt;&gt;();</span>
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
-<span class="fc" id="L85">        return id;</span>
+<span class="fc" id="L66">        return id;</span>
     }
 
     public void setId(Long id) {
-<span class="fc" id="L89">        this.id = id;</span>
-<span class="fc" id="L90">    }</span>
+<span class="fc" id="L70">        this.id = id;</span>
+<span class="fc" id="L71">    }</span>
 
     public Transporter id(Long id) {
-<span class="nc" id="L93">        this.id = id;</span>
-<span class="nc" id="L94">        return this;</span>
+<span class="nc" id="L74">        this.id = id;</span>
+<span class="nc" id="L75">        return this;</span>
     }
-
-    public String getName() {
-<span class="fc" id="L98">        return this.name;</span>
-    }
-
-    public Transporter name(String name) {
-<span class="nc" id="L102">        this.name = name;</span>
-<span class="nc" id="L103">        return this;</span>
-    }
-
-    public void setName(String name) {
-<span class="nc" id="L107">        this.name = name;</span>
-<span class="nc" id="L108">    }</span>
-
-    public String getEmail() {
-<span class="fc" id="L111">        return this.email;</span>
-    }
-
-    public Transporter email(String email) {
-<span class="nc" id="L115">        this.email = email;</span>
-<span class="nc" id="L116">        return this;</span>
-    }
-
-    public void setEmail(String email) {
-<span class="nc" id="L120">        this.email = email;</span>
-<span class="nc" id="L121">    }</span>
-
-    public String getPhoneNumber() {
-<span class="fc" id="L124">        return this.phoneNumber;</span>
-    }
-
-    public Transporter phoneNumber(String phoneNumber) {
-<span class="nc" id="L128">        this.phoneNumber = phoneNumber;</span>
-<span class="nc" id="L129">        return this;</span>
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-<span class="nc" id="L133">        this.phoneNumber = phoneNumber;</span>
-<span class="nc" id="L134">    }</span>
-
-    public String getNib() {
-<span class="fc" id="L137">        return this.nib;</span>
-    }
-
-    public Transporter nib(String nib) {
-<span class="nc" id="L141">        this.nib = nib;</span>
-<span class="nc" id="L142">        return this;</span>
-    }
-
-    public void setNib(String nib) {
-<span class="nc" id="L146">        this.nib = nib;</span>
-<span class="nc" id="L147">    }</span>
-
-    public Integer getNif() {
-<span class="fc" id="L150">        return this.nif;</span>
-    }
-
-    public Transporter nif(Integer nif) {
-<span class="nc" id="L154">        this.nif = nif;</span>
-<span class="nc" id="L155">        return this;</span>
-    }
-
-    public void setNif(Integer nif) {
-<span class="nc" id="L159">        this.nif = nif;</span>
-<span class="nc" id="L160">    }</span>
-
-    public LocalDate getBirthday() {
-<span class="fc" id="L163">        return this.birthday;</span>
-    }
-
-    public Transporter birthday(LocalDate birthday) {
-<span class="nc" id="L167">        this.birthday = birthday;</span>
-<span class="nc" id="L168">        return this;</span>
-    }
-
-    public void setBirthday(LocalDate birthday) {
-<span class="nc" id="L172">        this.birthday = birthday;</span>
-<span class="nc" id="L173">    }</span>
-
-    public String getAddress() {
-<span class="fc" id="L176">        return this.address;</span>
-    }
-
-    public Transporter address(String address) {
-<span class="nc" id="L180">        this.address = address;</span>
-<span class="nc" id="L181">        return this;</span>
-    }
-
-    public void setAddress(String address) {
-<span class="nc" id="L185">        this.address = address;</span>
-<span class="nc" id="L186">    }</span>
-
-    public String getPhoto() {
-<span class="fc" id="L189">        return this.photo;</span>
-    }
-
-    public Transporter photo(String photo) {
-<span class="nc" id="L193">        this.photo = photo;</span>
-<span class="nc" id="L194">        return this;</span>
-    }
-
-    public void setPhoto(String photo) {
-<span class="nc" id="L198">        this.photo = photo;</span>
-<span class="nc" id="L199">    }</span>
 
     public String getFavouriteTransport() {
-<span class="fc" id="L202">        return this.favouriteTransport;</span>
+<span class="fc" id="L79">        return this.favouriteTransport;</span>
     }
 
     public Transporter favouriteTransport(String favouriteTransport) {
-<span class="nc" id="L206">        this.favouriteTransport = favouriteTransport;</span>
-<span class="nc" id="L207">        return this;</span>
+<span class="nc" id="L83">        this.favouriteTransport = favouriteTransport;</span>
+<span class="nc" id="L84">        return this;</span>
     }
 
     public void setFavouriteTransport(String favouriteTransport) {
-<span class="nc" id="L211">        this.favouriteTransport = favouriteTransport;</span>
-<span class="nc" id="L212">    }</span>
+<span class="nc" id="L88">        this.favouriteTransport = favouriteTransport;</span>
+<span class="nc" id="L89">    }</span>
 
     public Integer getNumberOfDeliveries() {
-<span class="fc" id="L215">        return this.numberOfDeliveries;</span>
+<span class="fc" id="L92">        return this.numberOfDeliveries;</span>
     }
 
     public Transporter numberOfDeliveries(Integer numberOfDeliveries) {
-<span class="nc" id="L219">        this.numberOfDeliveries = numberOfDeliveries;</span>
-<span class="nc" id="L220">        return this;</span>
+<span class="nc" id="L96">        this.numberOfDeliveries = numberOfDeliveries;</span>
+<span class="nc" id="L97">        return this;</span>
     }
 
     public void setNumberOfDeliveries(Integer numberOfDeliveries) {
-<span class="nc" id="L224">        this.numberOfDeliveries = numberOfDeliveries;</span>
-<span class="nc" id="L225">    }</span>
+<span class="nc" id="L101">        this.numberOfDeliveries = numberOfDeliveries;</span>
+<span class="nc" id="L102">    }</span>
 
     public Double getNumberOfKm() {
-<span class="fc" id="L228">        return this.numberOfKm;</span>
+<span class="fc" id="L105">        return this.numberOfKm;</span>
     }
 
     public Transporter numberOfKm(Double numberOfKm) {
-<span class="nc" id="L232">        this.numberOfKm = numberOfKm;</span>
-<span class="nc" id="L233">        return this;</span>
+<span class="nc" id="L109">        this.numberOfKm = numberOfKm;</span>
+<span class="nc" id="L110">        return this;</span>
     }
 
     public void setNumberOfKm(Double numberOfKm) {
-<span class="nc" id="L237">        this.numberOfKm = numberOfKm;</span>
-<span class="nc" id="L238">    }</span>
+<span class="nc" id="L114">        this.numberOfKm = numberOfKm;</span>
+<span class="nc" id="L115">    }</span>
 
     public Double getReceivedValue() {
-<span class="fc" id="L241">        return this.receivedValue;</span>
+<span class="fc" id="L118">        return this.receivedValue;</span>
     }
 
     public Transporter receivedValue(Double receivedValue) {
-<span class="nc" id="L245">        this.receivedValue = receivedValue;</span>
-<span class="nc" id="L246">        return this;</span>
+<span class="nc" id="L122">        this.receivedValue = receivedValue;</span>
+<span class="nc" id="L123">        return this;</span>
     }
 
     public void setReceivedValue(Double receivedValue) {
-<span class="nc" id="L250">        this.receivedValue = receivedValue;</span>
-<span class="nc" id="L251">    }</span>
+<span class="nc" id="L127">        this.receivedValue = receivedValue;</span>
+<span class="nc" id="L128">    }</span>
 
     public Double getValueToReceive() {
-<span class="fc" id="L254">        return this.valueToReceive;</span>
+<span class="fc" id="L131">        return this.valueToReceive;</span>
     }
 
     public Transporter valueToReceive(Double valueToReceive) {
-<span class="nc" id="L258">        this.valueToReceive = valueToReceive;</span>
-<span class="nc" id="L259">        return this;</span>
+<span class="nc" id="L135">        this.valueToReceive = valueToReceive;</span>
+<span class="nc" id="L136">        return this;</span>
     }
 
     public void setValueToReceive(Double valueToReceive) {
-<span class="nc" id="L263">        this.valueToReceive = valueToReceive;</span>
-<span class="nc" id="L264">    }</span>
+<span class="nc" id="L140">        this.valueToReceive = valueToReceive;</span>
+<span class="nc" id="L141">    }</span>
 
     public Double getRanking() {
-<span class="fc" id="L267">        return this.ranking;</span>
+<span class="fc" id="L144">        return this.ranking;</span>
     }
 
     public Transporter ranking(Double ranking) {
-<span class="nc" id="L271">        this.ranking = ranking;</span>
-<span class="nc" id="L272">        return this;</span>
+<span class="nc" id="L148">        this.ranking = ranking;</span>
+<span class="nc" id="L149">        return this;</span>
     }
 
     public void setRanking(Double ranking) {
-<span class="nc" id="L276">        this.ranking = ranking;</span>
-<span class="nc" id="L277">    }</span>
+<span class="nc" id="L153">        this.ranking = ranking;</span>
+<span class="nc" id="L154">    }</span>
+
+    public UserInfo getUserInfo() {
+<span class="nc" id="L157">        return this.userInfo;</span>
+    }
+
+    public Transporter userInfo(UserInfo userInfo) {
+<span class="nc" id="L161">        this.setUserInfo(userInfo);</span>
+<span class="nc" id="L162">        return this;</span>
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+<span class="nc" id="L166">        this.userInfo = userInfo;</span>
+<span class="nc" id="L167">    }</span>
 
     public Set&lt;RidePath&gt; getRidePaths() {
-<span class="nc" id="L280">        return this.ridePaths;</span>
+<span class="nc" id="L170">        return this.ridePaths;</span>
     }
 
     public Transporter ridePaths(Set&lt;RidePath&gt; ridePaths) {
-<span class="nc" id="L284">        this.setRidePaths(ridePaths);</span>
-<span class="nc" id="L285">        return this;</span>
+<span class="nc" id="L174">        this.setRidePaths(ridePaths);</span>
+<span class="nc" id="L175">        return this;</span>
     }
 
     public Transporter addRidePath(RidePath ridePath) {
-<span class="nc" id="L289">        this.ridePaths.add(ridePath);</span>
-<span class="nc" id="L290">        ridePath.getTransports().add(this);</span>
-<span class="nc" id="L291">        return this;</span>
+<span class="nc" id="L179">        this.ridePaths.add(ridePath);</span>
+<span class="nc" id="L180">        ridePath.getTransports().add(this);</span>
+<span class="nc" id="L181">        return this;</span>
     }
 
     public Transporter removeRidePath(RidePath ridePath) {
-<span class="nc" id="L295">        this.ridePaths.remove(ridePath);</span>
-<span class="nc" id="L296">        ridePath.getTransports().remove(this);</span>
-<span class="nc" id="L297">        return this;</span>
+<span class="nc" id="L185">        this.ridePaths.remove(ridePath);</span>
+<span class="nc" id="L186">        ridePath.getTransports().remove(this);</span>
+<span class="nc" id="L187">        return this;</span>
     }
 
     public void setRidePaths(Set&lt;RidePath&gt; ridePaths) {
-<span class="nc" id="L301">        this.ridePaths = ridePaths;</span>
-<span class="nc" id="L302">    }</span>
+<span class="nc" id="L191">        this.ridePaths = ridePaths;</span>
+<span class="nc" id="L192">    }</span>
 
     public Set&lt;Zone&gt; getZones() {
-<span class="nc" id="L305">        return this.zones;</span>
+<span class="nc" id="L195">        return this.zones;</span>
     }
 
     public Transporter zones(Set&lt;Zone&gt; zones) {
-<span class="nc" id="L309">        this.setZones(zones);</span>
-<span class="nc" id="L310">        return this;</span>
+<span class="nc" id="L199">        this.setZones(zones);</span>
+<span class="nc" id="L200">        return this;</span>
     }
 
     public Transporter addZones(Zone zone) {
-<span class="nc" id="L314">        this.zones.add(zone);</span>
-<span class="nc" id="L315">        zone.getTransporters().add(this);</span>
-<span class="nc" id="L316">        return this;</span>
+<span class="nc" id="L204">        this.zones.add(zone);</span>
+<span class="nc" id="L205">        zone.getTransporters().add(this);</span>
+<span class="nc" id="L206">        return this;</span>
     }
 
     public Transporter removeZones(Zone zone) {
-<span class="nc" id="L320">        this.zones.remove(zone);</span>
-<span class="nc" id="L321">        zone.getTransporters().remove(this);</span>
-<span class="nc" id="L322">        return this;</span>
+<span class="nc" id="L210">        this.zones.remove(zone);</span>
+<span class="nc" id="L211">        zone.getTransporters().remove(this);</span>
+<span class="nc" id="L212">        return this;</span>
     }
 
     public void setZones(Set&lt;Zone&gt; zones) {
-<span class="nc bnc" id="L326" title="All 2 branches missed.">        if (this.zones != null) {</span>
-<span class="nc" id="L327">            this.zones.forEach(i -&gt; i.removeTransporters(this));</span>
+<span class="nc bnc" id="L216" title="All 2 branches missed.">        if (this.zones != null) {</span>
+<span class="nc" id="L217">            this.zones.forEach(i -&gt; i.removeTransporters(this));</span>
         }
-<span class="nc bnc" id="L329" title="All 2 branches missed.">        if (zones != null) {</span>
-<span class="nc" id="L330">            zones.forEach(i -&gt; i.addTransporters(this));</span>
+<span class="nc bnc" id="L219" title="All 2 branches missed.">        if (zones != null) {</span>
+<span class="nc" id="L220">            zones.forEach(i -&gt; i.addTransporters(this));</span>
         }
-<span class="nc" id="L332">        this.zones = zones;</span>
-<span class="nc" id="L333">    }</span>
+<span class="nc" id="L222">        this.zones = zones;</span>
+<span class="nc" id="L223">    }</span>
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
     public boolean equals(Object o) {
-<span class="pc bpc" id="L339" title="1 of 2 branches missed.">        if (this == o) {</span>
-<span class="nc" id="L340">            return true;</span>
+<span class="pc bpc" id="L229" title="1 of 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L230">            return true;</span>
         }
-<span class="fc bfc" id="L342" title="All 2 branches covered.">        if (!(o instanceof Transporter)) {</span>
-<span class="fc" id="L343">            return false;</span>
+<span class="fc bfc" id="L232" title="All 2 branches covered.">        if (!(o instanceof Transporter)) {</span>
+<span class="fc" id="L233">            return false;</span>
         }
-<span class="fc bfc" id="L345" title="All 4 branches covered.">        return id != null &amp;&amp; id.equals(((Transporter) o).id);</span>
+<span class="fc bfc" id="L235" title="All 4 branches covered.">        return id != null &amp;&amp; id.equals(((Transporter) o).id);</span>
     }
 
     @Override
     public int hashCode() {
         // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
-<span class="fc" id="L351">        return getClass().hashCode();</span>
+<span class="fc" id="L241">        return getClass().hashCode();</span>
     }
 
     // prettier-ignore
     @Override
     public String toString() {
-<span class="fc" id="L357">        return &quot;Transporter{&quot; +</span>
-<span class="fc" id="L358">            &quot;id=&quot; + getId() +</span>
-<span class="fc" id="L359">            &quot;, name='&quot; + getName() + &quot;'&quot; +</span>
-<span class="fc" id="L360">            &quot;, email='&quot; + getEmail() + &quot;'&quot; +</span>
-<span class="fc" id="L361">            &quot;, phoneNumber='&quot; + getPhoneNumber() + &quot;'&quot; +</span>
-<span class="fc" id="L362">            &quot;, nib='&quot; + getNib() + &quot;'&quot; +</span>
-<span class="fc" id="L363">            &quot;, nif=&quot; + getNif() +</span>
-<span class="fc" id="L364">            &quot;, birthday='&quot; + getBirthday() + &quot;'&quot; +</span>
-<span class="fc" id="L365">            &quot;, address='&quot; + getAddress() + &quot;'&quot; +</span>
-<span class="fc" id="L366">            &quot;, photo='&quot; + getPhoto() + &quot;'&quot; +</span>
-<span class="fc" id="L367">            &quot;, favouriteTransport='&quot; + getFavouriteTransport() + &quot;'&quot; +</span>
-<span class="fc" id="L368">            &quot;, numberOfDeliveries=&quot; + getNumberOfDeliveries() +</span>
-<span class="fc" id="L369">            &quot;, numberOfKm=&quot; + getNumberOfKm() +</span>
-<span class="fc" id="L370">            &quot;, receivedValue=&quot; + getReceivedValue() +</span>
-<span class="fc" id="L371">            &quot;, valueToReceive=&quot; + getValueToReceive() +</span>
-<span class="fc" id="L372">            &quot;, ranking=&quot; + getRanking() +</span>
-            &quot;}&quot;;
+<span class="fc" id="L247">        return &quot;Transporter{&quot; +</span>
+<span class="fc" id="L248">            &quot;id=&quot; + getId() +</span>
+<span class="fc" id="L249">            &quot;, favouriteTransport='&quot; + getFavouriteTransport() + &quot;'&quot; +</span>
+<span class="fc" id="L250">            &quot;, numberOfDeliveries=&quot; + getNumberOfDeliveries() +</span>
+<span class="fc" id="L251">            &quot;, numberOfKm=&quot; + getNumberOfKm() +</span>
+<span class="fc" id="L252">            &quot;, receivedValue=&quot; + getReceivedValue() +</span>
+<span class="fc" id="L253">            &quot;, valueToReceive=&quot; + getValueToReceive() +</span>
+<span class="fc" id="L254">            &quot;, ranking=&quot; + getRanking() +</span>
+<span class="fc" id="L255">            &quot;}&quot;;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

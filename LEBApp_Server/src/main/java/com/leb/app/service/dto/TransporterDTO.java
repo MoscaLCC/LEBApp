@@ -1,10 +1,10 @@
 package com.leb.app.service.dto;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import javax.validation.constraints.*;
 
 /**
  * A DTO for the {@link com.leb.app.domain.Transporter} entity.
@@ -12,22 +12,6 @@ import java.util.Set;
 public class TransporterDTO implements Serializable {
 
     private Long id;
-
-    private String name;
-
-    private String email;
-
-    private String phoneNumber;
-
-    private String nib;
-
-    private Integer nif;
-
-    private LocalDate birthday;
-
-    private String address;
-
-    private String photo;
 
     private String favouriteTransport;
 
@@ -41,6 +25,8 @@ public class TransporterDTO implements Serializable {
 
     private Double ranking;
 
+    private UserInfoDTO userInfo;
+
     private Set<RidePathDTO> ridePaths = new HashSet<>();
 
     public Long getId() {
@@ -49,70 +35,6 @@ public class TransporterDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getNib() {
-        return nib;
-    }
-
-    public void setNib(String nib) {
-        this.nib = nib;
-    }
-
-    public Integer getNif() {
-        return nif;
-    }
-
-    public void setNif(Integer nif) {
-        this.nif = nif;
-    }
-
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
     }
 
     public String getFavouriteTransport() {
@@ -163,6 +85,14 @@ public class TransporterDTO implements Serializable {
         this.ranking = ranking;
     }
 
+    public UserInfoDTO getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfoDTO userInfo) {
+        this.userInfo = userInfo;
+    }
+
     public Set<RidePathDTO> getRidePaths() {
         return ridePaths;
     }
@@ -197,20 +127,13 @@ public class TransporterDTO implements Serializable {
     public String toString() {
         return "TransporterDTO{" +
             "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", email='" + getEmail() + "'" +
-            ", phoneNumber='" + getPhoneNumber() + "'" +
-            ", nib='" + getNib() + "'" +
-            ", nif=" + getNif() +
-            ", birthday='" + getBirthday() + "'" +
-            ", address='" + getAddress() + "'" +
-            ", photo='" + getPhoto() + "'" +
             ", favouriteTransport='" + getFavouriteTransport() + "'" +
             ", numberOfDeliveries=" + getNumberOfDeliveries() +
             ", numberOfKm=" + getNumberOfKm() +
             ", receivedValue=" + getReceivedValue() +
             ", valueToReceive=" + getValueToReceive() +
             ", ranking=" + getRanking() +
+            ", userInfo=" + getUserInfo() +
             ", ridePaths=" + getRidePaths() +
             "}";
     }

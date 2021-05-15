@@ -86,24 +86,6 @@ public class PointQueryService extends QueryService<Point> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), Point_.id));
             }
-            if (criteria.getName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getName(), Point_.name));
-            }
-            if (criteria.getEmail() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getEmail(), Point_.email));
-            }
-            if (criteria.getPhoneNumber() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getPhoneNumber(), Point_.phoneNumber));
-            }
-            if (criteria.getNib() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getNib(), Point_.nib));
-            }
-            if (criteria.getNif() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getNif(), Point_.nif));
-            }
-            if (criteria.getAddress() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getAddress(), Point_.address));
-            }
             if (criteria.getOpeningTime() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getOpeningTime(), Point_.openingTime));
             }
@@ -118,6 +100,12 @@ public class PointQueryService extends QueryService<Point> {
             }
             if (criteria.getRanking() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getRanking(), Point_.ranking));
+            }
+            if (criteria.getUserInfoId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getUserInfoId(), root -> root.join(Point_.userInfo, JoinType.LEFT).get(UserInfo_.id))
+                    );
             }
             if (criteria.getDeliveryManId() != null) {
                 specification =

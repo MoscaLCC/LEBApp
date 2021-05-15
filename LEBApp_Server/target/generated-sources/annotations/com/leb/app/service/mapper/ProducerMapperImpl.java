@@ -5,15 +5,19 @@ import com.leb.app.service.dto.ProducerDTO;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-05-14T22:42:45+0100",
-    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)"
+    date = "2021-05-15T01:03:52+0100",
+    comments = "version: 1.4.2.Final, compiler: Eclipse JDT (IDE) 1.3.1300.v20210331-0708, environment: Java 11.0.11 (Oracle Corporation)"
 )
 @Component
 public class ProducerMapperImpl implements ProducerMapper {
+
+    @Autowired
+    private UserInfoMapper userInfoMapper;
 
     @Override
     public Producer toEntity(ProducerDTO dto) {
@@ -24,47 +28,14 @@ public class ProducerMapperImpl implements ProducerMapper {
         Producer producer = new Producer();
 
         producer.id( dto.getId() );
-        producer.setName( dto.getName() );
-        producer.setMail( dto.getMail() );
-        producer.setPhoneNumber( dto.getPhoneNumber() );
-        producer.setNib( dto.getNib() );
-        producer.setNif( dto.getNif() );
-        producer.setBirthday( dto.getBirthday() );
-        producer.setAdress( dto.getAdress() );
-        producer.setPhoto( dto.getPhoto() );
         producer.setLinkSocial( dto.getLinkSocial() );
         producer.setNumberRequests( dto.getNumberRequests() );
         producer.setPayedValue( dto.getPayedValue() );
         producer.setValueToPay( dto.getValueToPay() );
         producer.setRanking( dto.getRanking() );
+        producer.setUserInfo( userInfoMapper.toEntity( dto.getUserInfo() ) );
 
         return producer;
-    }
-
-    @Override
-    public ProducerDTO toDto(Producer entity) {
-        if ( entity == null ) {
-            return null;
-        }
-
-        ProducerDTO producerDTO = new ProducerDTO();
-
-        producerDTO.setId( entity.getId() );
-        producerDTO.setName( entity.getName() );
-        producerDTO.setMail( entity.getMail() );
-        producerDTO.setPhoneNumber( entity.getPhoneNumber() );
-        producerDTO.setNib( entity.getNib() );
-        producerDTO.setNif( entity.getNif() );
-        producerDTO.setBirthday( entity.getBirthday() );
-        producerDTO.setAdress( entity.getAdress() );
-        producerDTO.setPhoto( entity.getPhoto() );
-        producerDTO.setLinkSocial( entity.getLinkSocial() );
-        producerDTO.setNumberRequests( entity.getNumberRequests() );
-        producerDTO.setPayedValue( entity.getPayedValue() );
-        producerDTO.setValueToPay( entity.getValueToPay() );
-        producerDTO.setRanking( entity.getRanking() );
-
-        return producerDTO;
     }
 
     @Override
@@ -104,30 +75,6 @@ public class ProducerMapperImpl implements ProducerMapper {
         if ( dto.getId() != null ) {
             entity.id( dto.getId() );
         }
-        if ( dto.getName() != null ) {
-            entity.setName( dto.getName() );
-        }
-        if ( dto.getMail() != null ) {
-            entity.setMail( dto.getMail() );
-        }
-        if ( dto.getPhoneNumber() != null ) {
-            entity.setPhoneNumber( dto.getPhoneNumber() );
-        }
-        if ( dto.getNib() != null ) {
-            entity.setNib( dto.getNib() );
-        }
-        if ( dto.getNif() != null ) {
-            entity.setNif( dto.getNif() );
-        }
-        if ( dto.getBirthday() != null ) {
-            entity.setBirthday( dto.getBirthday() );
-        }
-        if ( dto.getAdress() != null ) {
-            entity.setAdress( dto.getAdress() );
-        }
-        if ( dto.getPhoto() != null ) {
-            entity.setPhoto( dto.getPhoto() );
-        }
         if ( dto.getLinkSocial() != null ) {
             entity.setLinkSocial( dto.getLinkSocial() );
         }
@@ -143,6 +90,28 @@ public class ProducerMapperImpl implements ProducerMapper {
         if ( dto.getRanking() != null ) {
             entity.setRanking( dto.getRanking() );
         }
+        if ( dto.getUserInfo() != null ) {
+            entity.setUserInfo( userInfoMapper.toEntity( dto.getUserInfo() ) );
+        }
+    }
+
+    @Override
+    public ProducerDTO toDto(Producer s) {
+        if ( s == null ) {
+            return null;
+        }
+
+        ProducerDTO producerDTO = new ProducerDTO();
+
+        producerDTO.setUserInfo( userInfoMapper.toDtoId( s.getUserInfo() ) );
+        producerDTO.setId( s.getId() );
+        producerDTO.setLinkSocial( s.getLinkSocial() );
+        producerDTO.setNumberRequests( s.getNumberRequests() );
+        producerDTO.setPayedValue( s.getPayedValue() );
+        producerDTO.setValueToPay( s.getValueToPay() );
+        producerDTO.setRanking( s.getRanking() );
+
+        return producerDTO;
     }
 
     @Override

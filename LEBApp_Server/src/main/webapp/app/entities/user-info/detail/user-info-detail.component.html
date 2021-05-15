@@ -1,0 +1,48 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="userInfo">
+      <h2 data-cy="userInfoDetailsHeading"><span>User Info</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ userInfo.id }}</span>
+        </dd>
+        <dt><span>Phone Number</span></dt>
+        <dd>
+          <span>{{ userInfo.phoneNumber }}</span>
+        </dd>
+        <dt><span>Nib</span></dt>
+        <dd>
+          <span>{{ userInfo.nib }}</span>
+        </dd>
+        <dt><span>Nif</span></dt>
+        <dd>
+          <span>{{ userInfo.nif }}</span>
+        </dd>
+        <dt><span>Birthday</span></dt>
+        <dd>
+          <span>{{ userInfo.birthday | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Adress</span></dt>
+        <dd>
+          <span>{{ userInfo.adress }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/user-info', userInfo.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

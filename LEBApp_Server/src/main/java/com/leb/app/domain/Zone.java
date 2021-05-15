@@ -27,7 +27,7 @@ public class Zone implements Serializable {
 
     @OneToMany(mappedBy = "zone")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "deliveryMen", "zone" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "userInfo", "deliveryMen", "zone" }, allowSetters = true)
     private Set<Point> points = new HashSet<>();
 
     @ManyToMany
@@ -37,7 +37,7 @@ public class Zone implements Serializable {
         joinColumns = @JoinColumn(name = "zone_id"),
         inverseJoinColumns = @JoinColumn(name = "transporters_id")
     )
-    @JsonIgnoreProperties(value = { "ridePaths", "zones" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "userInfo", "ridePaths", "zones" }, allowSetters = true)
     private Set<Transporter> transporters = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

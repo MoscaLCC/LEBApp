@@ -9,6 +9,8 @@ import { of, Subject } from 'rxjs';
 
 import { TransporterService } from '../service/transporter.service';
 import { ITransporter, Transporter } from '../transporter.model';
+import { IUserInfo } from 'app/entities/user-info/user-info.model';
+import { UserInfoService } from 'app/entities/user-info/service/user-info.service';
 import { IRidePath } from 'app/entities/ride-path/ride-path.model';
 import { RidePathService } from 'app/entities/ride-path/service/ride-path.service';
 
@@ -20,6 +22,7 @@ describe('Component Tests', () => {
     let fixture: ComponentFixture<TransporterUpdateComponent>;
     let activatedRoute: ActivatedRoute;
     let transporterService: TransporterService;
+    let userInfoService: UserInfoService;
     let ridePathService: RidePathService;
 
     beforeEach(() => {
@@ -34,12 +37,31 @@ describe('Component Tests', () => {
       fixture = TestBed.createComponent(TransporterUpdateComponent);
       activatedRoute = TestBed.inject(ActivatedRoute);
       transporterService = TestBed.inject(TransporterService);
+      userInfoService = TestBed.inject(UserInfoService);
       ridePathService = TestBed.inject(RidePathService);
 
       comp = fixture.componentInstance;
     });
 
     describe('ngOnInit', () => {
+      it('Should call userInfo query and add missing value', () => {
+        const transporter: ITransporter = { id: 456 };
+        const userInfo: IUserInfo = { id: 22992 };
+        transporter.userInfo = userInfo;
+
+        const userInfoCollection: IUserInfo[] = [{ id: 94476 }];
+        spyOn(userInfoService, 'query').and.returnValue(of(new HttpResponse({ body: userInfoCollection })));
+        const expectedCollection: IUserInfo[] = [userInfo, ...userInfoCollection];
+        spyOn(userInfoService, 'addUserInfoToCollectionIfMissing').and.returnValue(expectedCollection);
+
+        activatedRoute.data = of({ transporter });
+        comp.ngOnInit();
+
+        expect(userInfoService.query).toHaveBeenCalled();
+        expect(userInfoService.addUserInfoToCollectionIfMissing).toHaveBeenCalledWith(userInfoCollection, userInfo);
+        expect(comp.userInfosCollection).toEqual(expectedCollection);
+      });
+
       it('Should call RidePath query and add missing value', () => {
         const transporter: ITransporter = { id: 456 };
         const ridePaths: IRidePath[] = [{ id: 72935 }];
@@ -61,6 +83,8 @@ describe('Component Tests', () => {
 
       it('Should update editForm', () => {
         const transporter: ITransporter = { id: 456 };
+        const userInfo: IUserInfo = { id: 94161 };
+        transporter.userInfo = userInfo;
         const ridePaths: IRidePath = { id: 13491 };
         transporter.ridePaths = [ridePaths];
 
@@ -68,6 +92,7 @@ describe('Component Tests', () => {
         comp.ngOnInit();
 
         expect(comp.editForm.value).toEqual(expect.objectContaining(transporter));
+        expect(comp.userInfosCollection).toContain(userInfo);
         expect(comp.ridePathsSharedCollection).toContain(ridePaths);
       });
     });
@@ -137,6 +162,14 @@ describe('Component Tests', () => {
     });
 
     describe('Tracking relationships identifiers', () => {
+      describe('trackUserInfoById', () => {
+        it('Should return tracked UserInfo primary key', () => {
+          const entity = { id: 123 };
+          const trackResult = comp.trackUserInfoById(0, entity);
+          expect(trackResult).toEqual(entity.id);
+        });
+      });
+
       describe('trackRidePathById', () => {
         it('Should return tracked RidePath primary key', () => {
           const entity = { id: 123 };

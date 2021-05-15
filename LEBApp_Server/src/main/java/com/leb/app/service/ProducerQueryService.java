@@ -86,30 +86,6 @@ public class ProducerQueryService extends QueryService<Producer> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), Producer_.id));
             }
-            if (criteria.getName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getName(), Producer_.name));
-            }
-            if (criteria.getMail() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getMail(), Producer_.mail));
-            }
-            if (criteria.getPhoneNumber() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getPhoneNumber(), Producer_.phoneNumber));
-            }
-            if (criteria.getNib() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getNib(), Producer_.nib));
-            }
-            if (criteria.getNif() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getNif(), Producer_.nif));
-            }
-            if (criteria.getBirthday() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getBirthday(), Producer_.birthday));
-            }
-            if (criteria.getAdress() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getAdress(), Producer_.adress));
-            }
-            if (criteria.getPhoto() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getPhoto(), Producer_.photo));
-            }
             if (criteria.getLinkSocial() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLinkSocial(), Producer_.linkSocial));
             }
@@ -124,6 +100,12 @@ public class ProducerQueryService extends QueryService<Producer> {
             }
             if (criteria.getRanking() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getRanking(), Producer_.ranking));
+            }
+            if (criteria.getUserInfoId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getUserInfoId(), root -> root.join(Producer_.userInfo, JoinType.LEFT).get(UserInfo_.id))
+                    );
             }
             if (criteria.getRequestId() != null) {
                 specification =

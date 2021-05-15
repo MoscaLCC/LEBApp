@@ -14,12 +14,14 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-05-14T22:42:45+0100",
-    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)"
+    date = "2021-05-15T01:03:52+0100",
+    comments = "version: 1.4.2.Final, compiler: Eclipse JDT (IDE) 1.3.1300.v20210331-0708, environment: Java 11.0.11 (Oracle Corporation)"
 )
 @Component
 public class TransporterMapperImpl implements TransporterMapper {
 
+    @Autowired
+    private UserInfoMapper userInfoMapper;
     @Autowired
     private RidePathMapper ridePathMapper;
 
@@ -60,30 +62,6 @@ public class TransporterMapperImpl implements TransporterMapper {
         if ( dto.getId() != null ) {
             entity.id( dto.getId() );
         }
-        if ( dto.getName() != null ) {
-            entity.setName( dto.getName() );
-        }
-        if ( dto.getEmail() != null ) {
-            entity.setEmail( dto.getEmail() );
-        }
-        if ( dto.getPhoneNumber() != null ) {
-            entity.setPhoneNumber( dto.getPhoneNumber() );
-        }
-        if ( dto.getNib() != null ) {
-            entity.setNib( dto.getNib() );
-        }
-        if ( dto.getNif() != null ) {
-            entity.setNif( dto.getNif() );
-        }
-        if ( dto.getBirthday() != null ) {
-            entity.setBirthday( dto.getBirthday() );
-        }
-        if ( dto.getAddress() != null ) {
-            entity.setAddress( dto.getAddress() );
-        }
-        if ( dto.getPhoto() != null ) {
-            entity.setPhoto( dto.getPhoto() );
-        }
         if ( dto.getFavouriteTransport() != null ) {
             entity.setFavouriteTransport( dto.getFavouriteTransport() );
         }
@@ -101,6 +79,9 @@ public class TransporterMapperImpl implements TransporterMapper {
         }
         if ( dto.getRanking() != null ) {
             entity.setRanking( dto.getRanking() );
+        }
+        if ( dto.getUserInfo() != null ) {
+            entity.setUserInfo( userInfoMapper.toEntity( dto.getUserInfo() ) );
         }
         if ( entity.getRidePaths() != null ) {
             Set<RidePath> set = ridePathDTOSetToRidePathSet( dto.getRidePaths() );
@@ -125,16 +106,9 @@ public class TransporterMapperImpl implements TransporterMapper {
 
         TransporterDTO transporterDTO = new TransporterDTO();
 
+        transporterDTO.setUserInfo( userInfoMapper.toDtoId( s.getUserInfo() ) );
         transporterDTO.setRidePaths( ridePathMapper.toDtoIdSet( s.getRidePaths() ) );
         transporterDTO.setId( s.getId() );
-        transporterDTO.setName( s.getName() );
-        transporterDTO.setEmail( s.getEmail() );
-        transporterDTO.setPhoneNumber( s.getPhoneNumber() );
-        transporterDTO.setNib( s.getNib() );
-        transporterDTO.setNif( s.getNif() );
-        transporterDTO.setBirthday( s.getBirthday() );
-        transporterDTO.setAddress( s.getAddress() );
-        transporterDTO.setPhoto( s.getPhoto() );
         transporterDTO.setFavouriteTransport( s.getFavouriteTransport() );
         transporterDTO.setNumberOfDeliveries( s.getNumberOfDeliveries() );
         transporterDTO.setNumberOfKm( s.getNumberOfKm() );
@@ -168,20 +142,13 @@ public class TransporterMapperImpl implements TransporterMapper {
         Transporter transporter = new Transporter();
 
         transporter.id( transporterDTO.getId() );
-        transporter.setName( transporterDTO.getName() );
-        transporter.setEmail( transporterDTO.getEmail() );
-        transporter.setPhoneNumber( transporterDTO.getPhoneNumber() );
-        transporter.setNib( transporterDTO.getNib() );
-        transporter.setNif( transporterDTO.getNif() );
-        transporter.setBirthday( transporterDTO.getBirthday() );
-        transporter.setAddress( transporterDTO.getAddress() );
-        transporter.setPhoto( transporterDTO.getPhoto() );
         transporter.setFavouriteTransport( transporterDTO.getFavouriteTransport() );
         transporter.setNumberOfDeliveries( transporterDTO.getNumberOfDeliveries() );
         transporter.setNumberOfKm( transporterDTO.getNumberOfKm() );
         transporter.setReceivedValue( transporterDTO.getReceivedValue() );
         transporter.setValueToReceive( transporterDTO.getValueToReceive() );
         transporter.setRanking( transporterDTO.getRanking() );
+        transporter.setUserInfo( userInfoMapper.toEntity( transporterDTO.getUserInfo() ) );
         transporter.setRidePaths( ridePathDTOSetToRidePathSet( transporterDTO.getRidePaths() ) );
 
         return transporter;

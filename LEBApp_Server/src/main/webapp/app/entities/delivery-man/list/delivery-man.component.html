@@ -33,20 +33,13 @@
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
           <th scope="col" jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="name"><span>Name</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="email"><span>Email</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="phoneNumber"><span>Phone Number</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="nif"><span>Nif</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="nib"><span>Nib</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="birthday"><span>Birthday</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="address"><span>Address</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="photo"><span>Photo</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="openingTime"><span>Opening Time</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="numberOfDeliveries"><span>Number Of Deliveries</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="numberOfKm"><span>Number Of Km</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="receivedValue"><span>Received Value</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="valueToReceive"><span>Value To Receive</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="ranking"><span>Ranking</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="userInfo.id"><span>User Info</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="point.id"><span>Point</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col"></th>
         </tr>
@@ -56,20 +49,17 @@
           <td>
             <a [routerLink]="['/delivery-man', deliveryMan.id, 'view']">{{ deliveryMan.id }}</a>
           </td>
-          <td>{{ deliveryMan.name }}</td>
-          <td>{{ deliveryMan.email }}</td>
-          <td>{{ deliveryMan.phoneNumber }}</td>
-          <td>{{ deliveryMan.nif }}</td>
-          <td>{{ deliveryMan.nib }}</td>
-          <td>{{ deliveryMan.birthday | formatMediumDate }}</td>
-          <td>{{ deliveryMan.address }}</td>
-          <td>{{ deliveryMan.photo }}</td>
           <td>{{ deliveryMan.openingTime }}</td>
           <td>{{ deliveryMan.numberOfDeliveries }}</td>
           <td>{{ deliveryMan.numberOfKm }}</td>
           <td>{{ deliveryMan.receivedValue }}</td>
           <td>{{ deliveryMan.valueToReceive }}</td>
           <td>{{ deliveryMan.ranking }}</td>
+          <td>
+            <div *ngIf="deliveryMan.userInfo">
+              <a [routerLink]="['/user-info', deliveryMan.userInfo?.id, 'view']">{{ deliveryMan.userInfo?.id }}</a>
+            </div>
+          </td>
           <td>
             <div *ngIf="deliveryMan.point">
               <a [routerLink]="['/point', deliveryMan.point?.id, 'view']">{{ deliveryMan.point?.id }}</a>

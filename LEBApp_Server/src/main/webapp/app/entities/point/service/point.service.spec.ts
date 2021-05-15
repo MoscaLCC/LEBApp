@@ -22,12 +22,6 @@ describe('Service Tests', () => {
 
       elemDefault = {
         id: 0,
-        name: 'AAAAAAA',
-        email: 'AAAAAAA',
-        phoneNumber: 'AAAAAAA',
-        nib: 'AAAAAAA',
-        nif: 0,
-        address: 'AAAAAAA',
         openingTime: 'AAAAAAA',
         numberOfDeliveries: 0,
         receivedValue: 0,
@@ -68,12 +62,6 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            name: 'BBBBBB',
-            email: 'BBBBBB',
-            phoneNumber: 'BBBBBB',
-            nib: 'BBBBBB',
-            nif: 1,
-            address: 'BBBBBB',
             openingTime: 'BBBBBB',
             numberOfDeliveries: 1,
             receivedValue: 1,
@@ -95,11 +83,8 @@ describe('Service Tests', () => {
       it('should partial update a Point', () => {
         const patchObject = Object.assign(
           {
-            name: 'BBBBBB',
-            phoneNumber: 'BBBBBB',
             openingTime: 'BBBBBB',
-            valueToReceive: 1,
-            ranking: 1,
+            receivedValue: 1,
           },
           new Point()
         );
@@ -119,12 +104,6 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 1,
-            name: 'BBBBBB',
-            email: 'BBBBBB',
-            phoneNumber: 'BBBBBB',
-            nib: 'BBBBBB',
-            nif: 1,
-            address: 'BBBBBB',
             openingTime: 'BBBBBB',
             numberOfDeliveries: 1,
             receivedValue: 1,
@@ -181,7 +160,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique Point to an array', () => {
-          const pointArray: IPoint[] = [{ id: 123 }, { id: 456 }, { id: 18777 }];
+          const pointArray: IPoint[] = [{ id: 123 }, { id: 456 }, { id: 29526 }];
           const pointCollection: IPoint[] = [{ id: 123 }];
           expectedResult = service.addPointToCollectionIfMissing(pointCollection, ...pointArray);
           expect(expectedResult).toHaveLength(3);

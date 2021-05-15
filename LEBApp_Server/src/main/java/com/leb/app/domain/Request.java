@@ -81,7 +81,7 @@ public class Request implements Serializable {
 
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { "requests" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "userInfo", "requests" }, allowSetters = true)
     private Producer producer;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

@@ -86,30 +86,6 @@ public class TransporterQueryService extends QueryService<Transporter> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), Transporter_.id));
             }
-            if (criteria.getName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getName(), Transporter_.name));
-            }
-            if (criteria.getEmail() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getEmail(), Transporter_.email));
-            }
-            if (criteria.getPhoneNumber() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getPhoneNumber(), Transporter_.phoneNumber));
-            }
-            if (criteria.getNib() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getNib(), Transporter_.nib));
-            }
-            if (criteria.getNif() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getNif(), Transporter_.nif));
-            }
-            if (criteria.getBirthday() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getBirthday(), Transporter_.birthday));
-            }
-            if (criteria.getAddress() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getAddress(), Transporter_.address));
-            }
-            if (criteria.getPhoto() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getPhoto(), Transporter_.photo));
-            }
             if (criteria.getFavouriteTransport() != null) {
                 specification =
                     specification.and(buildStringSpecification(criteria.getFavouriteTransport(), Transporter_.favouriteTransport));
@@ -129,6 +105,15 @@ public class TransporterQueryService extends QueryService<Transporter> {
             }
             if (criteria.getRanking() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getRanking(), Transporter_.ranking));
+            }
+            if (criteria.getUserInfoId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getUserInfoId(),
+                            root -> root.join(Transporter_.userInfo, JoinType.LEFT).get(UserInfo_.id)
+                        )
+                    );
             }
             if (criteria.getRidePathId() != null) {
                 specification =

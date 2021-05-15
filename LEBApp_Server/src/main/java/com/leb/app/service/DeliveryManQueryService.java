@@ -86,30 +86,6 @@ public class DeliveryManQueryService extends QueryService<DeliveryMan> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), DeliveryMan_.id));
             }
-            if (criteria.getName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getName(), DeliveryMan_.name));
-            }
-            if (criteria.getEmail() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getEmail(), DeliveryMan_.email));
-            }
-            if (criteria.getPhoneNumber() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getPhoneNumber(), DeliveryMan_.phoneNumber));
-            }
-            if (criteria.getNif() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getNif(), DeliveryMan_.nif));
-            }
-            if (criteria.getNib() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getNib(), DeliveryMan_.nib));
-            }
-            if (criteria.getBirthday() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getBirthday(), DeliveryMan_.birthday));
-            }
-            if (criteria.getAddress() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getAddress(), DeliveryMan_.address));
-            }
-            if (criteria.getPhoto() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getPhoto(), DeliveryMan_.photo));
-            }
             if (criteria.getOpeningTime() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getOpeningTime(), DeliveryMan_.openingTime));
             }
@@ -128,6 +104,15 @@ public class DeliveryManQueryService extends QueryService<DeliveryMan> {
             }
             if (criteria.getRanking() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getRanking(), DeliveryMan_.ranking));
+            }
+            if (criteria.getUserInfoId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getUserInfoId(),
+                            root -> root.join(DeliveryMan_.userInfo, JoinType.LEFT).get(UserInfo_.id)
+                        )
+                    );
             }
             if (criteria.getPointId() != null) {
                 specification =

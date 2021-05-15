@@ -46,7 +46,7 @@ public class RequestServiceImpl implements RequestService {
 <span class="nc" id="L46">        return requestRepository</span>
 <span class="nc" id="L47">            .findById(requestDTO.getId())</span>
 <span class="nc" id="L48">            .map(</span>
-                existingRequest -&gt; {
+<span class="nc" id="L49">                existingRequest -&gt; {</span>
 <span class="nc" id="L50">                    requestMapper.partialUpdate(existingRequest, requestDTO);</span>
 <span class="nc" id="L51">                    return existingRequest;</span>
                 }

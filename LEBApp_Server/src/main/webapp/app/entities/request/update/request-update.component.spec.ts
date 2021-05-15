@@ -87,10 +87,10 @@ describe('Component Tests', () => {
 
       it('Should call Producer query and add missing value', () => {
         const request: IRequest = { id: 456 };
-        const producer: IProducer = { id: 12437 };
+        const producer: IProducer = { id: 10517 };
         request.producer = producer;
 
-        const producerCollection: IProducer[] = [{ id: 77377 }];
+        const producerCollection: IProducer[] = [{ id: 52892 }];
         spyOn(producerService, 'query').and.returnValue(of(new HttpResponse({ body: producerCollection })));
         const additionalProducers = [producer];
         const expectedCollection: IProducer[] = [...additionalProducers, ...producerCollection];
@@ -110,7 +110,7 @@ describe('Component Tests', () => {
         request.dimensions = dimensions;
         const ridePath: IRidePath = { id: 82544 };
         request.ridePath = ridePath;
-        const producer: IProducer = { id: 63391 };
+        const producer: IProducer = { id: 94945 };
         request.producer = producer;
 
         activatedRoute.data = of({ request });

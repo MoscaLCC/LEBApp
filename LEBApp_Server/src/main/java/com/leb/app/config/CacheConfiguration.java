@@ -64,6 +64,7 @@ public class CacheConfiguration {
             createCache(cm, com.leb.app.domain.Zone.class.getName());
             createCache(cm, com.leb.app.domain.Zone.class.getName() + ".points");
             createCache(cm, com.leb.app.domain.Zone.class.getName() + ".transporters");
+            createCache(cm, com.leb.app.domain.UserInfo.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

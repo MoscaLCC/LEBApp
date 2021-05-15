@@ -9,14 +9,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.leb.app.IntegrationTest;
 import com.leb.app.domain.RidePath;
 import com.leb.app.domain.Transporter;
+import com.leb.app.domain.UserInfo;
 import com.leb.app.domain.Zone;
 import com.leb.app.repository.TransporterRepository;
 import com.leb.app.service.TransporterService;
 import com.leb.app.service.criteria.TransporterCriteria;
 import com.leb.app.service.dto.TransporterDTO;
 import com.leb.app.service.mapper.TransporterMapper;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -44,32 +43,6 @@ import org.springframework.transaction.annotation.Transactional;
 @AutoConfigureMockMvc
 @WithMockUser
 class TransporterResourceIT {
-
-    private static final String DEFAULT_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_NAME = "BBBBBBBBBB";
-
-    private static final String DEFAULT_EMAIL = "AAAAAAAAAA";
-    private static final String UPDATED_EMAIL = "BBBBBBBBBB";
-
-    private static final String DEFAULT_PHONE_NUMBER = "AAAAAAAAAA";
-    private static final String UPDATED_PHONE_NUMBER = "BBBBBBBBBB";
-
-    private static final String DEFAULT_NIB = "AAAAAAAAAA";
-    private static final String UPDATED_NIB = "BBBBBBBBBB";
-
-    private static final Integer DEFAULT_NIF = 1;
-    private static final Integer UPDATED_NIF = 2;
-    private static final Integer SMALLER_NIF = 1 - 1;
-
-    private static final LocalDate DEFAULT_BIRTHDAY = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_BIRTHDAY = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_BIRTHDAY = LocalDate.ofEpochDay(-1L);
-
-    private static final String DEFAULT_ADDRESS = "AAAAAAAAAA";
-    private static final String UPDATED_ADDRESS = "BBBBBBBBBB";
-
-    private static final String DEFAULT_PHOTO = "AAAAAAAAAA";
-    private static final String UPDATED_PHOTO = "BBBBBBBBBB";
 
     private static final String DEFAULT_FAVOURITE_TRANSPORT = "AAAAAAAAAA";
     private static final String UPDATED_FAVOURITE_TRANSPORT = "BBBBBBBBBB";
@@ -128,20 +101,22 @@ class TransporterResourceIT {
      */
     public static Transporter createEntity(EntityManager em) {
         Transporter transporter = new Transporter()
-            .name(DEFAULT_NAME)
-            .email(DEFAULT_EMAIL)
-            .phoneNumber(DEFAULT_PHONE_NUMBER)
-            .nib(DEFAULT_NIB)
-            .nif(DEFAULT_NIF)
-            .birthday(DEFAULT_BIRTHDAY)
-            .address(DEFAULT_ADDRESS)
-            .photo(DEFAULT_PHOTO)
             .favouriteTransport(DEFAULT_FAVOURITE_TRANSPORT)
             .numberOfDeliveries(DEFAULT_NUMBER_OF_DELIVERIES)
             .numberOfKm(DEFAULT_NUMBER_OF_KM)
             .receivedValue(DEFAULT_RECEIVED_VALUE)
             .valueToReceive(DEFAULT_VALUE_TO_RECEIVE)
             .ranking(DEFAULT_RANKING);
+        // Add required entity
+        UserInfo userInfo;
+        if (TestUtil.findAll(em, UserInfo.class).isEmpty()) {
+            userInfo = UserInfoResourceIT.createEntity(em);
+            em.persist(userInfo);
+            em.flush();
+        } else {
+            userInfo = TestUtil.findAll(em, UserInfo.class).get(0);
+        }
+        transporter.setUserInfo(userInfo);
         return transporter;
     }
 
@@ -153,20 +128,22 @@ class TransporterResourceIT {
      */
     public static Transporter createUpdatedEntity(EntityManager em) {
         Transporter transporter = new Transporter()
-            .name(UPDATED_NAME)
-            .email(UPDATED_EMAIL)
-            .phoneNumber(UPDATED_PHONE_NUMBER)
-            .nib(UPDATED_NIB)
-            .nif(UPDATED_NIF)
-            .birthday(UPDATED_BIRTHDAY)
-            .address(UPDATED_ADDRESS)
-            .photo(UPDATED_PHOTO)
             .favouriteTransport(UPDATED_FAVOURITE_TRANSPORT)
             .numberOfDeliveries(UPDATED_NUMBER_OF_DELIVERIES)
             .numberOfKm(UPDATED_NUMBER_OF_KM)
             .receivedValue(UPDATED_RECEIVED_VALUE)
             .valueToReceive(UPDATED_VALUE_TO_RECEIVE)
             .ranking(UPDATED_RANKING);
+        // Add required entity
+        UserInfo userInfo;
+        if (TestUtil.findAll(em, UserInfo.class).isEmpty()) {
+            userInfo = UserInfoResourceIT.createUpdatedEntity(em);
+            em.persist(userInfo);
+            em.flush();
+        } else {
+            userInfo = TestUtil.findAll(em, UserInfo.class).get(0);
+        }
+        transporter.setUserInfo(userInfo);
         return transporter;
     }
 
@@ -191,14 +168,6 @@ class TransporterResourceIT {
         List<Transporter> transporterList = transporterRepository.findAll();
         assertThat(transporterList).hasSize(databaseSizeBeforeCreate + 1);
         Transporter testTransporter = transporterList.get(transporterList.size() - 1);
-        assertThat(testTransporter.getName()).isEqualTo(DEFAULT_NAME);
-        assertThat(testTransporter.getEmail()).isEqualTo(DEFAULT_EMAIL);
-        assertThat(testTransporter.getPhoneNumber()).isEqualTo(DEFAULT_PHONE_NUMBER);
-        assertThat(testTransporter.getNib()).isEqualTo(DEFAULT_NIB);
-        assertThat(testTransporter.getNif()).isEqualTo(DEFAULT_NIF);
-        assertThat(testTransporter.getBirthday()).isEqualTo(DEFAULT_BIRTHDAY);
-        assertThat(testTransporter.getAddress()).isEqualTo(DEFAULT_ADDRESS);
-        assertThat(testTransporter.getPhoto()).isEqualTo(DEFAULT_PHOTO);
         assertThat(testTransporter.getFavouriteTransport()).isEqualTo(DEFAULT_FAVOURITE_TRANSPORT);
         assertThat(testTransporter.getNumberOfDeliveries()).isEqualTo(DEFAULT_NUMBER_OF_DELIVERIES);
         assertThat(testTransporter.getNumberOfKm()).isEqualTo(DEFAULT_NUMBER_OF_KM);
@@ -240,14 +209,6 @@ class TransporterResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(transporter.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
-            .andExpect(jsonPath("$.[*].phoneNumber").value(hasItem(DEFAULT_PHONE_NUMBER)))
-            .andExpect(jsonPath("$.[*].nib").value(hasItem(DEFAULT_NIB)))
-            .andExpect(jsonPath("$.[*].nif").value(hasItem(DEFAULT_NIF)))
-            .andExpect(jsonPath("$.[*].birthday").value(hasItem(DEFAULT_BIRTHDAY.toString())))
-            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
-            .andExpect(jsonPath("$.[*].photo").value(hasItem(DEFAULT_PHOTO)))
             .andExpect(jsonPath("$.[*].favouriteTransport").value(hasItem(DEFAULT_FAVOURITE_TRANSPORT)))
             .andExpect(jsonPath("$.[*].numberOfDeliveries").value(hasItem(DEFAULT_NUMBER_OF_DELIVERIES)))
             .andExpect(jsonPath("$.[*].numberOfKm").value(hasItem(DEFAULT_NUMBER_OF_KM.doubleValue())))
@@ -286,14 +247,6 @@ class TransporterResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(transporter.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
-            .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
-            .andExpect(jsonPath("$.phoneNumber").value(DEFAULT_PHONE_NUMBER))
-            .andExpect(jsonPath("$.nib").value(DEFAULT_NIB))
-            .andExpect(jsonPath("$.nif").value(DEFAULT_NIF))
-            .andExpect(jsonPath("$.birthday").value(DEFAULT_BIRTHDAY.toString()))
-            .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS))
-            .andExpect(jsonPath("$.photo").value(DEFAULT_PHOTO))
             .andExpect(jsonPath("$.favouriteTransport").value(DEFAULT_FAVOURITE_TRANSPORT))
             .andExpect(jsonPath("$.numberOfDeliveries").value(DEFAULT_NUMBER_OF_DELIVERIES))
             .andExpect(jsonPath("$.numberOfKm").value(DEFAULT_NUMBER_OF_KM.doubleValue()))
@@ -318,682 +271,6 @@ class TransporterResourceIT {
 
         defaultTransporterShouldBeFound("id.lessThanOrEqual=" + id);
         defaultTransporterShouldNotBeFound("id.lessThan=" + id);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByNameIsEqualToSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where name equals to DEFAULT_NAME
-        defaultTransporterShouldBeFound("name.equals=" + DEFAULT_NAME);
-
-        // Get all the transporterList where name equals to UPDATED_NAME
-        defaultTransporterShouldNotBeFound("name.equals=" + UPDATED_NAME);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByNameIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where name not equals to DEFAULT_NAME
-        defaultTransporterShouldNotBeFound("name.notEquals=" + DEFAULT_NAME);
-
-        // Get all the transporterList where name not equals to UPDATED_NAME
-        defaultTransporterShouldBeFound("name.notEquals=" + UPDATED_NAME);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByNameIsInShouldWork() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where name in DEFAULT_NAME or UPDATED_NAME
-        defaultTransporterShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
-
-        // Get all the transporterList where name equals to UPDATED_NAME
-        defaultTransporterShouldNotBeFound("name.in=" + UPDATED_NAME);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByNameIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where name is not null
-        defaultTransporterShouldBeFound("name.specified=true");
-
-        // Get all the transporterList where name is null
-        defaultTransporterShouldNotBeFound("name.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByNameContainsSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where name contains DEFAULT_NAME
-        defaultTransporterShouldBeFound("name.contains=" + DEFAULT_NAME);
-
-        // Get all the transporterList where name contains UPDATED_NAME
-        defaultTransporterShouldNotBeFound("name.contains=" + UPDATED_NAME);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByNameNotContainsSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where name does not contain DEFAULT_NAME
-        defaultTransporterShouldNotBeFound("name.doesNotContain=" + DEFAULT_NAME);
-
-        // Get all the transporterList where name does not contain UPDATED_NAME
-        defaultTransporterShouldBeFound("name.doesNotContain=" + UPDATED_NAME);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByEmailIsEqualToSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where email equals to DEFAULT_EMAIL
-        defaultTransporterShouldBeFound("email.equals=" + DEFAULT_EMAIL);
-
-        // Get all the transporterList where email equals to UPDATED_EMAIL
-        defaultTransporterShouldNotBeFound("email.equals=" + UPDATED_EMAIL);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByEmailIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where email not equals to DEFAULT_EMAIL
-        defaultTransporterShouldNotBeFound("email.notEquals=" + DEFAULT_EMAIL);
-
-        // Get all the transporterList where email not equals to UPDATED_EMAIL
-        defaultTransporterShouldBeFound("email.notEquals=" + UPDATED_EMAIL);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByEmailIsInShouldWork() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where email in DEFAULT_EMAIL or UPDATED_EMAIL
-        defaultTransporterShouldBeFound("email.in=" + DEFAULT_EMAIL + "," + UPDATED_EMAIL);
-
-        // Get all the transporterList where email equals to UPDATED_EMAIL
-        defaultTransporterShouldNotBeFound("email.in=" + UPDATED_EMAIL);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByEmailIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where email is not null
-        defaultTransporterShouldBeFound("email.specified=true");
-
-        // Get all the transporterList where email is null
-        defaultTransporterShouldNotBeFound("email.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByEmailContainsSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where email contains DEFAULT_EMAIL
-        defaultTransporterShouldBeFound("email.contains=" + DEFAULT_EMAIL);
-
-        // Get all the transporterList where email contains UPDATED_EMAIL
-        defaultTransporterShouldNotBeFound("email.contains=" + UPDATED_EMAIL);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByEmailNotContainsSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where email does not contain DEFAULT_EMAIL
-        defaultTransporterShouldNotBeFound("email.doesNotContain=" + DEFAULT_EMAIL);
-
-        // Get all the transporterList where email does not contain UPDATED_EMAIL
-        defaultTransporterShouldBeFound("email.doesNotContain=" + UPDATED_EMAIL);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByPhoneNumberIsEqualToSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where phoneNumber equals to DEFAULT_PHONE_NUMBER
-        defaultTransporterShouldBeFound("phoneNumber.equals=" + DEFAULT_PHONE_NUMBER);
-
-        // Get all the transporterList where phoneNumber equals to UPDATED_PHONE_NUMBER
-        defaultTransporterShouldNotBeFound("phoneNumber.equals=" + UPDATED_PHONE_NUMBER);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByPhoneNumberIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where phoneNumber not equals to DEFAULT_PHONE_NUMBER
-        defaultTransporterShouldNotBeFound("phoneNumber.notEquals=" + DEFAULT_PHONE_NUMBER);
-
-        // Get all the transporterList where phoneNumber not equals to UPDATED_PHONE_NUMBER
-        defaultTransporterShouldBeFound("phoneNumber.notEquals=" + UPDATED_PHONE_NUMBER);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByPhoneNumberIsInShouldWork() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where phoneNumber in DEFAULT_PHONE_NUMBER or UPDATED_PHONE_NUMBER
-        defaultTransporterShouldBeFound("phoneNumber.in=" + DEFAULT_PHONE_NUMBER + "," + UPDATED_PHONE_NUMBER);
-
-        // Get all the transporterList where phoneNumber equals to UPDATED_PHONE_NUMBER
-        defaultTransporterShouldNotBeFound("phoneNumber.in=" + UPDATED_PHONE_NUMBER);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByPhoneNumberIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where phoneNumber is not null
-        defaultTransporterShouldBeFound("phoneNumber.specified=true");
-
-        // Get all the transporterList where phoneNumber is null
-        defaultTransporterShouldNotBeFound("phoneNumber.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByPhoneNumberContainsSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where phoneNumber contains DEFAULT_PHONE_NUMBER
-        defaultTransporterShouldBeFound("phoneNumber.contains=" + DEFAULT_PHONE_NUMBER);
-
-        // Get all the transporterList where phoneNumber contains UPDATED_PHONE_NUMBER
-        defaultTransporterShouldNotBeFound("phoneNumber.contains=" + UPDATED_PHONE_NUMBER);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByPhoneNumberNotContainsSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where phoneNumber does not contain DEFAULT_PHONE_NUMBER
-        defaultTransporterShouldNotBeFound("phoneNumber.doesNotContain=" + DEFAULT_PHONE_NUMBER);
-
-        // Get all the transporterList where phoneNumber does not contain UPDATED_PHONE_NUMBER
-        defaultTransporterShouldBeFound("phoneNumber.doesNotContain=" + UPDATED_PHONE_NUMBER);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByNibIsEqualToSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where nib equals to DEFAULT_NIB
-        defaultTransporterShouldBeFound("nib.equals=" + DEFAULT_NIB);
-
-        // Get all the transporterList where nib equals to UPDATED_NIB
-        defaultTransporterShouldNotBeFound("nib.equals=" + UPDATED_NIB);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByNibIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where nib not equals to DEFAULT_NIB
-        defaultTransporterShouldNotBeFound("nib.notEquals=" + DEFAULT_NIB);
-
-        // Get all the transporterList where nib not equals to UPDATED_NIB
-        defaultTransporterShouldBeFound("nib.notEquals=" + UPDATED_NIB);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByNibIsInShouldWork() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where nib in DEFAULT_NIB or UPDATED_NIB
-        defaultTransporterShouldBeFound("nib.in=" + DEFAULT_NIB + "," + UPDATED_NIB);
-
-        // Get all the transporterList where nib equals to UPDATED_NIB
-        defaultTransporterShouldNotBeFound("nib.in=" + UPDATED_NIB);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByNibIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where nib is not null
-        defaultTransporterShouldBeFound("nib.specified=true");
-
-        // Get all the transporterList where nib is null
-        defaultTransporterShouldNotBeFound("nib.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByNibContainsSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where nib contains DEFAULT_NIB
-        defaultTransporterShouldBeFound("nib.contains=" + DEFAULT_NIB);
-
-        // Get all the transporterList where nib contains UPDATED_NIB
-        defaultTransporterShouldNotBeFound("nib.contains=" + UPDATED_NIB);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByNibNotContainsSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where nib does not contain DEFAULT_NIB
-        defaultTransporterShouldNotBeFound("nib.doesNotContain=" + DEFAULT_NIB);
-
-        // Get all the transporterList where nib does not contain UPDATED_NIB
-        defaultTransporterShouldBeFound("nib.doesNotContain=" + UPDATED_NIB);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByNifIsEqualToSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where nif equals to DEFAULT_NIF
-        defaultTransporterShouldBeFound("nif.equals=" + DEFAULT_NIF);
-
-        // Get all the transporterList where nif equals to UPDATED_NIF
-        defaultTransporterShouldNotBeFound("nif.equals=" + UPDATED_NIF);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByNifIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where nif not equals to DEFAULT_NIF
-        defaultTransporterShouldNotBeFound("nif.notEquals=" + DEFAULT_NIF);
-
-        // Get all the transporterList where nif not equals to UPDATED_NIF
-        defaultTransporterShouldBeFound("nif.notEquals=" + UPDATED_NIF);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByNifIsInShouldWork() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where nif in DEFAULT_NIF or UPDATED_NIF
-        defaultTransporterShouldBeFound("nif.in=" + DEFAULT_NIF + "," + UPDATED_NIF);
-
-        // Get all the transporterList where nif equals to UPDATED_NIF
-        defaultTransporterShouldNotBeFound("nif.in=" + UPDATED_NIF);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByNifIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where nif is not null
-        defaultTransporterShouldBeFound("nif.specified=true");
-
-        // Get all the transporterList where nif is null
-        defaultTransporterShouldNotBeFound("nif.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByNifIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where nif is greater than or equal to DEFAULT_NIF
-        defaultTransporterShouldBeFound("nif.greaterThanOrEqual=" + DEFAULT_NIF);
-
-        // Get all the transporterList where nif is greater than or equal to UPDATED_NIF
-        defaultTransporterShouldNotBeFound("nif.greaterThanOrEqual=" + UPDATED_NIF);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByNifIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where nif is less than or equal to DEFAULT_NIF
-        defaultTransporterShouldBeFound("nif.lessThanOrEqual=" + DEFAULT_NIF);
-
-        // Get all the transporterList where nif is less than or equal to SMALLER_NIF
-        defaultTransporterShouldNotBeFound("nif.lessThanOrEqual=" + SMALLER_NIF);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByNifIsLessThanSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where nif is less than DEFAULT_NIF
-        defaultTransporterShouldNotBeFound("nif.lessThan=" + DEFAULT_NIF);
-
-        // Get all the transporterList where nif is less than UPDATED_NIF
-        defaultTransporterShouldBeFound("nif.lessThan=" + UPDATED_NIF);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByNifIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where nif is greater than DEFAULT_NIF
-        defaultTransporterShouldNotBeFound("nif.greaterThan=" + DEFAULT_NIF);
-
-        // Get all the transporterList where nif is greater than SMALLER_NIF
-        defaultTransporterShouldBeFound("nif.greaterThan=" + SMALLER_NIF);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByBirthdayIsEqualToSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where birthday equals to DEFAULT_BIRTHDAY
-        defaultTransporterShouldBeFound("birthday.equals=" + DEFAULT_BIRTHDAY);
-
-        // Get all the transporterList where birthday equals to UPDATED_BIRTHDAY
-        defaultTransporterShouldNotBeFound("birthday.equals=" + UPDATED_BIRTHDAY);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByBirthdayIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where birthday not equals to DEFAULT_BIRTHDAY
-        defaultTransporterShouldNotBeFound("birthday.notEquals=" + DEFAULT_BIRTHDAY);
-
-        // Get all the transporterList where birthday not equals to UPDATED_BIRTHDAY
-        defaultTransporterShouldBeFound("birthday.notEquals=" + UPDATED_BIRTHDAY);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByBirthdayIsInShouldWork() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where birthday in DEFAULT_BIRTHDAY or UPDATED_BIRTHDAY
-        defaultTransporterShouldBeFound("birthday.in=" + DEFAULT_BIRTHDAY + "," + UPDATED_BIRTHDAY);
-
-        // Get all the transporterList where birthday equals to UPDATED_BIRTHDAY
-        defaultTransporterShouldNotBeFound("birthday.in=" + UPDATED_BIRTHDAY);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByBirthdayIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where birthday is not null
-        defaultTransporterShouldBeFound("birthday.specified=true");
-
-        // Get all the transporterList where birthday is null
-        defaultTransporterShouldNotBeFound("birthday.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByBirthdayIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where birthday is greater than or equal to DEFAULT_BIRTHDAY
-        defaultTransporterShouldBeFound("birthday.greaterThanOrEqual=" + DEFAULT_BIRTHDAY);
-
-        // Get all the transporterList where birthday is greater than or equal to UPDATED_BIRTHDAY
-        defaultTransporterShouldNotBeFound("birthday.greaterThanOrEqual=" + UPDATED_BIRTHDAY);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByBirthdayIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where birthday is less than or equal to DEFAULT_BIRTHDAY
-        defaultTransporterShouldBeFound("birthday.lessThanOrEqual=" + DEFAULT_BIRTHDAY);
-
-        // Get all the transporterList where birthday is less than or equal to SMALLER_BIRTHDAY
-        defaultTransporterShouldNotBeFound("birthday.lessThanOrEqual=" + SMALLER_BIRTHDAY);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByBirthdayIsLessThanSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where birthday is less than DEFAULT_BIRTHDAY
-        defaultTransporterShouldNotBeFound("birthday.lessThan=" + DEFAULT_BIRTHDAY);
-
-        // Get all the transporterList where birthday is less than UPDATED_BIRTHDAY
-        defaultTransporterShouldBeFound("birthday.lessThan=" + UPDATED_BIRTHDAY);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByBirthdayIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where birthday is greater than DEFAULT_BIRTHDAY
-        defaultTransporterShouldNotBeFound("birthday.greaterThan=" + DEFAULT_BIRTHDAY);
-
-        // Get all the transporterList where birthday is greater than SMALLER_BIRTHDAY
-        defaultTransporterShouldBeFound("birthday.greaterThan=" + SMALLER_BIRTHDAY);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByAddressIsEqualToSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where address equals to DEFAULT_ADDRESS
-        defaultTransporterShouldBeFound("address.equals=" + DEFAULT_ADDRESS);
-
-        // Get all the transporterList where address equals to UPDATED_ADDRESS
-        defaultTransporterShouldNotBeFound("address.equals=" + UPDATED_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByAddressIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where address not equals to DEFAULT_ADDRESS
-        defaultTransporterShouldNotBeFound("address.notEquals=" + DEFAULT_ADDRESS);
-
-        // Get all the transporterList where address not equals to UPDATED_ADDRESS
-        defaultTransporterShouldBeFound("address.notEquals=" + UPDATED_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByAddressIsInShouldWork() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where address in DEFAULT_ADDRESS or UPDATED_ADDRESS
-        defaultTransporterShouldBeFound("address.in=" + DEFAULT_ADDRESS + "," + UPDATED_ADDRESS);
-
-        // Get all the transporterList where address equals to UPDATED_ADDRESS
-        defaultTransporterShouldNotBeFound("address.in=" + UPDATED_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByAddressIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where address is not null
-        defaultTransporterShouldBeFound("address.specified=true");
-
-        // Get all the transporterList where address is null
-        defaultTransporterShouldNotBeFound("address.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByAddressContainsSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where address contains DEFAULT_ADDRESS
-        defaultTransporterShouldBeFound("address.contains=" + DEFAULT_ADDRESS);
-
-        // Get all the transporterList where address contains UPDATED_ADDRESS
-        defaultTransporterShouldNotBeFound("address.contains=" + UPDATED_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByAddressNotContainsSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where address does not contain DEFAULT_ADDRESS
-        defaultTransporterShouldNotBeFound("address.doesNotContain=" + DEFAULT_ADDRESS);
-
-        // Get all the transporterList where address does not contain UPDATED_ADDRESS
-        defaultTransporterShouldBeFound("address.doesNotContain=" + UPDATED_ADDRESS);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByPhotoIsEqualToSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where photo equals to DEFAULT_PHOTO
-        defaultTransporterShouldBeFound("photo.equals=" + DEFAULT_PHOTO);
-
-        // Get all the transporterList where photo equals to UPDATED_PHOTO
-        defaultTransporterShouldNotBeFound("photo.equals=" + UPDATED_PHOTO);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByPhotoIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where photo not equals to DEFAULT_PHOTO
-        defaultTransporterShouldNotBeFound("photo.notEquals=" + DEFAULT_PHOTO);
-
-        // Get all the transporterList where photo not equals to UPDATED_PHOTO
-        defaultTransporterShouldBeFound("photo.notEquals=" + UPDATED_PHOTO);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByPhotoIsInShouldWork() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where photo in DEFAULT_PHOTO or UPDATED_PHOTO
-        defaultTransporterShouldBeFound("photo.in=" + DEFAULT_PHOTO + "," + UPDATED_PHOTO);
-
-        // Get all the transporterList where photo equals to UPDATED_PHOTO
-        defaultTransporterShouldNotBeFound("photo.in=" + UPDATED_PHOTO);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByPhotoIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where photo is not null
-        defaultTransporterShouldBeFound("photo.specified=true");
-
-        // Get all the transporterList where photo is null
-        defaultTransporterShouldNotBeFound("photo.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByPhotoContainsSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where photo contains DEFAULT_PHOTO
-        defaultTransporterShouldBeFound("photo.contains=" + DEFAULT_PHOTO);
-
-        // Get all the transporterList where photo contains UPDATED_PHOTO
-        defaultTransporterShouldNotBeFound("photo.contains=" + UPDATED_PHOTO);
-    }
-
-    @Test
-    @Transactional
-    void getAllTransportersByPhotoNotContainsSomething() throws Exception {
-        // Initialize the database
-        transporterRepository.saveAndFlush(transporter);
-
-        // Get all the transporterList where photo does not contain DEFAULT_PHOTO
-        defaultTransporterShouldNotBeFound("photo.doesNotContain=" + DEFAULT_PHOTO);
-
-        // Get all the transporterList where photo does not contain UPDATED_PHOTO
-        defaultTransporterShouldBeFound("photo.doesNotContain=" + UPDATED_PHOTO);
     }
 
     @Test
@@ -1596,6 +873,21 @@ class TransporterResourceIT {
 
     @Test
     @Transactional
+    void getAllTransportersByUserInfoIsEqualToSomething() throws Exception {
+        // Get already existing entity
+        UserInfo userInfo = transporter.getUserInfo();
+        transporterRepository.saveAndFlush(transporter);
+        Long userInfoId = userInfo.getId();
+
+        // Get all the transporterList where userInfo equals to userInfoId
+        defaultTransporterShouldBeFound("userInfoId.equals=" + userInfoId);
+
+        // Get all the transporterList where userInfo equals to (userInfoId + 1)
+        defaultTransporterShouldNotBeFound("userInfoId.equals=" + (userInfoId + 1));
+    }
+
+    @Test
+    @Transactional
     void getAllTransportersByRidePathIsEqualToSomething() throws Exception {
         // Initialize the database
         transporterRepository.saveAndFlush(transporter);
@@ -1641,14 +933,6 @@ class TransporterResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(transporter.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
-            .andExpect(jsonPath("$.[*].phoneNumber").value(hasItem(DEFAULT_PHONE_NUMBER)))
-            .andExpect(jsonPath("$.[*].nib").value(hasItem(DEFAULT_NIB)))
-            .andExpect(jsonPath("$.[*].nif").value(hasItem(DEFAULT_NIF)))
-            .andExpect(jsonPath("$.[*].birthday").value(hasItem(DEFAULT_BIRTHDAY.toString())))
-            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
-            .andExpect(jsonPath("$.[*].photo").value(hasItem(DEFAULT_PHOTO)))
             .andExpect(jsonPath("$.[*].favouriteTransport").value(hasItem(DEFAULT_FAVOURITE_TRANSPORT)))
             .andExpect(jsonPath("$.[*].numberOfDeliveries").value(hasItem(DEFAULT_NUMBER_OF_DELIVERIES)))
             .andExpect(jsonPath("$.[*].numberOfKm").value(hasItem(DEFAULT_NUMBER_OF_KM.doubleValue())))
@@ -1703,14 +987,6 @@ class TransporterResourceIT {
         // Disconnect from session so that the updates on updatedTransporter are not directly saved in db
         em.detach(updatedTransporter);
         updatedTransporter
-            .name(UPDATED_NAME)
-            .email(UPDATED_EMAIL)
-            .phoneNumber(UPDATED_PHONE_NUMBER)
-            .nib(UPDATED_NIB)
-            .nif(UPDATED_NIF)
-            .birthday(UPDATED_BIRTHDAY)
-            .address(UPDATED_ADDRESS)
-            .photo(UPDATED_PHOTO)
             .favouriteTransport(UPDATED_FAVOURITE_TRANSPORT)
             .numberOfDeliveries(UPDATED_NUMBER_OF_DELIVERIES)
             .numberOfKm(UPDATED_NUMBER_OF_KM)
@@ -1731,14 +1007,6 @@ class TransporterResourceIT {
         List<Transporter> transporterList = transporterRepository.findAll();
         assertThat(transporterList).hasSize(databaseSizeBeforeUpdate);
         Transporter testTransporter = transporterList.get(transporterList.size() - 1);
-        assertThat(testTransporter.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testTransporter.getEmail()).isEqualTo(UPDATED_EMAIL);
-        assertThat(testTransporter.getPhoneNumber()).isEqualTo(UPDATED_PHONE_NUMBER);
-        assertThat(testTransporter.getNib()).isEqualTo(UPDATED_NIB);
-        assertThat(testTransporter.getNif()).isEqualTo(UPDATED_NIF);
-        assertThat(testTransporter.getBirthday()).isEqualTo(UPDATED_BIRTHDAY);
-        assertThat(testTransporter.getAddress()).isEqualTo(UPDATED_ADDRESS);
-        assertThat(testTransporter.getPhoto()).isEqualTo(UPDATED_PHOTO);
         assertThat(testTransporter.getFavouriteTransport()).isEqualTo(UPDATED_FAVOURITE_TRANSPORT);
         assertThat(testTransporter.getNumberOfDeliveries()).isEqualTo(UPDATED_NUMBER_OF_DELIVERIES);
         assertThat(testTransporter.getNumberOfKm()).isEqualTo(UPDATED_NUMBER_OF_KM);
@@ -1824,12 +1092,7 @@ class TransporterResourceIT {
         Transporter partialUpdatedTransporter = new Transporter();
         partialUpdatedTransporter.setId(transporter.getId());
 
-        partialUpdatedTransporter
-            .name(UPDATED_NAME)
-            .phoneNumber(UPDATED_PHONE_NUMBER)
-            .photo(UPDATED_PHOTO)
-            .valueToReceive(UPDATED_VALUE_TO_RECEIVE)
-            .ranking(UPDATED_RANKING);
+        partialUpdatedTransporter.favouriteTransport(UPDATED_FAVOURITE_TRANSPORT).numberOfKm(UPDATED_NUMBER_OF_KM);
 
         restTransporterMockMvc
             .perform(
@@ -1843,20 +1106,12 @@ class TransporterResourceIT {
         List<Transporter> transporterList = transporterRepository.findAll();
         assertThat(transporterList).hasSize(databaseSizeBeforeUpdate);
         Transporter testTransporter = transporterList.get(transporterList.size() - 1);
-        assertThat(testTransporter.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testTransporter.getEmail()).isEqualTo(DEFAULT_EMAIL);
-        assertThat(testTransporter.getPhoneNumber()).isEqualTo(UPDATED_PHONE_NUMBER);
-        assertThat(testTransporter.getNib()).isEqualTo(DEFAULT_NIB);
-        assertThat(testTransporter.getNif()).isEqualTo(DEFAULT_NIF);
-        assertThat(testTransporter.getBirthday()).isEqualTo(DEFAULT_BIRTHDAY);
-        assertThat(testTransporter.getAddress()).isEqualTo(DEFAULT_ADDRESS);
-        assertThat(testTransporter.getPhoto()).isEqualTo(UPDATED_PHOTO);
-        assertThat(testTransporter.getFavouriteTransport()).isEqualTo(DEFAULT_FAVOURITE_TRANSPORT);
+        assertThat(testTransporter.getFavouriteTransport()).isEqualTo(UPDATED_FAVOURITE_TRANSPORT);
         assertThat(testTransporter.getNumberOfDeliveries()).isEqualTo(DEFAULT_NUMBER_OF_DELIVERIES);
-        assertThat(testTransporter.getNumberOfKm()).isEqualTo(DEFAULT_NUMBER_OF_KM);
+        assertThat(testTransporter.getNumberOfKm()).isEqualTo(UPDATED_NUMBER_OF_KM);
         assertThat(testTransporter.getReceivedValue()).isEqualTo(DEFAULT_RECEIVED_VALUE);
-        assertThat(testTransporter.getValueToReceive()).isEqualTo(UPDATED_VALUE_TO_RECEIVE);
-        assertThat(testTransporter.getRanking()).isEqualTo(UPDATED_RANKING);
+        assertThat(testTransporter.getValueToReceive()).isEqualTo(DEFAULT_VALUE_TO_RECEIVE);
+        assertThat(testTransporter.getRanking()).isEqualTo(DEFAULT_RANKING);
     }
 
     @Test
@@ -1872,14 +1127,6 @@ class TransporterResourceIT {
         partialUpdatedTransporter.setId(transporter.getId());
 
         partialUpdatedTransporter
-            .name(UPDATED_NAME)
-            .email(UPDATED_EMAIL)
-            .phoneNumber(UPDATED_PHONE_NUMBER)
-            .nib(UPDATED_NIB)
-            .nif(UPDATED_NIF)
-            .birthday(UPDATED_BIRTHDAY)
-            .address(UPDATED_ADDRESS)
-            .photo(UPDATED_PHOTO)
             .favouriteTransport(UPDATED_FAVOURITE_TRANSPORT)
             .numberOfDeliveries(UPDATED_NUMBER_OF_DELIVERIES)
             .numberOfKm(UPDATED_NUMBER_OF_KM)
@@ -1899,14 +1146,6 @@ class TransporterResourceIT {
         List<Transporter> transporterList = transporterRepository.findAll();
         assertThat(transporterList).hasSize(databaseSizeBeforeUpdate);
         Transporter testTransporter = transporterList.get(transporterList.size() - 1);
-        assertThat(testTransporter.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testTransporter.getEmail()).isEqualTo(UPDATED_EMAIL);
-        assertThat(testTransporter.getPhoneNumber()).isEqualTo(UPDATED_PHONE_NUMBER);
-        assertThat(testTransporter.getNib()).isEqualTo(UPDATED_NIB);
-        assertThat(testTransporter.getNif()).isEqualTo(UPDATED_NIF);
-        assertThat(testTransporter.getBirthday()).isEqualTo(UPDATED_BIRTHDAY);
-        assertThat(testTransporter.getAddress()).isEqualTo(UPDATED_ADDRESS);
-        assertThat(testTransporter.getPhoto()).isEqualTo(UPDATED_PHOTO);
         assertThat(testTransporter.getFavouriteTransport()).isEqualTo(UPDATED_FAVOURITE_TRANSPORT);
         assertThat(testTransporter.getNumberOfDeliveries()).isEqualTo(UPDATED_NUMBER_OF_DELIVERIES);
         assertThat(testTransporter.getNumberOfKm()).isEqualTo(UPDATED_NUMBER_OF_KM);

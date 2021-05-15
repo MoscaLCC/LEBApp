@@ -11,6 +11,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,7 +65,7 @@ public class ProducerResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/producers")
-    public ResponseEntity<ProducerDTO> createProducer(@RequestBody ProducerDTO producerDTO) throws URISyntaxException {
+    public ResponseEntity<ProducerDTO> createProducer(@Valid @RequestBody ProducerDTO producerDTO) throws URISyntaxException {
         log.debug("REST request to save Producer : {}", producerDTO);
         if (producerDTO.getId() != null) {
             throw new BadRequestAlertException("A new producer cannot already have an ID", ENTITY_NAME, "idexists");
@@ -88,7 +90,7 @@ public class ProducerResource {
     @PutMapping("/producers/{id}")
     public ResponseEntity<ProducerDTO> updateProducer(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody ProducerDTO producerDTO
+        @Valid @RequestBody ProducerDTO producerDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Producer : {}, {}", id, producerDTO);
         if (producerDTO.getId() == null) {
@@ -123,7 +125,7 @@ public class ProducerResource {
     @PatchMapping(value = "/producers/{id}", consumes = "application/merge-patch+json")
     public ResponseEntity<ProducerDTO> partialUpdateProducer(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody ProducerDTO producerDTO
+        @NotNull @RequestBody ProducerDTO producerDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Producer partially : {}, {}", id, producerDTO);
         if (producerDTO.getId() == null) {

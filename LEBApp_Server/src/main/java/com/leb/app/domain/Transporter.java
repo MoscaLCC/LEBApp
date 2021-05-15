@@ -2,10 +2,10 @@ package com.leb.app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -22,30 +22,6 @@ public class Transporter implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "phone_number")
-    private String phoneNumber;
-
-    @Column(name = "nib")
-    private String nib;
-
-    @Column(name = "nif")
-    private Integer nif;
-
-    @Column(name = "birthday")
-    private LocalDate birthday;
-
-    @Column(name = "address")
-    private String address;
-
-    @Column(name = "photo")
-    private String photo;
 
     @Column(name = "favourite_transport")
     private String favouriteTransport;
@@ -64,6 +40,11 @@ public class Transporter implements Serializable {
 
     @Column(name = "ranking")
     private Double ranking;
+
+    @OneToOne(optional = false)
+    @NotNull
+    @JoinColumn(unique = true)
+    private UserInfo userInfo;
 
     @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -92,110 +73,6 @@ public class Transporter implements Serializable {
     public Transporter id(Long id) {
         this.id = id;
         return this;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public Transporter name(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public Transporter email(String email) {
-        this.email = email;
-        return this;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return this.phoneNumber;
-    }
-
-    public Transporter phoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-        return this;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getNib() {
-        return this.nib;
-    }
-
-    public Transporter nib(String nib) {
-        this.nib = nib;
-        return this;
-    }
-
-    public void setNib(String nib) {
-        this.nib = nib;
-    }
-
-    public Integer getNif() {
-        return this.nif;
-    }
-
-    public Transporter nif(Integer nif) {
-        this.nif = nif;
-        return this;
-    }
-
-    public void setNif(Integer nif) {
-        this.nif = nif;
-    }
-
-    public LocalDate getBirthday() {
-        return this.birthday;
-    }
-
-    public Transporter birthday(LocalDate birthday) {
-        this.birthday = birthday;
-        return this;
-    }
-
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getAddress() {
-        return this.address;
-    }
-
-    public Transporter address(String address) {
-        this.address = address;
-        return this;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getPhoto() {
-        return this.photo;
-    }
-
-    public Transporter photo(String photo) {
-        this.photo = photo;
-        return this;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
     }
 
     public String getFavouriteTransport() {
@@ -274,6 +151,19 @@ public class Transporter implements Serializable {
 
     public void setRanking(Double ranking) {
         this.ranking = ranking;
+    }
+
+    public UserInfo getUserInfo() {
+        return this.userInfo;
+    }
+
+    public Transporter userInfo(UserInfo userInfo) {
+        this.setUserInfo(userInfo);
+        return this;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
     }
 
     public Set<RidePath> getRidePaths() {
@@ -356,14 +246,6 @@ public class Transporter implements Serializable {
     public String toString() {
         return "Transporter{" +
             "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", email='" + getEmail() + "'" +
-            ", phoneNumber='" + getPhoneNumber() + "'" +
-            ", nib='" + getNib() + "'" +
-            ", nif=" + getNif() +
-            ", birthday='" + getBirthday() + "'" +
-            ", address='" + getAddress() + "'" +
-            ", photo='" + getPhoto() + "'" +
             ", favouriteTransport='" + getFavouriteTransport() + "'" +
             ", numberOfDeliveries=" + getNumberOfDeliveries() +
             ", numberOfKm=" + getNumberOfKm() +

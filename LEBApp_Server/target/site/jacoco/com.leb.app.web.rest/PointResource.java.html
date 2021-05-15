@@ -11,6 +11,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +34,7 @@ import tech.jhipster.web.util.ResponseUtil;
 @RequestMapping(&quot;/api&quot;)
 public class PointResource {
 
-<span class="nc" id="L35">    private final Logger log = LoggerFactory.getLogger(PointResource.class);</span>
+<span class="nc" id="L37">    private final Logger log = LoggerFactory.getLogger(PointResource.class);</span>
 
     private static final String ENTITY_NAME = &quot;point&quot;;
 
@@ -45,11 +47,11 @@ public class PointResource {
 
     private final PointQueryService pointQueryService;
 
-<span class="nc" id="L48">    public PointResource(PointService pointService, PointRepository pointRepository, PointQueryService pointQueryService) {</span>
-<span class="nc" id="L49">        this.pointService = pointService;</span>
-<span class="nc" id="L50">        this.pointRepository = pointRepository;</span>
-<span class="nc" id="L51">        this.pointQueryService = pointQueryService;</span>
-<span class="nc" id="L52">    }</span>
+<span class="nc" id="L50">    public PointResource(PointService pointService, PointRepository pointRepository, PointQueryService pointQueryService) {</span>
+<span class="nc" id="L51">        this.pointService = pointService;</span>
+<span class="nc" id="L52">        this.pointRepository = pointRepository;</span>
+<span class="nc" id="L53">        this.pointQueryService = pointQueryService;</span>
+<span class="nc" id="L54">    }</span>
 
     /**
      * {@code POST  /points} : Create a new point.
@@ -59,16 +61,16 @@ public class PointResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping(&quot;/points&quot;)
-    public ResponseEntity&lt;PointDTO&gt; createPoint(@RequestBody PointDTO pointDTO) throws URISyntaxException {
-<span class="nc" id="L63">        log.debug(&quot;REST request to save Point : {}&quot;, pointDTO);</span>
-<span class="nc bnc" id="L64" title="All 2 branches missed.">        if (pointDTO.getId() != null) {</span>
-<span class="nc" id="L65">            throw new BadRequestAlertException(&quot;A new point cannot already have an ID&quot;, ENTITY_NAME, &quot;idexists&quot;);</span>
+    public ResponseEntity&lt;PointDTO&gt; createPoint(@Valid @RequestBody PointDTO pointDTO) throws URISyntaxException {
+<span class="nc" id="L65">        log.debug(&quot;REST request to save Point : {}&quot;, pointDTO);</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (pointDTO.getId() != null) {</span>
+<span class="nc" id="L67">            throw new BadRequestAlertException(&quot;A new point cannot already have an ID&quot;, ENTITY_NAME, &quot;idexists&quot;);</span>
         }
-<span class="nc" id="L67">        PointDTO result = pointService.save(pointDTO);</span>
-<span class="nc" id="L68">        return ResponseEntity</span>
-<span class="nc" id="L69">            .created(new URI(&quot;/api/points/&quot; + result.getId()))</span>
-<span class="nc" id="L70">            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))</span>
-<span class="nc" id="L71">            .body(result);</span>
+<span class="nc" id="L69">        PointDTO result = pointService.save(pointDTO);</span>
+<span class="nc" id="L70">        return ResponseEntity</span>
+<span class="nc" id="L71">            .created(new URI(&quot;/api/points/&quot; + result.getId()))</span>
+<span class="nc" id="L72">            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))</span>
+<span class="nc" id="L73">            .body(result);</span>
     }
 
     /**
@@ -84,25 +86,25 @@ public class PointResource {
     @PutMapping(&quot;/points/{id}&quot;)
     public ResponseEntity&lt;PointDTO&gt; updatePoint(
         @PathVariable(value = &quot;id&quot;, required = false) final Long id,
-        @RequestBody PointDTO pointDTO
+        @Valid @RequestBody PointDTO pointDTO
     ) throws URISyntaxException {
-<span class="nc" id="L89">        log.debug(&quot;REST request to update Point : {}, {}&quot;, id, pointDTO);</span>
-<span class="nc bnc" id="L90" title="All 2 branches missed.">        if (pointDTO.getId() == null) {</span>
-<span class="nc" id="L91">            throw new BadRequestAlertException(&quot;Invalid id&quot;, ENTITY_NAME, &quot;idnull&quot;);</span>
+<span class="nc" id="L91">        log.debug(&quot;REST request to update Point : {}, {}&quot;, id, pointDTO);</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        if (pointDTO.getId() == null) {</span>
+<span class="nc" id="L93">            throw new BadRequestAlertException(&quot;Invalid id&quot;, ENTITY_NAME, &quot;idnull&quot;);</span>
         }
-<span class="nc bnc" id="L93" title="All 2 branches missed.">        if (!Objects.equals(id, pointDTO.getId())) {</span>
-<span class="nc" id="L94">            throw new BadRequestAlertException(&quot;Invalid ID&quot;, ENTITY_NAME, &quot;idinvalid&quot;);</span>
-        }
-
-<span class="nc bnc" id="L97" title="All 2 branches missed.">        if (!pointRepository.existsById(id)) {</span>
-<span class="nc" id="L98">            throw new BadRequestAlertException(&quot;Entity not found&quot;, ENTITY_NAME, &quot;idnotfound&quot;);</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">        if (!Objects.equals(id, pointDTO.getId())) {</span>
+<span class="nc" id="L96">            throw new BadRequestAlertException(&quot;Invalid ID&quot;, ENTITY_NAME, &quot;idinvalid&quot;);</span>
         }
 
-<span class="nc" id="L101">        PointDTO result = pointService.save(pointDTO);</span>
-<span class="nc" id="L102">        return ResponseEntity</span>
-<span class="nc" id="L103">            .ok()</span>
-<span class="nc" id="L104">            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, pointDTO.getId().toString()))</span>
-<span class="nc" id="L105">            .body(result);</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        if (!pointRepository.existsById(id)) {</span>
+<span class="nc" id="L100">            throw new BadRequestAlertException(&quot;Entity not found&quot;, ENTITY_NAME, &quot;idnotfound&quot;);</span>
+        }
+
+<span class="nc" id="L103">        PointDTO result = pointService.save(pointDTO);</span>
+<span class="nc" id="L104">        return ResponseEntity</span>
+<span class="nc" id="L105">            .ok()</span>
+<span class="nc" id="L106">            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, pointDTO.getId().toString()))</span>
+<span class="nc" id="L107">            .body(result);</span>
     }
 
     /**
@@ -119,25 +121,25 @@ public class PointResource {
     @PatchMapping(value = &quot;/points/{id}&quot;, consumes = &quot;application/merge-patch+json&quot;)
     public ResponseEntity&lt;PointDTO&gt; partialUpdatePoint(
         @PathVariable(value = &quot;id&quot;, required = false) final Long id,
-        @RequestBody PointDTO pointDTO
+        @NotNull @RequestBody PointDTO pointDTO
     ) throws URISyntaxException {
-<span class="nc" id="L124">        log.debug(&quot;REST request to partial update Point partially : {}, {}&quot;, id, pointDTO);</span>
-<span class="nc bnc" id="L125" title="All 2 branches missed.">        if (pointDTO.getId() == null) {</span>
-<span class="nc" id="L126">            throw new BadRequestAlertException(&quot;Invalid id&quot;, ENTITY_NAME, &quot;idnull&quot;);</span>
+<span class="nc" id="L126">        log.debug(&quot;REST request to partial update Point partially : {}, {}&quot;, id, pointDTO);</span>
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        if (pointDTO.getId() == null) {</span>
+<span class="nc" id="L128">            throw new BadRequestAlertException(&quot;Invalid id&quot;, ENTITY_NAME, &quot;idnull&quot;);</span>
         }
-<span class="nc bnc" id="L128" title="All 2 branches missed.">        if (!Objects.equals(id, pointDTO.getId())) {</span>
-<span class="nc" id="L129">            throw new BadRequestAlertException(&quot;Invalid ID&quot;, ENTITY_NAME, &quot;idinvalid&quot;);</span>
-        }
-
-<span class="nc bnc" id="L132" title="All 2 branches missed.">        if (!pointRepository.existsById(id)) {</span>
-<span class="nc" id="L133">            throw new BadRequestAlertException(&quot;Entity not found&quot;, ENTITY_NAME, &quot;idnotfound&quot;);</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        if (!Objects.equals(id, pointDTO.getId())) {</span>
+<span class="nc" id="L131">            throw new BadRequestAlertException(&quot;Invalid ID&quot;, ENTITY_NAME, &quot;idinvalid&quot;);</span>
         }
 
-<span class="nc" id="L136">        Optional&lt;PointDTO&gt; result = pointService.partialUpdate(pointDTO);</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        if (!pointRepository.existsById(id)) {</span>
+<span class="nc" id="L135">            throw new BadRequestAlertException(&quot;Entity not found&quot;, ENTITY_NAME, &quot;idnotfound&quot;);</span>
+        }
 
-<span class="nc" id="L138">        return ResponseUtil.wrapOrNotFound(</span>
-            result,
-<span class="nc" id="L140">            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, pointDTO.getId().toString())</span>
+<span class="nc" id="L138">        Optional&lt;PointDTO&gt; result = pointService.partialUpdate(pointDTO);</span>
+
+<span class="nc" id="L140">        return ResponseUtil.wrapOrNotFound(</span>
+<span class="nc" id="L141">            result,</span>
+<span class="nc" id="L142">            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, pointDTO.getId().toString())</span>
         );
     }
 
@@ -150,10 +152,10 @@ public class PointResource {
      */
     @GetMapping(&quot;/points&quot;)
     public ResponseEntity&lt;List&lt;PointDTO&gt;&gt; getAllPoints(PointCriteria criteria, Pageable pageable) {
-<span class="nc" id="L153">        log.debug(&quot;REST request to get Points by criteria: {}&quot;, criteria);</span>
-<span class="nc" id="L154">        Page&lt;PointDTO&gt; page = pointQueryService.findByCriteria(criteria, pageable);</span>
-<span class="nc" id="L155">        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);</span>
-<span class="nc" id="L156">        return ResponseEntity.ok().headers(headers).body(page.getContent());</span>
+<span class="nc" id="L155">        log.debug(&quot;REST request to get Points by criteria: {}&quot;, criteria);</span>
+<span class="nc" id="L156">        Page&lt;PointDTO&gt; page = pointQueryService.findByCriteria(criteria, pageable);</span>
+<span class="nc" id="L157">        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);</span>
+<span class="nc" id="L158">        return ResponseEntity.ok().headers(headers).body(page.getContent());</span>
     }
 
     /**
@@ -164,8 +166,8 @@ public class PointResource {
      */
     @GetMapping(&quot;/points/count&quot;)
     public ResponseEntity&lt;Long&gt; countPoints(PointCriteria criteria) {
-<span class="nc" id="L167">        log.debug(&quot;REST request to count Points by criteria: {}&quot;, criteria);</span>
-<span class="nc" id="L168">        return ResponseEntity.ok().body(pointQueryService.countByCriteria(criteria));</span>
+<span class="nc" id="L169">        log.debug(&quot;REST request to count Points by criteria: {}&quot;, criteria);</span>
+<span class="nc" id="L170">        return ResponseEntity.ok().body(pointQueryService.countByCriteria(criteria));</span>
     }
 
     /**
@@ -176,9 +178,9 @@ public class PointResource {
      */
     @GetMapping(&quot;/points/{id}&quot;)
     public ResponseEntity&lt;PointDTO&gt; getPoint(@PathVariable Long id) {
-<span class="nc" id="L179">        log.debug(&quot;REST request to get Point : {}&quot;, id);</span>
-<span class="nc" id="L180">        Optional&lt;PointDTO&gt; pointDTO = pointService.findOne(id);</span>
-<span class="nc" id="L181">        return ResponseUtil.wrapOrNotFound(pointDTO);</span>
+<span class="nc" id="L181">        log.debug(&quot;REST request to get Point : {}&quot;, id);</span>
+<span class="nc" id="L182">        Optional&lt;PointDTO&gt; pointDTO = pointService.findOne(id);</span>
+<span class="nc" id="L183">        return ResponseUtil.wrapOrNotFound(pointDTO);</span>
     }
 
     /**
@@ -189,12 +191,12 @@ public class PointResource {
      */
     @DeleteMapping(&quot;/points/{id}&quot;)
     public ResponseEntity&lt;Void&gt; deletePoint(@PathVariable Long id) {
-<span class="nc" id="L192">        log.debug(&quot;REST request to delete Point : {}&quot;, id);</span>
-<span class="nc" id="L193">        pointService.delete(id);</span>
-<span class="nc" id="L194">        return ResponseEntity</span>
-<span class="nc" id="L195">            .noContent()</span>
-<span class="nc" id="L196">            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))</span>
-<span class="nc" id="L197">            .build();</span>
+<span class="nc" id="L194">        log.debug(&quot;REST request to delete Point : {}&quot;, id);</span>
+<span class="nc" id="L195">        pointService.delete(id);</span>
+<span class="nc" id="L196">        return ResponseEntity</span>
+<span class="nc" id="L197">            .noContent()</span>
+<span class="nc" id="L198">            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))</span>
+<span class="nc" id="L199">            .build();</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

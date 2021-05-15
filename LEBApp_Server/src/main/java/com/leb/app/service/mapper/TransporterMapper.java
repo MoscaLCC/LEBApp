@@ -8,8 +8,9 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Transporter} and its DTO {@link TransporterDTO}.
  */
-@Mapper(componentModel = "spring", uses = { RidePathMapper.class })
+@Mapper(componentModel = "spring", uses = { UserInfoMapper.class, RidePathMapper.class })
 public interface TransporterMapper extends EntityMapper<TransporterDTO, Transporter> {
+    @Mapping(target = "userInfo", source = "userInfo", qualifiedByName = "id")
     @Mapping(target = "ridePaths", source = "ridePaths", qualifiedByName = "idSet")
     TransporterDTO toDto(Transporter s);
 

@@ -47,11 +47,11 @@ public class DeliveryManResource {
 
     private final DeliveryManQueryService deliveryManQueryService;
 
-    public DeliveryManResource(
+<span class="nc" id="L50">    public DeliveryManResource(</span>
         DeliveryManService deliveryManService,
         DeliveryManRepository deliveryManRepository,
         DeliveryManQueryService deliveryManQueryService
-<span class="nc" id="L54">    ) {</span>
+    ) {
 <span class="nc" id="L55">        this.deliveryManService = deliveryManService;</span>
 <span class="nc" id="L56">        this.deliveryManRepository = deliveryManRepository;</span>
 <span class="nc" id="L57">        this.deliveryManQueryService = deliveryManQueryService;</span>
@@ -142,7 +142,7 @@ public class DeliveryManResource {
 <span class="nc" id="L142">        Optional&lt;DeliveryManDTO&gt; result = deliveryManService.partialUpdate(deliveryManDTO);</span>
 
 <span class="nc" id="L144">        return ResponseUtil.wrapOrNotFound(</span>
-            result,
+<span class="nc" id="L145">            result,</span>
 <span class="nc" id="L146">            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, deliveryManDTO.getId().toString())</span>
         );
     }

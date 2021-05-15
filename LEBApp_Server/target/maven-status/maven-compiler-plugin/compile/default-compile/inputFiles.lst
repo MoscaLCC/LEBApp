@@ -12,15 +12,18 @@ C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\im
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\config\LiquibaseConfiguration.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\web\rest\DimensionsResource.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\ProducerQueryService.java
+C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\repository\UserInfoRepository.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\DeliveryManQueryService.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\domain\RidePath.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\mapper\RequestMapper.java
+C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\web\rest\UserInfoResource.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\PointQueryService.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\DimensionsQueryService.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\impl\DeliveryManServiceImpl.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\config\DateTimeFormatConfiguration.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\web\rest\vm\ManagedUserVM.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\mapper\package-info.java
+C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\UserInfoService.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\web\rest\package-info.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\mapper\TransporterMapper.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\web\rest\ClientForwardController.java
@@ -45,6 +48,7 @@ C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\web\rest\v
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\web\rest\vm\package-info.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\GeneratedByJHipster.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\web\rest\PublicUserResource.java
+C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\domain\UserInfo.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\dto\PasswordChangeDTO.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\domain\package-info.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\RidePathQueryService.java
@@ -64,6 +68,7 @@ C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\config\pac
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\impl\RidePathServiceImpl.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\security\jwt\JWTConfigurer.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\config\LocaleConfiguration.java
+C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\impl\UserInfoServiceImpl.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\repository\RidePathRepository.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\aop\logging\LoggingAspect.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\dto\UserDTO.java
@@ -71,6 +76,7 @@ C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\Pr
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\ZoneService.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\web\rest\errors\InvalidPasswordException.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\mapper\UserMapper.java
+C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\dto\UserInfoDTO.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\config\StaticResourcesWebConfiguration.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\DimensionsService.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\dto\TransporterDTO.java
@@ -78,11 +84,13 @@ C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\web\rest\Z
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\config\AsyncConfiguration.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\config\DatabaseConfiguration.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\RidePathService.java
+C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\UserInfoQueryService.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\web\rest\ProducerResource.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\web\rest\errors\package-info.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\dto\DeliveryManDTO.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\web\rest\UserJWTController.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\security\SpringSecurityAuditorAware.java
+C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\mapper\UserInfoMapper.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\domain\DeliveryMan.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\ZoneQueryService.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\repository\RequestRepository.java
@@ -130,6 +138,7 @@ C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\ma
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\web\rest\TransporterResource.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\config\ApplicationProperties.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\domain\Transporter.java
+C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\criteria\UserInfoCriteria.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\InvalidPasswordException.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\security\jwt\TokenProvider.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\LebAppServerApp.java

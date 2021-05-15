@@ -64,32 +64,33 @@ public class CacheConfiguration {
 <span class="nc" id="L64">            createCache(cm, com.leb.app.domain.Zone.class.getName());</span>
 <span class="nc" id="L65">            createCache(cm, com.leb.app.domain.Zone.class.getName() + &quot;.points&quot;);</span>
 <span class="nc" id="L66">            createCache(cm, com.leb.app.domain.Zone.class.getName() + &quot;.transporters&quot;);</span>
+<span class="nc" id="L67">            createCache(cm, com.leb.app.domain.UserInfo.class.getName());</span>
             // jhipster-needle-ehcache-add-entry
-<span class="nc" id="L68">        };</span>
+<span class="nc" id="L69">        };</span>
     }
 
     private void createCache(javax.cache.CacheManager cm, String cacheName) {
-<span class="nc" id="L72">        javax.cache.Cache&lt;Object, Object&gt; cache = cm.getCache(cacheName);</span>
-<span class="nc bnc" id="L73" title="All 2 branches missed.">        if (cache != null) {</span>
-<span class="nc" id="L74">            cache.clear();</span>
-        } else {
-<span class="nc" id="L76">            cm.createCache(cacheName, jcacheConfiguration);</span>
+<span class="nc" id="L73">        javax.cache.Cache&lt;Object, Object&gt; cache = cm.getCache(cacheName);</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        if (cache != null) {</span>
+<span class="nc" id="L75">            cache.clear();</span>
+<span class="nc" id="L76">        } else {</span>
+<span class="nc" id="L77">            cm.createCache(cacheName, jcacheConfiguration);</span>
         }
-<span class="nc" id="L78">    }</span>
+<span class="nc" id="L79">    }</span>
 
     @Autowired(required = false)
     public void setGitProperties(GitProperties gitProperties) {
-<span class="nc" id="L82">        this.gitProperties = gitProperties;</span>
-<span class="nc" id="L83">    }</span>
+<span class="nc" id="L83">        this.gitProperties = gitProperties;</span>
+<span class="nc" id="L84">    }</span>
 
     @Autowired(required = false)
     public void setBuildProperties(BuildProperties buildProperties) {
-<span class="nc" id="L87">        this.buildProperties = buildProperties;</span>
-<span class="nc" id="L88">    }</span>
+<span class="nc" id="L88">        this.buildProperties = buildProperties;</span>
+<span class="nc" id="L89">    }</span>
 
     @Bean
     public KeyGenerator keyGenerator() {
-<span class="nc" id="L92">        return new PrefixedKeyGenerator(this.gitProperties, this.buildProperties);</span>
+<span class="nc" id="L93">        return new PrefixedKeyGenerator(this.gitProperties, this.buildProperties);</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

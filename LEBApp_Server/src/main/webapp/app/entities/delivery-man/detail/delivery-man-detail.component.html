@@ -14,38 +14,6 @@
         <dd>
           <span>{{ deliveryMan.id }}</span>
         </dd>
-        <dt><span>Name</span></dt>
-        <dd>
-          <span>{{ deliveryMan.name }}</span>
-        </dd>
-        <dt><span>Email</span></dt>
-        <dd>
-          <span>{{ deliveryMan.email }}</span>
-        </dd>
-        <dt><span>Phone Number</span></dt>
-        <dd>
-          <span>{{ deliveryMan.phoneNumber }}</span>
-        </dd>
-        <dt><span>Nif</span></dt>
-        <dd>
-          <span>{{ deliveryMan.nif }}</span>
-        </dd>
-        <dt><span>Nib</span></dt>
-        <dd>
-          <span>{{ deliveryMan.nib }}</span>
-        </dd>
-        <dt><span>Birthday</span></dt>
-        <dd>
-          <span>{{ deliveryMan.birthday | formatMediumDate }}</span>
-        </dd>
-        <dt><span>Address</span></dt>
-        <dd>
-          <span>{{ deliveryMan.address }}</span>
-        </dd>
-        <dt><span>Photo</span></dt>
-        <dd>
-          <span>{{ deliveryMan.photo }}</span>
-        </dd>
         <dt><span>Opening Time</span></dt>
         <dd>
           <span>{{ deliveryMan.openingTime }}</span>
@@ -69,6 +37,12 @@
         <dt><span>Ranking</span></dt>
         <dd>
           <span>{{ deliveryMan.ranking }}</span>
+        </dd>
+        <dt><span>User Info</span></dt>
+        <dd>
+          <div *ngIf="deliveryMan.userInfo">
+            <a [routerLink]="['/user-info', deliveryMan.userInfo?.id, 'view']">{{ deliveryMan.userInfo?.id }}</a>
+          </div>
         </dd>
         <dt><span>Point</span></dt>
         <dd>

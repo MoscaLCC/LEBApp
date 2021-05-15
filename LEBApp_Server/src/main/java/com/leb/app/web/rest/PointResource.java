@@ -11,6 +11,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -59,7 +61,7 @@ public class PointResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/points")
-    public ResponseEntity<PointDTO> createPoint(@RequestBody PointDTO pointDTO) throws URISyntaxException {
+    public ResponseEntity<PointDTO> createPoint(@Valid @RequestBody PointDTO pointDTO) throws URISyntaxException {
         log.debug("REST request to save Point : {}", pointDTO);
         if (pointDTO.getId() != null) {
             throw new BadRequestAlertException("A new point cannot already have an ID", ENTITY_NAME, "idexists");
@@ -84,7 +86,7 @@ public class PointResource {
     @PutMapping("/points/{id}")
     public ResponseEntity<PointDTO> updatePoint(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody PointDTO pointDTO
+        @Valid @RequestBody PointDTO pointDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Point : {}, {}", id, pointDTO);
         if (pointDTO.getId() == null) {
@@ -119,7 +121,7 @@ public class PointResource {
     @PatchMapping(value = "/points/{id}", consumes = "application/merge-patch+json")
     public ResponseEntity<PointDTO> partialUpdatePoint(
         @PathVariable(value = "id", required = false) final Long id,
-        @RequestBody PointDTO pointDTO
+        @NotNull @RequestBody PointDTO pointDTO
     ) throws URISyntaxException {
         log.debug("REST request to partial update Point partially : {}, {}", id, pointDTO);
         if (pointDTO.getId() == null) {

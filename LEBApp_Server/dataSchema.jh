@@ -1,17 +1,17 @@
 entity Producer {
-    name String, 
-    mail String,
-    phoneNumber String,
-    nib String,
-    nif Integer,
-    birthday LocalDate,
-    adress String,
-    photo String,
     linkSocial String,
     numberRequests Integer,
     payedValue Double,
     valueToPay Double,
     ranking Double
+}
+
+entity UserInfo {
+    phoneNumber String,
+    nib String,
+    nif Integer,
+    birthday LocalDate,
+    adress String
 }
 
 entity Request {
@@ -69,14 +69,6 @@ entity RidePath {
 }
 
 entity DeliveryMan {
-    name String,
-    email String,
-    phoneNumber String,
-    nif Integer,
-    nib String,
-    birthday LocalDate,
-    address String,
-    photo String,
     openingTime String,
     numberOfDeliveries Integer,
     numberOfKm Double,
@@ -86,14 +78,6 @@ entity DeliveryMan {
 }
 
 entity Transporter {
-    name String,
-    email String,
-    phoneNumber String,
-    nib String,
-    nif Integer,
-    birthday LocalDate,
-    address String,
-    photo String,
     favouriteTransport String,
     numberOfDeliveries Integer,
     numberOfKm Double,
@@ -103,12 +87,6 @@ entity Transporter {
 }
 
 entity Point {
-    name String,
-    email String,
-    phoneNumber String,
-    nib String,
-    nif Integer,
-    address String,
     openingTime String,
     numberOfDeliveries Integer,
     receivedValue Double,
@@ -134,11 +112,15 @@ relationship OneToMany {
 }
 
 relationship OneToOne {
-	Request to Dimensions
+	Request to Dimensions,
+    Transporter{userInfo required} to UserInfo,
+    DeliveryMan{userInfo required} to UserInfo,
+    Point{userInfo required} to UserInfo,
+    Producer{userInfo required} to UserInfo
 }
 
 relationship ManyToMany {
-	Transporter{ridePath} to RidePath{transports}
+	Transporter{ridePath} to RidePath{transports},
     Zone{transporters} to Transporter{zones}
 }
 

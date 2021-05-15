@@ -9,6 +9,8 @@ import { of, Subject } from 'rxjs';
 
 import { DeliveryManService } from '../service/delivery-man.service';
 import { IDeliveryMan, DeliveryMan } from '../delivery-man.model';
+import { IUserInfo } from 'app/entities/user-info/user-info.model';
+import { UserInfoService } from 'app/entities/user-info/service/user-info.service';
 import { IPoint } from 'app/entities/point/point.model';
 import { PointService } from 'app/entities/point/service/point.service';
 
@@ -20,6 +22,7 @@ describe('Component Tests', () => {
     let fixture: ComponentFixture<DeliveryManUpdateComponent>;
     let activatedRoute: ActivatedRoute;
     let deliveryManService: DeliveryManService;
+    let userInfoService: UserInfoService;
     let pointService: PointService;
 
     beforeEach(() => {
@@ -34,18 +37,37 @@ describe('Component Tests', () => {
       fixture = TestBed.createComponent(DeliveryManUpdateComponent);
       activatedRoute = TestBed.inject(ActivatedRoute);
       deliveryManService = TestBed.inject(DeliveryManService);
+      userInfoService = TestBed.inject(UserInfoService);
       pointService = TestBed.inject(PointService);
 
       comp = fixture.componentInstance;
     });
 
     describe('ngOnInit', () => {
+      it('Should call userInfo query and add missing value', () => {
+        const deliveryMan: IDeliveryMan = { id: 456 };
+        const userInfo: IUserInfo = { id: 47036 };
+        deliveryMan.userInfo = userInfo;
+
+        const userInfoCollection: IUserInfo[] = [{ id: 72111 }];
+        spyOn(userInfoService, 'query').and.returnValue(of(new HttpResponse({ body: userInfoCollection })));
+        const expectedCollection: IUserInfo[] = [userInfo, ...userInfoCollection];
+        spyOn(userInfoService, 'addUserInfoToCollectionIfMissing').and.returnValue(expectedCollection);
+
+        activatedRoute.data = of({ deliveryMan });
+        comp.ngOnInit();
+
+        expect(userInfoService.query).toHaveBeenCalled();
+        expect(userInfoService.addUserInfoToCollectionIfMissing).toHaveBeenCalledWith(userInfoCollection, userInfo);
+        expect(comp.userInfosCollection).toEqual(expectedCollection);
+      });
+
       it('Should call Point query and add missing value', () => {
         const deliveryMan: IDeliveryMan = { id: 456 };
-        const point: IPoint = { id: 41921 };
+        const point: IPoint = { id: 85131 };
         deliveryMan.point = point;
 
-        const pointCollection: IPoint[] = [{ id: 79189 }];
+        const pointCollection: IPoint[] = [{ id: 35283 }];
         spyOn(pointService, 'query').and.returnValue(of(new HttpResponse({ body: pointCollection })));
         const additionalPoints = [point];
         const expectedCollection: IPoint[] = [...additionalPoints, ...pointCollection];
@@ -61,13 +83,16 @@ describe('Component Tests', () => {
 
       it('Should update editForm', () => {
         const deliveryMan: IDeliveryMan = { id: 456 };
-        const point: IPoint = { id: 38754 };
+        const userInfo: IUserInfo = { id: 43081 };
+        deliveryMan.userInfo = userInfo;
+        const point: IPoint = { id: 7196 };
         deliveryMan.point = point;
 
         activatedRoute.data = of({ deliveryMan });
         comp.ngOnInit();
 
         expect(comp.editForm.value).toEqual(expect.objectContaining(deliveryMan));
+        expect(comp.userInfosCollection).toContain(userInfo);
         expect(comp.pointsSharedCollection).toContain(point);
       });
     });
@@ -137,6 +162,14 @@ describe('Component Tests', () => {
     });
 
     describe('Tracking relationships identifiers', () => {
+      describe('trackUserInfoById', () => {
+        it('Should return tracked UserInfo primary key', () => {
+          const entity = { id: 123 };
+          const trackResult = comp.trackUserInfoById(0, entity);
+          expect(trackResult).toEqual(entity.id);
+        });
+      });
+
       describe('trackPointById', () => {
         it('Should return tracked Point primary key', () => {
           const entity = { id: 123 };

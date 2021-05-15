@@ -42,10 +42,10 @@ describe('Component Tests', () => {
     describe('ngOnInit', () => {
       it('Should call Transporter query and add missing value', () => {
         const zone: IZone = { id: 456 };
-        const transporters: ITransporter[] = [{ id: 53657 }];
+        const transporters: ITransporter[] = [{ id: 65432 }];
         zone.transporters = transporters;
 
-        const transporterCollection: ITransporter[] = [{ id: 54820 }];
+        const transporterCollection: ITransporter[] = [{ id: 21617 }];
         spyOn(transporterService, 'query').and.returnValue(of(new HttpResponse({ body: transporterCollection })));
         const additionalTransporters = [...transporters];
         const expectedCollection: ITransporter[] = [...additionalTransporters, ...transporterCollection];
@@ -64,7 +64,7 @@ describe('Component Tests', () => {
 
       it('Should update editForm', () => {
         const zone: IZone = { id: 456 };
-        const transporters: ITransporter = { id: 16569 };
+        const transporters: ITransporter = { id: 3836 };
         zone.transporters = [transporters];
 
         activatedRoute.data = of({ zone });

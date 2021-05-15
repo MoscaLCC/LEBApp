@@ -46,7 +46,7 @@ public class DeliveryManServiceImpl implements DeliveryManService {
 <span class="nc" id="L46">        return deliveryManRepository</span>
 <span class="nc" id="L47">            .findById(deliveryManDTO.getId())</span>
 <span class="nc" id="L48">            .map(</span>
-                existingDeliveryMan -&gt; {
+<span class="nc" id="L49">                existingDeliveryMan -&gt; {</span>
 <span class="nc" id="L50">                    deliveryManMapper.partialUpdate(existingDeliveryMan, deliveryManDTO);</span>
 <span class="nc" id="L51">                    return existingDeliveryMan;</span>
                 }

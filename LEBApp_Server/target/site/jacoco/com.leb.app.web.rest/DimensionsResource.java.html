@@ -46,11 +46,11 @@ public class DimensionsResource {
 
     private final DimensionsQueryService dimensionsQueryService;
 
-    public DimensionsResource(
+<span class="nc" id="L49">    public DimensionsResource(</span>
         DimensionsService dimensionsService,
         DimensionsRepository dimensionsRepository,
         DimensionsQueryService dimensionsQueryService
-<span class="nc" id="L53">    ) {</span>
+    ) {
 <span class="nc" id="L54">        this.dimensionsService = dimensionsService;</span>
 <span class="nc" id="L55">        this.dimensionsRepository = dimensionsRepository;</span>
 <span class="nc" id="L56">        this.dimensionsQueryService = dimensionsQueryService;</span>
@@ -141,7 +141,7 @@ public class DimensionsResource {
 <span class="nc" id="L141">        Optional&lt;DimensionsDTO&gt; result = dimensionsService.partialUpdate(dimensionsDTO);</span>
 
 <span class="nc" id="L143">        return ResponseUtil.wrapOrNotFound(</span>
-            result,
+<span class="nc" id="L144">            result,</span>
 <span class="nc" id="L145">            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, dimensionsDTO.getId().toString())</span>
         );
     }

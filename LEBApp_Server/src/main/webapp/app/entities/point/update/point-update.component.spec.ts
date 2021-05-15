@@ -9,6 +9,8 @@ import { of, Subject } from 'rxjs';
 
 import { PointService } from '../service/point.service';
 import { IPoint, Point } from '../point.model';
+import { IUserInfo } from 'app/entities/user-info/user-info.model';
+import { UserInfoService } from 'app/entities/user-info/service/user-info.service';
 import { IZone } from 'app/entities/zone/zone.model';
 import { ZoneService } from 'app/entities/zone/service/zone.service';
 
@@ -20,6 +22,7 @@ describe('Component Tests', () => {
     let fixture: ComponentFixture<PointUpdateComponent>;
     let activatedRoute: ActivatedRoute;
     let pointService: PointService;
+    let userInfoService: UserInfoService;
     let zoneService: ZoneService;
 
     beforeEach(() => {
@@ -34,12 +37,31 @@ describe('Component Tests', () => {
       fixture = TestBed.createComponent(PointUpdateComponent);
       activatedRoute = TestBed.inject(ActivatedRoute);
       pointService = TestBed.inject(PointService);
+      userInfoService = TestBed.inject(UserInfoService);
       zoneService = TestBed.inject(ZoneService);
 
       comp = fixture.componentInstance;
     });
 
     describe('ngOnInit', () => {
+      it('Should call userInfo query and add missing value', () => {
+        const point: IPoint = { id: 456 };
+        const userInfo: IUserInfo = { id: 84806 };
+        point.userInfo = userInfo;
+
+        const userInfoCollection: IUserInfo[] = [{ id: 86465 }];
+        spyOn(userInfoService, 'query').and.returnValue(of(new HttpResponse({ body: userInfoCollection })));
+        const expectedCollection: IUserInfo[] = [userInfo, ...userInfoCollection];
+        spyOn(userInfoService, 'addUserInfoToCollectionIfMissing').and.returnValue(expectedCollection);
+
+        activatedRoute.data = of({ point });
+        comp.ngOnInit();
+
+        expect(userInfoService.query).toHaveBeenCalled();
+        expect(userInfoService.addUserInfoToCollectionIfMissing).toHaveBeenCalledWith(userInfoCollection, userInfo);
+        expect(comp.userInfosCollection).toEqual(expectedCollection);
+      });
+
       it('Should call Zone query and add missing value', () => {
         const point: IPoint = { id: 456 };
         const zone: IZone = { id: 26435 };
@@ -61,6 +83,8 @@ describe('Component Tests', () => {
 
       it('Should update editForm', () => {
         const point: IPoint = { id: 456 };
+        const userInfo: IUserInfo = { id: 3753 };
+        point.userInfo = userInfo;
         const zone: IZone = { id: 95416 };
         point.zone = zone;
 
@@ -68,6 +92,7 @@ describe('Component Tests', () => {
         comp.ngOnInit();
 
         expect(comp.editForm.value).toEqual(expect.objectContaining(point));
+        expect(comp.userInfosCollection).toContain(userInfo);
         expect(comp.zonesSharedCollection).toContain(zone);
       });
     });
@@ -137,6 +162,14 @@ describe('Component Tests', () => {
     });
 
     describe('Tracking relationships identifiers', () => {
+      describe('trackUserInfoById', () => {
+        it('Should return tracked UserInfo primary key', () => {
+          const entity = { id: 123 };
+          const trackResult = comp.trackUserInfoById(0, entity);
+          expect(trackResult).toEqual(entity.id);
+        });
+      });
+
       describe('trackZoneById', () => {
         it('Should return tracked Zone primary key', () => {
           const entity = { id: 123 };

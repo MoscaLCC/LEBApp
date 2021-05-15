@@ -9,35 +9,25 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(Point.class)
 <span class="nc" id="L10">public abstract class Point_ {</span>
 
-	public static volatile SingularAttribute&lt;Point, String&gt; address;
+	public static volatile SingularAttribute&lt;Point, UserInfo&gt; userInfo;
 	public static volatile SetAttribute&lt;Point, DeliveryMan&gt; deliveryMen;
-	public static volatile SingularAttribute&lt;Point, String&gt; nib;
-	public static volatile SingularAttribute&lt;Point, String&gt; openingTime;
-	public static volatile SingularAttribute&lt;Point, Double&gt; receivedValue;
-	public static volatile SingularAttribute&lt;Point, Integer&gt; nif;
-	public static volatile SingularAttribute&lt;Point, String&gt; phoneNumber;
 	public static volatile SingularAttribute&lt;Point, Integer&gt; numberOfDeliveries;
 	public static volatile SingularAttribute&lt;Point, Double&gt; valueToReceive;
 	public static volatile SingularAttribute&lt;Point, Zone&gt; zone;
-	public static volatile SingularAttribute&lt;Point, String&gt; name;
+	public static volatile SingularAttribute&lt;Point, String&gt; openingTime;
+	public static volatile SingularAttribute&lt;Point, Double&gt; receivedValue;
 	public static volatile SingularAttribute&lt;Point, Double&gt; ranking;
 	public static volatile SingularAttribute&lt;Point, Long&gt; id;
-	public static volatile SingularAttribute&lt;Point, String&gt; email;
 
-	public static final String ADDRESS = &quot;address&quot;;
+	public static final String USER_INFO = &quot;userInfo&quot;;
 	public static final String DELIVERY_MEN = &quot;deliveryMen&quot;;
-	public static final String NIB = &quot;nib&quot;;
-	public static final String OPENING_TIME = &quot;openingTime&quot;;
-	public static final String RECEIVED_VALUE = &quot;receivedValue&quot;;
-	public static final String NIF = &quot;nif&quot;;
-	public static final String PHONE_NUMBER = &quot;phoneNumber&quot;;
 	public static final String NUMBER_OF_DELIVERIES = &quot;numberOfDeliveries&quot;;
 	public static final String VALUE_TO_RECEIVE = &quot;valueToReceive&quot;;
 	public static final String ZONE = &quot;zone&quot;;
-	public static final String NAME = &quot;name&quot;;
+	public static final String OPENING_TIME = &quot;openingTime&quot;;
+	public static final String RECEIVED_VALUE = &quot;receivedValue&quot;;
 	public static final String RANKING = &quot;ranking&quot;;
 	public static final String ID = &quot;id&quot;;
-	public static final String EMAIL = &quot;email&quot;;
 
 }
 

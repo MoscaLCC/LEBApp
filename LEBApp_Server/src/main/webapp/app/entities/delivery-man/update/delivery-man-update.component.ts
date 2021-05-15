@@ -7,6 +7,8 @@ import { finalize, map } from 'rxjs/operators';
 
 import { IDeliveryMan, DeliveryMan } from '../delivery-man.model';
 import { DeliveryManService } from '../service/delivery-man.service';
+import { IUserInfo } from 'app/entities/user-info/user-info.model';
+import { UserInfoService } from 'app/entities/user-info/service/user-info.service';
 import { IPoint } from 'app/entities/point/point.model';
 import { PointService } from 'app/entities/point/service/point.service';
 
@@ -17,29 +19,24 @@ import { PointService } from 'app/entities/point/service/point.service';
 export class DeliveryManUpdateComponent implements OnInit {
   isSaving = false;
 
+  userInfosCollection: IUserInfo[] = [];
   pointsSharedCollection: IPoint[] = [];
 
   editForm = this.fb.group({
     id: [],
-    name: [],
-    email: [],
-    phoneNumber: [],
-    nif: [],
-    nib: [],
-    birthday: [],
-    address: [],
-    photo: [],
     openingTime: [],
     numberOfDeliveries: [],
     numberOfKm: [],
     receivedValue: [],
     valueToReceive: [],
     ranking: [],
+    userInfo: [null, Validators.required],
     point: [null, Validators.required],
   });
 
   constructor(
     protected deliveryManService: DeliveryManService,
+    protected userInfoService: UserInfoService,
     protected pointService: PointService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
@@ -65,6 +62,10 @@ export class DeliveryManUpdateComponent implements OnInit {
     } else {
       this.subscribeToSaveResponse(this.deliveryManService.create(deliveryMan));
     }
+  }
+
+  trackUserInfoById(index: number, item: IUserInfo): number {
+    return item.id!;
   }
 
   trackPointById(index: number, item: IPoint): number {
@@ -93,27 +94,31 @@ export class DeliveryManUpdateComponent implements OnInit {
   protected updateForm(deliveryMan: IDeliveryMan): void {
     this.editForm.patchValue({
       id: deliveryMan.id,
-      name: deliveryMan.name,
-      email: deliveryMan.email,
-      phoneNumber: deliveryMan.phoneNumber,
-      nif: deliveryMan.nif,
-      nib: deliveryMan.nib,
-      birthday: deliveryMan.birthday,
-      address: deliveryMan.address,
-      photo: deliveryMan.photo,
       openingTime: deliveryMan.openingTime,
       numberOfDeliveries: deliveryMan.numberOfDeliveries,
       numberOfKm: deliveryMan.numberOfKm,
       receivedValue: deliveryMan.receivedValue,
       valueToReceive: deliveryMan.valueToReceive,
       ranking: deliveryMan.ranking,
+      userInfo: deliveryMan.userInfo,
       point: deliveryMan.point,
     });
 
+    this.userInfosCollection = this.userInfoService.addUserInfoToCollectionIfMissing(this.userInfosCollection, deliveryMan.userInfo);
     this.pointsSharedCollection = this.pointService.addPointToCollectionIfMissing(this.pointsSharedCollection, deliveryMan.point);
   }
 
   protected loadRelationshipsOptions(): void {
+    this.userInfoService
+      .query({ 'deliveryManId.specified': 'false' })
+      .pipe(map((res: HttpResponse<IUserInfo[]>) => res.body ?? []))
+      .pipe(
+        map((userInfos: IUserInfo[]) =>
+          this.userInfoService.addUserInfoToCollectionIfMissing(userInfos, this.editForm.get('userInfo')!.value)
+        )
+      )
+      .subscribe((userInfos: IUserInfo[]) => (this.userInfosCollection = userInfos));
+
     this.pointService
       .query()
       .pipe(map((res: HttpResponse<IPoint[]>) => res.body ?? []))
@@ -125,20 +130,13 @@ export class DeliveryManUpdateComponent implements OnInit {
     return {
       ...new DeliveryMan(),
       id: this.editForm.get(['id'])!.value,
-      name: this.editForm.get(['name'])!.value,
-      email: this.editForm.get(['email'])!.value,
-      phoneNumber: this.editForm.get(['phoneNumber'])!.value,
-      nif: this.editForm.get(['nif'])!.value,
-      nib: this.editForm.get(['nib'])!.value,
-      birthday: this.editForm.get(['birthday'])!.value,
-      address: this.editForm.get(['address'])!.value,
-      photo: this.editForm.get(['photo'])!.value,
       openingTime: this.editForm.get(['openingTime'])!.value,
       numberOfDeliveries: this.editForm.get(['numberOfDeliveries'])!.value,
       numberOfKm: this.editForm.get(['numberOfKm'])!.value,
       receivedValue: this.editForm.get(['receivedValue'])!.value,
       valueToReceive: this.editForm.get(['valueToReceive'])!.value,
       ranking: this.editForm.get(['ranking'])!.value,
+      userInfo: this.editForm.get(['userInfo'])!.value,
       point: this.editForm.get(['point'])!.value,
     };
   }

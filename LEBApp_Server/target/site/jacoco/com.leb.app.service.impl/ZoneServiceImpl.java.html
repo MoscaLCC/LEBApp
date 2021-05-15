@@ -46,7 +46,7 @@ public class ZoneServiceImpl implements ZoneService {
 <span class="nc" id="L46">        return zoneRepository</span>
 <span class="nc" id="L47">            .findById(zoneDTO.getId())</span>
 <span class="nc" id="L48">            .map(</span>
-                existingZone -&gt; {
+<span class="nc" id="L49">                existingZone -&gt; {</span>
 <span class="nc" id="L50">                    zoneMapper.partialUpdate(existingZone, zoneDTO);</span>
 <span class="nc" id="L51">                    return existingZone;</span>
                 }
