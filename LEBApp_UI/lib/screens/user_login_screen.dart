@@ -1,6 +1,10 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:lebapp_ui/models/User.dart';
+import 'package:lebapp_ui/screens/user_main_area.dart';
+import 'package:lebapp_ui/screens/user_registry_screen.dart';
 import '../main.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -15,6 +19,9 @@ class User_Reg_Screen extends StatefulWidget {
 class _User_Reg_ScreenState extends State<User_Reg_Screen> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
+  final controllerEmailTextField = TextEditingController();
+  final controllerPasswordTextField = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
 
@@ -22,6 +29,7 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
       obscureText: false,
       style: style,
       decoration: InputDecoration(hintText: 'Insert your email.'),
+      controller: controllerEmailTextField,
 
     );
 
@@ -29,6 +37,7 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
       obscureText: true,
       style: style,
       decoration: InputDecoration(hintText: 'Insert your password.'),
+      controller: controllerPasswordTextField,
     );
 
     final loginButon = Material(
@@ -41,12 +50,7 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
           onSurface: Colors.grey,
         ),
         onPressed: () async {
-          print("Link to server...");
-
-          //var url = Uri.parse('http://192.168.1.110:8080/api/authenticate');
-          //var response = await http.post(url,headers: {HttpHeaders.CONTENT_TYPE: "application/json"}, body: {"username": "Admin", "password": "admin", "rememberMe": "false"});
-          //print('Response status: ${response.statusCode}');
-          //print('Response body: ${response.body}');
+          print("Link to server to...");
 
           var  url = Uri.parse('http://192.168.1.110:8080/api/authenticate');
           var body = json.encode({"username": "Admin", "password": "admin", "rememberMe": "false"});
@@ -56,10 +60,15 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
             'Accept': 'application/json',
           };
 
-          final response = await http.post(url, body: body, headers: headers);
-          final responseJson = json.decode(response.body);
-          print(responseJson);
-          return response;
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => User_Main_Area(controllerEmailTextField.text)));
+
+          //final response = await http.post(url, body: body, headers: headers);
+          //final responseJson = json.decode(response.body);
+          //print(responseJson);
+          //return response
 
         },
       ),
@@ -77,6 +86,22 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
         onPressed: () {
           //button action
           Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MyApp()));
+        },
+      ),
+    );
+
+    final regButon = Material(
+      child: TextButton(
+        child: Text('Not signed ? Register now'),
+        style: TextButton.styleFrom(
+          alignment: Alignment.bottomCenter,
+          primary: Colors.white,
+          backgroundColor: Colors.teal,
+          onSurface: Colors.grey,
+        ),
+        onPressed: () {
+          //button action
+          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>User_Registry_Screen()));
         },
       ),
     );
@@ -117,6 +142,10 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
                     SizedBox(
                       height: 15.0,
                     ),
+                    regButon,
+                    SizedBox(
+                      height: 15.0,
+                    ),
                   ],
                 ),
               ),
@@ -126,33 +155,3 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
     );
   }
 }
-
-
-
-/*
-class _User_Reg_ScreenState extends State<User_Reg_Screen> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          title: const Text('New user Registry Screen'),
-          backgroundColor: Colors.teal),
-      body: Center(
-        child: TextButton(
-          child: Text('BACK'),
-          style: TextButton.styleFrom(
-            alignment: Alignment.bottomCenter,
-            primary: Colors.white,
-            backgroundColor: Colors.teal,
-            onSurface: Colors.grey,
-          ),
-          onPressed: () {
-              //button action
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>MyApp()));
-          },
-        )
-      ),
-    );
-  }
-}
- */

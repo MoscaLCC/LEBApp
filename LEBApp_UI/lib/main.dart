@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lebapp_ui/screens/user_reg_screen.dart';
+import 'package:lebapp_ui/screens/user_login_screen.dart';
 import 'package:lebapp_ui/widgets/UserForm.dart';
 
 void main() {
@@ -49,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Put Initial Login page...',
+              'In construction...',
             ),
           ],
         ),
