@@ -47,11 +47,11 @@ public class TransporterResource {
 
     private final TransporterQueryService transporterQueryService;
 
-<span class="nc" id="L50">    public TransporterResource(</span>
+    public TransporterResource(
         TransporterService transporterService,
         TransporterRepository transporterRepository,
         TransporterQueryService transporterQueryService
-    ) {
+<span class="nc" id="L54">    ) {</span>
 <span class="nc" id="L55">        this.transporterService = transporterService;</span>
 <span class="nc" id="L56">        this.transporterRepository = transporterRepository;</span>
 <span class="nc" id="L57">        this.transporterQueryService = transporterQueryService;</span>
@@ -142,7 +142,7 @@ public class TransporterResource {
 <span class="nc" id="L142">        Optional&lt;TransporterDTO&gt; result = transporterService.partialUpdate(transporterDTO);</span>
 
 <span class="nc" id="L144">        return ResponseUtil.wrapOrNotFound(</span>
-<span class="nc" id="L145">            result,</span>
+            result,
 <span class="nc" id="L146">            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, transporterDTO.getId().toString())</span>
         );
     }

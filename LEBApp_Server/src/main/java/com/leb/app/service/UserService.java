@@ -3,7 +3,9 @@ package com.leb.app.service;
 import com.leb.app.config.Constants;
 import com.leb.app.domain.Authority;
 import com.leb.app.domain.User;
+import com.leb.app.domain.UserInfo;
 import com.leb.app.repository.AuthorityRepository;
+import com.leb.app.repository.UserInfoRepository;
 import com.leb.app.repository.UserRepository;
 import com.leb.app.security.AuthoritiesConstants;
 import com.leb.app.security.SecurityUtils;
@@ -35,6 +37,8 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final UserInfoRepository userInfoRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     private final AuthorityRepository authorityRepository;
@@ -45,12 +49,14 @@ public class UserService {
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
-        CacheManager cacheManager
+        CacheManager cacheManager,
+        UserInfoRepository userInfoRepository
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.userInfoRepository = userInfoRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -120,6 +126,25 @@ public class UserService {
                     }
                 }
             );
+        User newUser = registerNewUser(userDTO, password);
+        UserInfo userInfo = registerNewUserInfo(newUser, userDTO);
+        if (userDTO.isTransporter()){
+            //TODO: createNewTransporter(userInfo, userDTO);
+        }
+        if (userDTO.isProducer()) {
+            //TODO: createNewProducer(userInfo, userDTO);
+        }
+        if (userDTO.isPoint()){
+            //TODO: createPoint(userInfo, userDTO);
+        }
+        if (userDTO.isDeliveryMan()){
+            //TODO: createDeliveryMan(userInfo, userDTO);
+        }
+
+        return newUser;
+    }
+
+    public User registerNewUser(AdminUserDTO userDTO, String password) {
         User newUser = new User();
         String encryptedPassword = passwordEncoder.encode(password);
         newUser.setLogin(userDTO.getLogin().toLowerCase());
@@ -143,6 +168,20 @@ public class UserService {
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
+    }
+
+    private UserInfo registerNewUserInfo(User user, AdminUserDTO userDTO) {
+        UserInfo userInfo = new UserInfo();
+
+        userInfo.setPhoneNumber(userDTO.getPhoneNumber());
+        userInfo.setNib(userDTO.getNib());
+        userInfo.setNif(userDTO.getNif());
+        userInfo.setBirthday(userDTO.getBirthday());
+        userInfo.setAdress(userDTO.getAdress());
+        userInfo.setUser(user);
+
+        userInfoRepository.saveAndFlush(userInfo);
+        return userInfo;
     }
 
     private boolean removeNonActivatedUser(User existingUser) {

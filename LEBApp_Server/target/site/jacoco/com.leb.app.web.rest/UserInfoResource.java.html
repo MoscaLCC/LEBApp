@@ -45,11 +45,11 @@ public class UserInfoResource {
 
     private final UserInfoQueryService userInfoQueryService;
 
-<span class="nc" id="L48">    public UserInfoResource(</span>
+    public UserInfoResource(
         UserInfoService userInfoService,
         UserInfoRepository userInfoRepository,
         UserInfoQueryService userInfoQueryService
-    ) {
+<span class="nc" id="L52">    ) {</span>
 <span class="nc" id="L53">        this.userInfoService = userInfoService;</span>
 <span class="nc" id="L54">        this.userInfoRepository = userInfoRepository;</span>
 <span class="nc" id="L55">        this.userInfoQueryService = userInfoQueryService;</span>
@@ -140,7 +140,7 @@ public class UserInfoResource {
 <span class="nc" id="L140">        Optional&lt;UserInfoDTO&gt; result = userInfoService.partialUpdate(userInfoDTO);</span>
 
 <span class="nc" id="L142">        return ResponseUtil.wrapOrNotFound(</span>
-<span class="nc" id="L143">            result,</span>
+            result,
 <span class="nc" id="L144">            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, userInfoDTO.getId().toString())</span>
         );
     }

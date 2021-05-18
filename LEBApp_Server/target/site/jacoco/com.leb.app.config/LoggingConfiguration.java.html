@@ -18,12 +18,12 @@ import tech.jhipster.config.JHipsterProperties;
 @Configuration
 public class LoggingConfiguration {
 
-<span class="nc" id="L21">    public LoggingConfiguration(</span>
+    public LoggingConfiguration(
         @Value(&quot;${spring.application.name}&quot;) String appName,
         @Value(&quot;${server.port}&quot;) String serverPort,
         JHipsterProperties jHipsterProperties,
         ObjectMapper mapper
-    ) throws JsonProcessingException {
+<span class="nc" id="L26">    ) throws JsonProcessingException {</span>
 <span class="nc" id="L27">        LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();</span>
 
 <span class="nc" id="L29">        Map&lt;String, String&gt; map = new HashMap&lt;&gt;();</span>

@@ -73,7 +73,7 @@ public class CacheConfiguration {
 <span class="nc" id="L73">        javax.cache.Cache&lt;Object, Object&gt; cache = cm.getCache(cacheName);</span>
 <span class="nc bnc" id="L74" title="All 2 branches missed.">        if (cache != null) {</span>
 <span class="nc" id="L75">            cache.clear();</span>
-<span class="nc" id="L76">        } else {</span>
+        } else {
 <span class="nc" id="L77">            cm.createCache(cacheName, jcacheConfiguration);</span>
         }
 <span class="nc" id="L79">    }</span>

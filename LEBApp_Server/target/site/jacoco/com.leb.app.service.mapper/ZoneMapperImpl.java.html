@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
-    date = &quot;2021-05-15T01:36:49+0100&quot;,
-    comments = &quot;version: 1.4.2.Final, compiler: Eclipse JDT (IDE) 1.3.1300.v20210331-0708, environment: Java 11.0.11 (Oracle Corporation)&quot;
+    date = &quot;2021-05-18T23:54:36+0100&quot;,
+    comments = &quot;version: 1.4.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)&quot;
 )
 @Component
 <span class="nc" id="L21">public class ZoneMapperImpl implements ZoneMapper {</span>
@@ -32,7 +32,7 @@ import org.springframework.stereotype.Component;
 <span class="nc" id="L32">        List&lt;Zone&gt; list = new ArrayList&lt;Zone&gt;( dtoList.size() );</span>
 <span class="nc bnc" id="L33" title="All 2 branches missed.">        for ( ZoneDTO zoneDTO : dtoList ) {</span>
 <span class="nc" id="L34">            list.add( toEntity( zoneDTO ) );</span>
-        }
+<span class="nc" id="L35">        }</span>
 
 <span class="nc" id="L37">        return list;</span>
     }
@@ -46,7 +46,7 @@ import org.springframework.stereotype.Component;
 <span class="nc" id="L46">        List&lt;ZoneDTO&gt; list = new ArrayList&lt;ZoneDTO&gt;( entityList.size() );</span>
 <span class="nc bnc" id="L47" title="All 2 branches missed.">        for ( Zone zone : entityList ) {</span>
 <span class="nc" id="L48">            list.add( toDto( zone ) );</span>
-        }
+<span class="nc" id="L49">        }</span>
 
 <span class="nc" id="L51">        return list;</span>
     }
@@ -129,7 +129,7 @@ import org.springframework.stereotype.Component;
 <span class="nc" id="L129">        Set&lt;Transporter&gt; set1 = new HashSet&lt;Transporter&gt;( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );</span>
 <span class="nc bnc" id="L130" title="All 2 branches missed.">        for ( TransporterDTO transporterDTO : set ) {</span>
 <span class="nc" id="L131">            set1.add( transporterMapper.toEntity( transporterDTO ) );</span>
-        }
+<span class="nc" id="L132">        }</span>
 
 <span class="nc" id="L134">        return set1;</span>
     }

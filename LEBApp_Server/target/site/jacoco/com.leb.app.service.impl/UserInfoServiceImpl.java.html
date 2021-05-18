@@ -46,7 +46,7 @@ public class UserInfoServiceImpl implements UserInfoService {
 <span class="nc" id="L46">        return userInfoRepository</span>
 <span class="nc" id="L47">            .findById(userInfoDTO.getId())</span>
 <span class="nc" id="L48">            .map(</span>
-<span class="nc" id="L49">                existingUserInfo -&gt; {</span>
+                existingUserInfo -&gt; {
 <span class="nc" id="L50">                    userInfoMapper.partialUpdate(existingUserInfo, userInfoDTO);</span>
 <span class="nc" id="L51">                    return existingUserInfo;</span>
                 }

@@ -47,11 +47,11 @@ public class ProducerResource {
 
     private final ProducerQueryService producerQueryService;
 
-<span class="nc" id="L50">    public ProducerResource(</span>
+    public ProducerResource(
         ProducerService producerService,
         ProducerRepository producerRepository,
         ProducerQueryService producerQueryService
-    ) {
+<span class="nc" id="L54">    ) {</span>
 <span class="nc" id="L55">        this.producerService = producerService;</span>
 <span class="nc" id="L56">        this.producerRepository = producerRepository;</span>
 <span class="nc" id="L57">        this.producerQueryService = producerQueryService;</span>
@@ -142,7 +142,7 @@ public class ProducerResource {
 <span class="nc" id="L142">        Optional&lt;ProducerDTO&gt; result = producerService.partialUpdate(producerDTO);</span>
 
 <span class="nc" id="L144">        return ResponseUtil.wrapOrNotFound(</span>
-<span class="nc" id="L145">            result,</span>
+            result,
 <span class="nc" id="L146">            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, producerDTO.getId().toString())</span>
         );
     }

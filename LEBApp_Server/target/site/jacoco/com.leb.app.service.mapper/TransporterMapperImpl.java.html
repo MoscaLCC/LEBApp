@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = &quot;org.mapstruct.ap.MappingProcessor&quot;,
-    date = &quot;2021-05-15T01:36:48+0100&quot;,
-    comments = &quot;version: 1.4.2.Final, compiler: Eclipse JDT (IDE) 1.3.1300.v20210331-0708, environment: Java 11.0.11 (Oracle Corporation)&quot;
+    date = &quot;2021-05-18T23:54:35+0100&quot;,
+    comments = &quot;version: 1.4.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)&quot;
 )
 @Component
 <span class="nc" id="L21">public class TransporterMapperImpl implements TransporterMapper {</span>
@@ -34,7 +34,7 @@ import org.springframework.stereotype.Component;
 <span class="nc" id="L34">        List&lt;Transporter&gt; list = new ArrayList&lt;Transporter&gt;( dtoList.size() );</span>
 <span class="nc bnc" id="L35" title="All 2 branches missed.">        for ( TransporterDTO transporterDTO : dtoList ) {</span>
 <span class="nc" id="L36">            list.add( toEntity( transporterDTO ) );</span>
-        }
+<span class="nc" id="L37">        }</span>
 
 <span class="nc" id="L39">        return list;</span>
     }
@@ -48,7 +48,7 @@ import org.springframework.stereotype.Component;
 <span class="nc" id="L48">        List&lt;TransporterDTO&gt; list = new ArrayList&lt;TransporterDTO&gt;( entityList.size() );</span>
 <span class="nc bnc" id="L49" title="All 2 branches missed.">        for ( Transporter transporter : entityList ) {</span>
 <span class="nc" id="L50">            list.add( toDto( transporter ) );</span>
-        }
+<span class="nc" id="L51">        }</span>
 
 <span class="nc" id="L53">        return list;</span>
     }
@@ -128,7 +128,7 @@ import org.springframework.stereotype.Component;
 <span class="nc" id="L128">        Set&lt;TransporterDTO&gt; set = new HashSet&lt;TransporterDTO&gt;( Math.max( (int) ( transporter.size() / .75f ) + 1, 16 ) );</span>
 <span class="nc bnc" id="L129" title="All 2 branches missed.">        for ( Transporter transporter1 : transporter ) {</span>
 <span class="nc" id="L130">            set.add( toDto( transporter1 ) );</span>
-        }
+<span class="nc" id="L131">        }</span>
 
 <span class="nc" id="L133">        return set;</span>
     }
@@ -162,7 +162,7 @@ import org.springframework.stereotype.Component;
 <span class="nc" id="L162">        Set&lt;RidePath&gt; set1 = new HashSet&lt;RidePath&gt;( Math.max( (int) ( set.size() / .75f ) + 1, 16 ) );</span>
 <span class="nc bnc" id="L163" title="All 2 branches missed.">        for ( RidePathDTO ridePathDTO : set ) {</span>
 <span class="nc" id="L164">            set1.add( ridePathMapper.toEntity( ridePathDTO ) );</span>
-        }
+<span class="nc" id="L165">        }</span>
 
 <span class="nc" id="L167">        return set1;</span>
     }

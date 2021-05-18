@@ -43,10 +43,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
     @JoinColumn(unique = true)
     private UserInfo userInfo;
 
-    @OneToMany(mappedBy = &quot;point&quot;)
+<span class="fc" id="L46">    @OneToMany(mappedBy = &quot;point&quot;)</span>
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { &quot;userInfo&quot;, &quot;point&quot; }, allowSetters = true)
-<span class="fc" id="L49">    private Set&lt;DeliveryMan&gt; deliveryMen = new HashSet&lt;&gt;();</span>
+    private Set&lt;DeliveryMan&gt; deliveryMen = new HashSet&lt;&gt;();
 
     @ManyToOne
     @JsonIgnoreProperties(value = { &quot;points&quot;, &quot;transporters&quot; }, allowSetters = true)
@@ -217,7 +217,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 <span class="fc" id="L217">            &quot;, receivedValue=&quot; + getReceivedValue() +</span>
 <span class="fc" id="L218">            &quot;, valueToReceive=&quot; + getValueToReceive() +</span>
 <span class="fc" id="L219">            &quot;, ranking=&quot; + getRanking() +</span>
-<span class="fc" id="L220">            &quot;}&quot;;</span>
+            &quot;}&quot;;
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -4,6 +4,7 @@ import com.leb.app.config.Constants;
 import com.leb.app.domain.Authority;
 import com.leb.app.domain.User;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.validation.constraints.*;
@@ -11,6 +12,7 @@ import javax.validation.constraints.*;
 /**
  * A DTO representing a user, with his authorities.
  */
+
 public class AdminUserDTO {
 
     private Long id;
@@ -33,7 +35,7 @@ public class AdminUserDTO {
     @Size(max = 256)
     private String imageUrl;
 
-<span class="pc" id="L36">    private boolean activated = false;</span>
+<span class="pc" id="L38">    private boolean activated = false;</span>
 
     @Size(min = 2, max = 10)
     private String langKey;
@@ -46,149 +48,273 @@ public class AdminUserDTO {
 
     private Instant lastModifiedDate;
 
+    private String phoneNumber;
+
+    private String nib;
+
+    private int nif;
+
+    private LocalDate birthday;
+
+    private String adress;
+
+    private boolean isTransporter;
+
+    private String favouriteTransport;
+
+    private boolean isProducer;
+
+    private String linkSocial;
+
+    private boolean isPoint;
+
+    private String openingTimePoint;
+
+    private boolean isDeliveryMan;
+
+    private String openingTime;
+
     private Set&lt;String&gt; authorities;
 
-<span class="nc" id="L51">    public AdminUserDTO() {</span>
+<span class="nc" id="L79">    public AdminUserDTO() {</span>
         // Empty constructor needed for Jackson.
-<span class="nc" id="L53">    }</span>
+<span class="nc" id="L81">    }</span>
 
-<span class="fc" id="L55">    public AdminUserDTO(User user) {</span>
-<span class="fc" id="L56">        this.id = user.getId();</span>
-<span class="fc" id="L57">        this.login = user.getLogin();</span>
-<span class="fc" id="L58">        this.firstName = user.getFirstName();</span>
-<span class="fc" id="L59">        this.lastName = user.getLastName();</span>
-<span class="fc" id="L60">        this.email = user.getEmail();</span>
-<span class="fc" id="L61">        this.activated = user.isActivated();</span>
-<span class="fc" id="L62">        this.imageUrl = user.getImageUrl();</span>
-<span class="fc" id="L63">        this.langKey = user.getLangKey();</span>
-<span class="fc" id="L64">        this.createdBy = user.getCreatedBy();</span>
-<span class="fc" id="L65">        this.createdDate = user.getCreatedDate();</span>
-<span class="fc" id="L66">        this.lastModifiedBy = user.getLastModifiedBy();</span>
-<span class="fc" id="L67">        this.lastModifiedDate = user.getLastModifiedDate();</span>
-<span class="fc" id="L68">        this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());</span>
-<span class="fc" id="L69">    }</span>
+<span class="fc" id="L83">    public AdminUserDTO(User user) {</span>
+<span class="fc" id="L84">        this.id = user.getId();</span>
+<span class="fc" id="L85">        this.login = user.getLogin();</span>
+<span class="fc" id="L86">        this.firstName = user.getFirstName();</span>
+<span class="fc" id="L87">        this.lastName = user.getLastName();</span>
+<span class="fc" id="L88">        this.email = user.getEmail();</span>
+<span class="fc" id="L89">        this.activated = user.isActivated();</span>
+<span class="fc" id="L90">        this.imageUrl = user.getImageUrl();</span>
+<span class="fc" id="L91">        this.langKey = user.getLangKey();</span>
+<span class="fc" id="L92">        this.createdBy = user.getCreatedBy();</span>
+<span class="fc" id="L93">        this.createdDate = user.getCreatedDate();</span>
+<span class="fc" id="L94">        this.lastModifiedBy = user.getLastModifiedBy();</span>
+<span class="fc" id="L95">        this.lastModifiedDate = user.getLastModifiedDate();</span>
+<span class="fc" id="L96">        this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());</span>
+<span class="fc" id="L97">    }</span>
 
     public Long getId() {
-<span class="fc" id="L72">        return id;</span>
+<span class="fc" id="L100">        return id;</span>
     }
 
     public void setId(Long id) {
-<span class="nc" id="L76">        this.id = id;</span>
-<span class="nc" id="L77">    }</span>
+<span class="nc" id="L104">        this.id = id;</span>
+<span class="nc" id="L105">    }</span>
 
     public String getLogin() {
-<span class="fc" id="L80">        return login;</span>
+<span class="fc" id="L108">        return login;</span>
     }
 
     public void setLogin(String login) {
-<span class="nc" id="L84">        this.login = login;</span>
-<span class="nc" id="L85">    }</span>
+<span class="nc" id="L112">        this.login = login;</span>
+<span class="nc" id="L113">    }</span>
 
     public String getFirstName() {
-<span class="fc" id="L88">        return firstName;</span>
+<span class="fc" id="L116">        return firstName;</span>
     }
 
     public void setFirstName(String firstName) {
-<span class="nc" id="L92">        this.firstName = firstName;</span>
-<span class="nc" id="L93">    }</span>
+<span class="nc" id="L120">        this.firstName = firstName;</span>
+<span class="nc" id="L121">    }</span>
 
     public String getLastName() {
-<span class="fc" id="L96">        return lastName;</span>
+<span class="fc" id="L124">        return lastName;</span>
     }
 
     public void setLastName(String lastName) {
-<span class="nc" id="L100">        this.lastName = lastName;</span>
-<span class="nc" id="L101">    }</span>
+<span class="nc" id="L128">        this.lastName = lastName;</span>
+<span class="nc" id="L129">    }</span>
 
     public String getEmail() {
-<span class="fc" id="L104">        return email;</span>
+<span class="fc" id="L132">        return email;</span>
     }
 
+    public String getPhoneNumber() {
+<span class="nc" id="L136">        return phoneNumber;</span>
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+<span class="nc" id="L140">        this.phoneNumber = phoneNumber;</span>
+<span class="nc" id="L141">    }</span>
+
+    public String getNib() {
+<span class="nc" id="L144">        return nib;</span>
+    }
+
+    public void setNib(String nib) {
+<span class="nc" id="L148">        this.nib = nib;</span>
+<span class="nc" id="L149">    }</span>
+
+    public int getNif() {
+<span class="nc" id="L152">        return nif;</span>
+    }
+
+    public void setNif(int nif) {
+<span class="nc" id="L156">        this.nif = nif;</span>
+<span class="nc" id="L157">    }</span>
+
+    public LocalDate getBirthday() {
+<span class="nc" id="L160">        return birthday;</span>
+    }
+
+    public void setBirthday(LocalDate birthday) {
+<span class="nc" id="L164">        this.birthday = birthday;</span>
+<span class="nc" id="L165">    }</span>
+
+    public String getAdress() {
+<span class="nc" id="L168">        return adress;</span>
+    }
+
+    public void setAdress(String adress) {
+<span class="nc" id="L172">        this.adress = adress;</span>
+<span class="nc" id="L173">    }</span>
+
+    public boolean isTransporter() {
+<span class="nc" id="L176">        return isTransporter;</span>
+    }
+
+    public void setTransporter(boolean isTransporter) {
+<span class="nc" id="L180">        this.isTransporter = isTransporter;</span>
+<span class="nc" id="L181">    }</span>
+
+    public String getFavouriteTransport() {
+<span class="nc" id="L184">        return favouriteTransport;</span>
+    }
+
+    public void setFavouriteTransport(String favouriteTransport) {
+<span class="nc" id="L188">        this.favouriteTransport = favouriteTransport;</span>
+<span class="nc" id="L189">    }</span>
+
+    public boolean isProducer() {
+<span class="nc" id="L192">        return isProducer;</span>
+    }
+
+    public void setProducer(boolean isProducer) {
+<span class="nc" id="L196">        this.isProducer = isProducer;</span>
+<span class="nc" id="L197">    }</span>
+
+    public String getLinkSocial() {
+<span class="nc" id="L200">        return linkSocial;</span>
+    }
+
+    public void setLinkSocial(String linkSocial) {
+<span class="nc" id="L204">        this.linkSocial = linkSocial;</span>
+<span class="nc" id="L205">    }</span>
+
+    public boolean isPoint() {
+<span class="nc" id="L208">        return isPoint;</span>
+    }
+
+    public void setPoint(boolean isPoint) {
+<span class="nc" id="L212">        this.isPoint = isPoint;</span>
+<span class="nc" id="L213">    }</span>
+
+    public String getOpeningTimePoint() {
+<span class="nc" id="L216">        return openingTimePoint;</span>
+    }
+
+    public void setOpeningTimePoint(String openingTimePoint) {
+<span class="nc" id="L220">        this.openingTimePoint = openingTimePoint;</span>
+<span class="nc" id="L221">    }</span>
+
+    public boolean isDeliveryMan() {
+<span class="nc" id="L224">        return isDeliveryMan;</span>
+    }
+
+    public void setDeliveryMan(boolean isDeliveryMan) {
+<span class="nc" id="L228">        this.isDeliveryMan = isDeliveryMan;</span>
+<span class="nc" id="L229">    }</span>
+
+    public String getOpeningTime() {
+<span class="nc" id="L232">        return openingTime;</span>
+    }
+
+    public void setOpeningTime(String openingTime) {
+<span class="nc" id="L236">        this.openingTime = openingTime;</span>
+<span class="nc" id="L237">    }</span>
+
     public void setEmail(String email) {
-<span class="nc" id="L108">        this.email = email;</span>
-<span class="nc" id="L109">    }</span>
+<span class="nc" id="L240">        this.email = email;</span>
+<span class="nc" id="L241">    }</span>
 
     public String getImageUrl() {
-<span class="fc" id="L112">        return imageUrl;</span>
+<span class="fc" id="L244">        return imageUrl;</span>
     }
 
     public void setImageUrl(String imageUrl) {
-<span class="nc" id="L116">        this.imageUrl = imageUrl;</span>
-<span class="nc" id="L117">    }</span>
+<span class="nc" id="L248">        this.imageUrl = imageUrl;</span>
+<span class="nc" id="L249">    }</span>
 
     public boolean isActivated() {
-<span class="fc" id="L120">        return activated;</span>
+<span class="fc" id="L252">        return activated;</span>
     }
 
     public void setActivated(boolean activated) {
-<span class="nc" id="L124">        this.activated = activated;</span>
-<span class="nc" id="L125">    }</span>
+<span class="nc" id="L256">        this.activated = activated;</span>
+<span class="nc" id="L257">    }</span>
 
     public String getLangKey() {
-<span class="fc" id="L128">        return langKey;</span>
+<span class="fc" id="L260">        return langKey;</span>
     }
 
     public void setLangKey(String langKey) {
-<span class="nc" id="L132">        this.langKey = langKey;</span>
-<span class="nc" id="L133">    }</span>
+<span class="nc" id="L264">        this.langKey = langKey;</span>
+<span class="nc" id="L265">    }</span>
 
     public String getCreatedBy() {
-<span class="nc" id="L136">        return createdBy;</span>
+<span class="nc" id="L268">        return createdBy;</span>
     }
 
     public void setCreatedBy(String createdBy) {
-<span class="nc" id="L140">        this.createdBy = createdBy;</span>
-<span class="nc" id="L141">    }</span>
+<span class="nc" id="L272">        this.createdBy = createdBy;</span>
+<span class="nc" id="L273">    }</span>
 
     public Instant getCreatedDate() {
-<span class="nc" id="L144">        return createdDate;</span>
+<span class="nc" id="L276">        return createdDate;</span>
     }
 
     public void setCreatedDate(Instant createdDate) {
-<span class="nc" id="L148">        this.createdDate = createdDate;</span>
-<span class="nc" id="L149">    }</span>
+<span class="nc" id="L280">        this.createdDate = createdDate;</span>
+<span class="nc" id="L281">    }</span>
 
     public String getLastModifiedBy() {
-<span class="nc" id="L152">        return lastModifiedBy;</span>
+<span class="nc" id="L284">        return lastModifiedBy;</span>
     }
 
     public void setLastModifiedBy(String lastModifiedBy) {
-<span class="nc" id="L156">        this.lastModifiedBy = lastModifiedBy;</span>
-<span class="nc" id="L157">    }</span>
+<span class="nc" id="L288">        this.lastModifiedBy = lastModifiedBy;</span>
+<span class="nc" id="L289">    }</span>
 
     public Instant getLastModifiedDate() {
-<span class="nc" id="L160">        return lastModifiedDate;</span>
+<span class="nc" id="L292">        return lastModifiedDate;</span>
     }
 
     public void setLastModifiedDate(Instant lastModifiedDate) {
-<span class="nc" id="L164">        this.lastModifiedDate = lastModifiedDate;</span>
-<span class="nc" id="L165">    }</span>
+<span class="nc" id="L296">        this.lastModifiedDate = lastModifiedDate;</span>
+<span class="nc" id="L297">    }</span>
 
     public Set&lt;String&gt; getAuthorities() {
-<span class="fc" id="L168">        return authorities;</span>
+<span class="fc" id="L300">        return authorities;</span>
     }
 
     public void setAuthorities(Set&lt;String&gt; authorities) {
-<span class="fc" id="L172">        this.authorities = authorities;</span>
-<span class="fc" id="L173">    }</span>
+<span class="fc" id="L304">        this.authorities = authorities;</span>
+<span class="fc" id="L305">    }</span>
 
-    // prettier-ignore
     @Override
     public String toString() {
-<span class="nc" id="L178">        return &quot;AdminUserDTO{&quot; +</span>
-<span class="nc" id="L179">            &quot;login='&quot; + login + '\'' +</span>
-<span class="nc" id="L180">            &quot;, firstName='&quot; + firstName + '\'' +</span>
-<span class="nc" id="L181">            &quot;, lastName='&quot; + lastName + '\'' +</span>
-<span class="nc" id="L182">            &quot;, email='&quot; + email + '\'' +</span>
-<span class="nc" id="L183">            &quot;, imageUrl='&quot; + imageUrl + '\'' +</span>
-<span class="nc" id="L184">            &quot;, activated=&quot; + activated +</span>
-<span class="nc" id="L185">            &quot;, langKey='&quot; + langKey + '\'' +</span>
-<span class="nc" id="L186">            &quot;, createdBy=&quot; + createdBy +</span>
-<span class="nc" id="L187">            &quot;, createdDate=&quot; + createdDate +</span>
-<span class="nc" id="L188">            &quot;, lastModifiedBy='&quot; + lastModifiedBy + '\'' +</span>
-<span class="nc" id="L189">            &quot;, lastModifiedDate=&quot; + lastModifiedDate +</span>
-<span class="nc" id="L190">            &quot;, authorities=&quot; + authorities +</span>
-<span class="nc" id="L191">            &quot;}&quot;;</span>
+<span class="nc" id="L309">        return &quot;AdminUserDTO [activated=&quot; + activated + &quot;, adress=&quot; + adress + &quot;, authorities=&quot; + authorities</span>
+                + &quot;, birthday=&quot; + birthday + &quot;, createdBy=&quot; + createdBy + &quot;, createdDate=&quot; + createdDate + &quot;, email=&quot;
+                + email + &quot;, favouriteTransport=&quot; + favouriteTransport + &quot;, firstName=&quot; + firstName + &quot;, id=&quot; + id
+                + &quot;, imageUrl=&quot; + imageUrl + &quot;, isDeliveryMan=&quot; + isDeliveryMan + &quot;, isPoint=&quot; + isPoint
+                + &quot;, isProducer=&quot; + isProducer + &quot;, isTransporter=&quot; + isTransporter + &quot;, langKey=&quot; + langKey
+                + &quot;, lastModifiedBy=&quot; + lastModifiedBy + &quot;, lastModifiedDate=&quot; + lastModifiedDate + &quot;, lastName=&quot;
+                + lastName + &quot;, linkSocial=&quot; + linkSocial + &quot;, login=&quot; + login + &quot;, nib=&quot; + nib + &quot;, nif=&quot; + nif
+                + &quot;, openingTime=&quot; + openingTime + &quot;, openingTimePoint=&quot; + openingTimePoint + &quot;, phoneNumber=&quot;
+                + phoneNumber + &quot;]&quot;;
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
