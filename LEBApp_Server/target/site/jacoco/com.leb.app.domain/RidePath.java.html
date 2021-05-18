@@ -34,15 +34,15 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
     @Column(name = &quot;estimated_time&quot;)
     private String estimatedTime;
 
-    @OneToMany(mappedBy = &quot;ridePath&quot;)
+<span class="fc" id="L37">    @OneToMany(mappedBy = &quot;ridePath&quot;)</span>
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { &quot;dimensions&quot;, &quot;ridePath&quot;, &quot;producer&quot; }, allowSetters = true)
-<span class="fc" id="L40">    private Set&lt;Request&gt; requests = new HashSet&lt;&gt;();</span>
+    private Set&lt;Request&gt; requests = new HashSet&lt;&gt;();
 
-    @ManyToMany(mappedBy = &quot;ridePaths&quot;)
+<span class="fc" id="L42">    @ManyToMany(mappedBy = &quot;ridePaths&quot;)</span>
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { &quot;userInfo&quot;, &quot;ridePaths&quot;, &quot;zones&quot; }, allowSetters = true)
-<span class="fc" id="L45">    private Set&lt;Transporter&gt; transports = new HashSet&lt;&gt;();</span>
+    private Set&lt;Transporter&gt; transports = new HashSet&lt;&gt;();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -200,7 +200,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 <span class="fc" id="L200">            &quot;, destination='&quot; + getDestination() + &quot;'&quot; +</span>
 <span class="fc" id="L201">            &quot;, distance='&quot; + getDistance() + &quot;'&quot; +</span>
 <span class="fc" id="L202">            &quot;, estimatedTime='&quot; + getEstimatedTime() + &quot;'&quot; +</span>
-<span class="fc" id="L203">            &quot;}&quot;;</span>
+            &quot;}&quot;;
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

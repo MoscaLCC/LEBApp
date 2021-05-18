@@ -43,10 +43,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
     @JoinColumn(unique = true)
     private UserInfo userInfo;
 
-    @OneToMany(mappedBy = &quot;producer&quot;)
+<span class="fc" id="L46">    @OneToMany(mappedBy = &quot;producer&quot;)</span>
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { &quot;dimensions&quot;, &quot;ridePath&quot;, &quot;producer&quot; }, allowSetters = true)
-<span class="fc" id="L49">    private Set&lt;Request&gt; requests = new HashSet&lt;&gt;();</span>
+    private Set&lt;Request&gt; requests = new HashSet&lt;&gt;();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -200,7 +200,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 <span class="fc" id="L200">            &quot;, payedValue=&quot; + getPayedValue() +</span>
 <span class="fc" id="L201">            &quot;, valueToPay=&quot; + getValueToPay() +</span>
 <span class="fc" id="L202">            &quot;, ranking=&quot; + getRanking() +</span>
-<span class="fc" id="L203">            &quot;}&quot;;</span>
+            &quot;}&quot;;
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

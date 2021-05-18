@@ -46,7 +46,7 @@ public class RidePathServiceImpl implements RidePathService {
 <span class="nc" id="L46">        return ridePathRepository</span>
 <span class="nc" id="L47">            .findById(ridePathDTO.getId())</span>
 <span class="nc" id="L48">            .map(</span>
-<span class="nc" id="L49">                existingRidePath -&gt; {</span>
+                existingRidePath -&gt; {
 <span class="nc" id="L50">                    ridePathMapper.partialUpdate(existingRidePath, ridePathDTO);</span>
 <span class="nc" id="L51">                    return existingRidePath;</span>
                 }

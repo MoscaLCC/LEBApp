@@ -64,10 +64,10 @@ import org.springframework.stereotype.Service;
 
 <span class="fc bfc" id="L65" title="All 2 branches covered.">        if (authoritiesAsString != null) {</span>
 <span class="fc" id="L66">            authorities =</span>
-<span class="fc" id="L67">                authoritiesAsString</span>
+                authoritiesAsString
 <span class="fc" id="L68">                    .stream()</span>
 <span class="fc" id="L69">                    .map(</span>
-<span class="fc" id="L70">                        string -&gt; {</span>
+                        string -&gt; {
 <span class="fc" id="L71">                            Authority auth = new Authority();</span>
 <span class="fc" id="L72">                            auth.setName(string);</span>
 <span class="fc" id="L73">                            return auth;</span>
@@ -111,7 +111,7 @@ import org.springframework.stereotype.Service;
 <span class="nc" id="L111">        Set&lt;UserDTO&gt; userSet = new HashSet&lt;&gt;();</span>
 <span class="nc bnc" id="L112" title="All 2 branches missed.">        for (User userEntity : users) {</span>
 <span class="nc" id="L113">            userSet.add(this.toDtoId(userEntity));</span>
-        }
+<span class="nc" id="L114">        }</span>
 
 <span class="nc" id="L116">        return userSet;</span>
     }
@@ -142,7 +142,7 @@ import org.springframework.stereotype.Service;
 <span class="nc" id="L142">        Set&lt;UserDTO&gt; userSet = new HashSet&lt;&gt;();</span>
 <span class="nc bnc" id="L143" title="All 2 branches missed.">        for (User userEntity : users) {</span>
 <span class="nc" id="L144">            userSet.add(this.toDtoLogin(userEntity));</span>
-        }
+<span class="nc" id="L145">        }</span>
 
 <span class="nc" id="L147">        return userSet;</span>
     }

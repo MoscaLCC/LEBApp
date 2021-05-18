@@ -115,7 +115,7 @@ public class AccountResource {
      */
     @PostMapping(&quot;/account&quot;)
     public void saveAccount(@Valid @RequestBody AdminUserDTO userDTO) {
-<span class="nc" id="L118">        String userLogin = SecurityUtils</span>
+        String userLogin = SecurityUtils
 <span class="nc" id="L119">            .getCurrentUserLogin()</span>
 <span class="nc" id="L120">            .orElseThrow(() -&gt; new AccountResourceException(&quot;Current user login not found&quot;));</span>
 <span class="nc" id="L121">        Optional&lt;User&gt; existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());</span>
@@ -159,7 +159,7 @@ public class AccountResource {
 <span class="nc" id="L159">        Optional&lt;User&gt; user = userService.requestPasswordReset(mail);</span>
 <span class="nc bnc" id="L160" title="All 2 branches missed.">        if (user.isPresent()) {</span>
 <span class="nc" id="L161">            mailService.sendPasswordResetMail(user.get());</span>
-<span class="nc" id="L162">        } else {</span>
+        } else {
             // Pretend the request has been successful to prevent checking which emails really exist
             // but log that an invalid attempt has been made
 <span class="nc" id="L165">            log.warn(&quot;Password reset requested for non existing mail&quot;);</span>
@@ -186,10 +186,10 @@ public class AccountResource {
 <span class="nc" id="L186">    }</span>
 
     private static boolean isPasswordLengthInvalid(String password) {
-<span class="nc bnc" id="L189" title="All 2 branches missed.">        return (</span>
+<span class="nc" id="L189">        return (</span>
 <span class="nc bnc" id="L190" title="All 2 branches missed.">            StringUtils.isEmpty(password) ||</span>
 <span class="nc bnc" id="L191" title="All 2 branches missed.">            password.length() &lt; ManagedUserVM.PASSWORD_MIN_LENGTH ||</span>
-<span class="nc" id="L192">            password.length() &gt; ManagedUserVM.PASSWORD_MAX_LENGTH</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">            password.length() &gt; ManagedUserVM.PASSWORD_MAX_LENGTH</span>
         );
     }
 }

@@ -62,7 +62,7 @@ public class UserResource {
 
 <span class="nc" id="L63">    private static final List&lt;String&gt; ALLOWED_ORDERED_PROPERTIES = Collections.unmodifiableList(</span>
 <span class="nc" id="L64">        Arrays.asList(&quot;id&quot;, &quot;login&quot;, &quot;firstName&quot;, &quot;lastName&quot;, &quot;email&quot;, &quot;activated&quot;, &quot;langKey&quot;)</span>
-<span class="nc" id="L65">    );</span>
+    );
 
 <span class="nc" id="L67">    private final Logger log = LoggerFactory.getLogger(UserResource.class);</span>
 
@@ -140,7 +140,7 @@ public class UserResource {
 <span class="nc" id="L140">        Optional&lt;AdminUserDTO&gt; updatedUser = userService.updateUser(userDTO);</span>
 
 <span class="nc" id="L142">        return ResponseUtil.wrapOrNotFound(</span>
-<span class="nc" id="L143">            updatedUser,</span>
+            updatedUser,
 <span class="nc" id="L144">            HeaderUtil.createAlert(applicationName, &quot;A user is updated with identifier &quot; + userDTO.getLogin(), userDTO.getLogin())</span>
         );
     }

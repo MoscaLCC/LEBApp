@@ -46,7 +46,7 @@ public class ProducerServiceImpl implements ProducerService {
 <span class="nc" id="L46">        return producerRepository</span>
 <span class="nc" id="L47">            .findById(producerDTO.getId())</span>
 <span class="nc" id="L48">            .map(</span>
-<span class="nc" id="L49">                existingProducer -&gt; {</span>
+                existingProducer -&gt; {
 <span class="nc" id="L50">                    producerMapper.partialUpdate(existingProducer, producerDTO);</span>
 <span class="nc" id="L51">                    return existingProducer;</span>
                 }

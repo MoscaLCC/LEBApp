@@ -138,7 +138,7 @@ public class PointResource {
 <span class="nc" id="L138">        Optional&lt;PointDTO&gt; result = pointService.partialUpdate(pointDTO);</span>
 
 <span class="nc" id="L140">        return ResponseUtil.wrapOrNotFound(</span>
-<span class="nc" id="L141">            result,</span>
+            result,
 <span class="nc" id="L142">            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, pointDTO.getId().toString())</span>
         );
     }
