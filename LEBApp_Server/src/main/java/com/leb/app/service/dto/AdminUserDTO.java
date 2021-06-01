@@ -42,11 +42,11 @@ public class AdminUserDTO {
 
     private String createdBy;
 
-    private Instant createdDate;
+    private String createdDate;
 
     private String lastModifiedBy;
 
-    private Instant lastModifiedDate;
+    private String lastModifiedDate;
 
     private String phoneNumber;
 
@@ -54,7 +54,7 @@ public class AdminUserDTO {
 
     private int nif;
 
-    private LocalDate birthday;
+    private String birthday;
 
     private String adress;
 
@@ -90,9 +90,9 @@ public class AdminUserDTO {
         this.imageUrl = user.getImageUrl();
         this.langKey = user.getLangKey();
         this.createdBy = user.getCreatedBy();
-        this.createdDate = user.getCreatedDate();
+        this.createdDate = user.getCreatedDate().toString();
         this.lastModifiedBy = user.getLastModifiedBy();
-        this.lastModifiedDate = user.getLastModifiedDate();
+        this.lastModifiedDate = user.getLastModifiedDate().toString();
         this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
     }
 
@@ -156,11 +156,11 @@ public class AdminUserDTO {
         this.nif = nif;
     }
 
-    public LocalDate getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(LocalDate birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
@@ -272,11 +272,11 @@ public class AdminUserDTO {
         this.createdBy = createdBy;
     }
 
-    public Instant getCreatedDate() {
+    public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Instant createdDate) {
+    public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -288,11 +288,11 @@ public class AdminUserDTO {
         this.lastModifiedBy = lastModifiedBy;
     }
 
-    public Instant getLastModifiedDate() {
+    public String getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(Instant lastModifiedDate) {
+    public void setLastModifiedDate(String lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 
