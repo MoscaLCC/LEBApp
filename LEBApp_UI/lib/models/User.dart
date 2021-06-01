@@ -10,7 +10,7 @@ class User{
    String _lastName;
    String _email;
    String _imageUrl;
-   bool _activated = false;
+   bool _activated;
    String _langKey;
    String _createdBy;
    DateTime _createdDate;
@@ -29,7 +29,7 @@ class User{
    String _openingTimePoint;
    bool _isDeliveryMan;
    String _openingTime;
-   Set<String> _authorities;
+   //Set<String> _authorities;
 
    String get login => _login;
 
@@ -39,11 +39,11 @@ class User{
 
    String get password => _password;
 
-   Set<String> get authorities => _authorities;
+   /*Set<String> get authorities => _authorities;
 
   set authorities(Set<String> value) {
     _authorities = value;
-  }
+  }*/
 
   String get openingTime => _openingTime;
 
@@ -213,7 +213,8 @@ class User{
       this._openingTimePoint,
       this._isDeliveryMan,
       this._openingTime,
-      this._authorities);
+      //this._authorities
+       );
 
 
    //factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
@@ -247,8 +248,8 @@ class User{
          _isPoint = json['isPoint'],
          _openingTimePoint = json['openingTimePoint'],
          _isDeliveryMan = json['isDeliveryMan'],
-         _openingTime = json['openingTime'],
-         _authorities = json['authorities'];
+         _openingTime = json['openingTime'];
+         //_authorities = json['authorities'];
 
 
    Map<String, dynamic> toJson() => {
@@ -261,13 +262,13 @@ class User{
    'activated' : _activated,
    'langKey' : _langKey,
    'createdBy' : _createdBy,
-   'createdDate' : _createdDate,
+   'createdDate' : _createdDate.toString(),
    'lastModifiedBy' :  _lastModifiedBy,
-   'lastModifiedDate' : _lastModifiedDate,
+   'lastModifiedDate' : _lastModifiedDate.toString(),
    'phoneNumber' :  _phoneNumber,
    'nib' : _nib,
    'nif' : _nif,
-   '_birthday' : _birthday,
+   '_birthday' : _birthday.toString(),
    '_address' : _address,
    'isTransporter' : _isTransporter,
    'favouriteTransport' : _favouriteTransport,
@@ -277,6 +278,6 @@ class User{
    'openingTimePoint': _openingTimePoint,
    'isDeliveryMan' : _isDeliveryMan,
    'openingTime' : _openingTime,
-   'authorities' : setToString(_authorities),
+   //'authorities' : setToString(_authorities),
    };
 }
