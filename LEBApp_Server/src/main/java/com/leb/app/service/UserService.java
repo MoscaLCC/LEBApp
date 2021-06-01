@@ -2,9 +2,11 @@ package com.leb.app.service;
 
 import com.leb.app.config.Constants;
 import com.leb.app.domain.Authority;
+import com.leb.app.domain.Transporter;
 import com.leb.app.domain.User;
 import com.leb.app.domain.UserInfo;
 import com.leb.app.repository.AuthorityRepository;
+import com.leb.app.repository.TransporterRepository;
 import com.leb.app.repository.UserInfoRepository;
 import com.leb.app.repository.UserRepository;
 import com.leb.app.security.AuthoritiesConstants;
@@ -12,6 +14,7 @@ import com.leb.app.security.SecurityUtils;
 import com.leb.app.service.dto.AdminUserDTO;
 import com.leb.app.service.dto.UserDTO;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,6 +42,8 @@ public class UserService {
 
     private final UserInfoRepository userInfoRepository;
 
+    private final TransporterRepository transporterRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     private final AuthorityRepository authorityRepository;
@@ -50,13 +55,15 @@ public class UserService {
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
         CacheManager cacheManager,
-        UserInfoRepository userInfoRepository
+        UserInfoRepository userInfoRepository,
+        TransporterRepository transporterRepository
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
         this.userInfoRepository = userInfoRepository;
+        this.transporterRepository = transporterRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -129,7 +136,7 @@ public class UserService {
         User newUser = registerNewUser(userDTO, password);
         UserInfo userInfo = registerNewUserInfo(newUser, userDTO);
         if (userDTO.isTransporter()){
-            //TODO: createNewTransporter(userInfo, userDTO);
+            createNewTransporter(userInfo, userDTO);
         }
         if (userDTO.isProducer()) {
             //TODO: createNewProducer(userInfo, userDTO);
@@ -170,13 +177,29 @@ public class UserService {
         return newUser;
     }
 
+    private void createNewTransporter(UserInfo userInfo, AdminUserDTO userDTO) {
+        Transporter transporter = new Transporter();
+
+        transporter.setFavouriteTransport(userDTO.getFavouriteTransport());
+        transporter.setNumberOfDeliveries(0);
+        transporter.setNumberOfKm(0.0);
+        transporter.setReceivedValue(0.0);
+        transporter.setValueToReceive(0.0);
+        transporter.setRanking(3.0);
+        transporter.setUserInfo(userInfo);
+
+        transporterRepository.saveAndFlush(transporter);
+    }
+
+
     private UserInfo registerNewUserInfo(User user, AdminUserDTO userDTO) {
         UserInfo userInfo = new UserInfo();
 
         userInfo.setPhoneNumber(userDTO.getPhoneNumber());
         userInfo.setNib(userDTO.getNib());
         userInfo.setNif(userDTO.getNif());
-        userInfo.setBirthday(userDTO.getBirthday());
+        log.info(userDTO.getBirthday());
+        userInfo.setBirthday(LocalDate.now());
         userInfo.setAdress(userDTO.getAdress());
         userInfo.setUser(user);
 
@@ -193,6 +216,8 @@ public class UserService {
         this.clearUserCaches(existingUser);
         return true;
     }
+
+
 
     public User createUser(AdminUserDTO userDTO) {
         User user = new User();
