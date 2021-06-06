@@ -28,7 +28,7 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
     final emailField = TextField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Insert your email.'),
+      decoration: InputDecoration(hintText: 'Insert your username.'),
       controller: controllerEmailTextField,
 
     );
