@@ -56,6 +56,7 @@
         - Lista<(Rota entre pontos, horario)>
         - Meio de transporte preferencial
 
+##PRODUTOR
     
 #Registo de Pedido:
     Deve ser possivel inserir um pedido de transporte na app, este pedido pode ser intruzido manualmente ou atravez de um serviço externo.
@@ -70,12 +71,93 @@
         - Caracteristicas especiais do produto
         - Dimenções do produto
         - Peso
+        - Produtor(Obrigatorio)
+        - Collector(Distribuidor_1)
+        - PontoOrigem (Ponto_1)
+        - Transportador (Transportador)
+        - PontoDestino (Ponto_2)
+        - Distribuidor (Distribuidor_2)
         # um transporte so pode  ser efetuado se o tempo estimado for inferiro ao prazo de validade.
         # ao registar um pedido de entrega é dado um tempo estimado.
         # caso o tempo de validade seja ultrapassado. É pedido ao produtor para que decida se o produto deve seguir ou se deve voltar para traz.
         # quando é escolhido um ponto de recolha ao entregar nesse ponto os transportadores são notificados.
         # quando é escolhido uma morada os distribuidores são notificados.
         # ?? Ponto deve ser notificado? quando??
+
+#Consultar Pedidos
+    Quando um utilizador acede a sua area de produtor deve ser apresentado todos os seus pedidos *ABERTOS numa lista. 
+    Deve existir um filtro onde ele pode escolher se quer ver os pedidos *FECHADO (*CANCELADO ou *FINALIZADO).
+    Devem ainda existir mecanismos de pesquisa e ordenação pelos varios atributos.
+
+#Cancelar Pedido
+    Um pedido só pode ser cancelado se estiver no estado *WAITING_COLLECTION
+
+#Editar Pedido
+    Um pedido só pode ser editado se estiver no estado *WAITING_COLLECTION
+
+
+##DISTRIBUIDOR
+    
+#Consultar Pedidos "ABERTO" para o distribuidor (WAITING_COLLECTION OR WAITING_DISTRIBUTION)
+Quando um utilizador acede a sua area de distribuidor deve ser apresentado todos os pedidos *WAITING_COLLECTION OR *WAITING_DISTRIBUTION numa lista. 
+Deve existir um filtro onde ele pode escolher qual o raio da localização dos pedidos a visualizar
+Devem ainda existir mecanismos de pesquisa e ordenação pelos varios atributos.
+
+#Consultar Pedidos "PARA RECOLHA" para o distribuidor (WAITING_COLLECTION_ACCEPTED AND WAITING_DISTRIBUTION_ACCEPTED)
+Quando um utilizador acede a sua area de distribuidor deve ser apresentado todos os pedidos *WAITING_COLLECTION_ACCEPTED AND *WAITING_DISTRIBUTION_ACCEPTED numa lista. 
+Devem ainda existir mecanismos de pesquisa e ordenação pelos varios atributos.
+
+#Consultar Pedidos "PARA ENTREGA" para o distribuidor (IN_COLLECTION AND IN_DISTRIBUTION)
+Quando um utilizador acede a sua area de distribuidor deve ser apresentado todos os pedidos *IN_COLLECTION AND *IN_DISTRIBUTION numa lista. 
+Devem ainda existir mecanismos de pesquisa e ordenação pelos varios atributos.
+
+#Consultar Pedidos "FECHADOS" para o distribuidor (TODOS exceto WAITING_COLLECTION OR WAITING_DISTRIBUTION OR WAITING_COLLECTION_ACCEPTED OR WAITING_DISTRIBUTION_ACCEPTED or *IN_COLLECTION or *IN_DISTRIBUTION)
+Quando um utilizador acede a sua area de distribuidor deve ser apresentado todos os pedidos TODOS exceto WAITING_COLLECTION OR WAITING_DISTRIBUTION OR WAITING_COLLECTION_ACCEPTED OR WAITING_DISTRIBUTION_ACCEPTED or *IN_COLLECTION or *IN_DISTRIBUTION numa lista. 
+Devem ainda existir mecanismos de pesquisa e ordenação pelos varios atributos.
+
+#ACEITA Pedidos
+**************
+
+
+
+##TRANSPORTER
+    
+#Consultar Pedidos "ABERTO" para o transportador (WAITING_TRANSIT)
+Quando um utilizador acede a sua area de transportador deve ser apresentado todos os pedidos *WAITING_TRANSIT numa lista. 
+Deve existir um filtro onde ele pode escolher qual a rota dos pedidos a visualizar.
+Devem ainda existir mecanismos de pesquisa e ordenação pelos varios atributos.
+
+#Consultar Pedidos "PARA RECOLHA" para o distribuidor (WAITING_TRANSIT_ACCEPTED)
+Quando um utilizador acede a sua area de distribuidor deve ser apresentado todos os pedidos *WAITING_TRANSIT_ACCEPTED numa lista. 
+Devem ainda existir mecanismos de pesquisa e ordenação pelos varios atributos.
+
+#Consultar Pedidos "PARA ENTREGA" para o distribuidor (IN_TRANSIT)
+Quando um utilizador acede a sua area de distribuidor deve ser apresentado todos os pedidos *IN_TRANSIT numa lista. 
+Devem ainda existir mecanismos de pesquisa e ordenação pelos varios atributos.
+
+#Consultar Pedidos "FECHADOS" para o transportador (TODOS exceto WAITING_TRANSIT and WAITING_TRANSIT_ACCEPTED and IN_TRANSIT)
+Quando um utilizador acede a sua area de transportador deve ser apresentado todos os pedidos TODOS exceto WAITING_TRANSIT and WAITING_TRANSIT_ACCEPTED and IN_TRANSIT numa lista. 
+Devem ainda existir mecanismos de pesquisa e ordenação pelos varios atributos.
+
+#ACEITA Pedidos
+TODO: //criar_logica 
+
+
+##POINT 
+
+#Consultar Pedidos "INSIDE" para o transportador (WAINTING_TRANSIT AND WAITING_DISTRIBUTION AND WAITING_TRANSIT_ACCEPTED AND WAITING_COLLECTION_ACCEPTED)
+Quando um utilizador acede a sua area de transportador deve ser apresentado todos os pedidos *WAINTING_TRANSIT AND *WAITING_DISTRIBUTION AND *WAITING_TRANSIT_ACCEPTED AND *WAITING_COLLECTION_ACCEPTED numa lista.
+Devem ainda existir mecanismos de pesquisa e ordenação pelos varios atributos.
+
+#Consultar Pedidos "FECHADOS" para o transportador (TODOS EXCEPTO WAINTING_TRANSIT AND *WAITING_DISTRIBUTION AND *WAITING_TRANSIT_ACCEPTED AND *WAITING_COLLECTION_ACCEPTED)
+Quando um utilizador acede a sua area de transportador deve ser apresentado todos os pedidos exceto *WAINTING_TRANSIT AND *WAITING_DISTRIBUTION AND *WAITING_TRANSIT_ACCEPTED AND *WAITING_COLLECTION_ACCEPTED numa lista. 
+Devem ainda existir mecanismos de pesquisa e ordenação pelos varios atributos.
+
+#CONFIRMAR RECEPÇÃO
+TODO: //criar_logica 
+
+#CONFIRMAR EXPEDIÇÃO
+TODO: //criar_logica 
 
 
 & Produtor
@@ -106,7 +188,7 @@
     - Caracteristicas especiais do produto
     - Dimenções do produto
     - Peso
-    - Status
+    - Status (OPENED -> (WAITING_COLLECTION, WAITING_COLLECTION_ACCEPTED, IN_COLLECTION, WAITING_TRANSIT, WAITING_TRANSIT_ACCEPTED, IN_TRANSIT, WAITING_DISTRIBUTION, WAITING_DISTRIBUTION_ACCEPTED, IN_DISTRIBUTION) CLOSED -> (REJECTED, CANCELED, FINISHED))
     - Data prevista
     - Tempo de entrega 
     - Rota
