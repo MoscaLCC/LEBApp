@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import '../main.dart';
-
+import 'package:lebapp_ui/screens/user_registry_screenCredent.dart';
 // ignore: camel_case_types
 class User_RegistryProfile_Transporter extends StatefulWidget {
 
@@ -25,6 +25,22 @@ class _User_RegistryProfile_TransporterState extends State<User_RegistryProfile_
       controller: favouriteTransportController,
     );
 
+
+    final nextButon = Material(
+      child: TextButton(
+          child: Text('Next'),
+          style: TextButton.styleFrom(
+            alignment: Alignment.bottomCenter,
+            primary: Colors.white,
+            backgroundColor: Colors.teal,
+            onSurface: Colors.grey,
+          ),
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>User_Registry_ScreenCredent()));
+          }
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(
           title: Text('Transporter Info'),
@@ -41,6 +57,10 @@ class _User_RegistryProfile_TransporterState extends State<User_RegistryProfile_
                   children: <Widget>[
                     SizedBox(height: 30.0),
                     favouriteTransport,
+                    nextButon,
+                    SizedBox(
+                      height: 15.0,
+                    ),
                   ],
                 ),
               ),
