@@ -174,7 +174,6 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
     );
   }
 }
-
 /*
 class User_Registry_Screen extends StatefulWidget {
 

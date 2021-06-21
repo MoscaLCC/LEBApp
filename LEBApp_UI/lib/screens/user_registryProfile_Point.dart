@@ -21,7 +21,7 @@ class _User_RegistryProfile_PointState extends State<User_RegistryProfile_Point>
 
     return Scaffold(
         appBar: AppBar(
-            title: Text('Producer Info'),
+            title: Text('Point Info'),
             backgroundColor: Colors.teal),
         body: SingleChildScrollView(
           child: Center(
