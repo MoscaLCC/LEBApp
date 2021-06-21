@@ -216,11 +216,6 @@ class User{
       //this._authorities
        );
 
-
-   //factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
-
-   //Map<String, dynamic> toJson() => _$UserToJson(this);
-
    String setToString(Set set) => IterableBase.iterableToFullString(set, '[', ']');
 
    User.fromJson(Map<String, dynamic> json)

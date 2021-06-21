@@ -16,11 +16,11 @@ class UserForm extends StatefulWidget {
   _UserFormState createState() => _UserFormState();
 }
 
-class User {
+class UserTeste {
   String name;
   String password;
   String email;
-  User({ this.name, this.password, this.email });
+  UserTeste({ this.name, this.password, this.email });
 }
 
 class _UserFormState extends State<UserForm> {
@@ -61,7 +61,7 @@ class _UserFormState extends State<UserForm> {
 
                 return null;
               },
-              onSaved: (newValue) => User().name = newValue,
+              onSaved: (newValue) => UserTeste().name = newValue,
             ),
             TextFormField(
               controller: _password,
@@ -73,7 +73,7 @@ class _UserFormState extends State<UserForm> {
 
                 return null;
               },
-              onSaved: (newValue) => User().password = newValue,
+              onSaved: (newValue) => UserTeste().password = newValue,
             ),
             TextFormField(
               controller: _email,
@@ -85,7 +85,7 @@ class _UserFormState extends State<UserForm> {
 
                 return null;
               },
-              onSaved: (newValue) => User().email = newValue,
+              onSaved: (newValue) => UserTeste().email = newValue,
             ),
             RaisedButton(
               child: Text('Apply'),
