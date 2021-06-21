@@ -2,10 +2,16 @@ package com.leb.app.service;
 
 import com.leb.app.config.Constants;
 import com.leb.app.domain.Authority;
+import com.leb.app.domain.DeliveryMan;
+import com.leb.app.domain.Point;
+import com.leb.app.domain.Producer;
 import com.leb.app.domain.Transporter;
 import com.leb.app.domain.User;
 import com.leb.app.domain.UserInfo;
 import com.leb.app.repository.AuthorityRepository;
+import com.leb.app.repository.DeliveryManRepository;
+import com.leb.app.repository.PointRepository;
+import com.leb.app.repository.ProducerRepository;
 import com.leb.app.repository.TransporterRepository;
 import com.leb.app.repository.UserInfoRepository;
 import com.leb.app.repository.UserRepository;
@@ -44,6 +50,12 @@ public class UserService {
 
     private final TransporterRepository transporterRepository;
 
+    private final ProducerRepository producerRepository;
+
+    private final PointRepository pointRepository;
+    
+    private final DeliveryManRepository deliveryManRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     private final AuthorityRepository authorityRepository;
@@ -56,7 +68,10 @@ public class UserService {
         AuthorityRepository authorityRepository,
         CacheManager cacheManager,
         UserInfoRepository userInfoRepository,
-        TransporterRepository transporterRepository
+        TransporterRepository transporterRepository,
+        ProducerRepository producerRepository,
+        PointRepository pointRepository,
+        DeliveryManRepository deliveryManRepository
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -64,6 +79,9 @@ public class UserService {
         this.cacheManager = cacheManager;
         this.userInfoRepository = userInfoRepository;
         this.transporterRepository = transporterRepository;
+        this.producerRepository = producerRepository;
+        this.pointRepository = pointRepository;
+        this.deliveryManRepository = deliveryManRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -139,13 +157,13 @@ public class UserService {
             createNewTransporter(userInfo, userDTO);
         }
         if (userDTO.isProducer()) {
-            //TODO: createNewProducer(userInfo, userDTO);
+            createNewProducer(userInfo, userDTO);
         }
         if (userDTO.isPoint()){
-            //TODO: createPoint(userInfo, userDTO);
+            createPoint(userInfo, userDTO);
         }
         if (userDTO.isDeliveryMan()){
-            //TODO: createDeliveryMan(userInfo, userDTO);
+            createDeliveryMan(userInfo, userDTO);
         }
 
         return newUser;
@@ -177,6 +195,46 @@ public class UserService {
         return newUser;
     }
 
+    private void createDeliveryMan(UserInfo userInfo, AdminUserDTO userDTO){
+        DeliveryMan deliveryMan = new DeliveryMan();
+
+        deliveryMan.setOpeningTime(userDTO.getOpeningTime());
+        deliveryMan.setNumberOfDeliveries(0);
+        deliveryMan.setNumberOfKm(0.0);
+        deliveryMan.setReceivedValue(0.0);
+        deliveryMan.setValueToReceive(0.0);
+        deliveryMan.setRanking(2.0);
+        deliveryMan.setUserInfo(userInfo);
+
+        deliveryManRepository.saveAndFlush(deliveryMan);
+    }
+
+    private void createPoint(UserInfo userInfo, AdminUserDTO userDTO){
+        Point point = new Point();
+
+        point.setOpeningTime(userDTO.getOpeningTimePoint());
+        point.setNumberOfDeliveries(0);
+        point.setReceivedValue(0.0);
+        point.setValueToReceive(0.0);
+        point.setRanking(2.0);
+        point.setUserInfo(userInfo);
+    
+        pointRepository.saveAndFlush(point);
+    }
+
+    private void createNewProducer(UserInfo userInfo, AdminUserDTO userDTO){
+        Producer producer = new Producer();
+
+        producer.setLinkSocial(userDTO.getLinkSocial());
+        producer.setNumberRequests(0);
+        producer.setPayedValue(0.0);
+        producer.setValueToPay(0.0);
+        producer.setRanking(2.0);
+        producer.setUserInfo(userInfo);
+    
+        producerRepository.saveAndFlush(producer);
+    }
+
     private void createNewTransporter(UserInfo userInfo, AdminUserDTO userDTO) {
         Transporter transporter = new Transporter();
 
@@ -185,7 +243,7 @@ public class UserService {
         transporter.setNumberOfKm(0.0);
         transporter.setReceivedValue(0.0);
         transporter.setValueToReceive(0.0);
-        transporter.setRanking(3.0);
+        transporter.setRanking(2.0);
         transporter.setUserInfo(userInfo);
 
         transporterRepository.saveAndFlush(transporter);

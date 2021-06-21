@@ -1,11 +1,24 @@
 package com.leb.app.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.leb.app.domain.enumeration.Status;
 import java.io.Serializable;
 import java.time.Instant;
-import javax.persistence.*;
-import javax.validation.constraints.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.leb.app.domain.enumeration.Status;
+
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -83,6 +96,26 @@ public class Request implements Serializable {
     @NotNull
     @JsonIgnoreProperties(value = { "userInfo", "requests" }, allowSetters = true)
     private Producer producer;
+
+    @ManyToOne(optional = false)
+    @JsonIgnoreProperties(value = { "userInfo", "point" }, allowSetters = true)
+    private DeliveryMan collector;
+
+    @ManyToOne(optional = false)
+    @JsonIgnoreProperties(value = { "userInfo", "deliveryMen", "zone" }, allowSetters = true)
+    private Point originalPoint;
+
+    @ManyToOne(optional = false)
+    @JsonIgnoreProperties(value = { "userInfo", "ridePaths", "zones" }, allowSetters = true)
+    private Transporter transporter;
+
+    @ManyToOne(optional = false)
+    @JsonIgnoreProperties(value = { "userInfo", "deliveryMen", "zone" }, allowSetters = true)
+    private Point destinationPoint;
+
+    @ManyToOne(optional = false)
+    @JsonIgnoreProperties(value = { "userInfo", "point" }, allowSetters = true)
+    private DeliveryMan destributor;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -332,45 +365,82 @@ public class Request implements Serializable {
         this.producer = producer;
     }
 
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+    public DeliveryMan getCollector() {
+        return collector;
+    }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Request)) {
-            return false;
-        }
-        return id != null && id.equals(((Request) o).id);
+    public void setCollector(DeliveryMan collector) {
+        this.collector = collector;
+    }
+
+    public Point getOriginalPoint() {
+        return originalPoint;
+    }
+
+    public void setOriginalPoint(Point originalPoint) {
+        this.originalPoint = originalPoint;
+    }
+
+    public Transporter getTransporter() {
+        return transporter;
+    }
+
+    public void setTransporter(Transporter transporter) {
+        this.transporter = transporter;
+    }
+
+    public Point getDestinationPoint() {
+        return destinationPoint;
+    }
+
+    public void setDestinationPoint(Point destinationPoint) {
+        this.destinationPoint = destinationPoint;
+    }
+
+    public DeliveryMan getDestributor() {
+        return destributor;
+    }
+
+    public void setDestributor(DeliveryMan destributor) {
+        this.destributor = destributor;
     }
 
     @Override
     public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
-        return getClass().hashCode();
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        return result;
     }
 
-    // prettier-ignore
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Request other = (Request) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        return true;
+    }
+
     @Override
     public String toString() {
-        return "Request{" +
-            "id=" + getId() +
-            ", productValue=" + getProductValue() +
-            ", productName='" + getProductName() + "'" +
-            ", source='" + getSource() + "'" +
-            ", destination='" + getDestination() + "'" +
-            ", destinationContact='" + getDestinationContact() + "'" +
-            ", initDate='" + getInitDate() + "'" +
-            ", expirationDate='" + getExpirationDate() + "'" +
-            ", description='" + getDescription() + "'" +
-            ", specialCharacteristics='" + getSpecialCharacteristics() + "'" +
-            ", productWeight=" + getProductWeight() +
-            ", status='" + getStatus() + "'" +
-            ", estimatedDate='" + getEstimatedDate() + "'" +
-            ", deliveryTime='" + getDeliveryTime() + "'" +
-            ", shippingCosts=" + getShippingCosts() +
-            ", rating=" + getRating() +
-            "}";
+        return "Request [collector=" + collector + ", deliveryTime=" + deliveryTime + ", description=" + description
+                + ", destination=" + destination + ", destinationContact=" + destinationContact + ", destinationPoint="
+                + destinationPoint + ", destributor=" + destributor + ", dimensions=" + dimensions + ", estimatedDate="
+                + estimatedDate + ", expirationDate=" + expirationDate + ", id=" + id + ", initDate=" + initDate
+                + ", originalPoint=" + originalPoint + ", producer=" + producer + ", productName=" + productName
+                + ", productValue=" + productValue + ", productWeight=" + productWeight + ", rating=" + rating
+                + ", ridePath=" + ridePath + ", shippingCosts=" + shippingCosts + ", source=" + source
+                + ", specialCharacteristics=" + specialCharacteristics + ", status=" + status + ", transporter="
+                + transporter + "]";
     }
+
 }

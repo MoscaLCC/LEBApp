@@ -194,6 +194,12 @@ TODO: //criar_logica
     - Rota
     - Valor de Transporte
     - Avaliação 
+    - Produtor(Obrigatorio)
+    - Collector(Distribuidor_1)
+    - PontoOrigem (Ponto_1)
+    - Transportador (Transportador)
+    - PontoDestino (Ponto_2)
+    - Distribuidor (Distribuidor_2)
 
 & Rota
     - Ponto inicial
