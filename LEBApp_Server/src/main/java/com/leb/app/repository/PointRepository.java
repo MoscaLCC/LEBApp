@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data SQL repository for the Point entity.
  */
-@SuppressWarnings("unused")
 @Repository
-public interface PointRepository extends JpaRepository<Point, Long>, JpaSpecificationExecutor<Point> {}
+public interface PointRepository extends JpaRepository<Point, Long>, JpaSpecificationExecutor<Point> {
+
+    Boolean existsByUserInfoId(Long UserId);
+
+}

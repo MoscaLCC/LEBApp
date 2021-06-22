@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data SQL repository for the Producer entity.
  */
-@SuppressWarnings("unused")
 @Repository
-public interface ProducerRepository extends JpaRepository<Producer, Long>, JpaSpecificationExecutor<Producer> {}
+public interface ProducerRepository extends JpaRepository<Producer, Long>, JpaSpecificationExecutor<Producer> {
+
+    Boolean existsByUserInfoId(Long UserId);
+
+}

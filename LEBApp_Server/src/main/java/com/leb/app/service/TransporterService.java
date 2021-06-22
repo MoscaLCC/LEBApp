@@ -55,4 +55,6 @@ public interface TransporterService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Boolean isTransporter(Long userId);
 }
