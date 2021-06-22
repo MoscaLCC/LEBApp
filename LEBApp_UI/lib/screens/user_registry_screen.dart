@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:lebapp_ui/models/User.dart';
 import 'package:lebapp_ui/screens/user_registryProfile_screen.dart';
+import 'package:lebapp_ui/widgets/UserForm.dart';
 import '../main.dart';
 
 // ignore: camel_case_types
@@ -19,6 +19,8 @@ class User_Registry_Screen extends StatefulWidget {
 class _User_Registry_ScreenState extends State<User_Registry_Screen> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
+  // key to form validator
+  final _keyForm = GlobalKey<FormState>(); // Our created key
   // Controllers
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -28,21 +30,35 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
   final addressController = TextEditingController();
   final nifController = TextEditingController();
 
+  void _saveForm(){
+    if(_keyForm.currentState.validate()){
+      _keyForm.currentState.save();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
 
-    final firstNameField = TextField(
+    final firstNameField = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Your First Name'),
+      decoration: InputDecoration(hintText: 'Your first name',border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       controller: firstNameController,
+      validator: (value) {
+        if (value.isEmpty) return 'You have to insert a name';
+        return null;
+      },
     );
 
-    final lastNameField = TextField(
+    final lastNameField = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Your Last Name'),
+      decoration: InputDecoration(hintText: 'Your last name',border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       controller: lastNameController,
+      validator: (value) {
+        if (value.isEmpty) return 'You have to insert a name';
+        return null;
+      },
     );
 
     final birthdayField = TextField(
@@ -52,32 +68,51 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
       controller: birthdayController,
     );
 
-    final emailField = TextField(
+    final emailField = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Your Email'),
+      decoration: InputDecoration(hintText: 'Your email',border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       controller: emailController,
+      validator: (value) {
+        if (!value.contains('@gmail.com'))
+          return 'Only gmail emails allowed.';
+        return null;
+      },
     );
 
-    final phoneNumberField = TextField(
+    final phoneNumberField = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Your phone number'),
-      controller: phoneNumberController,
+      decoration: InputDecoration(hintText: 'Your phone number',border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)), 
+        keyboardType: TextInputType.number,
+        controller: phoneNumberController,
+      validator: (value) {
+        if (value.isEmpty) return 'You have to insert a number';
+        return null;
+      }
     );
 
-    final nifField = TextField(
+    final nifField = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Your NIF'),
+      decoration: InputDecoration(hintText: 'Your NIF',border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
+      keyboardType: TextInputType.number,
       controller: nifController,
+        validator: (value) {
+          if (value.isEmpty) return 'You have to insert a number';
+          return null;
+        }
     );
 
-    final addressField = TextField(
+    final addressField = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Your address'),
+      decoration: InputDecoration(hintText: 'Your address',border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       controller: addressController,
+        validator: (value) {
+          if (value.isEmpty) return 'You have to insert a address';
+          return null;
+        }
     );
 
     final okRegButon = Material(
@@ -90,8 +125,12 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
           onSurface: Colors.grey,
         ),
         onPressed: () async {
+
+          _saveForm(); // validar campos
+
           print("Link to server to User Register...");
 
+          /*
           User userTeste = new User('aurelio', 'mat9999', 'Matias', 'Belo', 'antonio.fmaio@gmail.com',
               'cenas', true, 'langKey', 'x', DateTime.now(), 'test', DateTime.now(), '+35195448796', '11121211', 24589665,
               DateTime.now(), 'rua x', true, 'car', false, 'ddd', false, null, false, null);
@@ -109,7 +148,7 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
           final responseJson = response;//json.decode(response.body);
           print(responseJson);
           return response;
-
+*/
         },
       ),
     );
@@ -134,7 +173,9 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
           title: Text('Your basic info'),
           backgroundColor: Colors.teal),
         body: SingleChildScrollView(
-          child: Center(
+          child: Form(
+            key: _keyForm,
+            child: Center(
             child: Container(
               color: Colors.white,
               child: Padding(
@@ -170,87 +211,8 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
               ),
             ),
           ),
-        )
-    );
-  }
-}
-/*
-class User_Registry_Screen extends StatefulWidget {
-
-  @override
-  _User_Registry_ScreenState createState() => _User_Registry_ScreenState();
-}
-
-class _User_Registry_ScreenState extends State<User_Registry_Screen> {
-
-  final _keyForm = GlobalKey<FormState>(); // Our created key
-  final nameController = TextEditingController();
-  final passwordController = TextEditingController();
-  final emailController = TextEditingController();
-
-  void _saveForm(){
-
-    if(_keyForm.currentState.validate()){
-      _keyForm.currentState.save();
-      print(nameController);
-      print(emailController);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // The form widget
-    return Form(
-      key: _keyForm,
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: ListView(
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              child: Text('Welcome to LEB - User Registry'),
-            ),
-            TextFormField(
-              controller: nameController,
-              decoration: InputDecoration(hintText: 'Insert your name.'),
-              validator: (value) {
-                if (value.isEmpty) return 'You have to insert a name';
-
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: passwordController,
-              obscureText: true,
-              decoration: InputDecoration(hintText: 'The password to log in.'),
-              validator: (value) {
-                if (value.length < 7)
-                  return 'Password must have at least 6 chars.';
-
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: emailController,
-              decoration:
-              InputDecoration(hintText: 'E-mail to use for log in.'),
-              validator: (value) {
-                if (!value.contains('@gmail.com'))
-                  return 'Only gmail emails allowed.';
-
-                return null;
-              },
-            ),
-            RaisedButton(
-              child: Text('Apply'),
-              onPressed: () {
-                _saveForm();
-              },
-            )
-          ],
         ),
-      ),
+        ),
     );
   }
 }
-  */
