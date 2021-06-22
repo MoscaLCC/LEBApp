@@ -10,6 +10,7 @@ import 'package:lebapp_ui/screens/user_registryProfile_DeliveryMan.dart';
 import 'package:lebapp_ui/screens/user_registryProfile_Point.dart';
 import 'package:lebapp_ui/screens/user_registryProfile_Producer.dart';
 import 'package:lebapp_ui/screens/user_registryProfile_Transporter.dart';
+import 'package:lebapp_ui/screens/user_registry_screenCredent.dart';
 import '../main.dart';
 
 // ignore: camel_case_types
@@ -21,21 +22,166 @@ class User_RegistryProfile_Screen extends StatefulWidget {
 
 class _User_RegistryProfile_ScreenState extends State<User_RegistryProfile_Screen> {
 
-  String nomeCidade="";
-  var _cidades =['Producer','Transporter','Delivery Man','Point'];
-  var _itemSelecionado = 'Producer';
+  bool valuefirst = false;
+  bool valuesecond = false;
+  bool valuethird = false;
+  bool valuefourth = false;
 
   @override
-  Widget build(BuildContext context) {
+    Widget build(BuildContext context) {
+
+    final nextButon = Material(
+      child: TextButton(
+          child: Text('Finalize Info'),
+          style: TextButton.styleFrom(
+            alignment: Alignment.bottomCenter,
+            primary: Colors.white,
+            backgroundColor: Colors.teal,
+            onSurface: Colors.grey,
+          ),
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>User_Registry_ScreenCredent()));
+          }
+      ),
+    );
 
     return Scaffold(
       appBar: AppBar(
         title: Text("Your User Profile"),
         backgroundColor: Colors.teal,
       ),
-      body: criaDropDownButton(),
+      body: Container(
+          padding: new EdgeInsets.all(22.0),
+          child: Column(
+            children: <Widget>[
+              SizedBox(width: 10,),
+              Text('Choose one or more profiles:',style: TextStyle(fontSize: 20.0), ),
+              CheckboxListTile(
+                secondary: const Icon(Icons.add),
+                title: const Text('Producer'),
+                subtitle: Text('Producer subtext'),
+                value: this.valuefirst,
+                onChanged: (bool value) {
+                  setState(() {
+                    this.valuefirst = value;
+                    print(valuefirst);
+                    extraInfoProducerDialog();
+                  });
+                },
+              ),
+              CheckboxListTile(
+                controlAffinity: ListTileControlAffinity.trailing,
+                secondary: const Icon(Icons.add),
+                title: const Text('Transporter'),
+                subtitle: Text('Transporter subtext'),
+                value: this.valuesecond,
+                onChanged: (bool value) {
+                  setState(() {
+                    this.valuesecond = value;
+                    print(valuesecond);
+                    extraInfoTransporterDialog();
+                  });
+                },
+              ),
+              CheckboxListTile(
+                controlAffinity: ListTileControlAffinity.trailing,
+                secondary: const Icon(Icons.add),
+                title: const Text('Distributor'),
+                subtitle: Text('Distributor subtext'),
+                value: this.valuethird,
+                onChanged: (bool value) {
+                  setState(() {
+                    this.valuethird = value;
+                    print(valuethird);
+                  });
+                },
+              ),
+              CheckboxListTile(
+                controlAffinity: ListTileControlAffinity.trailing,
+                secondary: const Icon(Icons.add),
+                title: const Text('Point'),
+                subtitle: Text('Point subtext'),
+                value: this.valuefourth,
+                onChanged: (bool value) {
+                  setState(() {
+                    this.valuefourth = value;
+                    print(valuefourth);
+                  });
+                },
+              ),
+              nextButon,
+              SizedBox(
+                height: 15.0,
+              ),
+            ],
+          )
+      ),
     );
   }
+
+  extraInfoProducerDialog(){
+
+    TextEditingController _textFieldController = TextEditingController();
+
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Social link'),
+            content: TextField(
+              controller: _textFieldController,
+              textInputAction: TextInputAction.go,
+              keyboardType: TextInputType.numberWithOptions(),
+              decoration: InputDecoration(hintText: "Enter your social link"),
+            ),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text('Submit'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+  }
+
+  extraInfoTransporterDialog(){
+
+    TextEditingController _textFieldController = TextEditingController();
+
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Favourite Transport'),
+            content: TextField(
+              controller: _textFieldController,
+              textInputAction: TextInputAction.go,
+              keyboardType: TextInputType.numberWithOptions(),
+              decoration: InputDecoration(hintText: "Enter your favourite transport"),
+            ),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text('Submit'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
+
+  }
+
+  extraInfoDistributorDialog(){
+
+  }
+
+  extraInfoPointDialog(){
+
+  }
+  /*
   criaDropDownButton() {
 
     final nextButon = Material(
@@ -116,5 +262,5 @@ class _User_RegistryProfile_ScreenState extends State<User_RegistryProfile_Scree
       this._itemSelecionado = novoItem;
 
     });
-  }
+  }*/
 }
