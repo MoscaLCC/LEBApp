@@ -74,4 +74,9 @@ public class PointServiceImpl implements PointService {
         log.debug("Request to delete Point : {}", id);
         pointRepository.deleteById(id);
     }
+
+    @Override
+    public Boolean isPoint(Long userId){
+        return pointRepository.existsByUserInfoId(userId);
+    }
 }

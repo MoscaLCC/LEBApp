@@ -7,6 +7,10 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data SQL repository for the DeliveryMan entity.
  */
-@SuppressWarnings("unused")
+
 @Repository
-public interface DeliveryManRepository extends JpaRepository<DeliveryMan, Long>, JpaSpecificationExecutor<DeliveryMan> {}
+public interface DeliveryManRepository extends JpaRepository<DeliveryMan, Long>, JpaSpecificationExecutor<DeliveryMan> {
+
+    Boolean existsByUserInfoId(Long UserId);
+
+}

@@ -78,4 +78,9 @@ public class TransporterServiceImpl implements TransporterService {
         log.debug("Request to delete Transporter : {}", id);
         transporterRepository.deleteById(id);
     }
+
+    @Override
+    public Boolean isTransporter(Long userId){
+        return transporterRepository.existsByUserInfoId(userId);
+    }
 }

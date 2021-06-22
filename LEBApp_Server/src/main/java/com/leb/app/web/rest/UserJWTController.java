@@ -1,10 +1,25 @@
 package com.leb.app.web.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.leb.app.repository.UserInfoRepository;
+import com.leb.app.repository.UserRepository;
 import com.leb.app.security.jwt.JWTFilter;
 import com.leb.app.security.jwt.TokenProvider;
+import com.leb.app.service.DeliveryManService;
+import com.leb.app.service.PointService;
+import com.leb.app.service.ProducerService;
+import com.leb.app.service.TransporterService;
 import com.leb.app.web.rest.vm.LoginVM;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
+
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,17 +36,46 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class UserJWTController {
 
+    private final Logger log = LoggerFactory.getLogger(UserJWTController.class);
+
     private final TokenProvider tokenProvider;
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public UserJWTController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
+    private final PointService pointService;
+
+    private final TransporterService transporterService;
+
+    private final ProducerService producerService;
+
+    private final DeliveryManService deliveryManService;
+
+    private final UserRepository userRepository;
+
+    private final UserInfoRepository userInfoRepository;
+
+    public UserJWTController(TokenProvider tokenProvider, 
+    AuthenticationManagerBuilder authenticationManagerBuilder,
+    PointService pointService,
+    TransporterService transporterService,
+    ProducerService produtorService,
+    DeliveryManService deliveryManService,
+    UserRepository userRepository,
+    UserInfoRepository userInfoRepository
+    ) {
         this.tokenProvider = tokenProvider;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
+        this.pointService = pointService;
+        this.transporterService = transporterService;
+        this.producerService = produtorService;
+        this.deliveryManService = deliveryManService;
+        this.userRepository = userRepository;
+        this.userInfoRepository = userInfoRepository;
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginVM loginVM) {
+    public ResponseEntity<Pair<JWTToken, List<String>>> authorize(@Valid @RequestBody LoginVM loginVM) {
+        log.info("<authorize>");
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
             loginVM.getUsername(),
             loginVM.getPassword()
@@ -42,7 +86,24 @@ public class UserJWTController {
         String jwt = tokenProvider.createToken(authentication, loginVM.isRememberMe());
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-        return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
+        List<String> profils = getProfils(loginVM.getUsername());
+        log.info("</authorize>");
+        return new ResponseEntity<>(new MutablePair<JWTToken, List<String>>(new JWTToken(jwt), profils), httpHeaders, HttpStatus.OK);
+    }
+
+    private List<String> getProfils(String username){
+        log.info("<getProfils>");
+        List<String> profils = new ArrayList<>();
+    
+        Long userId = userInfoRepository.findByUserId(userRepository.findOneByLogin(username).get().getId()).get().getId();
+
+        if(deliveryManService.isDeliveryMan(userId)) profils.add("DeliveryMan");
+        if(producerService.isProducer(userId)) profils.add("Producer");
+        if(transporterService.isTransporter(userId)) profils.add("Transporter");
+        if(pointService.isPoint(userId)) profils.add("Point");
+
+        log.info("</getProfils>");
+        return profils;
     }
 
     /**

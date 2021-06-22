@@ -70,7 +70,7 @@ class RequestResourceIT {
     private static final Double UPDATED_PRODUCT_WEIGHT = 2D;
     private static final Double SMALLER_PRODUCT_WEIGHT = 1D - 1D;
 
-    private static final Status DEFAULT_STATUS = Status.WAITING;
+    private static final Status DEFAULT_STATUS = Status.CLOSED;
     private static final Status UPDATED_STATUS = Status.OPENED;
 
     private static final Instant DEFAULT_ESTIMATED_DATE = Instant.ofEpochMilli(0L);

@@ -74,4 +74,9 @@ public class ProducerServiceImpl implements ProducerService {
         log.debug("Request to delete Producer : {}", id);
         producerRepository.deleteById(id);
     }
+
+    @Override
+    public Boolean isProducer(Long userId){
+        return producerRepository.existsByUserInfoId(userId);
+    }
 }

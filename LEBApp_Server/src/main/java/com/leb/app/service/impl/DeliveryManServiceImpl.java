@@ -74,4 +74,9 @@ public class DeliveryManServiceImpl implements DeliveryManService {
         log.debug("Request to delete DeliveryMan : {}", id);
         deliveryManRepository.deleteById(id);
     }
+
+    @Override
+    public Boolean isDeliveryMan(Long userId){
+        return deliveryManRepository.existsByUserInfoId(userId);
+    }
 }

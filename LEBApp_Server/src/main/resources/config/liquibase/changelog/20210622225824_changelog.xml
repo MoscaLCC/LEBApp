@@ -1,0 +1,53 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet author="luism (generated)" id="1624402826402-1">
+        <addColumn tableName="request">
+            <column name="collector_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="luism (generated)" id="1624402826402-2">
+        <addColumn tableName="request">
+            <column name="destination_point_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="luism (generated)" id="1624402826402-3">
+        <addColumn tableName="request">
+            <column name="destributor_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="luism (generated)" id="1624402826402-4">
+        <addColumn tableName="request">
+            <column name="original_point_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="luism (generated)" id="1624402826402-5">
+        <addColumn tableName="request">
+            <column name="transporter_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="luism (generated)" id="1624402826402-6">
+        <addForeignKeyConstraint baseColumnNames="collector_id" baseTableName="request" constraintName="FKchuao7niv45gca0bv844wjkcp" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="delivery_man" validate="true"/>
+    </changeSet>
+    <changeSet author="luism (generated)" id="1624402826402-7">
+        <addForeignKeyConstraint baseColumnNames="original_point_id" baseTableName="request" constraintName="FKd0e2yvugdpn43694iicwtwfim" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="point" validate="true"/>
+    </changeSet>
+    <changeSet author="luism (generated)" id="1624402826402-8">
+        <addForeignKeyConstraint baseColumnNames="destination_point_id" baseTableName="request" constraintName="FKe3v8nyv6jn65aey50m8v7bx9l" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="point" validate="true"/>
+    </changeSet>
+    <changeSet author="luism (generated)" id="1624402826402-9">
+        <addForeignKeyConstraint baseColumnNames="transporter_id" baseTableName="request" constraintName="FKplfstvqmh5h52jv3atigaswnb" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="transporter" validate="true"/>
+    </changeSet>
+    <changeSet author="luism (generated)" id="1624402826402-10">
+        <addForeignKeyConstraint baseColumnNames="destributor_id" baseTableName="request" constraintName="FKs5m4ye0pg52mejqrsehv3hn7e" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="delivery_man" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

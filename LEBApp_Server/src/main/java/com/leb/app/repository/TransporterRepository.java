@@ -25,4 +25,6 @@ public interface TransporterRepository extends JpaRepository<Transporter, Long>,
 
     @Query("select transporter from Transporter transporter left join fetch transporter.ridePaths where transporter.id =:id")
     Optional<Transporter> findOneWithEagerRelationships(@Param("id") Long id);
+
+    Boolean existsByUserInfoId(Long UserId);
 }

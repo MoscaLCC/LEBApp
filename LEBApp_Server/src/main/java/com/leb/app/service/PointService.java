@@ -47,4 +47,6 @@ public interface PointService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Boolean isPoint(Long userId);
 }

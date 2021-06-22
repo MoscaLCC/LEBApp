@@ -47,4 +47,6 @@ public interface ProducerService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Boolean isProducer(Long userId);
 }
