@@ -8,6 +8,7 @@ import 'package:lebapp_ui/models/User.dart';
 import 'package:lebapp_ui/screens/user_registryProfile_screen.dart';
 import 'package:lebapp_ui/widgets/UserForm.dart';
 import '../main.dart';
+import 'package:intl/intl.dart';
 
 // ignore: camel_case_types
 class User_Registry_Screen extends StatefulWidget {
@@ -21,11 +22,11 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
 
   // key to form validator
   final _keyForm = GlobalKey<FormState>(); // Our created key
+
   // Controllers
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final birthdayController = TextEditingController();
-  final emailController = TextEditingController();
   final phoneNumberController = TextEditingController();
   final addressController = TextEditingController();
   final nifController = TextEditingController();
@@ -76,19 +77,7 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
             firstDate:DateTime(1900),
             lastDate: DateTime(2100));
 
-        birthdayController.text = date.toIso8601String();},
-    );
-
-    final emailField = TextFormField(
-      obscureText: false,
-      style: style,
-      decoration: InputDecoration(hintText: 'Your email',icon: Icon(Icons.email),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
-      controller: emailController,
-      validator: (value) {
-        if (!value.contains('@gmail.com'))
-          return 'Only gmail emails allowed.';
-        return null;
-      },
+        birthdayController.text = DateFormat("yyyy-MM-dd").format(date);},
     );
 
     final phoneNumberField = TextFormField(
@@ -174,7 +163,15 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
           onSurface: Colors.grey,
         ),
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>User_RegistryProfile_Screen()));
+
+          _saveForm(); // validar campos
+
+          // Object generation
+          User uAux = new User(null, null, firstNameController.text, lastNameController.text, null,
+              null, true, null, 'x', DateTime.now(), null, DateTime.now(), phoneNumberController.text, null, int.parse(nifController.text),
+              DateTime.parse(birthdayController.text), addressController.text, true, null, false,null, false, null, false, null);
+
+          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>User_RegistryProfile_Screen(uTest: uAux)));
         }
       ),
     );
@@ -201,8 +198,6 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
                     lastNameField,
                     SizedBox(height: 30.0),
                     birthdayField,
-                    SizedBox(height: 30.0),
-                    emailField,
                     SizedBox(height: 30.0),
                     phoneNumberField,
                     SizedBox(height: 30.0),
