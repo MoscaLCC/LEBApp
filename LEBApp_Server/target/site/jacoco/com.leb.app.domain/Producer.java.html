@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Producer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.domain</a> &gt; <span class="el_source">Producer.java</span></div><h1>Producer.java</h1><pre class="source lang-java linenums">package com.leb.app.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+/**
+ * A Producer.
+ */
+@Entity
+@Table(name = &quot;producer&quot;)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+<span class="fc" id="L18">public class Producer implements Serializable {</span>
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = &quot;link_social&quot;)
+    private String linkSocial;
+
+    @Column(name = &quot;number_requests&quot;)
+    private Integer numberRequests;
+
+    @Column(name = &quot;payed_value&quot;)
+    private Double payedValue;
+
+    @Column(name = &quot;value_to_pay&quot;)
+    private Double valueToPay;
+
+    @Column(name = &quot;ranking&quot;)
+    private Double ranking;
+
+    @OneToOne(optional = false)
+    @NotNull
+    @JoinColumn(unique = true)
+    private UserInfo userInfo;
+
+<span class="fc" id="L46">    @OneToMany(mappedBy = &quot;producer&quot;)</span>
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { &quot;dimensions&quot;, &quot;ridePath&quot;, &quot;producer&quot; }, allowSetters = true)
+    private Set&lt;Request&gt; requests = new HashSet&lt;&gt;();
+
+    // jhipster-needle-entity-add-field - JHipster will add fields here
+    public Long getId() {
+<span class="fc" id="L53">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="fc" id="L57">        this.id = id;</span>
+<span class="fc" id="L58">    }</span>
+
+    public Producer id(Long id) {
+<span class="nc" id="L61">        this.id = id;</span>
+<span class="nc" id="L62">        return this;</span>
+    }
+
+    public String getLinkSocial() {
+<span class="fc" id="L66">        return this.linkSocial;</span>
+    }
+
+    public Producer linkSocial(String linkSocial) {
+<span class="nc" id="L70">        this.linkSocial = linkSocial;</span>
+<span class="nc" id="L71">        return this;</span>
+    }
+
+    public void setLinkSocial(String linkSocial) {
+<span class="nc" id="L75">        this.linkSocial = linkSocial;</span>
+<span class="nc" id="L76">    }</span>
+
+    public Integer getNumberRequests() {
+<span class="fc" id="L79">        return this.numberRequests;</span>
+    }
+
+    public Producer numberRequests(Integer numberRequests) {
+<span class="nc" id="L83">        this.numberRequests = numberRequests;</span>
+<span class="nc" id="L84">        return this;</span>
+    }
+
+    public void setNumberRequests(Integer numberRequests) {
+<span class="nc" id="L88">        this.numberRequests = numberRequests;</span>
+<span class="nc" id="L89">    }</span>
+
+    public Double getPayedValue() {
+<span class="fc" id="L92">        return this.payedValue;</span>
+    }
+
+    public Producer payedValue(Double payedValue) {
+<span class="nc" id="L96">        this.payedValue = payedValue;</span>
+<span class="nc" id="L97">        return this;</span>
+    }
+
+    public void setPayedValue(Double payedValue) {
+<span class="nc" id="L101">        this.payedValue = payedValue;</span>
+<span class="nc" id="L102">    }</span>
+
+    public Double getValueToPay() {
+<span class="fc" id="L105">        return this.valueToPay;</span>
+    }
+
+    public Producer valueToPay(Double valueToPay) {
+<span class="nc" id="L109">        this.valueToPay = valueToPay;</span>
+<span class="nc" id="L110">        return this;</span>
+    }
+
+    public void setValueToPay(Double valueToPay) {
+<span class="nc" id="L114">        this.valueToPay = valueToPay;</span>
+<span class="nc" id="L115">    }</span>
+
+    public Double getRanking() {
+<span class="fc" id="L118">        return this.ranking;</span>
+    }
+
+    public Producer ranking(Double ranking) {
+<span class="nc" id="L122">        this.ranking = ranking;</span>
+<span class="nc" id="L123">        return this;</span>
+    }
+
+    public void setRanking(Double ranking) {
+<span class="nc" id="L127">        this.ranking = ranking;</span>
+<span class="nc" id="L128">    }</span>
+
+    public UserInfo getUserInfo() {
+<span class="nc" id="L131">        return this.userInfo;</span>
+    }
+
+    public Producer userInfo(UserInfo userInfo) {
+<span class="nc" id="L135">        this.setUserInfo(userInfo);</span>
+<span class="nc" id="L136">        return this;</span>
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+<span class="nc" id="L140">        this.userInfo = userInfo;</span>
+<span class="nc" id="L141">    }</span>
+
+    public Set&lt;Request&gt; getRequests() {
+<span class="nc" id="L144">        return this.requests;</span>
+    }
+
+    public Producer requests(Set&lt;Request&gt; requests) {
+<span class="nc" id="L148">        this.setRequests(requests);</span>
+<span class="nc" id="L149">        return this;</span>
+    }
+
+    public Producer addRequest(Request request) {
+<span class="nc" id="L153">        this.requests.add(request);</span>
+<span class="nc" id="L154">        request.setProducer(this);</span>
+<span class="nc" id="L155">        return this;</span>
+    }
+
+    public Producer removeRequest(Request request) {
+<span class="nc" id="L159">        this.requests.remove(request);</span>
+<span class="nc" id="L160">        request.setProducer(null);</span>
+<span class="nc" id="L161">        return this;</span>
+    }
+
+    public void setRequests(Set&lt;Request&gt; requests) {
+<span class="nc bnc" id="L165" title="All 2 branches missed.">        if (this.requests != null) {</span>
+<span class="nc" id="L166">            this.requests.forEach(i -&gt; i.setProducer(null));</span>
+        }
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        if (requests != null) {</span>
+<span class="nc" id="L169">            requests.forEach(i -&gt; i.setProducer(this));</span>
+        }
+<span class="nc" id="L171">        this.requests = requests;</span>
+<span class="nc" id="L172">    }</span>
+
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L178" title="1 of 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L179">            return true;</span>
+        }
+<span class="fc bfc" id="L181" title="All 2 branches covered.">        if (!(o instanceof Producer)) {</span>
+<span class="fc" id="L182">            return false;</span>
+        }
+<span class="fc bfc" id="L184" title="All 4 branches covered.">        return id != null &amp;&amp; id.equals(((Producer) o).id);</span>
+    }
+
+    @Override
+    public int hashCode() {
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+<span class="fc" id="L190">        return getClass().hashCode();</span>
+    }
+
+    // prettier-ignore
+    @Override
+    public String toString() {
+<span class="fc" id="L196">        return &quot;Producer{&quot; +</span>
+<span class="fc" id="L197">            &quot;id=&quot; + getId() +</span>
+<span class="fc" id="L198">            &quot;, linkSocial='&quot; + getLinkSocial() + &quot;'&quot; +</span>
+<span class="fc" id="L199">            &quot;, numberRequests=&quot; + getNumberRequests() +</span>
+<span class="fc" id="L200">            &quot;, payedValue=&quot; + getPayedValue() +</span>
+<span class="fc" id="L201">            &quot;, valueToPay=&quot; + getValueToPay() +</span>
+<span class="fc" id="L202">            &quot;, ranking=&quot; + getRanking() +</span>
+            &quot;}&quot;;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

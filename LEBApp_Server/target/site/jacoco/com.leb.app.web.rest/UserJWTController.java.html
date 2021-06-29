@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserJWTController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.web.rest</a> &gt; <span class="el_source">UserJWTController.java</span></div><h1>UserJWTController.java</h1><pre class="source lang-java linenums">package com.leb.app.web.rest;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.leb.app.repository.UserInfoRepository;
+import com.leb.app.repository.UserRepository;
+import com.leb.app.security.jwt.JWTFilter;
+import com.leb.app.security.jwt.TokenProvider;
+import com.leb.app.service.DeliveryManService;
+import com.leb.app.service.PointService;
+import com.leb.app.service.ProducerService;
+import com.leb.app.service.TransporterService;
+import com.leb.app.web.rest.vm.LoginVM;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
+/**
+ * Controller to authenticate users.
+ */
+@RestController
+@RequestMapping(&quot;/api&quot;)
+public class UserJWTController {
+
+<span class="nc" id="L39">    private final Logger log = LoggerFactory.getLogger(UserJWTController.class);</span>
+
+    private final TokenProvider tokenProvider;
+
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+
+    private final PointService pointService;
+
+    private final TransporterService transporterService;
+
+    private final ProducerService producerService;
+
+    private final DeliveryManService deliveryManService;
+
+    private final UserRepository userRepository;
+
+    private final UserInfoRepository userInfoRepository;
+
+    public UserJWTController(TokenProvider tokenProvider, 
+    AuthenticationManagerBuilder authenticationManagerBuilder,
+    PointService pointService,
+    TransporterService transporterService,
+    ProducerService produtorService,
+    DeliveryManService deliveryManService,
+    UserRepository userRepository,
+    UserInfoRepository userInfoRepository
+<span class="nc" id="L65">    ) {</span>
+<span class="nc" id="L66">        this.tokenProvider = tokenProvider;</span>
+<span class="nc" id="L67">        this.authenticationManagerBuilder = authenticationManagerBuilder;</span>
+<span class="nc" id="L68">        this.pointService = pointService;</span>
+<span class="nc" id="L69">        this.transporterService = transporterService;</span>
+<span class="nc" id="L70">        this.producerService = produtorService;</span>
+<span class="nc" id="L71">        this.deliveryManService = deliveryManService;</span>
+<span class="nc" id="L72">        this.userRepository = userRepository;</span>
+<span class="nc" id="L73">        this.userInfoRepository = userInfoRepository;</span>
+<span class="nc" id="L74">    }</span>
+
+    @PostMapping(&quot;/authenticate&quot;)
+    public ResponseEntity&lt;Pair&lt;JWTToken, List&lt;String&gt;&gt;&gt; authorize(@Valid @RequestBody LoginVM loginVM) {
+<span class="nc" id="L78">        log.info(&quot;&lt;authorize&gt;&quot;);</span>
+<span class="nc" id="L79">        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(</span>
+<span class="nc" id="L80">            loginVM.getUsername(),</span>
+<span class="nc" id="L81">            loginVM.getPassword()</span>
+        );
+
+<span class="nc" id="L84">        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);</span>
+<span class="nc" id="L85">        SecurityContextHolder.getContext().setAuthentication(authentication);</span>
+<span class="nc" id="L86">        String jwt = tokenProvider.createToken(authentication, loginVM.isRememberMe());</span>
+<span class="nc" id="L87">        HttpHeaders httpHeaders = new HttpHeaders();</span>
+<span class="nc" id="L88">        httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, &quot;Bearer &quot; + jwt);</span>
+<span class="nc" id="L89">        List&lt;String&gt; profils = getProfils(loginVM.getUsername());</span>
+<span class="nc" id="L90">        log.info(&quot;&lt;/authorize&gt;&quot;);</span>
+<span class="nc" id="L91">        return new ResponseEntity&lt;&gt;(new MutablePair&lt;JWTToken, List&lt;String&gt;&gt;(new JWTToken(jwt), profils), httpHeaders, HttpStatus.OK);</span>
+    }
+
+    private List&lt;String&gt; getProfils(String username){
+<span class="nc" id="L95">        log.info(&quot;&lt;getProfils&gt;&quot;);</span>
+<span class="nc" id="L96">        List&lt;String&gt; profils = new ArrayList&lt;&gt;();</span>
+    
+<span class="nc" id="L98">        Long userId = userInfoRepository.findByUserId(userRepository.findOneByLogin(username).get().getId()).get().getId();</span>
+
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        if(deliveryManService.isDeliveryMan(userId)) profils.add(&quot;DeliveryMan&quot;);</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        if(producerService.isProducer(userId)) profils.add(&quot;Producer&quot;);</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        if(transporterService.isTransporter(userId)) profils.add(&quot;Transporter&quot;);</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        if(pointService.isPoint(userId)) profils.add(&quot;Point&quot;);</span>
+
+<span class="nc" id="L105">        log.info(&quot;&lt;/getProfils&gt;&quot;);</span>
+<span class="nc" id="L106">        return profils;</span>
+    }
+
+    /**
+     * Object to return as body in JWT Authentication.
+     */
+    static class JWTToken {
+
+        private String idToken;
+
+<span class="nc" id="L116">        JWTToken(String idToken) {</span>
+<span class="nc" id="L117">            this.idToken = idToken;</span>
+<span class="nc" id="L118">        }</span>
+
+        @JsonProperty(&quot;id_token&quot;)
+        String getIdToken() {
+<span class="nc" id="L122">            return idToken;</span>
+        }
+
+        void setIdToken(String idToken) {
+<span class="nc" id="L126">            this.idToken = idToken;</span>
+<span class="nc" id="L127">        }</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

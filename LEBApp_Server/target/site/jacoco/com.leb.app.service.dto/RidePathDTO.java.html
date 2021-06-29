@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RidePathDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.service.dto</a> &gt; <span class="el_source">RidePathDTO.java</span></div><h1>RidePathDTO.java</h1><pre class="source lang-java linenums">package com.leb.app.service.dto;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+/**
+ * A DTO for the {@link com.leb.app.domain.RidePath} entity.
+ */
+<span class="fc" id="L9">public class RidePathDTO implements Serializable {</span>
+
+    private Long id;
+
+    private String source;
+
+    private String destination;
+
+    private String distance;
+
+    private String estimatedTime;
+
+    public Long getId() {
+<span class="fc" id="L22">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="fc" id="L26">        this.id = id;</span>
+<span class="fc" id="L27">    }</span>
+
+    public String getSource() {
+<span class="fc" id="L30">        return source;</span>
+    }
+
+    public void setSource(String source) {
+<span class="nc" id="L34">        this.source = source;</span>
+<span class="nc" id="L35">    }</span>
+
+    public String getDestination() {
+<span class="fc" id="L38">        return destination;</span>
+    }
+
+    public void setDestination(String destination) {
+<span class="nc" id="L42">        this.destination = destination;</span>
+<span class="nc" id="L43">    }</span>
+
+    public String getDistance() {
+<span class="fc" id="L46">        return distance;</span>
+    }
+
+    public void setDistance(String distance) {
+<span class="nc" id="L50">        this.distance = distance;</span>
+<span class="nc" id="L51">    }</span>
+
+    public String getEstimatedTime() {
+<span class="fc" id="L54">        return estimatedTime;</span>
+    }
+
+    public void setEstimatedTime(String estimatedTime) {
+<span class="nc" id="L58">        this.estimatedTime = estimatedTime;</span>
+<span class="nc" id="L59">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L64">            return true;</span>
+        }
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        if (!(o instanceof RidePathDTO)) {</span>
+<span class="fc" id="L67">            return false;</span>
+        }
+
+<span class="fc" id="L70">        RidePathDTO ridePathDTO = (RidePathDTO) o;</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        if (this.id == null) {</span>
+<span class="fc" id="L72">            return false;</span>
+        }
+<span class="fc" id="L74">        return Objects.equals(this.id, ridePathDTO.id);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="fc" id="L79">        return Objects.hash(this.id);</span>
+    }
+
+    // prettier-ignore
+    @Override
+    public String toString() {
+<span class="fc" id="L85">        return &quot;RidePathDTO{&quot; +</span>
+<span class="fc" id="L86">            &quot;id=&quot; + getId() +</span>
+<span class="fc" id="L87">            &quot;, source='&quot; + getSource() + &quot;'&quot; +</span>
+<span class="fc" id="L88">            &quot;, destination='&quot; + getDestination() + &quot;'&quot; +</span>
+<span class="fc" id="L89">            &quot;, distance='&quot; + getDistance() + &quot;'&quot; +</span>
+<span class="fc" id="L90">            &quot;, estimatedTime='&quot; + getEstimatedTime() + &quot;'&quot; +</span>
+            &quot;}&quot;;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

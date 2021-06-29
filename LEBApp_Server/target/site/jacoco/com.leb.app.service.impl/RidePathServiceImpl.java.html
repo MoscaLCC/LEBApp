@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RidePathServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.service.impl</a> &gt; <span class="el_source">RidePathServiceImpl.java</span></div><h1>RidePathServiceImpl.java</h1><pre class="source lang-java linenums">package com.leb.app.service.impl;
+
+import com.leb.app.domain.RidePath;
+import com.leb.app.repository.RidePathRepository;
+import com.leb.app.service.RidePathService;
+import com.leb.app.service.dto.RidePathDTO;
+import com.leb.app.service.mapper.RidePathMapper;
+import java.util.Optional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * Service Implementation for managing {@link RidePath}.
+ */
+@Service
+@Transactional
+public class RidePathServiceImpl implements RidePathService {
+
+<span class="nc" id="L23">    private final Logger log = LoggerFactory.getLogger(RidePathServiceImpl.class);</span>
+
+    private final RidePathRepository ridePathRepository;
+
+    private final RidePathMapper ridePathMapper;
+
+<span class="nc" id="L29">    public RidePathServiceImpl(RidePathRepository ridePathRepository, RidePathMapper ridePathMapper) {</span>
+<span class="nc" id="L30">        this.ridePathRepository = ridePathRepository;</span>
+<span class="nc" id="L31">        this.ridePathMapper = ridePathMapper;</span>
+<span class="nc" id="L32">    }</span>
+
+    @Override
+    public RidePathDTO save(RidePathDTO ridePathDTO) {
+<span class="nc" id="L36">        log.debug(&quot;Request to save RidePath : {}&quot;, ridePathDTO);</span>
+<span class="nc" id="L37">        RidePath ridePath = ridePathMapper.toEntity(ridePathDTO);</span>
+<span class="nc" id="L38">        ridePath = ridePathRepository.save(ridePath);</span>
+<span class="nc" id="L39">        return ridePathMapper.toDto(ridePath);</span>
+    }
+
+    @Override
+    public Optional&lt;RidePathDTO&gt; partialUpdate(RidePathDTO ridePathDTO) {
+<span class="nc" id="L44">        log.debug(&quot;Request to partially update RidePath : {}&quot;, ridePathDTO);</span>
+
+<span class="nc" id="L46">        return ridePathRepository</span>
+<span class="nc" id="L47">            .findById(ridePathDTO.getId())</span>
+<span class="nc" id="L48">            .map(</span>
+                existingRidePath -&gt; {
+<span class="nc" id="L50">                    ridePathMapper.partialUpdate(existingRidePath, ridePathDTO);</span>
+<span class="nc" id="L51">                    return existingRidePath;</span>
+                }
+            )
+<span class="nc" id="L54">            .map(ridePathRepository::save)</span>
+<span class="nc" id="L55">            .map(ridePathMapper::toDto);</span>
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page&lt;RidePathDTO&gt; findAll(Pageable pageable) {
+<span class="nc" id="L61">        log.debug(&quot;Request to get all RidePaths&quot;);</span>
+<span class="nc" id="L62">        return ridePathRepository.findAll(pageable).map(ridePathMapper::toDto);</span>
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional&lt;RidePathDTO&gt; findOne(Long id) {
+<span class="nc" id="L68">        log.debug(&quot;Request to get RidePath : {}&quot;, id);</span>
+<span class="nc" id="L69">        return ridePathRepository.findById(id).map(ridePathMapper::toDto);</span>
+    }
+
+    @Override
+    public void delete(Long id) {
+<span class="nc" id="L74">        log.debug(&quot;Request to delete RidePath : {}&quot;, id);</span>
+<span class="nc" id="L75">        ridePathRepository.deleteById(id);</span>
+<span class="nc" id="L76">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

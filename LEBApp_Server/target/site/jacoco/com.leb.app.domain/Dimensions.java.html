@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Dimensions.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.domain</a> &gt; <span class="el_source">Dimensions.java</span></div><h1>Dimensions.java</h1><pre class="source lang-java linenums">package com.leb.app.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.io.Serializable;
+import javax.persistence.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+/**
+ * A Dimensions.
+ */
+@Entity
+@Table(name = &quot;dimensions&quot;)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+<span class="fc" id="L15">public class Dimensions implements Serializable {</span>
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = &quot;height&quot;)
+    private Double height;
+
+    @Column(name = &quot;width&quot;)
+    private Double width;
+
+    @Column(name = &quot;depth&quot;)
+    private Double depth;
+
+    @JsonIgnoreProperties(value = { &quot;dimensions&quot;, &quot;ridePath&quot;, &quot;producer&quot; }, allowSetters = true)
+    @OneToOne(mappedBy = &quot;dimensions&quot;)
+    private Request request;
+
+    // jhipster-needle-entity-add-field - JHipster will add fields here
+    public Long getId() {
+<span class="fc" id="L38">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="fc" id="L42">        this.id = id;</span>
+<span class="fc" id="L43">    }</span>
+
+    public Dimensions id(Long id) {
+<span class="nc" id="L46">        this.id = id;</span>
+<span class="nc" id="L47">        return this;</span>
+    }
+
+    public Double getHeight() {
+<span class="fc" id="L51">        return this.height;</span>
+    }
+
+    public Dimensions height(Double height) {
+<span class="nc" id="L55">        this.height = height;</span>
+<span class="nc" id="L56">        return this;</span>
+    }
+
+    public void setHeight(Double height) {
+<span class="nc" id="L60">        this.height = height;</span>
+<span class="nc" id="L61">    }</span>
+
+    public Double getWidth() {
+<span class="fc" id="L64">        return this.width;</span>
+    }
+
+    public Dimensions width(Double width) {
+<span class="nc" id="L68">        this.width = width;</span>
+<span class="nc" id="L69">        return this;</span>
+    }
+
+    public void setWidth(Double width) {
+<span class="nc" id="L73">        this.width = width;</span>
+<span class="nc" id="L74">    }</span>
+
+    public Double getDepth() {
+<span class="fc" id="L77">        return this.depth;</span>
+    }
+
+    public Dimensions depth(Double depth) {
+<span class="nc" id="L81">        this.depth = depth;</span>
+<span class="nc" id="L82">        return this;</span>
+    }
+
+    public void setDepth(Double depth) {
+<span class="nc" id="L86">        this.depth = depth;</span>
+<span class="nc" id="L87">    }</span>
+
+    public Request getRequest() {
+<span class="nc" id="L90">        return this.request;</span>
+    }
+
+    public Dimensions request(Request request) {
+<span class="nc" id="L94">        this.setRequest(request);</span>
+<span class="nc" id="L95">        return this;</span>
+    }
+
+    public void setRequest(Request request) {
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        if (this.request != null) {</span>
+<span class="nc" id="L100">            this.request.setDimensions(null);</span>
+        }
+<span class="nc bnc" id="L102" title="All 2 branches missed.">        if (request != null) {</span>
+<span class="nc" id="L103">            request.setDimensions(this);</span>
+        }
+<span class="nc" id="L105">        this.request = request;</span>
+<span class="nc" id="L106">    }</span>
+
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L113">            return true;</span>
+        }
+<span class="fc bfc" id="L115" title="All 2 branches covered.">        if (!(o instanceof Dimensions)) {</span>
+<span class="fc" id="L116">            return false;</span>
+        }
+<span class="fc bfc" id="L118" title="All 4 branches covered.">        return id != null &amp;&amp; id.equals(((Dimensions) o).id);</span>
+    }
+
+    @Override
+    public int hashCode() {
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+<span class="fc" id="L124">        return getClass().hashCode();</span>
+    }
+
+    // prettier-ignore
+    @Override
+    public String toString() {
+<span class="fc" id="L130">        return &quot;Dimensions{&quot; +</span>
+<span class="fc" id="L131">            &quot;id=&quot; + getId() +</span>
+<span class="fc" id="L132">            &quot;, height=&quot; + getHeight() +</span>
+<span class="fc" id="L133">            &quot;, width=&quot; + getWidth() +</span>
+<span class="fc" id="L134">            &quot;, depth=&quot; + getDepth() +</span>
+            &quot;}&quot;;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

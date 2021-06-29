@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DeliveryMan.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.domain</a> &gt; <span class="el_source">DeliveryMan.java</span></div><h1>DeliveryMan.java</h1><pre class="source lang-java linenums">package com.leb.app.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.io.Serializable;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+/**
+ * A DeliveryMan.
+ */
+@Entity
+@Table(name = &quot;delivery_man&quot;)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+<span class="fc" id="L16">public class DeliveryMan implements Serializable {</span>
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = &quot;opening_time&quot;)
+    private String openingTime;
+
+    @Column(name = &quot;number_of_deliveries&quot;)
+    private Integer numberOfDeliveries;
+
+    @Column(name = &quot;number_of_km&quot;)
+    private Double numberOfKm;
+
+    @Column(name = &quot;received_value&quot;)
+    private Double receivedValue;
+
+    @Column(name = &quot;value_to_receive&quot;)
+    private Double valueToReceive;
+
+    @Column(name = &quot;ranking&quot;)
+    private Double ranking;
+
+    @OneToOne(optional = false)
+    @NotNull
+    @JoinColumn(unique = true)
+    private UserInfo userInfo;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties(value = { &quot;userInfo&quot;, &quot;deliveryMen&quot;, &quot;zone&quot; }, allowSetters = true)
+    private Point point;
+
+    // jhipster-needle-entity-add-field - JHipster will add fields here
+    public Long getId() {
+<span class="fc" id="L54">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="fc" id="L58">        this.id = id;</span>
+<span class="fc" id="L59">    }</span>
+
+    public DeliveryMan id(Long id) {
+<span class="nc" id="L62">        this.id = id;</span>
+<span class="nc" id="L63">        return this;</span>
+    }
+
+    public String getOpeningTime() {
+<span class="fc" id="L67">        return this.openingTime;</span>
+    }
+
+    public DeliveryMan openingTime(String openingTime) {
+<span class="nc" id="L71">        this.openingTime = openingTime;</span>
+<span class="nc" id="L72">        return this;</span>
+    }
+
+    public void setOpeningTime(String openingTime) {
+<span class="nc" id="L76">        this.openingTime = openingTime;</span>
+<span class="nc" id="L77">    }</span>
+
+    public Integer getNumberOfDeliveries() {
+<span class="fc" id="L80">        return this.numberOfDeliveries;</span>
+    }
+
+    public DeliveryMan numberOfDeliveries(Integer numberOfDeliveries) {
+<span class="nc" id="L84">        this.numberOfDeliveries = numberOfDeliveries;</span>
+<span class="nc" id="L85">        return this;</span>
+    }
+
+    public void setNumberOfDeliveries(Integer numberOfDeliveries) {
+<span class="nc" id="L89">        this.numberOfDeliveries = numberOfDeliveries;</span>
+<span class="nc" id="L90">    }</span>
+
+    public Double getNumberOfKm() {
+<span class="fc" id="L93">        return this.numberOfKm;</span>
+    }
+
+    public DeliveryMan numberOfKm(Double numberOfKm) {
+<span class="nc" id="L97">        this.numberOfKm = numberOfKm;</span>
+<span class="nc" id="L98">        return this;</span>
+    }
+
+    public void setNumberOfKm(Double numberOfKm) {
+<span class="nc" id="L102">        this.numberOfKm = numberOfKm;</span>
+<span class="nc" id="L103">    }</span>
+
+    public Double getReceivedValue() {
+<span class="fc" id="L106">        return this.receivedValue;</span>
+    }
+
+    public DeliveryMan receivedValue(Double receivedValue) {
+<span class="nc" id="L110">        this.receivedValue = receivedValue;</span>
+<span class="nc" id="L111">        return this;</span>
+    }
+
+    public void setReceivedValue(Double receivedValue) {
+<span class="nc" id="L115">        this.receivedValue = receivedValue;</span>
+<span class="nc" id="L116">    }</span>
+
+    public Double getValueToReceive() {
+<span class="fc" id="L119">        return this.valueToReceive;</span>
+    }
+
+    public DeliveryMan valueToReceive(Double valueToReceive) {
+<span class="nc" id="L123">        this.valueToReceive = valueToReceive;</span>
+<span class="nc" id="L124">        return this;</span>
+    }
+
+    public void setValueToReceive(Double valueToReceive) {
+<span class="nc" id="L128">        this.valueToReceive = valueToReceive;</span>
+<span class="nc" id="L129">    }</span>
+
+    public Double getRanking() {
+<span class="fc" id="L132">        return this.ranking;</span>
+    }
+
+    public DeliveryMan ranking(Double ranking) {
+<span class="nc" id="L136">        this.ranking = ranking;</span>
+<span class="nc" id="L137">        return this;</span>
+    }
+
+    public void setRanking(Double ranking) {
+<span class="nc" id="L141">        this.ranking = ranking;</span>
+<span class="nc" id="L142">    }</span>
+
+    public UserInfo getUserInfo() {
+<span class="nc" id="L145">        return this.userInfo;</span>
+    }
+
+    public DeliveryMan userInfo(UserInfo userInfo) {
+<span class="nc" id="L149">        this.setUserInfo(userInfo);</span>
+<span class="nc" id="L150">        return this;</span>
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+<span class="nc" id="L154">        this.userInfo = userInfo;</span>
+<span class="nc" id="L155">    }</span>
+
+    public Point getPoint() {
+<span class="nc" id="L158">        return this.point;</span>
+    }
+
+    public DeliveryMan point(Point point) {
+<span class="nc" id="L162">        this.setPoint(point);</span>
+<span class="nc" id="L163">        return this;</span>
+    }
+
+    public void setPoint(Point point) {
+<span class="nc" id="L167">        this.point = point;</span>
+<span class="nc" id="L168">    }</span>
+
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L174" title="1 of 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L175">            return true;</span>
+        }
+<span class="fc bfc" id="L177" title="All 2 branches covered.">        if (!(o instanceof DeliveryMan)) {</span>
+<span class="fc" id="L178">            return false;</span>
+        }
+<span class="fc bfc" id="L180" title="All 4 branches covered.">        return id != null &amp;&amp; id.equals(((DeliveryMan) o).id);</span>
+    }
+
+    @Override
+    public int hashCode() {
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+<span class="fc" id="L186">        return getClass().hashCode();</span>
+    }
+
+    // prettier-ignore
+    @Override
+    public String toString() {
+<span class="fc" id="L192">        return &quot;DeliveryMan{&quot; +</span>
+<span class="fc" id="L193">            &quot;id=&quot; + getId() +</span>
+<span class="fc" id="L194">            &quot;, openingTime='&quot; + getOpeningTime() + &quot;'&quot; +</span>
+<span class="fc" id="L195">            &quot;, numberOfDeliveries=&quot; + getNumberOfDeliveries() +</span>
+<span class="fc" id="L196">            &quot;, numberOfKm=&quot; + getNumberOfKm() +</span>
+<span class="fc" id="L197">            &quot;, receivedValue=&quot; + getReceivedValue() +</span>
+<span class="fc" id="L198">            &quot;, valueToReceive=&quot; + getValueToReceive() +</span>
+<span class="fc" id="L199">            &quot;, ranking=&quot; + getRanking() +</span>
+            &quot;}&quot;;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

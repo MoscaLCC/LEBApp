@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RequestQueryService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.service</a> &gt; <span class="el_source">RequestQueryService.java</span></div><h1>RequestQueryService.java</h1><pre class="source lang-java linenums">package com.leb.app.service;
+
+import com.leb.app.domain.*; // for static metamodels
+import com.leb.app.domain.Request;
+import com.leb.app.repository.RequestRepository;
+import com.leb.app.service.criteria.RequestCriteria;
+import com.leb.app.service.dto.RequestDTO;
+import com.leb.app.service.mapper.RequestMapper;
+import java.util.List;
+import javax.persistence.criteria.JoinType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import tech.jhipster.service.QueryService;
+
+/**
+ * Service for executing complex queries for {@link Request} entities in the database.
+ * The main input is a {@link RequestCriteria} which gets converted to {@link Specification},
+ * in a way that all the filters must apply.
+ * It returns a {@link List} of {@link RequestDTO} or a {@link Page} of {@link RequestDTO} which fulfills the criteria.
+ */
+@Service
+@Transactional(readOnly = true)
+public class RequestQueryService extends QueryService&lt;Request&gt; {
+
+<span class="nc" id="L30">    private final Logger log = LoggerFactory.getLogger(RequestQueryService.class);</span>
+
+    private final RequestRepository requestRepository;
+
+    private final RequestMapper requestMapper;
+
+<span class="nc" id="L36">    public RequestQueryService(RequestRepository requestRepository, RequestMapper requestMapper) {</span>
+<span class="nc" id="L37">        this.requestRepository = requestRepository;</span>
+<span class="nc" id="L38">        this.requestMapper = requestMapper;</span>
+<span class="nc" id="L39">    }</span>
+
+    /**
+     * Return a {@link List} of {@link RequestDTO} which matches the criteria from the database.
+     * @param criteria The object which holds all the filters, which the entities should match.
+     * @return the matching entities.
+     */
+    @Transactional(readOnly = true)
+    public List&lt;RequestDTO&gt; findByCriteria(RequestCriteria criteria) {
+<span class="nc" id="L48">        log.debug(&quot;find by criteria : {}&quot;, criteria);</span>
+<span class="nc" id="L49">        final Specification&lt;Request&gt; specification = createSpecification(criteria);</span>
+<span class="nc" id="L50">        return requestMapper.toDto(requestRepository.findAll(specification));</span>
+    }
+
+    /**
+     * Return a {@link Page} of {@link RequestDTO} which matches the criteria from the database.
+     * @param criteria The object which holds all the filters, which the entities should match.
+     * @param page The page, which should be returned.
+     * @return the matching entities.
+     */
+    @Transactional(readOnly = true)
+    public Page&lt;RequestDTO&gt; findByCriteria(RequestCriteria criteria, Pageable page) {
+<span class="nc" id="L61">        log.debug(&quot;find by criteria : {}, page: {}&quot;, criteria, page);</span>
+<span class="nc" id="L62">        final Specification&lt;Request&gt; specification = createSpecification(criteria);</span>
+<span class="nc" id="L63">        return requestRepository.findAll(specification, page).map(requestMapper::toDto);</span>
+    }
+
+    /**
+     * Return the number of matching entities in the database.
+     * @param criteria The object which holds all the filters, which the entities should match.
+     * @return the number of matching entities.
+     */
+    @Transactional(readOnly = true)
+    public long countByCriteria(RequestCriteria criteria) {
+<span class="nc" id="L73">        log.debug(&quot;count by criteria : {}&quot;, criteria);</span>
+<span class="nc" id="L74">        final Specification&lt;Request&gt; specification = createSpecification(criteria);</span>
+<span class="nc" id="L75">        return requestRepository.count(specification);</span>
+    }
+
+    /**
+     * Function to convert {@link RequestCriteria} to a {@link Specification}
+     * @param criteria The object which holds all the filters, which the entities should match.
+     * @return the matching {@link Specification} of the entity.
+     */
+    protected Specification&lt;Request&gt; createSpecification(RequestCriteria criteria) {
+<span class="nc" id="L84">        Specification&lt;Request&gt; specification = Specification.where(null);</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        if (criteria != null) {</span>
+<span class="nc bnc" id="L86" title="All 2 branches missed.">            if (criteria.getId() != null) {</span>
+<span class="nc" id="L87">                specification = specification.and(buildRangeSpecification(criteria.getId(), Request_.id));</span>
+            }
+<span class="nc bnc" id="L89" title="All 2 branches missed.">            if (criteria.getProductValue() != null) {</span>
+<span class="nc" id="L90">                specification = specification.and(buildRangeSpecification(criteria.getProductValue(), Request_.productValue));</span>
+            }
+<span class="nc bnc" id="L92" title="All 2 branches missed.">            if (criteria.getProductName() != null) {</span>
+<span class="nc" id="L93">                specification = specification.and(buildStringSpecification(criteria.getProductName(), Request_.productName));</span>
+            }
+<span class="nc bnc" id="L95" title="All 2 branches missed.">            if (criteria.getSource() != null) {</span>
+<span class="nc" id="L96">                specification = specification.and(buildStringSpecification(criteria.getSource(), Request_.source));</span>
+            }
+<span class="nc bnc" id="L98" title="All 2 branches missed.">            if (criteria.getDestination() != null) {</span>
+<span class="nc" id="L99">                specification = specification.and(buildStringSpecification(criteria.getDestination(), Request_.destination));</span>
+            }
+<span class="nc bnc" id="L101" title="All 2 branches missed.">            if (criteria.getDestinationContact() != null) {</span>
+<span class="nc" id="L102">                specification = specification.and(buildStringSpecification(criteria.getDestinationContact(), Request_.destinationContact));</span>
+            }
+<span class="nc bnc" id="L104" title="All 2 branches missed.">            if (criteria.getInitDate() != null) {</span>
+<span class="nc" id="L105">                specification = specification.and(buildRangeSpecification(criteria.getInitDate(), Request_.initDate));</span>
+            }
+<span class="nc bnc" id="L107" title="All 2 branches missed.">            if (criteria.getExpirationDate() != null) {</span>
+<span class="nc" id="L108">                specification = specification.and(buildRangeSpecification(criteria.getExpirationDate(), Request_.expirationDate));</span>
+            }
+<span class="nc bnc" id="L110" title="All 2 branches missed.">            if (criteria.getDescription() != null) {</span>
+<span class="nc" id="L111">                specification = specification.and(buildStringSpecification(criteria.getDescription(), Request_.description));</span>
+            }
+<span class="nc bnc" id="L113" title="All 2 branches missed.">            if (criteria.getSpecialCharacteristics() != null) {</span>
+<span class="nc" id="L114">                specification =</span>
+<span class="nc" id="L115">                    specification.and(buildStringSpecification(criteria.getSpecialCharacteristics(), Request_.specialCharacteristics));</span>
+            }
+<span class="nc bnc" id="L117" title="All 2 branches missed.">            if (criteria.getProductWeight() != null) {</span>
+<span class="nc" id="L118">                specification = specification.and(buildRangeSpecification(criteria.getProductWeight(), Request_.productWeight));</span>
+            }
+<span class="nc bnc" id="L120" title="All 2 branches missed.">            if (criteria.getStatus() != null) {</span>
+<span class="nc" id="L121">                specification = specification.and(buildSpecification(criteria.getStatus(), Request_.status));</span>
+            }
+<span class="nc bnc" id="L123" title="All 2 branches missed.">            if (criteria.getEstimatedDate() != null) {</span>
+<span class="nc" id="L124">                specification = specification.and(buildRangeSpecification(criteria.getEstimatedDate(), Request_.estimatedDate));</span>
+            }
+<span class="nc bnc" id="L126" title="All 2 branches missed.">            if (criteria.getDeliveryTime() != null) {</span>
+<span class="nc" id="L127">                specification = specification.and(buildRangeSpecification(criteria.getDeliveryTime(), Request_.deliveryTime));</span>
+            }
+<span class="nc bnc" id="L129" title="All 2 branches missed.">            if (criteria.getShippingCosts() != null) {</span>
+<span class="nc" id="L130">                specification = specification.and(buildRangeSpecification(criteria.getShippingCosts(), Request_.shippingCosts));</span>
+            }
+<span class="nc bnc" id="L132" title="All 2 branches missed.">            if (criteria.getRating() != null) {</span>
+<span class="nc" id="L133">                specification = specification.and(buildRangeSpecification(criteria.getRating(), Request_.rating));</span>
+            }
+<span class="nc bnc" id="L135" title="All 2 branches missed.">            if (criteria.getDimensionsId() != null) {</span>
+<span class="nc" id="L136">                specification =</span>
+<span class="nc" id="L137">                    specification.and(</span>
+<span class="nc" id="L138">                        buildSpecification(</span>
+<span class="nc" id="L139">                            criteria.getDimensionsId(),</span>
+<span class="nc" id="L140">                            root -&gt; root.join(Request_.dimensions, JoinType.LEFT).get(Dimensions_.id)</span>
+                        )
+                    );
+            }
+<span class="nc bnc" id="L144" title="All 2 branches missed.">            if (criteria.getRidePathId() != null) {</span>
+<span class="nc" id="L145">                specification =</span>
+<span class="nc" id="L146">                    specification.and(</span>
+<span class="nc" id="L147">                        buildSpecification(criteria.getRidePathId(), root -&gt; root.join(Request_.ridePath, JoinType.LEFT).get(RidePath_.id))</span>
+                    );
+            }
+<span class="nc bnc" id="L150" title="All 2 branches missed.">            if (criteria.getProducerId() != null) {</span>
+<span class="nc" id="L151">                specification =</span>
+<span class="nc" id="L152">                    specification.and(</span>
+<span class="nc" id="L153">                        buildSpecification(criteria.getProducerId(), root -&gt; root.join(Request_.producer, JoinType.LEFT).get(Producer_.id))</span>
+                    );
+            }
+        }
+<span class="nc" id="L157">        return specification;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

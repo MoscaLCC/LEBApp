@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProducerResource.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.web.rest</a> &gt; <span class="el_source">ProducerResource.java</span></div><h1>ProducerResource.java</h1><pre class="source lang-java linenums">package com.leb.app.web.rest;
+
+import com.leb.app.repository.ProducerRepository;
+import com.leb.app.service.ProducerQueryService;
+import com.leb.app.service.ProducerService;
+import com.leb.app.service.criteria.ProducerCriteria;
+import com.leb.app.service.dto.ProducerDTO;
+import com.leb.app.web.rest.errors.BadRequestAlertException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.PaginationUtil;
+import tech.jhipster.web.util.ResponseUtil;
+
+/**
+ * REST controller for managing {@link com.leb.app.domain.Producer}.
+ */
+@RestController
+@RequestMapping(&quot;/api&quot;)
+public class ProducerResource {
+
+<span class="nc" id="L37">    private final Logger log = LoggerFactory.getLogger(ProducerResource.class);</span>
+
+    private static final String ENTITY_NAME = &quot;producer&quot;;
+
+    @Value(&quot;${jhipster.clientApp.name}&quot;)
+    private String applicationName;
+
+    private final ProducerService producerService;
+
+    private final ProducerRepository producerRepository;
+
+    private final ProducerQueryService producerQueryService;
+
+    public ProducerResource(
+        ProducerService producerService,
+        ProducerRepository producerRepository,
+        ProducerQueryService producerQueryService
+<span class="nc" id="L54">    ) {</span>
+<span class="nc" id="L55">        this.producerService = producerService;</span>
+<span class="nc" id="L56">        this.producerRepository = producerRepository;</span>
+<span class="nc" id="L57">        this.producerQueryService = producerQueryService;</span>
+<span class="nc" id="L58">    }</span>
+
+    /**
+     * {@code POST  /producers} : Create a new producer.
+     *
+     * @param producerDTO the producerDTO to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new producerDTO, or with status {@code 400 (Bad Request)} if the producer has already an ID.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PostMapping(&quot;/producers&quot;)
+    public ResponseEntity&lt;ProducerDTO&gt; createProducer(@Valid @RequestBody ProducerDTO producerDTO) throws URISyntaxException {
+<span class="nc" id="L69">        log.debug(&quot;REST request to save Producer : {}&quot;, producerDTO);</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (producerDTO.getId() != null) {</span>
+<span class="nc" id="L71">            throw new BadRequestAlertException(&quot;A new producer cannot already have an ID&quot;, ENTITY_NAME, &quot;idexists&quot;);</span>
+        }
+<span class="nc" id="L73">        ProducerDTO result = producerService.save(producerDTO);</span>
+<span class="nc" id="L74">        return ResponseEntity</span>
+<span class="nc" id="L75">            .created(new URI(&quot;/api/producers/&quot; + result.getId()))</span>
+<span class="nc" id="L76">            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))</span>
+<span class="nc" id="L77">            .body(result);</span>
+    }
+
+    /**
+     * {@code PUT  /producers/:id} : Updates an existing producer.
+     *
+     * @param id the id of the producerDTO to save.
+     * @param producerDTO the producerDTO to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated producerDTO,
+     * or with status {@code 400 (Bad Request)} if the producerDTO is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the producerDTO couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PutMapping(&quot;/producers/{id}&quot;)
+    public ResponseEntity&lt;ProducerDTO&gt; updateProducer(
+        @PathVariable(value = &quot;id&quot;, required = false) final Long id,
+        @Valid @RequestBody ProducerDTO producerDTO
+    ) throws URISyntaxException {
+<span class="nc" id="L95">        log.debug(&quot;REST request to update Producer : {}, {}&quot;, id, producerDTO);</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if (producerDTO.getId() == null) {</span>
+<span class="nc" id="L97">            throw new BadRequestAlertException(&quot;Invalid id&quot;, ENTITY_NAME, &quot;idnull&quot;);</span>
+        }
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        if (!Objects.equals(id, producerDTO.getId())) {</span>
+<span class="nc" id="L100">            throw new BadRequestAlertException(&quot;Invalid ID&quot;, ENTITY_NAME, &quot;idinvalid&quot;);</span>
+        }
+
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        if (!producerRepository.existsById(id)) {</span>
+<span class="nc" id="L104">            throw new BadRequestAlertException(&quot;Entity not found&quot;, ENTITY_NAME, &quot;idnotfound&quot;);</span>
+        }
+
+<span class="nc" id="L107">        ProducerDTO result = producerService.save(producerDTO);</span>
+<span class="nc" id="L108">        return ResponseEntity</span>
+<span class="nc" id="L109">            .ok()</span>
+<span class="nc" id="L110">            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, producerDTO.getId().toString()))</span>
+<span class="nc" id="L111">            .body(result);</span>
+    }
+
+    /**
+     * {@code PATCH  /producers/:id} : Partial updates given fields of an existing producer, field will ignore if it is null
+     *
+     * @param id the id of the producerDTO to save.
+     * @param producerDTO the producerDTO to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated producerDTO,
+     * or with status {@code 400 (Bad Request)} if the producerDTO is not valid,
+     * or with status {@code 404 (Not Found)} if the producerDTO is not found,
+     * or with status {@code 500 (Internal Server Error)} if the producerDTO couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PatchMapping(value = &quot;/producers/{id}&quot;, consumes = &quot;application/merge-patch+json&quot;)
+    public ResponseEntity&lt;ProducerDTO&gt; partialUpdateProducer(
+        @PathVariable(value = &quot;id&quot;, required = false) final Long id,
+        @NotNull @RequestBody ProducerDTO producerDTO
+    ) throws URISyntaxException {
+<span class="nc" id="L130">        log.debug(&quot;REST request to partial update Producer partially : {}, {}&quot;, id, producerDTO);</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        if (producerDTO.getId() == null) {</span>
+<span class="nc" id="L132">            throw new BadRequestAlertException(&quot;Invalid id&quot;, ENTITY_NAME, &quot;idnull&quot;);</span>
+        }
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        if (!Objects.equals(id, producerDTO.getId())) {</span>
+<span class="nc" id="L135">            throw new BadRequestAlertException(&quot;Invalid ID&quot;, ENTITY_NAME, &quot;idinvalid&quot;);</span>
+        }
+
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        if (!producerRepository.existsById(id)) {</span>
+<span class="nc" id="L139">            throw new BadRequestAlertException(&quot;Entity not found&quot;, ENTITY_NAME, &quot;idnotfound&quot;);</span>
+        }
+
+<span class="nc" id="L142">        Optional&lt;ProducerDTO&gt; result = producerService.partialUpdate(producerDTO);</span>
+
+<span class="nc" id="L144">        return ResponseUtil.wrapOrNotFound(</span>
+            result,
+<span class="nc" id="L146">            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, producerDTO.getId().toString())</span>
+        );
+    }
+
+    /**
+     * {@code GET  /producers} : get all the producers.
+     *
+     * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of producers in body.
+     */
+    @GetMapping(&quot;/producers&quot;)
+    public ResponseEntity&lt;List&lt;ProducerDTO&gt;&gt; getAllProducers(ProducerCriteria criteria, Pageable pageable) {
+<span class="nc" id="L159">        log.debug(&quot;REST request to get Producers by criteria: {}&quot;, criteria);</span>
+<span class="nc" id="L160">        Page&lt;ProducerDTO&gt; page = producerQueryService.findByCriteria(criteria, pageable);</span>
+<span class="nc" id="L161">        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);</span>
+<span class="nc" id="L162">        return ResponseEntity.ok().headers(headers).body(page.getContent());</span>
+    }
+
+    /**
+     * {@code GET  /producers/count} : count all the producers.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping(&quot;/producers/count&quot;)
+    public ResponseEntity&lt;Long&gt; countProducers(ProducerCriteria criteria) {
+<span class="nc" id="L173">        log.debug(&quot;REST request to count Producers by criteria: {}&quot;, criteria);</span>
+<span class="nc" id="L174">        return ResponseEntity.ok().body(producerQueryService.countByCriteria(criteria));</span>
+    }
+
+    /**
+     * {@code GET  /producers/:id} : get the &quot;id&quot; producer.
+     *
+     * @param id the id of the producerDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the producerDTO, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping(&quot;/producers/{id}&quot;)
+    public ResponseEntity&lt;ProducerDTO&gt; getProducer(@PathVariable Long id) {
+<span class="nc" id="L185">        log.debug(&quot;REST request to get Producer : {}&quot;, id);</span>
+<span class="nc" id="L186">        Optional&lt;ProducerDTO&gt; producerDTO = producerService.findOne(id);</span>
+<span class="nc" id="L187">        return ResponseUtil.wrapOrNotFound(producerDTO);</span>
+    }
+
+    /**
+     * {@code DELETE  /producers/:id} : delete the &quot;id&quot; producer.
+     *
+     * @param id the id of the producerDTO to delete.
+     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
+     */
+    @DeleteMapping(&quot;/producers/{id}&quot;)
+    public ResponseEntity&lt;Void&gt; deleteProducer(@PathVariable Long id) {
+<span class="nc" id="L198">        log.debug(&quot;REST request to delete Producer : {}&quot;, id);</span>
+<span class="nc" id="L199">        producerService.delete(id);</span>
+<span class="nc" id="L200">        return ResponseEntity</span>
+<span class="nc" id="L201">            .noContent()</span>
+<span class="nc" id="L202">            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))</span>
+<span class="nc" id="L203">            .build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
