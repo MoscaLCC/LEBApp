@@ -42,7 +42,7 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
     final firstNameField = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Your first name',border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
+      decoration: InputDecoration(hintText: 'Your first name',icon: Icon(Icons.people),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       controller: firstNameController,
       validator: (value) {
         if (value.isEmpty) return 'You have to insert a name';
@@ -53,7 +53,7 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
     final lastNameField = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Your last name',border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
+      decoration: InputDecoration(hintText: 'Your last name',icon: Icon(Icons.people),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       controller: lastNameController,
       validator: (value) {
         if (value.isEmpty) return 'You have to insert a name';
@@ -61,17 +61,28 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
       },
     );
 
-    final birthdayField = TextField(
+    final birthdayField = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Your birthday date'),
+      decoration: InputDecoration(hintText: 'Your birthay date',icon: Icon(Icons.calendar_today),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       controller: birthdayController,
+      onTap: () async{
+        DateTime date = DateTime(1900);
+        FocusScope.of(context).requestFocus(new FocusNode());
+
+        date = await showDatePicker(
+            context: context,
+            initialDate:DateTime.now(),
+            firstDate:DateTime(1900),
+            lastDate: DateTime(2100));
+
+        birthdayController.text = date.toIso8601String();},
     );
 
     final emailField = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Your email',border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
+      decoration: InputDecoration(hintText: 'Your email',icon: Icon(Icons.email),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       controller: emailController,
       validator: (value) {
         if (!value.contains('@gmail.com'))
@@ -83,7 +94,7 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
     final phoneNumberField = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Your phone number',border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)), 
+      decoration: InputDecoration(hintText: 'Your phone number',icon: Icon(Icons.phone_android),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
         keyboardType: TextInputType.number,
         controller: phoneNumberController,
       validator: (value) {
@@ -95,7 +106,7 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
     final nifField = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Your NIF',border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
+      decoration: InputDecoration(hintText: 'Your NIF',icon: Icon(Icons.info),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       keyboardType: TextInputType.number,
       controller: nifController,
         validator: (value) {
@@ -107,7 +118,7 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
     final addressField = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Your address',border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
+      decoration: InputDecoration(hintText: 'Your address',icon: Icon(Icons.home),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       controller: addressController,
         validator: (value) {
           if (value.isEmpty) return 'You have to insert a address';
@@ -128,7 +139,7 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
 
           _saveForm(); // validar campos
 
-          print("Link to server to User Register...");
+          //print("Link to server to User Register...");
 
           /*
           User userTeste = new User('aurelio', 'mat9999', 'Matias', 'Belo', 'antonio.fmaio@gmail.com',

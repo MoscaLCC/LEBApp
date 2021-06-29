@@ -29,21 +29,21 @@ class _User_Registry_ScreenCredentState extends State<User_Registry_ScreenCreden
     final userNameField = TextField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Choose Your Username',border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
+      decoration: InputDecoration(hintText: 'Choose Your Username',icon: Icon(Icons.assignment_ind),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       controller: userNameController,
     );
 
     final passwordField = TextField(
       obscureText: true,
       style: style,
-      decoration: InputDecoration(hintText: 'Set Your Password',border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
+      decoration: InputDecoration(hintText: 'Set Your Password',icon: Icon(Icons.vpn_key),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       controller: passwordController,
     );
 
     final confirmPasswordField = TextField(
       obscureText: true,
       style: style,
-      decoration: InputDecoration(hintText: 'Confirm Your Password', border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)), contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
+      decoration: InputDecoration(hintText: 'Confirm Your Password',icon: Icon(Icons.vpn_key),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)), contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       controller: confirmPasswordController,
     );
 
