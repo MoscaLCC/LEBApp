@@ -9,7 +9,6 @@ class RequestTest {
 
     @Test
     void equalsVerifier() throws Exception {
-        TestUtil.equalsVerifier(Request.class);
         Request request1 = new Request();
         request1.setId(1L);
         Request request2 = new Request();

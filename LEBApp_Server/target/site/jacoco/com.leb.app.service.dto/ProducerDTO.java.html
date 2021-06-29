@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProducerDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.service.dto</a> &gt; <span class="el_source">ProducerDTO.java</span></div><h1>ProducerDTO.java</h1><pre class="source lang-java linenums">package com.leb.app.service.dto;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.validation.constraints.*;
+
+/**
+ * A DTO for the {@link com.leb.app.domain.Producer} entity.
+ */
+<span class="fc" id="L10">public class ProducerDTO implements Serializable {</span>
+
+    private Long id;
+
+    private String linkSocial;
+
+    private Integer numberRequests;
+
+    private Double payedValue;
+
+    private Double valueToPay;
+
+    private Double ranking;
+
+    private UserInfoDTO userInfo;
+
+    public Long getId() {
+<span class="fc" id="L27">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="fc" id="L31">        this.id = id;</span>
+<span class="fc" id="L32">    }</span>
+
+    public String getLinkSocial() {
+<span class="fc" id="L35">        return linkSocial;</span>
+    }
+
+    public void setLinkSocial(String linkSocial) {
+<span class="nc" id="L39">        this.linkSocial = linkSocial;</span>
+<span class="nc" id="L40">    }</span>
+
+    public Integer getNumberRequests() {
+<span class="fc" id="L43">        return numberRequests;</span>
+    }
+
+    public void setNumberRequests(Integer numberRequests) {
+<span class="nc" id="L47">        this.numberRequests = numberRequests;</span>
+<span class="nc" id="L48">    }</span>
+
+    public Double getPayedValue() {
+<span class="fc" id="L51">        return payedValue;</span>
+    }
+
+    public void setPayedValue(Double payedValue) {
+<span class="nc" id="L55">        this.payedValue = payedValue;</span>
+<span class="nc" id="L56">    }</span>
+
+    public Double getValueToPay() {
+<span class="fc" id="L59">        return valueToPay;</span>
+    }
+
+    public void setValueToPay(Double valueToPay) {
+<span class="nc" id="L63">        this.valueToPay = valueToPay;</span>
+<span class="nc" id="L64">    }</span>
+
+    public Double getRanking() {
+<span class="fc" id="L67">        return ranking;</span>
+    }
+
+    public void setRanking(Double ranking) {
+<span class="nc" id="L71">        this.ranking = ranking;</span>
+<span class="nc" id="L72">    }</span>
+
+    public UserInfoDTO getUserInfo() {
+<span class="fc" id="L75">        return userInfo;</span>
+    }
+
+    public void setUserInfo(UserInfoDTO userInfo) {
+<span class="nc" id="L79">        this.userInfo = userInfo;</span>
+<span class="nc" id="L80">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L84" title="1 of 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L85">            return true;</span>
+        }
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        if (!(o instanceof ProducerDTO)) {</span>
+<span class="fc" id="L88">            return false;</span>
+        }
+
+<span class="fc" id="L91">        ProducerDTO producerDTO = (ProducerDTO) o;</span>
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        if (this.id == null) {</span>
+<span class="fc" id="L93">            return false;</span>
+        }
+<span class="fc" id="L95">        return Objects.equals(this.id, producerDTO.id);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="fc" id="L100">        return Objects.hash(this.id);</span>
+    }
+
+    // prettier-ignore
+    @Override
+    public String toString() {
+<span class="fc" id="L106">        return &quot;ProducerDTO{&quot; +</span>
+<span class="fc" id="L107">            &quot;id=&quot; + getId() +</span>
+<span class="fc" id="L108">            &quot;, linkSocial='&quot; + getLinkSocial() + &quot;'&quot; +</span>
+<span class="fc" id="L109">            &quot;, numberRequests=&quot; + getNumberRequests() +</span>
+<span class="fc" id="L110">            &quot;, payedValue=&quot; + getPayedValue() +</span>
+<span class="fc" id="L111">            &quot;, valueToPay=&quot; + getValueToPay() +</span>
+<span class="fc" id="L112">            &quot;, ranking=&quot; + getRanking() +</span>
+<span class="fc" id="L113">            &quot;, userInfo=&quot; + getUserInfo() +</span>
+            &quot;}&quot;;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

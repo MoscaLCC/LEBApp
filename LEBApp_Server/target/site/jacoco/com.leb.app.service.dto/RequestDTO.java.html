@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RequestDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.service.dto</a> &gt; <span class="el_source">RequestDTO.java</span></div><h1>RequestDTO.java</h1><pre class="source lang-java linenums">package com.leb.app.service.dto;
+
+import com.leb.app.domain.enumeration.Status;
+import java.io.Serializable;
+import java.time.Instant;
+import java.util.Objects;
+import javax.validation.constraints.*;
+
+/**
+ * A DTO for the {@link com.leb.app.domain.Request} entity.
+ */
+<span class="fc" id="L12">public class RequestDTO implements Serializable {</span>
+
+    private Long id;
+
+    private Double productValue;
+
+    private String productName;
+
+    private String source;
+
+    private String destination;
+
+    private String destinationContact;
+
+    private Instant initDate;
+
+    private Instant expirationDate;
+
+    private String description;
+
+    private String specialCharacteristics;
+
+    private Double productWeight;
+
+    private Status status;
+
+    private Instant estimatedDate;
+
+    private Instant deliveryTime;
+
+    private Double shippingCosts;
+
+    private Double rating;
+
+    private DimensionsDTO dimensions;
+
+    private RidePathDTO ridePath;
+
+    private ProducerDTO producer;
+
+    public Long getId() {
+<span class="fc" id="L53">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="fc" id="L57">        this.id = id;</span>
+<span class="fc" id="L58">    }</span>
+
+    public Double getProductValue() {
+<span class="fc" id="L61">        return productValue;</span>
+    }
+
+    public void setProductValue(Double productValue) {
+<span class="nc" id="L65">        this.productValue = productValue;</span>
+<span class="nc" id="L66">    }</span>
+
+    public String getProductName() {
+<span class="fc" id="L69">        return productName;</span>
+    }
+
+    public void setProductName(String productName) {
+<span class="nc" id="L73">        this.productName = productName;</span>
+<span class="nc" id="L74">    }</span>
+
+    public String getSource() {
+<span class="fc" id="L77">        return source;</span>
+    }
+
+    public void setSource(String source) {
+<span class="nc" id="L81">        this.source = source;</span>
+<span class="nc" id="L82">    }</span>
+
+    public String getDestination() {
+<span class="fc" id="L85">        return destination;</span>
+    }
+
+    public void setDestination(String destination) {
+<span class="nc" id="L89">        this.destination = destination;</span>
+<span class="nc" id="L90">    }</span>
+
+    public String getDestinationContact() {
+<span class="fc" id="L93">        return destinationContact;</span>
+    }
+
+    public void setDestinationContact(String destinationContact) {
+<span class="nc" id="L97">        this.destinationContact = destinationContact;</span>
+<span class="nc" id="L98">    }</span>
+
+    public Instant getInitDate() {
+<span class="fc" id="L101">        return initDate;</span>
+    }
+
+    public void setInitDate(Instant initDate) {
+<span class="nc" id="L105">        this.initDate = initDate;</span>
+<span class="nc" id="L106">    }</span>
+
+    public Instant getExpirationDate() {
+<span class="fc" id="L109">        return expirationDate;</span>
+    }
+
+    public void setExpirationDate(Instant expirationDate) {
+<span class="nc" id="L113">        this.expirationDate = expirationDate;</span>
+<span class="nc" id="L114">    }</span>
+
+    public String getDescription() {
+<span class="fc" id="L117">        return description;</span>
+    }
+
+    public void setDescription(String description) {
+<span class="nc" id="L121">        this.description = description;</span>
+<span class="nc" id="L122">    }</span>
+
+    public String getSpecialCharacteristics() {
+<span class="fc" id="L125">        return specialCharacteristics;</span>
+    }
+
+    public void setSpecialCharacteristics(String specialCharacteristics) {
+<span class="nc" id="L129">        this.specialCharacteristics = specialCharacteristics;</span>
+<span class="nc" id="L130">    }</span>
+
+    public Double getProductWeight() {
+<span class="fc" id="L133">        return productWeight;</span>
+    }
+
+    public void setProductWeight(Double productWeight) {
+<span class="nc" id="L137">        this.productWeight = productWeight;</span>
+<span class="nc" id="L138">    }</span>
+
+    public Status getStatus() {
+<span class="fc" id="L141">        return status;</span>
+    }
+
+    public void setStatus(Status status) {
+<span class="nc" id="L145">        this.status = status;</span>
+<span class="nc" id="L146">    }</span>
+
+    public Instant getEstimatedDate() {
+<span class="fc" id="L149">        return estimatedDate;</span>
+    }
+
+    public void setEstimatedDate(Instant estimatedDate) {
+<span class="nc" id="L153">        this.estimatedDate = estimatedDate;</span>
+<span class="nc" id="L154">    }</span>
+
+    public Instant getDeliveryTime() {
+<span class="fc" id="L157">        return deliveryTime;</span>
+    }
+
+    public void setDeliveryTime(Instant deliveryTime) {
+<span class="nc" id="L161">        this.deliveryTime = deliveryTime;</span>
+<span class="nc" id="L162">    }</span>
+
+    public Double getShippingCosts() {
+<span class="fc" id="L165">        return shippingCosts;</span>
+    }
+
+    public void setShippingCosts(Double shippingCosts) {
+<span class="nc" id="L169">        this.shippingCosts = shippingCosts;</span>
+<span class="nc" id="L170">    }</span>
+
+    public Double getRating() {
+<span class="fc" id="L173">        return rating;</span>
+    }
+
+    public void setRating(Double rating) {
+<span class="nc" id="L177">        this.rating = rating;</span>
+<span class="nc" id="L178">    }</span>
+
+    public DimensionsDTO getDimensions() {
+<span class="fc" id="L181">        return dimensions;</span>
+    }
+
+    public void setDimensions(DimensionsDTO dimensions) {
+<span class="nc" id="L185">        this.dimensions = dimensions;</span>
+<span class="nc" id="L186">    }</span>
+
+    public RidePathDTO getRidePath() {
+<span class="fc" id="L189">        return ridePath;</span>
+    }
+
+    public void setRidePath(RidePathDTO ridePath) {
+<span class="nc" id="L193">        this.ridePath = ridePath;</span>
+<span class="nc" id="L194">    }</span>
+
+    public ProducerDTO getProducer() {
+<span class="fc" id="L197">        return producer;</span>
+    }
+
+    public void setProducer(ProducerDTO producer) {
+<span class="nc" id="L201">        this.producer = producer;</span>
+<span class="nc" id="L202">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L206" title="1 of 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L207">            return true;</span>
+        }
+<span class="fc bfc" id="L209" title="All 2 branches covered.">        if (!(o instanceof RequestDTO)) {</span>
+<span class="fc" id="L210">            return false;</span>
+        }
+
+<span class="fc" id="L213">        RequestDTO requestDTO = (RequestDTO) o;</span>
+<span class="fc bfc" id="L214" title="All 2 branches covered.">        if (this.id == null) {</span>
+<span class="fc" id="L215">            return false;</span>
+        }
+<span class="fc" id="L217">        return Objects.equals(this.id, requestDTO.id);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="fc" id="L222">        return Objects.hash(this.id);</span>
+    }
+
+    // prettier-ignore
+    @Override
+    public String toString() {
+<span class="fc" id="L228">        return &quot;RequestDTO{&quot; +</span>
+<span class="fc" id="L229">            &quot;id=&quot; + getId() +</span>
+<span class="fc" id="L230">            &quot;, productValue=&quot; + getProductValue() +</span>
+<span class="fc" id="L231">            &quot;, productName='&quot; + getProductName() + &quot;'&quot; +</span>
+<span class="fc" id="L232">            &quot;, source='&quot; + getSource() + &quot;'&quot; +</span>
+<span class="fc" id="L233">            &quot;, destination='&quot; + getDestination() + &quot;'&quot; +</span>
+<span class="fc" id="L234">            &quot;, destinationContact='&quot; + getDestinationContact() + &quot;'&quot; +</span>
+<span class="fc" id="L235">            &quot;, initDate='&quot; + getInitDate() + &quot;'&quot; +</span>
+<span class="fc" id="L236">            &quot;, expirationDate='&quot; + getExpirationDate() + &quot;'&quot; +</span>
+<span class="fc" id="L237">            &quot;, description='&quot; + getDescription() + &quot;'&quot; +</span>
+<span class="fc" id="L238">            &quot;, specialCharacteristics='&quot; + getSpecialCharacteristics() + &quot;'&quot; +</span>
+<span class="fc" id="L239">            &quot;, productWeight=&quot; + getProductWeight() +</span>
+<span class="fc" id="L240">            &quot;, status='&quot; + getStatus() + &quot;'&quot; +</span>
+<span class="fc" id="L241">            &quot;, estimatedDate='&quot; + getEstimatedDate() + &quot;'&quot; +</span>
+<span class="fc" id="L242">            &quot;, deliveryTime='&quot; + getDeliveryTime() + &quot;'&quot; +</span>
+<span class="fc" id="L243">            &quot;, shippingCosts=&quot; + getShippingCosts() +</span>
+<span class="fc" id="L244">            &quot;, rating=&quot; + getRating() +</span>
+<span class="fc" id="L245">            &quot;, dimensions=&quot; + getDimensions() +</span>
+<span class="fc" id="L246">            &quot;, ridePath=&quot; + getRidePath() +</span>
+<span class="fc" id="L247">            &quot;, producer=&quot; + getProducer() +</span>
+            &quot;}&quot;;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

@@ -25,5 +25,36 @@
                                  constraintName="fk_request__producer_id"
                                  referencedColumnNames="id"
                                  referencedTableName="producer"/>
+
+        <addForeignKeyConstraint baseColumnNames="collector_id" 
+                                 baseTableName="request" 
+                                 constraintName="fk_request__collector_id" 
+                                 referencedColumnNames="id" 
+                                 referencedTableName="delivery_man"/>
+
+       <addForeignKeyConstraint baseColumnNames="original_point_id"
+                                baseTableName="request" 
+                                constraintName="fk_request__original_point_id"
+                                referencedColumnNames="id" 
+                                referencedTableName="point"/>
+
+        <addForeignKeyConstraint baseColumnNames="destination_point_id" 
+                                 baseTableName="request" 
+                                 constraintName="fk_request__destination_point_id" 
+                                 referencedColumnNames="id" 
+                                 referencedTableName="point"/>
+
+        <addForeignKeyConstraint baseColumnNames="transporter_id" 
+                                 baseTableName="request" 
+                                 constraintName="fk_request__transporter_id"
+                                 referencedColumnNames="id" 
+                                 referencedTableName="transporter"/>
+
+        <addForeignKeyConstraint baseColumnNames="destributor_id" 
+                                 baseTableName="request" 
+                                 constraintName="fk_request__destributor_id" 
+                                 referencedColumnNames="id" 
+                                 referencedTableName="delivery_man"/>
+
     </changeSet>
 </databaseChangeLog>

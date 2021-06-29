@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DeliveryManDTO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.service.dto</a> &gt; <span class="el_source">DeliveryManDTO.java</span></div><h1>DeliveryManDTO.java</h1><pre class="source lang-java linenums">package com.leb.app.service.dto;
+
+import java.io.Serializable;
+import java.util.Objects;
+import javax.validation.constraints.*;
+
+/**
+ * A DTO for the {@link com.leb.app.domain.DeliveryMan} entity.
+ */
+<span class="fc" id="L10">public class DeliveryManDTO implements Serializable {</span>
+
+    private Long id;
+
+    private String openingTime;
+
+    private Integer numberOfDeliveries;
+
+    private Double numberOfKm;
+
+    private Double receivedValue;
+
+    private Double valueToReceive;
+
+    private Double ranking;
+
+    private UserInfoDTO userInfo;
+
+    private PointDTO point;
+
+    public Long getId() {
+<span class="fc" id="L31">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="fc" id="L35">        this.id = id;</span>
+<span class="fc" id="L36">    }</span>
+
+    public String getOpeningTime() {
+<span class="fc" id="L39">        return openingTime;</span>
+    }
+
+    public void setOpeningTime(String openingTime) {
+<span class="nc" id="L43">        this.openingTime = openingTime;</span>
+<span class="nc" id="L44">    }</span>
+
+    public Integer getNumberOfDeliveries() {
+<span class="fc" id="L47">        return numberOfDeliveries;</span>
+    }
+
+    public void setNumberOfDeliveries(Integer numberOfDeliveries) {
+<span class="nc" id="L51">        this.numberOfDeliveries = numberOfDeliveries;</span>
+<span class="nc" id="L52">    }</span>
+
+    public Double getNumberOfKm() {
+<span class="fc" id="L55">        return numberOfKm;</span>
+    }
+
+    public void setNumberOfKm(Double numberOfKm) {
+<span class="nc" id="L59">        this.numberOfKm = numberOfKm;</span>
+<span class="nc" id="L60">    }</span>
+
+    public Double getReceivedValue() {
+<span class="fc" id="L63">        return receivedValue;</span>
+    }
+
+    public void setReceivedValue(Double receivedValue) {
+<span class="nc" id="L67">        this.receivedValue = receivedValue;</span>
+<span class="nc" id="L68">    }</span>
+
+    public Double getValueToReceive() {
+<span class="fc" id="L71">        return valueToReceive;</span>
+    }
+
+    public void setValueToReceive(Double valueToReceive) {
+<span class="nc" id="L75">        this.valueToReceive = valueToReceive;</span>
+<span class="nc" id="L76">    }</span>
+
+    public Double getRanking() {
+<span class="fc" id="L79">        return ranking;</span>
+    }
+
+    public void setRanking(Double ranking) {
+<span class="nc" id="L83">        this.ranking = ranking;</span>
+<span class="nc" id="L84">    }</span>
+
+    public UserInfoDTO getUserInfo() {
+<span class="fc" id="L87">        return userInfo;</span>
+    }
+
+    public void setUserInfo(UserInfoDTO userInfo) {
+<span class="nc" id="L91">        this.userInfo = userInfo;</span>
+<span class="nc" id="L92">    }</span>
+
+    public PointDTO getPoint() {
+<span class="fc" id="L95">        return point;</span>
+    }
+
+    public void setPoint(PointDTO point) {
+<span class="nc" id="L99">        this.point = point;</span>
+<span class="nc" id="L100">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="pc bpc" id="L104" title="1 of 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L105">            return true;</span>
+        }
+<span class="fc bfc" id="L107" title="All 2 branches covered.">        if (!(o instanceof DeliveryManDTO)) {</span>
+<span class="fc" id="L108">            return false;</span>
+        }
+
+<span class="fc" id="L111">        DeliveryManDTO deliveryManDTO = (DeliveryManDTO) o;</span>
+<span class="fc bfc" id="L112" title="All 2 branches covered.">        if (this.id == null) {</span>
+<span class="fc" id="L113">            return false;</span>
+        }
+<span class="fc" id="L115">        return Objects.equals(this.id, deliveryManDTO.id);</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="fc" id="L120">        return Objects.hash(this.id);</span>
+    }
+
+    // prettier-ignore
+    @Override
+    public String toString() {
+<span class="fc" id="L126">        return &quot;DeliveryManDTO{&quot; +</span>
+<span class="fc" id="L127">            &quot;id=&quot; + getId() +</span>
+<span class="fc" id="L128">            &quot;, openingTime='&quot; + getOpeningTime() + &quot;'&quot; +</span>
+<span class="fc" id="L129">            &quot;, numberOfDeliveries=&quot; + getNumberOfDeliveries() +</span>
+<span class="fc" id="L130">            &quot;, numberOfKm=&quot; + getNumberOfKm() +</span>
+<span class="fc" id="L131">            &quot;, receivedValue=&quot; + getReceivedValue() +</span>
+<span class="fc" id="L132">            &quot;, valueToReceive=&quot; + getValueToReceive() +</span>
+<span class="fc" id="L133">            &quot;, ranking=&quot; + getRanking() +</span>
+<span class="fc" id="L134">            &quot;, userInfo=&quot; + getUserInfo() +</span>
+<span class="fc" id="L135">            &quot;, point=&quot; + getPoint() +</span>
+            &quot;}&quot;;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

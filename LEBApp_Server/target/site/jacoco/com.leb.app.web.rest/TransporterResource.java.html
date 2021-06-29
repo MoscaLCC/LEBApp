@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TransporterResource.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.web.rest</a> &gt; <span class="el_source">TransporterResource.java</span></div><h1>TransporterResource.java</h1><pre class="source lang-java linenums">package com.leb.app.web.rest;
+
+import com.leb.app.repository.TransporterRepository;
+import com.leb.app.service.TransporterQueryService;
+import com.leb.app.service.TransporterService;
+import com.leb.app.service.criteria.TransporterCriteria;
+import com.leb.app.service.dto.TransporterDTO;
+import com.leb.app.web.rest.errors.BadRequestAlertException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import tech.jhipster.web.util.HeaderUtil;
+import tech.jhipster.web.util.PaginationUtil;
+import tech.jhipster.web.util.ResponseUtil;
+
+/**
+ * REST controller for managing {@link com.leb.app.domain.Transporter}.
+ */
+@RestController
+@RequestMapping(&quot;/api&quot;)
+public class TransporterResource {
+
+<span class="nc" id="L37">    private final Logger log = LoggerFactory.getLogger(TransporterResource.class);</span>
+
+    private static final String ENTITY_NAME = &quot;transporter&quot;;
+
+    @Value(&quot;${jhipster.clientApp.name}&quot;)
+    private String applicationName;
+
+    private final TransporterService transporterService;
+
+    private final TransporterRepository transporterRepository;
+
+    private final TransporterQueryService transporterQueryService;
+
+    public TransporterResource(
+        TransporterService transporterService,
+        TransporterRepository transporterRepository,
+        TransporterQueryService transporterQueryService
+<span class="nc" id="L54">    ) {</span>
+<span class="nc" id="L55">        this.transporterService = transporterService;</span>
+<span class="nc" id="L56">        this.transporterRepository = transporterRepository;</span>
+<span class="nc" id="L57">        this.transporterQueryService = transporterQueryService;</span>
+<span class="nc" id="L58">    }</span>
+
+    /**
+     * {@code POST  /transporters} : Create a new transporter.
+     *
+     * @param transporterDTO the transporterDTO to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new transporterDTO, or with status {@code 400 (Bad Request)} if the transporter has already an ID.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PostMapping(&quot;/transporters&quot;)
+    public ResponseEntity&lt;TransporterDTO&gt; createTransporter(@Valid @RequestBody TransporterDTO transporterDTO) throws URISyntaxException {
+<span class="nc" id="L69">        log.debug(&quot;REST request to save Transporter : {}&quot;, transporterDTO);</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (transporterDTO.getId() != null) {</span>
+<span class="nc" id="L71">            throw new BadRequestAlertException(&quot;A new transporter cannot already have an ID&quot;, ENTITY_NAME, &quot;idexists&quot;);</span>
+        }
+<span class="nc" id="L73">        TransporterDTO result = transporterService.save(transporterDTO);</span>
+<span class="nc" id="L74">        return ResponseEntity</span>
+<span class="nc" id="L75">            .created(new URI(&quot;/api/transporters/&quot; + result.getId()))</span>
+<span class="nc" id="L76">            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))</span>
+<span class="nc" id="L77">            .body(result);</span>
+    }
+
+    /**
+     * {@code PUT  /transporters/:id} : Updates an existing transporter.
+     *
+     * @param id the id of the transporterDTO to save.
+     * @param transporterDTO the transporterDTO to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated transporterDTO,
+     * or with status {@code 400 (Bad Request)} if the transporterDTO is not valid,
+     * or with status {@code 500 (Internal Server Error)} if the transporterDTO couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PutMapping(&quot;/transporters/{id}&quot;)
+    public ResponseEntity&lt;TransporterDTO&gt; updateTransporter(
+        @PathVariable(value = &quot;id&quot;, required = false) final Long id,
+        @Valid @RequestBody TransporterDTO transporterDTO
+    ) throws URISyntaxException {
+<span class="nc" id="L95">        log.debug(&quot;REST request to update Transporter : {}, {}&quot;, id, transporterDTO);</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if (transporterDTO.getId() == null) {</span>
+<span class="nc" id="L97">            throw new BadRequestAlertException(&quot;Invalid id&quot;, ENTITY_NAME, &quot;idnull&quot;);</span>
+        }
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        if (!Objects.equals(id, transporterDTO.getId())) {</span>
+<span class="nc" id="L100">            throw new BadRequestAlertException(&quot;Invalid ID&quot;, ENTITY_NAME, &quot;idinvalid&quot;);</span>
+        }
+
+<span class="nc bnc" id="L103" title="All 2 branches missed.">        if (!transporterRepository.existsById(id)) {</span>
+<span class="nc" id="L104">            throw new BadRequestAlertException(&quot;Entity not found&quot;, ENTITY_NAME, &quot;idnotfound&quot;);</span>
+        }
+
+<span class="nc" id="L107">        TransporterDTO result = transporterService.save(transporterDTO);</span>
+<span class="nc" id="L108">        return ResponseEntity</span>
+<span class="nc" id="L109">            .ok()</span>
+<span class="nc" id="L110">            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, transporterDTO.getId().toString()))</span>
+<span class="nc" id="L111">            .body(result);</span>
+    }
+
+    /**
+     * {@code PATCH  /transporters/:id} : Partial updates given fields of an existing transporter, field will ignore if it is null
+     *
+     * @param id the id of the transporterDTO to save.
+     * @param transporterDTO the transporterDTO to update.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated transporterDTO,
+     * or with status {@code 400 (Bad Request)} if the transporterDTO is not valid,
+     * or with status {@code 404 (Not Found)} if the transporterDTO is not found,
+     * or with status {@code 500 (Internal Server Error)} if the transporterDTO couldn't be updated.
+     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     */
+    @PatchMapping(value = &quot;/transporters/{id}&quot;, consumes = &quot;application/merge-patch+json&quot;)
+    public ResponseEntity&lt;TransporterDTO&gt; partialUpdateTransporter(
+        @PathVariable(value = &quot;id&quot;, required = false) final Long id,
+        @NotNull @RequestBody TransporterDTO transporterDTO
+    ) throws URISyntaxException {
+<span class="nc" id="L130">        log.debug(&quot;REST request to partial update Transporter partially : {}, {}&quot;, id, transporterDTO);</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        if (transporterDTO.getId() == null) {</span>
+<span class="nc" id="L132">            throw new BadRequestAlertException(&quot;Invalid id&quot;, ENTITY_NAME, &quot;idnull&quot;);</span>
+        }
+<span class="nc bnc" id="L134" title="All 2 branches missed.">        if (!Objects.equals(id, transporterDTO.getId())) {</span>
+<span class="nc" id="L135">            throw new BadRequestAlertException(&quot;Invalid ID&quot;, ENTITY_NAME, &quot;idinvalid&quot;);</span>
+        }
+
+<span class="nc bnc" id="L138" title="All 2 branches missed.">        if (!transporterRepository.existsById(id)) {</span>
+<span class="nc" id="L139">            throw new BadRequestAlertException(&quot;Entity not found&quot;, ENTITY_NAME, &quot;idnotfound&quot;);</span>
+        }
+
+<span class="nc" id="L142">        Optional&lt;TransporterDTO&gt; result = transporterService.partialUpdate(transporterDTO);</span>
+
+<span class="nc" id="L144">        return ResponseUtil.wrapOrNotFound(</span>
+            result,
+<span class="nc" id="L146">            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, transporterDTO.getId().toString())</span>
+        );
+    }
+
+    /**
+     * {@code GET  /transporters} : get all the transporters.
+     *
+     * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of transporters in body.
+     */
+    @GetMapping(&quot;/transporters&quot;)
+    public ResponseEntity&lt;List&lt;TransporterDTO&gt;&gt; getAllTransporters(TransporterCriteria criteria, Pageable pageable) {
+<span class="nc" id="L159">        log.debug(&quot;REST request to get Transporters by criteria: {}&quot;, criteria);</span>
+<span class="nc" id="L160">        Page&lt;TransporterDTO&gt; page = transporterQueryService.findByCriteria(criteria, pageable);</span>
+<span class="nc" id="L161">        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);</span>
+<span class="nc" id="L162">        return ResponseEntity.ok().headers(headers).body(page.getContent());</span>
+    }
+
+    /**
+     * {@code GET  /transporters/count} : count all the transporters.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping(&quot;/transporters/count&quot;)
+    public ResponseEntity&lt;Long&gt; countTransporters(TransporterCriteria criteria) {
+<span class="nc" id="L173">        log.debug(&quot;REST request to count Transporters by criteria: {}&quot;, criteria);</span>
+<span class="nc" id="L174">        return ResponseEntity.ok().body(transporterQueryService.countByCriteria(criteria));</span>
+    }
+
+    /**
+     * {@code GET  /transporters/:id} : get the &quot;id&quot; transporter.
+     *
+     * @param id the id of the transporterDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the transporterDTO, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping(&quot;/transporters/{id}&quot;)
+    public ResponseEntity&lt;TransporterDTO&gt; getTransporter(@PathVariable Long id) {
+<span class="nc" id="L185">        log.debug(&quot;REST request to get Transporter : {}&quot;, id);</span>
+<span class="nc" id="L186">        Optional&lt;TransporterDTO&gt; transporterDTO = transporterService.findOne(id);</span>
+<span class="nc" id="L187">        return ResponseUtil.wrapOrNotFound(transporterDTO);</span>
+    }
+
+    /**
+     * {@code DELETE  /transporters/:id} : delete the &quot;id&quot; transporter.
+     *
+     * @param id the id of the transporterDTO to delete.
+     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
+     */
+    @DeleteMapping(&quot;/transporters/{id}&quot;)
+    public ResponseEntity&lt;Void&gt; deleteTransporter(@PathVariable Long id) {
+<span class="nc" id="L198">        log.debug(&quot;REST request to delete Transporter : {}&quot;, id);</span>
+<span class="nc" id="L199">        transporterService.delete(id);</span>
+<span class="nc" id="L200">        return ResponseEntity</span>
+<span class="nc" id="L201">            .noContent()</span>
+<span class="nc" id="L202">            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))</span>
+<span class="nc" id="L203">            .build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

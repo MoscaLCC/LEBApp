@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProducerCriteria.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">LEB App Server</a> &gt; <a href="index.source.html" class="el_package">com.leb.app.service.criteria</a> &gt; <span class="el_source">ProducerCriteria.java</span></div><h1>ProducerCriteria.java</h1><pre class="source lang-java linenums">package com.leb.app.service.criteria;
+
+import java.io.Serializable;
+import java.util.Objects;
+import tech.jhipster.service.Criteria;
+import tech.jhipster.service.filter.BooleanFilter;
+import tech.jhipster.service.filter.DoubleFilter;
+import tech.jhipster.service.filter.Filter;
+import tech.jhipster.service.filter.FloatFilter;
+import tech.jhipster.service.filter.IntegerFilter;
+import tech.jhipster.service.filter.LongFilter;
+import tech.jhipster.service.filter.StringFilter;
+
+/**
+ * Criteria class for the {@link com.leb.app.domain.Producer} entity. This class is used
+ * in {@link com.leb.app.web.rest.ProducerResource} to receive all the possible filtering options from
+ * the Http GET request parameters.
+ * For example the following could be a valid request:
+ * {@code /producers?id.greaterThan=5&amp;attr1.contains=something&amp;attr2.specified=false}
+ * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
+ * fix type specific filters.
+ */
+public class ProducerCriteria implements Serializable, Criteria {
+
+    private static final long serialVersionUID = 1L;
+
+    private LongFilter id;
+
+    private StringFilter linkSocial;
+
+    private IntegerFilter numberRequests;
+
+    private DoubleFilter payedValue;
+
+    private DoubleFilter valueToPay;
+
+    private DoubleFilter ranking;
+
+    private LongFilter userInfoId;
+
+    private LongFilter requestId;
+
+<span class="nc" id="L43">    public ProducerCriteria() {}</span>
+
+<span class="nc" id="L45">    public ProducerCriteria(ProducerCriteria other) {</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        this.id = other.id == null ? null : other.id.copy();</span>
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        this.linkSocial = other.linkSocial == null ? null : other.linkSocial.copy();</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">        this.numberRequests = other.numberRequests == null ? null : other.numberRequests.copy();</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        this.payedValue = other.payedValue == null ? null : other.payedValue.copy();</span>
+<span class="nc bnc" id="L50" title="All 2 branches missed.">        this.valueToPay = other.valueToPay == null ? null : other.valueToPay.copy();</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        this.ranking = other.ranking == null ? null : other.ranking.copy();</span>
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        this.userInfoId = other.userInfoId == null ? null : other.userInfoId.copy();</span>
+<span class="nc bnc" id="L53" title="All 2 branches missed.">        this.requestId = other.requestId == null ? null : other.requestId.copy();</span>
+<span class="nc" id="L54">    }</span>
+
+    @Override
+    public ProducerCriteria copy() {
+<span class="nc" id="L58">        return new ProducerCriteria(this);</span>
+    }
+
+    public LongFilter getId() {
+<span class="nc" id="L62">        return id;</span>
+    }
+
+    public LongFilter id() {
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (id == null) {</span>
+<span class="nc" id="L67">            id = new LongFilter();</span>
+        }
+<span class="nc" id="L69">        return id;</span>
+    }
+
+    public void setId(LongFilter id) {
+<span class="nc" id="L73">        this.id = id;</span>
+<span class="nc" id="L74">    }</span>
+
+    public StringFilter getLinkSocial() {
+<span class="nc" id="L77">        return linkSocial;</span>
+    }
+
+    public StringFilter linkSocial() {
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if (linkSocial == null) {</span>
+<span class="nc" id="L82">            linkSocial = new StringFilter();</span>
+        }
+<span class="nc" id="L84">        return linkSocial;</span>
+    }
+
+    public void setLinkSocial(StringFilter linkSocial) {
+<span class="nc" id="L88">        this.linkSocial = linkSocial;</span>
+<span class="nc" id="L89">    }</span>
+
+    public IntegerFilter getNumberRequests() {
+<span class="nc" id="L92">        return numberRequests;</span>
+    }
+
+    public IntegerFilter numberRequests() {
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if (numberRequests == null) {</span>
+<span class="nc" id="L97">            numberRequests = new IntegerFilter();</span>
+        }
+<span class="nc" id="L99">        return numberRequests;</span>
+    }
+
+    public void setNumberRequests(IntegerFilter numberRequests) {
+<span class="nc" id="L103">        this.numberRequests = numberRequests;</span>
+<span class="nc" id="L104">    }</span>
+
+    public DoubleFilter getPayedValue() {
+<span class="nc" id="L107">        return payedValue;</span>
+    }
+
+    public DoubleFilter payedValue() {
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (payedValue == null) {</span>
+<span class="nc" id="L112">            payedValue = new DoubleFilter();</span>
+        }
+<span class="nc" id="L114">        return payedValue;</span>
+    }
+
+    public void setPayedValue(DoubleFilter payedValue) {
+<span class="nc" id="L118">        this.payedValue = payedValue;</span>
+<span class="nc" id="L119">    }</span>
+
+    public DoubleFilter getValueToPay() {
+<span class="nc" id="L122">        return valueToPay;</span>
+    }
+
+    public DoubleFilter valueToPay() {
+<span class="nc bnc" id="L126" title="All 2 branches missed.">        if (valueToPay == null) {</span>
+<span class="nc" id="L127">            valueToPay = new DoubleFilter();</span>
+        }
+<span class="nc" id="L129">        return valueToPay;</span>
+    }
+
+    public void setValueToPay(DoubleFilter valueToPay) {
+<span class="nc" id="L133">        this.valueToPay = valueToPay;</span>
+<span class="nc" id="L134">    }</span>
+
+    public DoubleFilter getRanking() {
+<span class="nc" id="L137">        return ranking;</span>
+    }
+
+    public DoubleFilter ranking() {
+<span class="nc bnc" id="L141" title="All 2 branches missed.">        if (ranking == null) {</span>
+<span class="nc" id="L142">            ranking = new DoubleFilter();</span>
+        }
+<span class="nc" id="L144">        return ranking;</span>
+    }
+
+    public void setRanking(DoubleFilter ranking) {
+<span class="nc" id="L148">        this.ranking = ranking;</span>
+<span class="nc" id="L149">    }</span>
+
+    public LongFilter getUserInfoId() {
+<span class="nc" id="L152">        return userInfoId;</span>
+    }
+
+    public LongFilter userInfoId() {
+<span class="nc bnc" id="L156" title="All 2 branches missed.">        if (userInfoId == null) {</span>
+<span class="nc" id="L157">            userInfoId = new LongFilter();</span>
+        }
+<span class="nc" id="L159">        return userInfoId;</span>
+    }
+
+    public void setUserInfoId(LongFilter userInfoId) {
+<span class="nc" id="L163">        this.userInfoId = userInfoId;</span>
+<span class="nc" id="L164">    }</span>
+
+    public LongFilter getRequestId() {
+<span class="nc" id="L167">        return requestId;</span>
+    }
+
+    public LongFilter requestId() {
+<span class="nc bnc" id="L171" title="All 2 branches missed.">        if (requestId == null) {</span>
+<span class="nc" id="L172">            requestId = new LongFilter();</span>
+        }
+<span class="nc" id="L174">        return requestId;</span>
+    }
+
+    public void setRequestId(LongFilter requestId) {
+<span class="nc" id="L178">        this.requestId = requestId;</span>
+<span class="nc" id="L179">    }</span>
+
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L183" title="All 2 branches missed.">        if (this == o) {</span>
+<span class="nc" id="L184">            return true;</span>
+        }
+<span class="nc bnc" id="L186" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) {</span>
+<span class="nc" id="L187">            return false;</span>
+        }
+<span class="nc" id="L189">        final ProducerCriteria that = (ProducerCriteria) o;</span>
+<span class="nc" id="L190">        return (</span>
+<span class="nc bnc" id="L191" title="All 2 branches missed.">            Objects.equals(id, that.id) &amp;&amp;</span>
+<span class="nc bnc" id="L192" title="All 2 branches missed.">            Objects.equals(linkSocial, that.linkSocial) &amp;&amp;</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">            Objects.equals(numberRequests, that.numberRequests) &amp;&amp;</span>
+<span class="nc bnc" id="L194" title="All 2 branches missed.">            Objects.equals(payedValue, that.payedValue) &amp;&amp;</span>
+<span class="nc bnc" id="L195" title="All 2 branches missed.">            Objects.equals(valueToPay, that.valueToPay) &amp;&amp;</span>
+<span class="nc bnc" id="L196" title="All 2 branches missed.">            Objects.equals(ranking, that.ranking) &amp;&amp;</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">            Objects.equals(userInfoId, that.userInfoId) &amp;&amp;</span>
+<span class="nc bnc" id="L198" title="All 2 branches missed.">            Objects.equals(requestId, that.requestId)</span>
+        );
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L204">        return Objects.hash(id, linkSocial, numberRequests, payedValue, valueToPay, ranking, userInfoId, requestId);</span>
+    }
+
+    // prettier-ignore
+    @Override
+    public String toString() {
+<span class="nc" id="L210">        return &quot;ProducerCriteria{&quot; +</span>
+<span class="nc bnc" id="L211" title="All 2 branches missed.">            (id != null ? &quot;id=&quot; + id + &quot;, &quot; : &quot;&quot;) +</span>
+<span class="nc bnc" id="L212" title="All 2 branches missed.">            (linkSocial != null ? &quot;linkSocial=&quot; + linkSocial + &quot;, &quot; : &quot;&quot;) +</span>
+<span class="nc bnc" id="L213" title="All 2 branches missed.">            (numberRequests != null ? &quot;numberRequests=&quot; + numberRequests + &quot;, &quot; : &quot;&quot;) +</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">            (payedValue != null ? &quot;payedValue=&quot; + payedValue + &quot;, &quot; : &quot;&quot;) +</span>
+<span class="nc bnc" id="L215" title="All 2 branches missed.">            (valueToPay != null ? &quot;valueToPay=&quot; + valueToPay + &quot;, &quot; : &quot;&quot;) +</span>
+<span class="nc bnc" id="L216" title="All 2 branches missed.">            (ranking != null ? &quot;ranking=&quot; + ranking + &quot;, &quot; : &quot;&quot;) +</span>
+<span class="nc bnc" id="L217" title="All 2 branches missed.">            (userInfoId != null ? &quot;userInfoId=&quot; + userInfoId + &quot;, &quot; : &quot;&quot;) +</span>
+<span class="nc bnc" id="L218" title="All 2 branches missed.">            (requestId != null ? &quot;requestId=&quot; + requestId + &quot;, &quot; : &quot;&quot;) +</span>
+            &quot;}&quot;;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
