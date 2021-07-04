@@ -1,15 +1,10 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:lebapp_ui/models/User.dart';
+import 'package:lebapp_ui/models/LoginDTO.dart';
 import 'package:lebapp_ui/screens/user_main_area.dart';
 import 'package:lebapp_ui/screens/user_registry_screen.dart';
 import '../main.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:io';
-
 
 class User_Reg_Screen extends StatefulWidget {
   @override
@@ -75,7 +70,7 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
 
             print("Link to server to Login ...");
 
-            var  url = Uri.parse('http://192.168.1.110:8080/api/authenticate');
+            var  url = Uri.parse('http://192.168.1.110:8080/api/interface/authenticate');
             var body = json.encode({"username": controllerEmailTextField.text, "password": controllerPasswordTextField.text, "rememberMe": "false"});
 
             Map<String,String> headers = {
@@ -84,15 +79,26 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
             };
 
             final response = await http.post(url, body: body, headers: headers);
-            final responseJson = json.decode(response.body);
-            print(responseJson);
-            //return response;
+            var jsonResponse = json.decode(response.body);
 
-            Navigator.push(
+            LoginDTO loginDTO = new LoginDTO.fromJson(jsonResponse);
+
+            print("Response:");
+            print(loginDTO);
+
+            print(loginDTO.token);
+            print(loginDTO.firstName);
+            print(loginDTO.lastName);
+            print(loginDTO.profiles);
+
+            teste(loginDTO.profiles);
+
+
+            /*Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => User_Main_Area(controllerEmailTextField.text)));
-
+                    builder: (context) => User_Main_Area(loginDTO.firstName)));
+*/
           }else{
             print("validator fail: fill user and pass");
           }
@@ -182,5 +188,39 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
         ),
       ),
     );
+  }
+
+  teste(List<dynamic> profileList){
+
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Your Profiles:'),
+              content: Container(
+                width: double.minPositive,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: profileList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      title: Text(profileList[index]),
+                      onTap: () {
+                        Navigator.pop(context, profileList[index]);
+                      },
+                    );
+                  },
+                ),
+              ),
+            actions: <Widget>[
+              new FlatButton(
+                child: new Text('Submit'),
+                onPressed: ()  {
+                  Navigator.of(context).pop();
+                },
+              )
+            ],
+          );
+        });
   }
 }

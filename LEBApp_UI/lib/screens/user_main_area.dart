@@ -5,6 +5,7 @@ import '../main.dart';
 
 // ignore: camel_case_types
 class User_Main_Area extends StatefulWidget {
+
   String s;
   User_Main_Area(this.s);
 
@@ -13,7 +14,9 @@ class User_Main_Area extends StatefulWidget {
 }
 
 class _User_Main_AreaState extends State<User_Main_Area> {
+
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+
   String s;
   _User_Main_AreaState(this.s);
 
