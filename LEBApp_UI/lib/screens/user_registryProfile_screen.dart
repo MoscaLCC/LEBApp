@@ -3,13 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:lebapp_ui/models/User.dart';
-import 'package:lebapp_ui/screens/user_registryProfile_DeliveryMan.dart';
-import 'package:lebapp_ui/screens/user_registryProfile_Point.dart';
-import 'package:lebapp_ui/screens/user_registryProfile_Producer.dart';
-import 'package:lebapp_ui/screens/user_registryProfile_Transporter.dart';
 import 'package:lebapp_ui/screens/user_registry_screenCredent.dart';
 import 'package:lebapp_ui/models/User.dart';
 import '../main.dart';
@@ -30,7 +25,7 @@ class _User_RegistryProfile_ScreenState extends State<User_RegistryProfile_Scree
   bool valuesecond = false;
   bool valuethird = false;
   bool valuefourth = false;
-
+  
   @override
     Widget build(BuildContext context) {
 
@@ -44,12 +39,15 @@ class _User_RegistryProfile_ScreenState extends State<User_RegistryProfile_Scree
             onSurface: Colors.grey,
           ),
           onPressed: () {
-            User uAux = new User(null, null, widget.uTest.firstName, widget.uTest.lastName, null,
-                null, true, null, 'x', widget.uTest.createdDate, null, widget.uTest.lastModifiedDate, widget.uTest.phoneNumber, null, widget.uTest.nif,
-                widget.uTest.birthday, widget.uTest.address, widget.uTest.isTransporter, widget.uTest.favouriteTransport, widget.uTest.isProducer,widget.uTest.linkSocial, widget.uTest.isPoint, null, widget.uTest.isDeliveryMan, null);
+            User uAux = new User(widget.uTest.firstName, widget.uTest.lastName, null,'empty',
+                widget.uTest.phoneNumber, widget.uTest.nif, widget.uTest.birthday, widget.uTest.address,
+                widget.uTest.isTransporter, widget.uTest.favouriteTransport, widget.uTest.isProducer,widget.uTest.linkSocial,
+                widget.uTest.isPoint, widget.uTest.openingTimePoint,widget.uTest.closingTimePoint ,widget.uTest.isDeliveryMan, widget.uTest.openingTimeDeliveryMan,widget.uTest.closingTimeDeliveryMan,null);
+
+            print("Objecto antes enviar final: " + uAux.toString());
 
             Navigator.of(context).push(MaterialPageRoute(builder: (context)=>User_Registry_ScreenCredent(uTest: uAux)));
-            //print(' Object USER: ${widget.uTest.toString()} was passed');
+
           }
       ),
     );
@@ -74,7 +72,13 @@ class _User_RegistryProfile_ScreenState extends State<User_RegistryProfile_Scree
                   setState(() {
                     this.valuefirst = value;
                     print(valuefirst);
-                    widget.uTest.isProducer = valuefirst;
+                    if(valuefirst == true){
+                      widget.uTest.isProducer = true;
+                      print(widget.uTest.isProducer);
+                    }else{
+                      widget.uTest.isProducer = false;
+                      print(widget.uTest.isProducer);
+                    }
                     extraInfoProducerDialog();
                   });
                 },
@@ -89,7 +93,11 @@ class _User_RegistryProfile_ScreenState extends State<User_RegistryProfile_Scree
                   setState(() {
                     this.valuesecond = value;
                     print(valuesecond);
-                    widget.uTest.isTransporter = valuesecond;
+                    if(valuesecond == true){
+                      widget.uTest.isTransporter = true;
+                    }else{
+                      widget.uTest.isTransporter = false;
+                    }
                     extraInfoTransporterDialog();
                   });
                 },
@@ -104,7 +112,11 @@ class _User_RegistryProfile_ScreenState extends State<User_RegistryProfile_Scree
                   setState(() {
                     this.valuethird = value;
                     print(valuethird);
-                    widget.uTest.isDeliveryMan = valuethird;
+                    if(valuethird == true){
+                      widget.uTest.isDeliveryMan = true;
+                    }else{
+                      widget.uTest.isDeliveryMan = false;
+                    }
                     extraInfoDistributorDialogStartHour();
                     extraInfoDistributorDialogEndHour();
                   });
@@ -120,7 +132,11 @@ class _User_RegistryProfile_ScreenState extends State<User_RegistryProfile_Scree
                   setState(() {
                     this.valuefourth = value;
                     print(valuefourth);
-                    widget.uTest.isPoint = valuefourth;
+                    if(valuefourth == true){
+                      widget.uTest.isPoint = true;
+                    }else{
+                      widget.uTest.isPoint = false;
+                    }
                     extraInfoPointDialogStartHour();
                     extraInfoPointDialogEndHour();
                   });
@@ -211,7 +227,9 @@ class _User_RegistryProfile_ScreenState extends State<User_RegistryProfile_Scree
 
                 final TimeOfDay picked=await showTimePicker(context: context,initialTime: TimeOfDay(hour: 5,minute: 10));
 
-                birthdayController.text = picked.format(context);},
+                birthdayController.text = picked.format(context);
+                widget.uTest.openingTimeDeliveryMan = birthdayController.text; },
+
             ),
             actions: <Widget>[
               new FlatButton(
@@ -243,7 +261,8 @@ class _User_RegistryProfile_ScreenState extends State<User_RegistryProfile_Scree
 
                 final TimeOfDay picked=await showTimePicker(context: context,initialTime: TimeOfDay(hour: 5,minute: 10));
 
-                birthdayController.text = picked.format(context);},
+                birthdayController.text = picked.format(context);
+                widget.uTest.closingTimeDeliveryMan = birthdayController.text;},
             ),
             actions: <Widget>[
               new FlatButton(
@@ -275,7 +294,8 @@ class _User_RegistryProfile_ScreenState extends State<User_RegistryProfile_Scree
 
                 final TimeOfDay picked=await showTimePicker(context: context,initialTime: TimeOfDay(hour: 5,minute: 10));
 
-                birthdayController.text = picked.format(context);},
+                birthdayController.text = picked.format(context);
+                widget.uTest.openingTimePoint = birthdayController.text;},
             ),
             actions: <Widget>[
               new FlatButton(
@@ -307,7 +327,8 @@ class _User_RegistryProfile_ScreenState extends State<User_RegistryProfile_Scree
 
                 final TimeOfDay picked=await showTimePicker(context: context,initialTime: TimeOfDay(hour: 5,minute: 10));
 
-                birthdayController.text = picked.format(context);},
+                birthdayController.text = picked.format(context);
+                widget.uTest.closingTimePoint = birthdayController.text;},
             ),
             actions: <Widget>[
               new FlatButton(

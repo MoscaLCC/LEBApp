@@ -115,44 +115,6 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
         }
     );
 
-    final okRegButon = Material(
-      child: TextButton(
-        child: Text('Test Register !'),
-        style: TextButton.styleFrom(
-          alignment: Alignment.bottomCenter,
-          primary: Colors.white,
-          backgroundColor: Colors.teal,
-          onSurface: Colors.grey,
-        ),
-        onPressed: () async {
-
-          _saveForm(); // validar campos
-
-          //print("Link to server to User Register...");
-
-          /*
-          User userTeste = new User('aurelio', 'mat9999', 'Matias', 'Belo', 'antonio.fmaio@gmail.com',
-              'cenas', true, 'langKey', 'x', DateTime.now(), 'test', DateTime.now(), '+35195448796', '11121211', 24589665,
-              DateTime.now(), 'rua x', true, 'car', false, 'ddd', false, null, false, null);
-
-          var  url = Uri.parse('http://192.168.1.110:8080/api/register');
-          var body = json.encode(userTeste.toJson());
-          print(body);
-
-          Map<String,String> headers = {
-            'Content-type' : 'application/json',
-            'Accept': 'application/json',
-          };
-
-          final response = await http.post(url, body: body, headers: headers);
-          final responseJson = response;//json.decode(response.body);
-          print(responseJson);
-          return response;
-*/
-        },
-      ),
-    );
-
     final nextButon = Material(
       child: TextButton(
         child: Text('Go to Profile Info'),
@@ -167,9 +129,9 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
           _saveForm(); // validar campos
 
           // Object generation
-          User uAux = new User(null, null, firstNameController.text, lastNameController.text, null,
-              null, true, null, 'x', DateTime.now(), null, DateTime.now(), phoneNumberController.text, null, int.parse(nifController.text),
-              DateTime.parse(birthdayController.text), addressController.text, true, null, false,null, false, null, false, null);
+          User uAux = new User(firstNameController.text, lastNameController.text, null,
+              null, phoneNumberController.text, int.parse(nifController.text), DateTime.parse(birthdayController.text), addressController.text,
+              false, null,false,null,false, null,null,false, null,null,null);
 
           Navigator.of(context).push(MaterialPageRoute(builder: (context)=>User_RegistryProfile_Screen(uTest: uAux)));
         }
@@ -204,10 +166,6 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
                     nifField,
                     SizedBox(height: 30.0),
                     addressField,
-                    okRegButon,
-                    SizedBox(
-                      height: 15.0,
-                    ),
                     nextButon,
                     SizedBox(
                       height: 15.0,

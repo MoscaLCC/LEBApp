@@ -1,12 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'dart:io';
 import 'package:http/http.dart' as http;
-
-import 'package:flutter/material.dart';
 import 'package:lebapp_ui/models/User.dart';
-import '../main.dart';
 
 // ignore: camel_case_types
 class User_Registry_ScreenCredent extends StatefulWidget {
@@ -63,11 +58,12 @@ class _User_Registry_ScreenCredentState extends State<User_Registry_ScreenCreden
           onPressed: () {
             print(" ## Send object ## ");
 
-            User uAux = new User(emailController.text, passwordController.text, widget.uTest.firstName, widget.uTest.lastName, emailController.text,
-                'empty', true, 'empty', 'x', widget.uTest.createdDate, 'empty', widget.uTest.lastModifiedDate, widget.uTest.phoneNumber, 'empty', widget.uTest.nif,
-                widget.uTest.birthday, widget.uTest.address, widget.uTest.isTransporter, widget.uTest.favouriteTransport, widget.uTest.isProducer,widget.uTest.linkSocial, widget.uTest.isPoint, 'empty', widget.uTest.isDeliveryMan, 'empty');
+            User uAux = new User(widget.uTest.firstName, widget.uTest.lastName, emailController.text,widget.uTest.imageUrl,
+              widget.uTest.phoneNumber,widget.uTest.nif, widget.uTest.birthday, widget.uTest.address,
+                widget.uTest.isTransporter, widget.uTest.favouriteTransport, widget.uTest.isProducer,widget.uTest.linkSocial,
+                widget.uTest.isPoint, widget.uTest.openingTimePoint,widget.uTest.closingTimePoint ,widget.uTest.isDeliveryMan, widget.uTest.openingTimeDeliveryMan,widget.uTest.closingTimeDeliveryMan,passwordController.text);
 
-            var  url = Uri.parse('http://192.168.1.110:8080/api/register');
+            var  url = Uri.parse('http://192.168.1.110:8080/api/interface/register');
             var body = json.encode(uAux.toJson());
             print(body);
 
