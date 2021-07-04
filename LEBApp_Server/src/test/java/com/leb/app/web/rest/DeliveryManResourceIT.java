@@ -10,7 +10,6 @@ import com.leb.app.domain.DeliveryMan;
 import com.leb.app.domain.Point;
 import com.leb.app.domain.UserInfo;
 import com.leb.app.repository.DeliveryManRepository;
-import com.leb.app.service.criteria.DeliveryManCriteria;
 import com.leb.app.service.dto.DeliveryManDTO;
 import com.leb.app.service.mapper.DeliveryManMapper;
 import java.util.List;

@@ -14,7 +14,6 @@ import com.leb.app.security.AuthoritiesConstants;
 import com.leb.app.service.UserService;
 import com.leb.app.service.dto.AdminUserDTO;
 import com.leb.app.service.dto.PasswordChangeDTO;
-import com.leb.app.service.dto.UserDTO;
 import com.leb.app.web.rest.vm.KeyAndPasswordVM;
 import com.leb.app.web.rest.vm.ManagedUserVM;
 import java.time.Instant;

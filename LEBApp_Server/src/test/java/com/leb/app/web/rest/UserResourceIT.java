@@ -2,7 +2,6 @@ package com.leb.app.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasItems;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -12,7 +11,6 @@ import com.leb.app.domain.User;
 import com.leb.app.repository.UserRepository;
 import com.leb.app.security.AuthoritiesConstants;
 import com.leb.app.service.dto.AdminUserDTO;
-import com.leb.app.service.dto.UserDTO;
 import com.leb.app.service.mapper.UserMapper;
 import com.leb.app.web.rest.vm.ManagedUserVM;
 import java.time.Instant;

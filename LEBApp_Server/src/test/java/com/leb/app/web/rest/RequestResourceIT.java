@@ -12,7 +12,6 @@ import com.leb.app.domain.Request;
 import com.leb.app.domain.RidePath;
 import com.leb.app.domain.enumeration.Status;
 import com.leb.app.repository.RequestRepository;
-import com.leb.app.service.criteria.RequestCriteria;
 import com.leb.app.service.dto.RequestDTO;
 import com.leb.app.service.mapper.RequestMapper;
 import java.time.Instant;

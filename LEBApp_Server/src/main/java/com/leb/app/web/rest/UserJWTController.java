@@ -2,7 +2,6 @@ package com.leb.app.web.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.leb.app.domain.User;
-import com.leb.app.repository.UserInfoRepository;
 import com.leb.app.repository.UserRepository;
 import com.leb.app.security.jwt.JWTFilter;
 import com.leb.app.security.jwt.TokenProvider;
@@ -18,8 +17,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.apache.commons.lang3.tuple.MutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
@@ -54,16 +51,13 @@ public class UserJWTController {
 
     private final UserRepository userRepository;
 
-    private final UserInfoRepository userInfoRepository;
-
     public UserJWTController(TokenProvider tokenProvider, 
     AuthenticationManagerBuilder authenticationManagerBuilder,
     PointService pointService,
     TransporterService transporterService,
     ProducerService produtorService,
     DeliveryManService deliveryManService,
-    UserRepository userRepository,
-    UserInfoRepository userInfoRepository
+    UserRepository userRepository
     ) {
         this.tokenProvider = tokenProvider;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
@@ -72,7 +66,6 @@ public class UserJWTController {
         this.producerService = produtorService;
         this.deliveryManService = deliveryManService;
         this.userRepository = userRepository;
-        this.userInfoRepository = userInfoRepository;
     }
 
     @PostMapping("/authenticate")

@@ -11,7 +11,6 @@ import com.leb.app.domain.Point;
 import com.leb.app.domain.UserInfo;
 import com.leb.app.domain.Zone;
 import com.leb.app.repository.PointRepository;
-import com.leb.app.service.criteria.PointCriteria;
 import com.leb.app.service.dto.PointDTO;
 import com.leb.app.service.mapper.PointMapper;
 import java.util.List;
