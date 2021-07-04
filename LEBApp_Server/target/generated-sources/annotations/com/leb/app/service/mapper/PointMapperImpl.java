@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-06-29T00:25:30+0100",
-    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)"
+    date = "2021-07-04T23:58:27+0100",
+    comments = "version: 1.4.2.Final, compiler: Eclipse JDT (IDE) 1.4.0.v20210618-1653, environment: Java 11.0.11 (Oracle Corporation)"
 )
 @Component
 public class PointMapperImpl implements PointMapper {
@@ -36,6 +36,7 @@ public class PointMapperImpl implements PointMapper {
         point.setValueToReceive( dto.getValueToReceive() );
         point.setRanking( dto.getRanking() );
         point.setUserInfo( userInfoMapper.toEntity( dto.getUserInfo() ) );
+        point.setClosingTime( dto.getClosingTime() );
         point.setZone( zoneMapper.toEntity( dto.getZone() ) );
 
         return point;
@@ -96,6 +97,9 @@ public class PointMapperImpl implements PointMapper {
         if ( dto.getUserInfo() != null ) {
             entity.setUserInfo( userInfoMapper.toEntity( dto.getUserInfo() ) );
         }
+        if ( dto.getClosingTime() != null ) {
+            entity.setClosingTime( dto.getClosingTime() );
+        }
         if ( dto.getZone() != null ) {
             entity.setZone( zoneMapper.toEntity( dto.getZone() ) );
         }
@@ -112,6 +116,7 @@ public class PointMapperImpl implements PointMapper {
         pointDTO.setUserInfo( userInfoMapper.toDtoId( s.getUserInfo() ) );
         pointDTO.setZone( zoneMapper.toDtoId( s.getZone() ) );
         pointDTO.setId( s.getId() );
+        pointDTO.setClosingTime( s.getClosingTime() );
         pointDTO.setOpeningTime( s.getOpeningTime() );
         pointDTO.setNumberOfDeliveries( s.getNumberOfDeliveries() );
         pointDTO.setReceivedValue( s.getReceivedValue() );

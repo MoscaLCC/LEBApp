@@ -13,6 +13,8 @@ public class DeliveryManDTO implements Serializable {
 
     private String openingTime;
 
+    private String closingTime;
+
     private Integer numberOfDeliveries;
 
     private Double numberOfKm;
@@ -57,6 +59,14 @@ public class DeliveryManDTO implements Serializable {
 
     public void setNumberOfKm(Double numberOfKm) {
         this.numberOfKm = numberOfKm;
+    }
+
+    public String getClosingTime() {
+        return closingTime;
+    }
+
+    public void setClosingTime(String closingTime) {
+        this.closingTime = closingTime;
     }
 
     public Double getReceivedValue() {

@@ -11,9 +11,9 @@ services:
       - SPRING_LIQUIBASE_URL=jdbc:mysql://lebapp_server-mysql:3306/lebapp_server?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
       - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
     # If you want to expose these ports outside your dev PC,
-    # remove the "127.0.0.1:" prefix
+    # remove the "192.168.1.110:" prefix
     ports:
-      - 127.0.0.1:8080:8080
+      - 192.168.1.110:8080:8080
   lebapp_server-mysql:
     image: mysql:8.0.23
     # volumes:
@@ -22,7 +22,7 @@ services:
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_DATABASE=lebapp_server
     # If you want to expose these ports outside your dev PC,
-    # remove the "127.0.0.1:" prefix
+    # remove the "192.168.1.110:" prefix
     ports:
-      - 127.0.0.1:3306:3306
+      - 192.168.1.110:3306:3306
     command: mysqld --lower_case_table_names=1 --skip-ssl --character_set_server=utf8mb4 --explicit_defaults_for_timestamp

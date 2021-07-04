@@ -83,7 +83,7 @@ class UserInfoResourceIT {
             .nib(DEFAULT_NIB)
             .nif(DEFAULT_NIF)
             .birthday(DEFAULT_BIRTHDAY)
-            .adress(DEFAULT_ADRESS);
+            .address(DEFAULT_ADRESS);
         return userInfo;
     }
 
@@ -99,7 +99,7 @@ class UserInfoResourceIT {
             .nib(UPDATED_NIB)
             .nif(UPDATED_NIF)
             .birthday(UPDATED_BIRTHDAY)
-            .adress(UPDATED_ADRESS);
+            .address(UPDATED_ADRESS);
         return userInfo;
     }
 
@@ -164,7 +164,7 @@ class UserInfoResourceIT {
             .andExpect(jsonPath("$.[*].nib").value(hasItem(DEFAULT_NIB)))
             .andExpect(jsonPath("$.[*].nif").value(hasItem(DEFAULT_NIF)))
             .andExpect(jsonPath("$.[*].birthday").value(hasItem(DEFAULT_BIRTHDAY.toString())))
-            .andExpect(jsonPath("$.[*].adress").value(hasItem(DEFAULT_ADRESS)));
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADRESS)));
     }
 
     @Test
@@ -183,7 +183,7 @@ class UserInfoResourceIT {
             .andExpect(jsonPath("$.nib").value(DEFAULT_NIB))
             .andExpect(jsonPath("$.nif").value(DEFAULT_NIF))
             .andExpect(jsonPath("$.birthday").value(DEFAULT_BIRTHDAY.toString()))
-            .andExpect(jsonPath("$.adress").value(DEFAULT_ADRESS));
+            .andExpect(jsonPath("$.address").value(DEFAULT_ADRESS));
     }
 
     @Test
@@ -574,11 +574,11 @@ class UserInfoResourceIT {
         // Initialize the database
         userInfoRepository.saveAndFlush(userInfo);
 
-        // Get all the userInfoList where adress equals to DEFAULT_ADRESS
-        defaultUserInfoShouldBeFound("adress.equals=" + DEFAULT_ADRESS);
+        // Get all the userInfoList where address equals to DEFAULT_ADRESS
+        defaultUserInfoShouldBeFound("address.equals=" + DEFAULT_ADRESS);
 
-        // Get all the userInfoList where adress equals to UPDATED_ADRESS
-        defaultUserInfoShouldNotBeFound("adress.equals=" + UPDATED_ADRESS);
+        // Get all the userInfoList where address equals to UPDATED_ADRESS
+        defaultUserInfoShouldNotBeFound("address.equals=" + UPDATED_ADRESS);
     }
 
     @Test
@@ -587,11 +587,11 @@ class UserInfoResourceIT {
         // Initialize the database
         userInfoRepository.saveAndFlush(userInfo);
 
-        // Get all the userInfoList where adress not equals to DEFAULT_ADRESS
-        defaultUserInfoShouldNotBeFound("adress.notEquals=" + DEFAULT_ADRESS);
+        // Get all the userInfoList where address not equals to DEFAULT_ADRESS
+        defaultUserInfoShouldNotBeFound("address.notEquals=" + DEFAULT_ADRESS);
 
-        // Get all the userInfoList where adress not equals to UPDATED_ADRESS
-        defaultUserInfoShouldBeFound("adress.notEquals=" + UPDATED_ADRESS);
+        // Get all the userInfoList where address not equals to UPDATED_ADRESS
+        defaultUserInfoShouldBeFound("address.notEquals=" + UPDATED_ADRESS);
     }
 
     @Test
@@ -600,11 +600,11 @@ class UserInfoResourceIT {
         // Initialize the database
         userInfoRepository.saveAndFlush(userInfo);
 
-        // Get all the userInfoList where adress in DEFAULT_ADRESS or UPDATED_ADRESS
-        defaultUserInfoShouldBeFound("adress.in=" + DEFAULT_ADRESS + "," + UPDATED_ADRESS);
+        // Get all the userInfoList where address in DEFAULT_ADRESS or UPDATED_ADRESS
+        defaultUserInfoShouldBeFound("address.in=" + DEFAULT_ADRESS + "," + UPDATED_ADRESS);
 
-        // Get all the userInfoList where adress equals to UPDATED_ADRESS
-        defaultUserInfoShouldNotBeFound("adress.in=" + UPDATED_ADRESS);
+        // Get all the userInfoList where address equals to UPDATED_ADRESS
+        defaultUserInfoShouldNotBeFound("address.in=" + UPDATED_ADRESS);
     }
 
     @Test
@@ -613,11 +613,11 @@ class UserInfoResourceIT {
         // Initialize the database
         userInfoRepository.saveAndFlush(userInfo);
 
-        // Get all the userInfoList where adress is not null
-        defaultUserInfoShouldBeFound("adress.specified=true");
+        // Get all the userInfoList where address is not null
+        defaultUserInfoShouldBeFound("address.specified=true");
 
-        // Get all the userInfoList where adress is null
-        defaultUserInfoShouldNotBeFound("adress.specified=false");
+        // Get all the userInfoList where address is null
+        defaultUserInfoShouldNotBeFound("address.specified=false");
     }
 
     @Test
@@ -626,11 +626,11 @@ class UserInfoResourceIT {
         // Initialize the database
         userInfoRepository.saveAndFlush(userInfo);
 
-        // Get all the userInfoList where adress contains DEFAULT_ADRESS
-        defaultUserInfoShouldBeFound("adress.contains=" + DEFAULT_ADRESS);
+        // Get all the userInfoList where address contains DEFAULT_ADRESS
+        defaultUserInfoShouldBeFound("address.contains=" + DEFAULT_ADRESS);
 
-        // Get all the userInfoList where adress contains UPDATED_ADRESS
-        defaultUserInfoShouldNotBeFound("adress.contains=" + UPDATED_ADRESS);
+        // Get all the userInfoList where address contains UPDATED_ADRESS
+        defaultUserInfoShouldNotBeFound("address.contains=" + UPDATED_ADRESS);
     }
 
     @Test
@@ -639,11 +639,11 @@ class UserInfoResourceIT {
         // Initialize the database
         userInfoRepository.saveAndFlush(userInfo);
 
-        // Get all the userInfoList where adress does not contain DEFAULT_ADRESS
-        defaultUserInfoShouldNotBeFound("adress.doesNotContain=" + DEFAULT_ADRESS);
+        // Get all the userInfoList where address does not contain DEFAULT_ADRESS
+        defaultUserInfoShouldNotBeFound("address.doesNotContain=" + DEFAULT_ADRESS);
 
-        // Get all the userInfoList where adress does not contain UPDATED_ADRESS
-        defaultUserInfoShouldBeFound("adress.doesNotContain=" + UPDATED_ADRESS);
+        // Get all the userInfoList where address does not contain UPDATED_ADRESS
+        defaultUserInfoShouldBeFound("address.doesNotContain=" + UPDATED_ADRESS);
     }
 
     /**
@@ -659,7 +659,7 @@ class UserInfoResourceIT {
             .andExpect(jsonPath("$.[*].nib").value(hasItem(DEFAULT_NIB)))
             .andExpect(jsonPath("$.[*].nif").value(hasItem(DEFAULT_NIF)))
             .andExpect(jsonPath("$.[*].birthday").value(hasItem(DEFAULT_BIRTHDAY.toString())))
-            .andExpect(jsonPath("$.[*].adress").value(hasItem(DEFAULT_ADRESS)));
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADRESS)));
 
         // Check, that the count call also returns 1
         restUserInfoMockMvc
@@ -712,7 +712,7 @@ class UserInfoResourceIT {
             .nib(UPDATED_NIB)
             .nif(UPDATED_NIF)
             .birthday(UPDATED_BIRTHDAY)
-            .adress(UPDATED_ADRESS);
+            .address(UPDATED_ADRESS);
         UserInfoDTO userInfoDTO = userInfoMapper.toDto(updatedUserInfo);
 
         restUserInfoMockMvc
@@ -849,7 +849,7 @@ class UserInfoResourceIT {
             .nib(UPDATED_NIB)
             .nif(UPDATED_NIF)
             .birthday(UPDATED_BIRTHDAY)
-            .adress(UPDATED_ADRESS);
+            .address(UPDATED_ADRESS);
 
         restUserInfoMockMvc
             .perform(

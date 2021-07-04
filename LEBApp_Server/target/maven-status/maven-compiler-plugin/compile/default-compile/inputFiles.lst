@@ -16,6 +16,7 @@ C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\repository
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\DeliveryManQueryService.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\domain\RidePath.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\mapper\RequestMapper.java
+C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\dto\RegisterDTO.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\web\rest\UserInfoResource.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\PointQueryService.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\DimensionsQueryService.java
@@ -82,6 +83,7 @@ C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\Di
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\dto\TransporterDTO.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\web\rest\ZoneResource.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\config\AsyncConfiguration.java
+C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\dto\LoginDTO.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\config\DatabaseConfiguration.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\RidePathService.java
 C:\Users\luism\Desktop\LEBApp\LEBApp_Server\src\main\java\com\leb\app\service\UserInfoQueryService.java

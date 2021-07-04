@@ -34,8 +34,8 @@ public class UserInfo implements Serializable {
     @Column(name = "birthday")
     private LocalDate birthday;
 
-    @Column(name = "adress")
-    private String adress;
+    @Column(name = "address")
+    private String address;
 
     @OneToOne(optional = false)
     @NotNull
@@ -109,16 +109,16 @@ public class UserInfo implements Serializable {
     }
 
     public String getAdress() {
-        return this.adress;
+        return this.address;
     }
 
-    public UserInfo adress(String adress) {
-        this.adress = adress;
+    public UserInfo address(String address) {
+        this.address = address;
         return this;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAdress(String address) {
+        this.address = address;
     }
 
     public User getUser() {
@@ -161,7 +161,7 @@ public class UserInfo implements Serializable {
             ", nib='" + getNib() + "'" +
             ", nif=" + getNif() +
             ", birthday='" + getBirthday() + "'" +
-            ", adress='" + getAdress() + "'" +
+            ", address='" + getAdress() + "'" +
             "}";
     }
 }

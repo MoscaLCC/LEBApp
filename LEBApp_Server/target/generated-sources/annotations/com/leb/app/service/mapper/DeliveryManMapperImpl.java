@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-06-29T00:25:30+0100",
-    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.11 (Oracle Corporation)"
+    date = "2021-07-04T23:58:27+0100",
+    comments = "version: 1.4.2.Final, compiler: Eclipse JDT (IDE) 1.4.0.v20210618-1653, environment: Java 11.0.11 (Oracle Corporation)"
 )
 @Component
 public class DeliveryManMapperImpl implements DeliveryManMapper {
@@ -34,6 +34,7 @@ public class DeliveryManMapperImpl implements DeliveryManMapper {
         deliveryMan.setNumberOfDeliveries( dto.getNumberOfDeliveries() );
         deliveryMan.setNumberOfKm( dto.getNumberOfKm() );
         deliveryMan.setReceivedValue( dto.getReceivedValue() );
+        deliveryMan.setClosingTime( dto.getClosingTime() );
         deliveryMan.setValueToReceive( dto.getValueToReceive() );
         deliveryMan.setRanking( dto.getRanking() );
         deliveryMan.setUserInfo( userInfoMapper.toEntity( dto.getUserInfo() ) );
@@ -91,6 +92,9 @@ public class DeliveryManMapperImpl implements DeliveryManMapper {
         if ( dto.getReceivedValue() != null ) {
             entity.setReceivedValue( dto.getReceivedValue() );
         }
+        if ( dto.getClosingTime() != null ) {
+            entity.setClosingTime( dto.getClosingTime() );
+        }
         if ( dto.getValueToReceive() != null ) {
             entity.setValueToReceive( dto.getValueToReceive() );
         }
@@ -119,6 +123,7 @@ public class DeliveryManMapperImpl implements DeliveryManMapper {
         deliveryManDTO.setOpeningTime( s.getOpeningTime() );
         deliveryManDTO.setNumberOfDeliveries( s.getNumberOfDeliveries() );
         deliveryManDTO.setNumberOfKm( s.getNumberOfKm() );
+        deliveryManDTO.setClosingTime( s.getClosingTime() );
         deliveryManDTO.setReceivedValue( s.getReceivedValue() );
         deliveryManDTO.setValueToReceive( s.getValueToReceive() );
         deliveryManDTO.setRanking( s.getRanking() );

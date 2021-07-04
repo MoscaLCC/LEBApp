@@ -18,6 +18,7 @@ import com.leb.app.repository.UserRepository;
 import com.leb.app.security.AuthoritiesConstants;
 import com.leb.app.security.SecurityUtils;
 import com.leb.app.service.dto.AdminUserDTO;
+import com.leb.app.service.dto.RegisterDTO;
 import com.leb.app.service.dto.UserDTO;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -39,7 +40,6 @@ import tech.jhipster.security.RandomUtil;
  * Service class for managing users.
  */
 @Service
-@Transactional
 public class UserService {
 
     private final Logger log = LoggerFactory.getLogger(UserService.class);
@@ -84,6 +84,7 @@ public class UserService {
         this.deliveryManRepository = deliveryManRepository;
     }
 
+    @Transactional
     public Optional<User> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
         return userRepository
@@ -100,6 +101,7 @@ public class UserService {
             );
     }
 
+    @Transactional
     public Optional<User> completePasswordReset(String newPassword, String key) {
         log.debug("Reset user password for reset key {}", key);
         return userRepository
@@ -116,6 +118,7 @@ public class UserService {
             );
     }
 
+    @Transactional
     public Optional<User> requestPasswordReset(String mail) {
         return userRepository
             .findOneByEmailIgnoreCase(mail)
@@ -152,23 +155,87 @@ public class UserService {
                 }
             );
         User newUser = registerNewUser(userDTO, password);
-        UserInfo userInfo = registerNewUserInfo(newUser, userDTO);
-        if (userDTO.isTransporter()){
-            createNewTransporter(userInfo, userDTO);
+
+        return newUser;
+    }
+
+    public User registerUser2(RegisterDTO registerDTO, String password) {
+        
+        AdminUserDTO userDTO = createNewAdminDTO(registerDTO);
+
+        userRepository
+            .findOneByLogin(userDTO.getLogin().toLowerCase())
+            .ifPresent(
+                existingUser -> {
+                    boolean removed = removeNonActivatedUser(existingUser);
+                    if (!removed) {
+                        throw new UsernameAlreadyUsedException();
+                    }
+                }
+            );
+        userRepository
+            .findOneByEmailIgnoreCase(userDTO.getEmail())
+            .ifPresent(
+                existingUser -> {
+                    boolean removed = removeNonActivatedUser(existingUser);
+                    if (!removed) {
+                        throw new EmailAlreadyUsedException();
+                    }
+                }
+            );
+        User newUser = registerNewUser(userDTO, password);
+
+        UserInfo userInfo = registerNewUserInfo(newUser, registerDTO);
+        if (registerDTO.isTransporter()){
+            createNewTransporter(userInfo, registerDTO);
         }
-        if (userDTO.isProducer()) {
-            createNewProducer(userInfo, userDTO);
+        if (registerDTO.isProducer()) {
+            createNewProducer(userInfo, registerDTO);
         }
-        if (userDTO.isPoint()){
-            createPoint(userInfo, userDTO);
+        if (registerDTO.isPoint()){
+            createPoint(userInfo, registerDTO);
         }
-        if (userDTO.isDeliveryMan()){
-            createDeliveryMan(userInfo, userDTO);
+        if (registerDTO.isDeliveryMan()){
+            createDeliveryMan(userInfo, registerDTO);
         }
 
         return newUser;
     }
 
+    public AdminUserDTO createNewAdminDTO(RegisterDTO dto){
+
+        AdminUserDTO userDTO = new AdminUserDTO();
+
+        userDTO.setLogin(dto.getEmail());
+
+        userDTO.setFirstName(dto.getFirstName());
+
+        userDTO.setLastName(dto.getLastName());
+
+        userDTO.setEmail(dto.getEmail());
+
+        userDTO.setActivated(false);
+
+        userDTO.setLangKey("EN");
+
+        userDTO.setCreatedBy("SYSTEM");
+
+        userDTO.setCreatedDate(LocalDate.now().toString());
+
+        userDTO.setLastModifiedBy("SYSTEM");
+
+        userDTO.setLastModifiedDate(LocalDate.now().toString());
+
+        Set<String> roles = new HashSet<String>();
+        roles.add("ROLE_USER");
+
+        userDTO.setAuthorities(roles);
+
+        return userDTO;
+    }
+
+    
+    @Transactional
     public User registerNewUser(AdminUserDTO userDTO, String password) {
         User newUser = new User();
         String encryptedPassword = passwordEncoder.encode(password);
@@ -189,16 +256,18 @@ public class UserService {
         Set<Authority> authorities = new HashSet<>();
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
-        userRepository.save(newUser);
+        userRepository.saveAndFlush(newUser);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
     }
 
-    private void createDeliveryMan(UserInfo userInfo, AdminUserDTO userDTO){
+    @Transactional
+    private void createDeliveryMan(UserInfo userInfo, RegisterDTO userDTO){
         DeliveryMan deliveryMan = new DeliveryMan();
 
         deliveryMan.setOpeningTime(userDTO.getOpeningTime());
+        deliveryMan.setClosingTime(userDTO.getClosingTime());
         deliveryMan.setNumberOfDeliveries(0);
         deliveryMan.setNumberOfKm(0.0);
         deliveryMan.setReceivedValue(0.0);
@@ -209,10 +278,12 @@ public class UserService {
         deliveryManRepository.saveAndFlush(deliveryMan);
     }
 
-    private void createPoint(UserInfo userInfo, AdminUserDTO userDTO){
+    @Transactional
+    private void createPoint(UserInfo userInfo, RegisterDTO userDTO){
         Point point = new Point();
 
         point.setOpeningTime(userDTO.getOpeningTimePoint());
+        point.setClosingTime(userDTO.getClosingTimePoint());
         point.setNumberOfDeliveries(0);
         point.setReceivedValue(0.0);
         point.setValueToReceive(0.0);
@@ -222,7 +293,8 @@ public class UserService {
         pointRepository.saveAndFlush(point);
     }
 
-    private void createNewProducer(UserInfo userInfo, AdminUserDTO userDTO){
+    @Transactional
+    private void createNewProducer(UserInfo userInfo, RegisterDTO userDTO){
         Producer producer = new Producer();
 
         producer.setLinkSocial(userDTO.getLinkSocial());
@@ -235,7 +307,8 @@ public class UserService {
         producerRepository.saveAndFlush(producer);
     }
 
-    private void createNewTransporter(UserInfo userInfo, AdminUserDTO userDTO) {
+    @Transactional
+    private void createNewTransporter(UserInfo userInfo, RegisterDTO userDTO) {
         Transporter transporter = new Transporter();
 
         transporter.setFavouriteTransport(userDTO.getFavouriteTransport());
@@ -249,22 +322,23 @@ public class UserService {
         transporterRepository.saveAndFlush(transporter);
     }
 
-
-    private UserInfo registerNewUserInfo(User user, AdminUserDTO userDTO) {
+    @Transactional
+    private UserInfo registerNewUserInfo(User user, RegisterDTO userDTO) {
         UserInfo userInfo = new UserInfo();
 
         userInfo.setPhoneNumber(userDTO.getPhoneNumber());
-        userInfo.setNib(userDTO.getNib());
+        userInfo.setNib("");
         userInfo.setNif(userDTO.getNif());
         log.info(userDTO.getBirthday());
         userInfo.setBirthday(LocalDate.now());
-        userInfo.setAdress(userDTO.getAdress());
+        userInfo.setAdress(userDTO.getAddress());
         userInfo.setUser(user);
 
-        userInfoRepository.saveAndFlush(userInfo);
+        userInfo = userInfoRepository.saveAndFlush(userInfo);
         return userInfo;
     }
 
+    @Transactional
     private boolean removeNonActivatedUser(User existingUser) {
         if (existingUser.isActivated()) {
             return false;
@@ -275,8 +349,7 @@ public class UserService {
         return true;
     }
 
-
-
+    @Transactional
     public User createUser(AdminUserDTO userDTO) {
         User user = new User();
         user.setLogin(userDTO.getLogin().toLowerCase());
@@ -306,7 +379,7 @@ public class UserService {
                 .collect(Collectors.toSet());
             user.setAuthorities(authorities);
         }
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
         this.clearUserCaches(user);
         log.debug("Created Information for User: {}", user);
         return user;
@@ -318,6 +391,7 @@ public class UserService {
      * @param userDTO user to update.
      * @return updated user.
      */
+    @Transactional
     public Optional<AdminUserDTO> updateUser(AdminUserDTO userDTO) {
         return Optional
             .of(userRepository.findById(userDTO.getId()))
@@ -352,6 +426,7 @@ public class UserService {
             .map(AdminUserDTO::new);
     }
 
+    @Transactional
     public void deleteUser(String login) {
         userRepository
             .findOneByLogin(login)
@@ -373,6 +448,8 @@ public class UserService {
      * @param langKey   language key.
      * @param imageUrl  image URL of user.
      */
+
+    @Transactional
     public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl) {
         SecurityUtils
             .getCurrentUserLogin()

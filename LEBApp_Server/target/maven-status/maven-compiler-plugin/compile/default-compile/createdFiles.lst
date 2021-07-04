@@ -35,6 +35,7 @@ com\leb\app\web\rest\errors\FieldErrorVM.class
 com\leb\app\service\DeliveryManService.class
 com\leb\app\service\mapper\UserMapper.class
 com\leb\app\service\UserService.class
+com\leb\app\service\dto\RegisterDTO.class
 com\leb\app\service\mapper\TransporterMapper.class
 com\leb\app\web\rest\DeliveryManResource.class
 com\leb\app\web\rest\DimensionsResource.class
@@ -59,7 +60,6 @@ com\leb\app\security\DomainUserDetailsService.class
 com\leb\app\domain\Zone_.class
 com\leb\app\repository\ZoneRepository.class
 com\leb\app\domain\Zone.class
-com\leb\app\web\rest\ZoneResource.class
 com\leb\app\domain\DeliveryMan.class
 com\leb\app\service\ProducerQueryService.class
 com\leb\app\service\mapper\DimensionsMapperImpl.class
@@ -70,6 +70,7 @@ com\leb\app\service\mapper\RidePathMapper.class
 com\leb\app\repository\ProducerRepository.class
 com\leb\app\repository\UserRepository.class
 com\leb\app\domain\Request_.class
+com\leb\app\service\dto\LoginDTO.class
 com\leb\app\service\ProducerService.class
 com\leb\app\config\LoggingConfiguration.class
 com\leb\app\domain\User_.class

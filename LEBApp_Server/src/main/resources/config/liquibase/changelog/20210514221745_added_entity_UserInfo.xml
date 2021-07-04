@@ -26,7 +26,7 @@
             <column name="birthday" type="date">
                 <constraints nullable="true" />
             </column>
-            <column name="adress" type="varchar(255)">
+            <column name="address" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="user_id" type="bigint">

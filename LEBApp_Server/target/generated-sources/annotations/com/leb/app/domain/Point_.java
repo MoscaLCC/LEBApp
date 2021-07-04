@@ -11,6 +11,7 @@ public abstract class Point_ {
 
 	public static volatile SingularAttribute<Point, UserInfo> userInfo;
 	public static volatile SetAttribute<Point, DeliveryMan> deliveryMen;
+	public static volatile SingularAttribute<Point, String> closingTime;
 	public static volatile SingularAttribute<Point, Integer> numberOfDeliveries;
 	public static volatile SingularAttribute<Point, Double> valueToReceive;
 	public static volatile SingularAttribute<Point, Zone> zone;
@@ -21,6 +22,7 @@ public abstract class Point_ {
 
 	public static final String USER_INFO = "userInfo";
 	public static final String DELIVERY_MEN = "deliveryMen";
+	public static final String CLOSING_TIME = "closingTime";
 	public static final String NUMBER_OF_DELIVERIES = "numberOfDeliveries";
 	public static final String VALUE_TO_RECEIVE = "valueToReceive";
 	public static final String ZONE = "zone";
