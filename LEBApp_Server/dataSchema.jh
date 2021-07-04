@@ -11,7 +11,7 @@ entity UserInfo {
     nib String,
     nif Integer,
     birthday LocalDate,
-    adress String
+    address String
 }
 
 entity Request {

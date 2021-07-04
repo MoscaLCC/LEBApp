@@ -9,6 +9,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class DeliveryMan_ {
 
 	public static volatile SingularAttribute<DeliveryMan, UserInfo> userInfo;
+	public static volatile SingularAttribute<DeliveryMan, String> closingTime;
 	public static volatile SingularAttribute<DeliveryMan, Integer> numberOfDeliveries;
 	public static volatile SingularAttribute<DeliveryMan, Double> valueToReceive;
 	public static volatile SingularAttribute<DeliveryMan, String> openingTime;
@@ -19,6 +20,7 @@ public abstract class DeliveryMan_ {
 	public static volatile SingularAttribute<DeliveryMan, Double> numberOfKm;
 
 	public static final String USER_INFO = "userInfo";
+	public static final String CLOSING_TIME = "closingTime";
 	public static final String NUMBER_OF_DELIVERIES = "numberOfDeliveries";
 	public static final String VALUE_TO_RECEIVE = "valueToReceive";
 	public static final String OPENING_TIME = "openingTime";

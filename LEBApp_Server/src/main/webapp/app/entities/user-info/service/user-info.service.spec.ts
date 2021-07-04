@@ -30,7 +30,7 @@ describe('Service Tests', () => {
         nib: 'AAAAAAA',
         nif: 0,
         birthday: currentDate,
-        adress: 'AAAAAAA',
+        address: 'AAAAAAA',
       };
     });
 
@@ -81,7 +81,7 @@ describe('Service Tests', () => {
             nib: 'BBBBBB',
             nif: 1,
             birthday: currentDate.format(DATE_FORMAT),
-            adress: 'BBBBBB',
+            address: 'BBBBBB',
           },
           elemDefault
         );
@@ -133,7 +133,7 @@ describe('Service Tests', () => {
             nib: 'BBBBBB',
             nif: 1,
             birthday: currentDate.format(DATE_FORMAT),
-            adress: 'BBBBBB',
+            address: 'BBBBBB',
           },
           elemDefault
         );

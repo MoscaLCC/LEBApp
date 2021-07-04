@@ -8,6 +8,6 @@ services:
     environment:
       - sonar.forceAuthentication=false
     # If you want to expose these ports outside your dev PC,
-    # remove the "127.0.0.1:" prefix
+    # remove the "192.168.1.110:" prefix
     ports:
-      - 127.0.0.1:9001:9000
+      - 192.168.1.110:9001:9000

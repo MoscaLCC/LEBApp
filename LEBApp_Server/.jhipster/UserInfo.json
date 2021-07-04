@@ -18,7 +18,7 @@
       "fieldType": "LocalDate"
     },
     {
-      "fieldName": "adress",
+      "fieldName": "address",
       "fieldType": "String"
     }
   ],

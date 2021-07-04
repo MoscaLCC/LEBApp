@@ -99,7 +99,7 @@ public class UserInfoQueryService extends QueryService<UserInfo> {
                 specification = specification.and(buildRangeSpecification(criteria.getBirthday(), UserInfo_.birthday));
             }
             if (criteria.getAdress() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getAdress(), UserInfo_.adress));
+                specification = specification.and(buildStringSpecification(criteria.getAdress(), UserInfo_.address));
             }
         }
         return specification;

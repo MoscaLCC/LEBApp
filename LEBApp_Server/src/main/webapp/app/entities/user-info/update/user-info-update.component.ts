@@ -21,7 +21,7 @@ export class UserInfoUpdateComponent implements OnInit {
     nib: [],
     nif: [],
     birthday: [],
-    adress: [],
+    address: [],
   });
 
   constructor(protected userInfoService: UserInfoService, protected activatedRoute: ActivatedRoute, protected fb: FormBuilder) {}
@@ -72,7 +72,7 @@ export class UserInfoUpdateComponent implements OnInit {
       nib: userInfo.nib,
       nif: userInfo.nif,
       birthday: userInfo.birthday,
-      adress: userInfo.adress,
+      address: userInfo.address,
     });
   }
 
@@ -84,7 +84,7 @@ export class UserInfoUpdateComponent implements OnInit {
       nib: this.editForm.get(['nib'])!.value,
       nif: this.editForm.get(['nif'])!.value,
       birthday: this.editForm.get(['birthday'])!.value,
-      adress: this.editForm.get(['adress'])!.value,
+      address: this.editForm.get(['address'])!.value,
     };
   }
 }

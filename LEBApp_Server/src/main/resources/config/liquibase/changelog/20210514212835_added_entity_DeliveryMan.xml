@@ -17,6 +17,9 @@
             <column name="opening_time" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="closing_time" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="number_of_deliveries" type="integer">
                 <constraints nullable="true" />
             </column>

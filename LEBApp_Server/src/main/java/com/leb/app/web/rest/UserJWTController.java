@@ -1,6 +1,7 @@
 package com.leb.app.web.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.leb.app.domain.User;
 import com.leb.app.repository.UserInfoRepository;
 import com.leb.app.repository.UserRepository;
 import com.leb.app.security.jwt.JWTFilter;
@@ -9,6 +10,7 @@ import com.leb.app.service.DeliveryManService;
 import com.leb.app.service.PointService;
 import com.leb.app.service.ProducerService;
 import com.leb.app.service.TransporterService;
+import com.leb.app.service.dto.LoginDTO;
 import com.leb.app.web.rest.vm.LoginVM;
 
 import java.util.ArrayList;
@@ -74,7 +76,7 @@ public class UserJWTController {
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<Pair<JWTToken, List<String>>> authorize(@Valid @RequestBody LoginVM loginVM) {
+    public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginVM loginVM) {
         log.info("<authorize>");
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
             loginVM.getUsername(),
@@ -86,16 +88,36 @@ public class UserJWTController {
         String jwt = tokenProvider.createToken(authentication, loginVM.isRememberMe());
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-        List<String> profils = getProfils(loginVM.getUsername());
         log.info("</authorize>");
-        return new ResponseEntity<>(new MutablePair<JWTToken, List<String>>(new JWTToken(jwt), profils), httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<JWTToken>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
     }
 
-    private List<String> getProfils(String username){
+    @PostMapping("/interface/authenticate")
+    public ResponseEntity<LoginDTO> authorize2(@Valid @RequestBody LoginVM loginVM) {
+        log.info("<authorize>");
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+            loginVM.getUsername(),
+            loginVM.getPassword()
+        );
+
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = tokenProvider.createToken(authentication, loginVM.isRememberMe());
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+        
+        User user = userRepository.findOneByLogin(loginVM.getUsername()).get();
+        LoginDTO login = new LoginDTO("Bearer " + jwt, user.getFirstName(), user.getLastName(), getProfils(user));
+
+        log.info("</authorize>");
+        return new ResponseEntity<>(login, httpHeaders, HttpStatus.OK);
+    }
+
+    private List<String> getProfils(User user){
         log.info("<getProfils>");
         List<String> profils = new ArrayList<>();
     
-        Long userId = userInfoRepository.findByUserId(userRepository.findOneByLogin(username).get().getId()).get().getId();
+        Long userId = user.getId();
 
         if(deliveryManService.isDeliveryMan(userId)) profils.add("DeliveryMan");
         if(producerService.isProducer(userId)) profils.add("Producer");

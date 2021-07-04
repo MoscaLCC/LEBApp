@@ -7,6 +7,7 @@ import com.leb.app.service.MailService;
 import com.leb.app.service.UserService;
 import com.leb.app.service.dto.AdminUserDTO;
 import com.leb.app.service.dto.PasswordChangeDTO;
+import com.leb.app.service.dto.RegisterDTO;
 import com.leb.app.service.dto.UserDTO;
 import com.leb.app.web.rest.errors.*;
 import com.leb.app.web.rest.vm.KeyAndPasswordVM;
@@ -18,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -59,10 +61,22 @@ public class AccountResource {
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public void registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
+        log.error("USER: {}", managedUserVM);
         if (isPasswordLengthInvalid(managedUserVM.getPassword())) {
             throw new InvalidPasswordException();
         }
         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
+        mailService.sendActivationEmail(user);
+    }
+
+    @PostMapping("/interface/register")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void registerAccount2(@Valid @RequestBody RegisterDTO registerDTO) {
+        log.error("USER: {}", registerDTO);
+        if (isPasswordLengthInvalid(registerDTO.getPassword())) {
+            throw new InvalidPasswordException();
+        }
+        User user = userService.registerUser2(registerDTO, registerDTO.getPassword());
         mailService.sendActivationEmail(user);
     }
 

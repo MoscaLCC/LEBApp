@@ -19,7 +19,7 @@ public class UserInfoDTO implements Serializable {
 
     private LocalDate birthday;
 
-    private String adress;
+    private String address;
 
     public Long getId() {
         return id;
@@ -62,11 +62,11 @@ public class UserInfoDTO implements Serializable {
     }
 
     public String getAdress() {
-        return adress;
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAdress(String address) {
+        this.address = address;
     }
 
     @Override
@@ -99,7 +99,7 @@ public class UserInfoDTO implements Serializable {
             ", nib='" + getNib() + "'" +
             ", nif=" + getNif() +
             ", birthday='" + getBirthday() + "'" +
-            ", adress='" + getAdress() + "'" +
+            ", address='" + getAdress() + "'" +
             "}";
     }
 }

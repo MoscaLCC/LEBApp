@@ -13,6 +13,8 @@ public class PointDTO implements Serializable {
 
     private String openingTime;
 
+    private String closingTime;
+
     private Integer numberOfDeliveries;
 
     private Double receivedValue;
@@ -31,6 +33,14 @@ public class PointDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getClosingTime() {
+        return closingTime;
+    }
+
+    public void setClosingTime(String closingTime) {
+        this.closingTime = closingTime;
     }
 
     public String getOpeningTime() {

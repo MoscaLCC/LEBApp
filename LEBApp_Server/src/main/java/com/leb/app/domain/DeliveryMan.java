@@ -24,6 +24,9 @@ public class DeliveryMan implements Serializable {
     @Column(name = "opening_time")
     private String openingTime;
 
+    @Column(name = "closing_time")
+    private String closingTime;
+
     @Column(name = "number_of_deliveries")
     private Integer numberOfDeliveries;
 
@@ -111,6 +114,14 @@ public class DeliveryMan implements Serializable {
         return this;
     }
 
+    public String getClosingTime() {
+        return closingTime;
+    }
+
+    public void setClosingTime(String closingTime) {
+        this.closingTime = closingTime;
+    }
+
     public void setReceivedValue(Double receivedValue) {
         this.receivedValue = receivedValue;
     }
@@ -186,17 +197,11 @@ public class DeliveryMan implements Serializable {
         return getClass().hashCode();
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
-        return "DeliveryMan{" +
-            "id=" + getId() +
-            ", openingTime='" + getOpeningTime() + "'" +
-            ", numberOfDeliveries=" + getNumberOfDeliveries() +
-            ", numberOfKm=" + getNumberOfKm() +
-            ", receivedValue=" + getReceivedValue() +
-            ", valueToReceive=" + getValueToReceive() +
-            ", ranking=" + getRanking() +
-            "}";
+        return "DeliveryMan [closingTime=" + closingTime + ", id=" + id + ", numberOfDeliveries=" + numberOfDeliveries
+                + ", numberOfKm=" + numberOfKm + ", openingTime=" + openingTime + ", point=" + point + ", ranking="
+                + ranking + ", receivedValue=" + receivedValue + ", userInfo=" + userInfo + ", valueToReceive="
+                + valueToReceive + "]";
     }
 }

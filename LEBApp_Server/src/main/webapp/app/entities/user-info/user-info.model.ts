@@ -6,7 +6,7 @@ export interface IUserInfo {
   nib?: string | null;
   nif?: number | null;
   birthday?: dayjs.Dayjs | null;
-  adress?: string | null;
+  address?: string | null;
 }
 
 export class UserInfo implements IUserInfo {
@@ -16,7 +16,7 @@ export class UserInfo implements IUserInfo {
     public nib?: string | null,
     public nif?: number | null,
     public birthday?: dayjs.Dayjs | null,
-    public adress?: string | null
+    public address?: string | null
   ) {}
 }
 

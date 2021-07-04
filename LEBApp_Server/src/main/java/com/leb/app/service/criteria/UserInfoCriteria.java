@@ -35,7 +35,7 @@ public class UserInfoCriteria implements Serializable, Criteria {
 
     private LocalDateFilter birthday;
 
-    private StringFilter adress;
+    private StringFilter address;
 
     public UserInfoCriteria() {}
 
@@ -45,7 +45,7 @@ public class UserInfoCriteria implements Serializable, Criteria {
         this.nib = other.nib == null ? null : other.nib.copy();
         this.nif = other.nif == null ? null : other.nif.copy();
         this.birthday = other.birthday == null ? null : other.birthday.copy();
-        this.adress = other.adress == null ? null : other.adress.copy();
+        this.address = other.address == null ? null : other.address.copy();
     }
 
     @Override
@@ -129,18 +129,18 @@ public class UserInfoCriteria implements Serializable, Criteria {
     }
 
     public StringFilter getAdress() {
-        return adress;
+        return address;
     }
 
-    public StringFilter adress() {
-        if (adress == null) {
-            adress = new StringFilter();
+    public StringFilter address() {
+        if (address == null) {
+            address = new StringFilter();
         }
-        return adress;
+        return address;
     }
 
-    public void setAdress(StringFilter adress) {
-        this.adress = adress;
+    public void setAdress(StringFilter address) {
+        this.address = address;
     }
 
     @Override
@@ -158,13 +158,13 @@ public class UserInfoCriteria implements Serializable, Criteria {
             Objects.equals(nib, that.nib) &&
             Objects.equals(nif, that.nif) &&
             Objects.equals(birthday, that.birthday) &&
-            Objects.equals(adress, that.adress)
+            Objects.equals(address, that.address)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, phoneNumber, nib, nif, birthday, adress);
+        return Objects.hash(id, phoneNumber, nib, nif, birthday, address);
     }
 
     // prettier-ignore
@@ -176,7 +176,7 @@ public class UserInfoCriteria implements Serializable, Criteria {
             (nib != null ? "nib=" + nib + ", " : "") +
             (nif != null ? "nif=" + nif + ", " : "") +
             (birthday != null ? "birthday=" + birthday + ", " : "") +
-            (adress != null ? "adress=" + adress + ", " : "") +
+            (address != null ? "address=" + address + ", " : "") +
             "}";
     }
 }

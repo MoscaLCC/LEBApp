@@ -76,25 +76,10 @@
                                 columnDataType="varchar(60)"
                                 tableName="user"/>
         <loadData
-                  file="config/liquibase/data/user.csv"
-                  separator=";"
-                  tableName="user">
-            <column name="activated" type="boolean"/>
-            <column name="created_date" type="timestamp"/>
-        </loadData>
-        <dropDefaultValue tableName="user" columnName="created_date" columnDataType="${datetimeType}"/>
-        <loadData
                   file="config/liquibase/data/authority.csv"
                   separator=";"
                   tableName="jhi_authority">
             <column name="name" type="string"/>
-        </loadData>
-
-        <loadData
-                  file="config/liquibase/data/user_authority.csv"
-                  separator=";"
-                  tableName="user_authority">
-            <column name="user_id" type="numeric"/>
         </loadData>
     </changeSet>
 
