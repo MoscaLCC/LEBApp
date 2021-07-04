@@ -19,25 +19,45 @@ class User_Reg_Screen extends StatefulWidget {
 class _User_Reg_ScreenState extends State<User_Reg_Screen> {
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
+  // key to form validator
+  final _keyForm = GlobalKey<FormState>(); // Our created key
+
+  // Controllers
   final controllerEmailTextField = TextEditingController();
   final controllerPasswordTextField = TextEditingController();
+
+  bool _saveForm(){
+    if(_keyForm.currentState.validate()){
+      _keyForm.currentState.save();
+      return true;
+    }else{
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
 
-    final emailField = TextField(
+    final emailField = TextFormField(
       obscureText: false,
       style: style,
       decoration: InputDecoration(hintText: 'Insert your username.'),
       controller: controllerEmailTextField,
-
+      validator: (value) {
+        if (value.isEmpty) return 'You have to insert an email';
+        return null;
+      },
     );
 
-    final passwordField = TextField(
+    final passwordField = TextFormField(
       obscureText: true,
       style: style,
       decoration: InputDecoration(hintText: 'Insert your password.'),
       controller: controllerPasswordTextField,
+      validator: (value) {
+        if (value.isEmpty) return 'You have to insert a password';
+        return null;
+      },
     );
 
     final loginButon = Material(
@@ -50,26 +70,32 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
           onSurface: Colors.grey,
         ),
         onPressed: () async {
-          print("Link to server to...");
 
-          var  url = Uri.parse('http://192.168.1.110:8080/api/authenticate');
-          var body = json.encode({"username": "Admin", "password": "admin", "rememberMe": "false"});
+          if( _saveForm()){
 
-          Map<String,String> headers = {
-            'Content-type' : 'application/json',
-            'Accept': 'application/json',
-          };
+            print("Link to server to Login ...");
 
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => User_Main_Area(controllerEmailTextField.text)));
+            var  url = Uri.parse('http://192.168.1.110:8080/api/authenticate');
+            var body = json.encode({"username": controllerEmailTextField.text, "password": controllerPasswordTextField.text, "rememberMe": "false"});
 
-          //final response = await http.post(url, body: body, headers: headers);
-          //final responseJson = json.decode(response.body);
-          //print(responseJson);
-          //return response
+            Map<String,String> headers = {
+              'Content-type' : 'application/json',
+              'Accept': 'application/json',
+            };
 
+            final response = await http.post(url, body: body, headers: headers);
+            final responseJson = json.decode(response.body);
+            print(responseJson);
+            //return response;
+
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => User_Main_Area(controllerEmailTextField.text)));
+
+          }else{
+            print("validator fail: fill user and pass");
+          }
         },
       ),
     );
@@ -107,10 +133,12 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
     );
 
     return Scaffold(
-        appBar: AppBar(
-            title: const Text('Login Screen'),
-            backgroundColor: Colors.teal),
-        body: SingleChildScrollView(
+      appBar: AppBar(
+          title: Text('Login Area'),
+          backgroundColor: Colors.teal),
+      body: SingleChildScrollView(
+        child: Form(
+          key: _keyForm,
           child: Center(
             child: Container(
               color: Colors.white,
@@ -151,7 +179,8 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
               ),
             ),
           ),
-        )
+        ),
+      ),
     );
   }
 }
