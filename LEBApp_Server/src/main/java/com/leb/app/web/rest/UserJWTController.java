@@ -100,7 +100,7 @@ public class UserJWTController {
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
         
         User user = userRepository.findOneByLogin(loginVM.getUsername()).get();
-        LoginDTO login = new LoginDTO("Bearer " + jwt, user.getFirstName(), user.getLastName(), getProfils(user));
+        LoginDTO login = new LoginDTO("Bearer " + jwt, user.getId(), user.getFirstName(), user.getLastName(), getProfils(user));
 
         log.info("</authorize>");
         return new ResponseEntity<>(login, httpHeaders, HttpStatus.OK);
