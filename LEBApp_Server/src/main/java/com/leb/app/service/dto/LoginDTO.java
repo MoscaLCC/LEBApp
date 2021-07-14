@@ -9,6 +9,8 @@ import java.util.List;
 public class LoginDTO implements Serializable {
 
     private String token;
+
+    private Long userId;
     
     private String firstName;
 
@@ -21,9 +23,10 @@ public class LoginDTO implements Serializable {
         super();
     }
 
-    public LoginDTO(String token, String firstName, String lastName, List<String> profiles) {
+    public LoginDTO(String token, Long userId, String firstName, String lastName, List<String> profiles) {
         super();
         this.token = token;
+        this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.profiles = profiles;
@@ -61,10 +64,18 @@ public class LoginDTO implements Serializable {
         this.profiles = profils;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
-        return "LoginDTO [firstName=" + firstName + ", lastName=" + lastName + ", profils=" + profiles + ", token="
-                + token + "]";
+        return "LoginDTO [firstName=" + firstName + ", lastName=" + lastName + ", profiles=" + profiles + ", token="
+                + token + ", userId=" + userId + "]";
     }
 
     @Override
@@ -75,6 +86,7 @@ public class LoginDTO implements Serializable {
         result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
         result = prime * result + ((profiles == null) ? 0 : profiles.hashCode());
         result = prime * result + ((token == null) ? 0 : token.hashCode());
+        result = prime * result + ((userId == null) ? 0 : userId.hashCode());
         return result;
     }
 
@@ -107,9 +119,12 @@ public class LoginDTO implements Serializable {
                 return false;
         } else if (!token.equals(other.token))
             return false;
+        if (userId == null) {
+            if (other.userId != null)
+                return false;
+        } else if (!userId.equals(other.userId))
+            return false;
         return true;
     }
-
-    
 
 }

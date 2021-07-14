@@ -2,8 +2,6 @@ package com.leb.app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.leb.app.config.Constants;
-import java.io.Serializable;
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -23,7 +21,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "user")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class User extends AbstractAuditingEntity implements Serializable {
+public class User extends AbstractAuditingEntity{
 
     private static final long serialVersionUID = 1L;
 
@@ -79,7 +77,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     private String resetKey;
 
     @Column(name = "reset_date")
-    private Instant resetDate = null;
+    private String resetDate = null;
 
     @JsonIgnore
     @ManyToMany
@@ -173,11 +171,11 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.resetKey = resetKey;
     }
 
-    public Instant getResetDate() {
+    public String getResetDate() {
         return resetDate;
     }
 
-    public void setResetDate(Instant resetDate) {
+    public void setResetDate(String resetDate) {
         this.resetDate = resetDate;
     }
 
@@ -210,7 +208,6 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @Override
     public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
 

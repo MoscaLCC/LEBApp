@@ -1,7 +1,5 @@
 package com.leb.app.repository;
 
-import java.util.Optional;
-
 import com.leb.app.domain.UserInfo;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;

@@ -60,6 +60,7 @@ com\leb\app\security\DomainUserDetailsService.class
 com\leb\app\domain\Zone_.class
 com\leb\app\repository\ZoneRepository.class
 com\leb\app\domain\Zone.class
+com\leb\app\web\rest\ZoneResource.class
 com\leb\app\domain\DeliveryMan.class
 com\leb\app\service\ProducerQueryService.class
 com\leb\app\service\mapper\DimensionsMapperImpl.class

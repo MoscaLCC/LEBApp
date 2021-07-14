@@ -1,24 +1,24 @@
 package com.leb.app.web.rest;
 
+import com.leb.app.domain.Dimensions;
 import com.leb.app.repository.DimensionsRepository;
 import com.leb.app.service.DimensionsQueryService;
 import com.leb.app.service.DimensionsService;
 import com.leb.app.service.criteria.DimensionsCriteria;
 import com.leb.app.service.dto.DimensionsDTO;
+import com.leb.app.service.mapper.DimensionsMapper;
 import com.leb.app.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -46,14 +46,18 @@ public class DimensionsResource {
 
     private final DimensionsQueryService dimensionsQueryService;
 
+    private final DimensionsMapper dimensionsMapper;
+
     public DimensionsResource(
         DimensionsService dimensionsService,
         DimensionsRepository dimensionsRepository,
-        DimensionsQueryService dimensionsQueryService
+        DimensionsQueryService dimensionsQueryService,
+        DimensionsMapper dimensionsMapper
     ) {
         this.dimensionsService = dimensionsService;
         this.dimensionsRepository = dimensionsRepository;
         this.dimensionsQueryService = dimensionsQueryService;
+        this.dimensionsMapper = dimensionsMapper;
     }
 
     /**
@@ -64,12 +68,9 @@ public class DimensionsResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/dimensions")
-    public ResponseEntity<DimensionsDTO> createDimensions(@RequestBody DimensionsDTO dimensionsDTO) throws URISyntaxException {
+    public ResponseEntity<Dimensions> createDimensions(@RequestBody DimensionsDTO dimensionsDTO) throws URISyntaxException {
         log.debug("REST request to save Dimensions : {}", dimensionsDTO);
-        if (dimensionsDTO.getId() != null) {
-            throw new BadRequestAlertException("A new dimensions cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        DimensionsDTO result = dimensionsService.save(dimensionsDTO);
+        Dimensions result = dimensionsRepository.saveAndFlush(dimensionsMapper.toEntity(dimensionsDTO));
         return ResponseEntity
             .created(new URI("/api/dimensions/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))

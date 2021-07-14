@@ -7,7 +7,6 @@ import com.leb.app.service.criteria.UserInfoCriteria;
 import com.leb.app.service.dto.UserInfoDTO;
 import com.leb.app.service.mapper.UserInfoMapper;
 import java.util.List;
-import javax.persistence.criteria.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;

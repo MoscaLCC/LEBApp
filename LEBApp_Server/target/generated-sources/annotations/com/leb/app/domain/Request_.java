@@ -1,7 +1,6 @@
 package com.leb.app.domain;
 
 import com.leb.app.domain.enumeration.Status;
-import java.time.Instant;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
@@ -11,11 +10,11 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class Request_ {
 
 	public static volatile SingularAttribute<Request, Point> destinationPoint;
-	public static volatile SingularAttribute<Request, Instant> deliveryTime;
+	public static volatile SingularAttribute<Request, String> deliveryTime;
 	public static volatile SingularAttribute<Request, Point> originalPoint;
-	public static volatile SingularAttribute<Request, Instant> initDate;
+	public static volatile SingularAttribute<Request, String> initDate;
 	public static volatile SingularAttribute<Request, String> destination;
-	public static volatile SingularAttribute<Request, Instant> estimatedDate;
+	public static volatile SingularAttribute<Request, String> estimatedDate;
 	public static volatile SingularAttribute<Request, Double> rating;
 	public static volatile SingularAttribute<Request, String> description;
 	public static volatile SingularAttribute<Request, String> source;
@@ -31,7 +30,7 @@ public abstract class Request_ {
 	public static volatile SingularAttribute<Request, Producer> producer;
 	public static volatile SingularAttribute<Request, String> specialCharacteristics;
 	public static volatile SingularAttribute<Request, Long> id;
-	public static volatile SingularAttribute<Request, Instant> expirationDate;
+	public static volatile SingularAttribute<Request, String> expirationDate;
 	public static volatile SingularAttribute<Request, Status> status;
 	public static volatile SingularAttribute<Request, Dimensions> dimensions;
 

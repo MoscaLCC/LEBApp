@@ -1,7 +1,6 @@
 package com.leb.app.repository;
 
 import com.leb.app.domain.User;
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.cache.annotation.Cacheable;
@@ -22,7 +21,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findOneByActivationKey(String activationKey);
 
-    List<User> findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(Instant dateTime);
+    List<User> findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(String dateTime);
 
     Optional<User> findOneByResetKey(String resetKey);
 

@@ -1,13 +1,22 @@
 package com.leb.app.web.rest;
 
+import com.leb.app.domain.Producer;
+import com.leb.app.repository.ProducerRepository;
 import com.leb.app.repository.RequestRepository;
+import com.leb.app.service.DimensionsService;
 import com.leb.app.service.RequestQueryService;
 import com.leb.app.service.RequestService;
+import com.leb.app.service.RidePathService;
 import com.leb.app.service.criteria.RequestCriteria;
+import com.leb.app.service.dto.DimensionsDTO;
 import com.leb.app.service.dto.RequestDTO;
+import com.leb.app.service.dto.RidePathDTO;
+import com.leb.app.service.mapper.ProducerMapper;
+import com.leb.app.service.mapper.RequestMapper;
 import com.leb.app.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -19,7 +28,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -47,42 +55,54 @@ public class RequestResource {
 
     private final RequestQueryService requestQueryService;
 
-    public RequestResource(RequestService requestService, RequestRepository requestRepository, RequestQueryService requestQueryService) {
+    private final ProducerRepository producerRepository;
+
+    private final ProducerMapper producerMapper;
+
+    private final DimensionsService dimensionsService;
+
+    private final RidePathService ridePathService;
+
+    private final RequestMapper requestMapper;
+
+    public RequestResource(RequestService requestService, RequestRepository requestRepository, RequestQueryService requestQueryService, ProducerRepository producerRepository, ProducerMapper producerMapper, DimensionsService dimensionsService, RidePathService ridePathService, RequestMapper requestMapper) {
         this.requestService = requestService;
         this.requestRepository = requestRepository;
         this.requestQueryService = requestQueryService;
+        this.producerRepository = producerRepository;
+        this.producerMapper = producerMapper;
+        this.dimensionsService = dimensionsService;
+        this.ridePathService = ridePathService;
+        this.requestMapper = requestMapper;
     }
 
-    /**
-     * {@code POST  /requests} : Create a new request.
-     *
-     * @param requestDTO the requestDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new requestDTO, or with status {@code 400 (Bad Request)} if the request has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PostMapping("/requests")
-    public ResponseEntity<RequestDTO> createRequest(@Valid @RequestBody RequestDTO requestDTO) throws URISyntaxException {
-        log.debug("REST request to save Request : {}", requestDTO);
-        if (requestDTO.getId() != null) {
-            throw new BadRequestAlertException("A new request cannot already have an ID", ENTITY_NAME, "idexists");
-        }
+
+    @PostMapping("/requests/{id}")
+    public ResponseEntity<RequestDTO> createRequest(
+        @NotNull
+        @PathVariable(value = "id", required = false) final Long id,
+        @NotNull @RequestBody RequestDTO requestDTO
+    ) throws URISyntaxException {
+        log.debug("REST request to update Request : {}, {}", id, requestDTO);
+
+
+        Producer producer = producerRepository.findByUserInfoIdEquals(id);
+        DimensionsDTO dimensions = dimensionsService.save(requestDTO.getDimensions());
+        RidePathDTO ridePath = ridePathService.save(requestDTO.getRidePath());
+
+        requestDTO.setProducer(producerMapper.toDto(producer));
+        requestDTO.setDimensions(dimensions);
+        requestDTO.setRidePath(ridePath);
+
         RequestDTO result = requestService.save(requestDTO);
+
         return ResponseEntity
             .created(new URI("/api/requests/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
-    /**
-     * {@code PUT  /requests/:id} : Updates an existing request.
-     *
-     * @param id the id of the requestDTO to save.
-     * @param requestDTO the requestDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated requestDTO,
-     * or with status {@code 400 (Bad Request)} if the requestDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the requestDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
+
     @PutMapping("/requests/{id}")
     public ResponseEntity<RequestDTO> updateRequest(
         @PathVariable(value = "id", required = false) final Long id,
@@ -107,17 +127,7 @@ public class RequestResource {
             .body(result);
     }
 
-    /**
-     * {@code PATCH  /requests/:id} : Partial updates given fields of an existing request, field will ignore if it is null
-     *
-     * @param id the id of the requestDTO to save.
-     * @param requestDTO the requestDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated requestDTO,
-     * or with status {@code 400 (Bad Request)} if the requestDTO is not valid,
-     * or with status {@code 404 (Not Found)} if the requestDTO is not found,
-     * or with status {@code 500 (Internal Server Error)} if the requestDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
+
     @PatchMapping(value = "/requests/{id}", consumes = "application/merge-patch+json")
     public ResponseEntity<RequestDTO> partialUpdateRequest(
         @PathVariable(value = "id", required = false) final Long id,
@@ -143,13 +153,7 @@ public class RequestResource {
         );
     }
 
-    /**
-     * {@code GET  /requests} : get all the requests.
-     *
-     * @param pageable the pagination information.
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of requests in body.
-     */
+
     @GetMapping("/requests")
     public ResponseEntity<List<RequestDTO>> getAllRequests(RequestCriteria criteria, Pageable pageable) {
         log.debug("REST request to get Requests by criteria: {}", criteria);
@@ -158,24 +162,47 @@ public class RequestResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-    /**
-     * {@code GET  /requests/count} : count all the requests.
-     *
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-     */
+
+    @GetMapping("/requests/{id}/{profile}")
+    public ResponseEntity<List<RequestDTO>> getAllByIdAndProfile(
+        @PathVariable(value = "id", required = false) final Long id,
+        @PathVariable(value = "profile", required = false) final String profile
+    ) {
+        log.debug("{} Requeste with profile {}", id, profile);
+
+        List<RequestDTO> requests;
+
+        switch (profile) {
+            case "Producer" :
+                requests = requestMapper.toDto(requestRepository.findByProducerIdEquals(id));
+                break;
+            case "DeliveryMan" :
+                requests = requestMapper.toDto(requestRepository.findByCollectorIdEquals(id));
+                requests.addAll(requestMapper.toDto(requestRepository.findByDestributorIdEquals(id))); 
+                break;
+            case "Transporter" :
+                requests = requestMapper.toDto(requestRepository.findByTransporterIdEquals(id));
+                break;
+            case "Point" :
+                requests = requestMapper.toDto(requestRepository.findByOriginalPointIdEquals(id));
+                requests.addAll(requestMapper.toDto(requestRepository.findByDestinationPointIdEquals(id)));
+                break;
+            default:
+                requests = new ArrayList<RequestDTO>();
+                break;
+        }
+
+        return ResponseEntity.ok().body(requests);
+    }
+
+
     @GetMapping("/requests/count")
     public ResponseEntity<Long> countRequests(RequestCriteria criteria) {
         log.debug("REST request to count Requests by criteria: {}", criteria);
         return ResponseEntity.ok().body(requestQueryService.countByCriteria(criteria));
     }
 
-    /**
-     * {@code GET  /requests/:id} : get the "id" request.
-     *
-     * @param id the id of the requestDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the requestDTO, or with status {@code 404 (Not Found)}.
-     */
+
     @GetMapping("/requests/{id}")
     public ResponseEntity<RequestDTO> getRequest(@PathVariable Long id) {
         log.debug("REST request to get Request : {}", id);
@@ -183,12 +210,7 @@ public class RequestResource {
         return ResponseUtil.wrapOrNotFound(requestDTO);
     }
 
-    /**
-     * {@code DELETE  /requests/:id} : delete the "id" request.
-     *
-     * @param id the id of the requestDTO to delete.
-     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
-     */
+
     @DeleteMapping("/requests/{id}")
     public ResponseEntity<Void> deleteRequest(@PathVariable Long id) {
         log.debug("REST request to delete Request : {}", id);

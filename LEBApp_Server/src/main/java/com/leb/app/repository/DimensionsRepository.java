@@ -7,6 +7,5 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data SQL repository for the Dimensions entity.
  */
-@SuppressWarnings("unused")
 @Repository
 public interface DimensionsRepository extends JpaRepository<Dimensions, Long>, JpaSpecificationExecutor<Dimensions> {}

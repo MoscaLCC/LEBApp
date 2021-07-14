@@ -2,7 +2,6 @@ package com.leb.app.service.dto;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.validation.constraints.*;
 
 /**
  * A DTO for the {@link com.leb.app.domain.DeliveryMan} entity.

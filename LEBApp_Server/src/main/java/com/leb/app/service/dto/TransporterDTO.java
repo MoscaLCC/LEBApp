@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import javax.validation.constraints.*;
 
 /**
  * A DTO for the {@link com.leb.app.domain.Transporter} entity.

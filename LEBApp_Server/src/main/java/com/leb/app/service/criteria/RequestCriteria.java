@@ -4,14 +4,10 @@ import com.leb.app.domain.enumeration.Status;
 import java.io.Serializable;
 import java.util.Objects;
 import tech.jhipster.service.Criteria;
-import tech.jhipster.service.filter.BooleanFilter;
 import tech.jhipster.service.filter.DoubleFilter;
 import tech.jhipster.service.filter.Filter;
-import tech.jhipster.service.filter.FloatFilter;
-import tech.jhipster.service.filter.InstantFilter;
-import tech.jhipster.service.filter.IntegerFilter;
-import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.service.filter.StringFilter;
+import tech.jhipster.service.filter.LongFilter;
 
 /**
  * Criteria class for the {@link com.leb.app.domain.Request} entity. This class is used
@@ -55,9 +51,9 @@ public class RequestCriteria implements Serializable, Criteria {
 
     private StringFilter destinationContact;
 
-    private InstantFilter initDate;
+    private StringFilter initDate;
 
-    private InstantFilter expirationDate;
+    private StringFilter expirationDate;
 
     private StringFilter description;
 
@@ -67,9 +63,9 @@ public class RequestCriteria implements Serializable, Criteria {
 
     private StatusFilter status;
 
-    private InstantFilter estimatedDate;
+    private StringFilter estimatedDate;
 
-    private InstantFilter deliveryTime;
+    private StringFilter deliveryTime;
 
     private DoubleFilter shippingCosts;
 
@@ -200,33 +196,33 @@ public class RequestCriteria implements Serializable, Criteria {
         this.destinationContact = destinationContact;
     }
 
-    public InstantFilter getInitDate() {
+    public StringFilter getInitDate() {
         return initDate;
     }
 
-    public InstantFilter initDate() {
+    public StringFilter initDate() {
         if (initDate == null) {
-            initDate = new InstantFilter();
+            initDate = new StringFilter();
         }
         return initDate;
     }
 
-    public void setInitDate(InstantFilter initDate) {
+    public void setInitDate(StringFilter initDate) {
         this.initDate = initDate;
     }
 
-    public InstantFilter getExpirationDate() {
+    public StringFilter getExpirationDate() {
         return expirationDate;
     }
 
-    public InstantFilter expirationDate() {
+    public StringFilter expirationDate() {
         if (expirationDate == null) {
-            expirationDate = new InstantFilter();
+            expirationDate = new StringFilter();
         }
         return expirationDate;
     }
 
-    public void setExpirationDate(InstantFilter expirationDate) {
+    public void setExpirationDate(StringFilter expirationDate) {
         this.expirationDate = expirationDate;
     }
 
@@ -290,33 +286,33 @@ public class RequestCriteria implements Serializable, Criteria {
         this.status = status;
     }
 
-    public InstantFilter getEstimatedDate() {
+    public StringFilter getEstimatedDate() {
         return estimatedDate;
     }
 
-    public InstantFilter estimatedDate() {
+    public StringFilter estimatedDate() {
         if (estimatedDate == null) {
-            estimatedDate = new InstantFilter();
+            estimatedDate = new StringFilter();
         }
         return estimatedDate;
     }
 
-    public void setEstimatedDate(InstantFilter estimatedDate) {
+    public void setEstimatedDate(StringFilter estimatedDate) {
         this.estimatedDate = estimatedDate;
     }
 
-    public InstantFilter getDeliveryTime() {
+    public StringFilter getDeliveryTime() {
         return deliveryTime;
     }
 
-    public InstantFilter deliveryTime() {
+    public StringFilter deliveryTime() {
         if (deliveryTime == null) {
-            deliveryTime = new InstantFilter();
+            deliveryTime = new StringFilter();
         }
         return deliveryTime;
     }
 
-    public void setDeliveryTime(InstantFilter deliveryTime) {
+    public void setDeliveryTime(StringFilter deliveryTime) {
         this.deliveryTime = deliveryTime;
     }
 
