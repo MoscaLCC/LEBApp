@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProducerRepository extends JpaRepository<Producer, Long>, JpaSpecificationExecutor<Producer> {
 
-    Boolean existsByUserInfoId(Long UserId);
+    Boolean existsByUserInfoId(Long userId);
+
+    Producer findByUserInfoIdEquals(Long id);
 
 }

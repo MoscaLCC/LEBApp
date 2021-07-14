@@ -1,6 +1,5 @@
 package com.leb.app.domain;
 
-import java.time.Instant;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
@@ -9,9 +8,9 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(AbstractAuditingEntity.class)
 public abstract class AbstractAuditingEntity_ {
 
-	public static volatile SingularAttribute<AbstractAuditingEntity, Instant> createdDate;
+	public static volatile SingularAttribute<AbstractAuditingEntity, String> createdDate;
 	public static volatile SingularAttribute<AbstractAuditingEntity, String> createdBy;
-	public static volatile SingularAttribute<AbstractAuditingEntity, Instant> lastModifiedDate;
+	public static volatile SingularAttribute<AbstractAuditingEntity, String> lastModifiedDate;
 	public static volatile SingularAttribute<AbstractAuditingEntity, String> lastModifiedBy;
 
 	public static final String CREATED_DATE = "createdDate";

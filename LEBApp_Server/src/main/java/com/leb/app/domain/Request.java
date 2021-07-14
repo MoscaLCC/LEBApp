@@ -1,7 +1,6 @@
 package com.leb.app.domain;
 
 import java.io.Serializable;
-import java.time.Instant;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -52,10 +51,10 @@ public class Request implements Serializable {
     private String destinationContact;
 
     @Column(name = "init_date")
-    private Instant initDate;
+    private String initDate;
 
     @Column(name = "expiration_date")
-    private Instant expirationDate;
+    private String expirationDate;
 
     @Column(name = "description")
     private String description;
@@ -71,10 +70,10 @@ public class Request implements Serializable {
     private Status status;
 
     @Column(name = "estimated_date")
-    private Instant estimatedDate;
+    private String estimatedDate;
 
     @Column(name = "delivery_time")
-    private Instant deliveryTime;
+    private String deliveryTime;
 
     @Column(name = "shipping_costs")
     private Double shippingCosts;
@@ -84,6 +83,7 @@ public class Request implements Serializable {
 
     @JsonIgnoreProperties(value = { "request" }, allowSetters = true)
     @OneToOne
+    @NotNull
     @JoinColumn(unique = true)
     private Dimensions dimensions;
 
@@ -196,29 +196,29 @@ public class Request implements Serializable {
         this.destinationContact = destinationContact;
     }
 
-    public Instant getInitDate() {
+    public String getInitDate() {
         return this.initDate;
     }
 
-    public Request initDate(Instant initDate) {
+    public Request initDate(String initDate) {
         this.initDate = initDate;
         return this;
     }
 
-    public void setInitDate(Instant initDate) {
+    public void setInitDate(String initDate) {
         this.initDate = initDate;
     }
 
-    public Instant getExpirationDate() {
+    public String getExpirationDate() {
         return this.expirationDate;
     }
 
-    public Request expirationDate(Instant expirationDate) {
+    public Request expirationDate(String expirationDate) {
         this.expirationDate = expirationDate;
         return this;
     }
 
-    public void setExpirationDate(Instant expirationDate) {
+    public void setExpirationDate(String expirationDate) {
         this.expirationDate = expirationDate;
     }
 
@@ -274,29 +274,29 @@ public class Request implements Serializable {
         this.status = status;
     }
 
-    public Instant getEstimatedDate() {
+    public String getEstimatedDate() {
         return this.estimatedDate;
     }
 
-    public Request estimatedDate(Instant estimatedDate) {
+    public Request estimatedDate(String estimatedDate) {
         this.estimatedDate = estimatedDate;
         return this;
     }
 
-    public void setEstimatedDate(Instant estimatedDate) {
+    public void setEstimatedDate(String estimatedDate) {
         this.estimatedDate = estimatedDate;
     }
 
-    public Instant getDeliveryTime() {
+    public String getDeliveryTime() {
         return this.deliveryTime;
     }
 
-    public Request deliveryTime(Instant deliveryTime) {
+    public Request deliveryTime(String deliveryTime) {
         this.deliveryTime = deliveryTime;
         return this;
     }
 
-    public void setDeliveryTime(Instant deliveryTime) {
+    public void setDeliveryTime(String deliveryTime) {
         this.deliveryTime = deliveryTime;
     }
 

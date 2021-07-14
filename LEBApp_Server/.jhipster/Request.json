@@ -23,11 +23,11 @@
     },
     {
       "fieldName": "initDate",
-      "fieldType": "Instant"
+      "fieldType": "String"
     },
     {
       "fieldName": "expirationDate",
-      "fieldType": "Instant"
+      "fieldType": "String"
     },
     {
       "fieldName": "description",
@@ -48,11 +48,11 @@
     },
     {
       "fieldName": "estimatedDate",
-      "fieldType": "Instant"
+      "fieldType": "String"
     },
     {
       "fieldName": "deliveryTime",
-      "fieldType": "Instant"
+      "fieldType": "String"
     },
     {
       "fieldName": "shippingCosts",

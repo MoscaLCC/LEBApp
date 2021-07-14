@@ -2,7 +2,6 @@ package com.leb.app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.leb.app.config.Constants;
-import java.time.Instant;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -78,7 +77,7 @@ public class User extends AbstractAuditingEntity{
     private String resetKey;
 
     @Column(name = "reset_date")
-    private Instant resetDate = null;
+    private String resetDate = null;
 
     @JsonIgnore
     @ManyToMany
@@ -172,11 +171,11 @@ public class User extends AbstractAuditingEntity{
         this.resetKey = resetKey;
     }
 
-    public Instant getResetDate() {
+    public String getResetDate() {
         return resetDate;
     }
 
-    public void setResetDate(Instant resetDate) {
+    public void setResetDate(String resetDate) {
         this.resetDate = resetDate;
     }
 
@@ -209,7 +208,6 @@ public class User extends AbstractAuditingEntity{
 
     @Override
     public int hashCode() {
-        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
 

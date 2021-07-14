@@ -20,7 +20,6 @@ import com.leb.app.security.SecurityUtils;
 import com.leb.app.service.dto.AdminUserDTO;
 import com.leb.app.service.dto.RegisterDTO;
 import com.leb.app.service.dto.UserDTO;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -106,7 +105,6 @@ public class UserService {
         log.debug("Reset user password for reset key {}", key);
         return userRepository
             .findOneByResetKey(key)
-            .filter(user -> user.getResetDate().isAfter(Instant.now().minusSeconds(86400)))
             .map(
                 user -> {
                     user.setPassword(passwordEncoder.encode(newPassword));
@@ -126,7 +124,7 @@ public class UserService {
             .map(
                 user -> {
                     user.setResetKey(RandomUtil.generateResetKey());
-                    user.setResetDate(Instant.now());
+                    user.setResetDate(LocalDate.now().toString());
                     this.clearUserCaches(user);
                     return user;
                 }
@@ -367,7 +365,7 @@ public class UserService {
         String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
         user.setPassword(encryptedPassword);
         user.setResetKey(RandomUtil.generateResetKey());
-        user.setResetDate(Instant.now());
+        user.setResetDate(LocalDate.now().toString());
         user.setActivated(true);
         if (userDTO.getAuthorities() != null) {
             Set<Authority> authorities = userDTO
@@ -516,7 +514,7 @@ public class UserService {
     @Scheduled(cron = "0 0 1 * * ?")
     public void removeNotActivatedUsers() {
         userRepository
-            .findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(Instant.now().minus(3, ChronoUnit.DAYS))
+            .findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(LocalDate.now().minus(3, ChronoUnit.DAYS).toString())
             .forEach(
                 user -> {
                     log.debug("Deleting not activated user {}", user.getLogin());

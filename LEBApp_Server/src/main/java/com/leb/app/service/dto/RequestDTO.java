@@ -2,7 +2,6 @@ package com.leb.app.service.dto;
 
 import com.leb.app.domain.enumeration.Status;
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -22,9 +21,9 @@ public class RequestDTO implements Serializable {
 
     private String destinationContact;
 
-    private Instant initDate;
+    private String initDate;
 
-    private Instant expirationDate;
+    private String expirationDate;
 
     private String description;
 
@@ -34,9 +33,9 @@ public class RequestDTO implements Serializable {
 
     private Status status;
 
-    private Instant estimatedDate;
+    private String estimatedDate;
 
-    private Instant deliveryTime;
+    private String deliveryTime;
 
     private Double shippingCosts;
 
@@ -96,19 +95,19 @@ public class RequestDTO implements Serializable {
         this.destinationContact = destinationContact;
     }
 
-    public Instant getInitDate() {
+    public String getInitDate() {
         return initDate;
     }
 
-    public void setInitDate(Instant initDate) {
+    public void setInitDate(String initDate) {
         this.initDate = initDate;
     }
 
-    public Instant getExpirationDate() {
+    public String getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(Instant expirationDate) {
+    public void setExpirationDate(String expirationDate) {
         this.expirationDate = expirationDate;
     }
 
@@ -144,19 +143,19 @@ public class RequestDTO implements Serializable {
         this.status = status;
     }
 
-    public Instant getEstimatedDate() {
+    public String getEstimatedDate() {
         return estimatedDate;
     }
 
-    public void setEstimatedDate(Instant estimatedDate) {
+    public void setEstimatedDate(String estimatedDate) {
         this.estimatedDate = estimatedDate;
     }
 
-    public Instant getDeliveryTime() {
+    public String getDeliveryTime() {
         return deliveryTime;
     }
 
-    public void setDeliveryTime(Instant deliveryTime) {
+    public void setDeliveryTime(String deliveryTime) {
         this.deliveryTime = deliveryTime;
     }
 

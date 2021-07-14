@@ -20,14 +20,14 @@ entity Request {
     source String,
     destination String,
     destinationContact String,
-    initDate Instant,
-    expirationDate Instant,
+    initDate String,
+    expirationDate String,
     description String,
     specialCharacteristics String,
     productWeight Double,
     status Status,
-    estimatedDate Instant,
-    deliveryTime Instant, 
+    estimatedDate String,
+    deliveryTime String, 
     shippingCosts Double,
     rating Double
 }

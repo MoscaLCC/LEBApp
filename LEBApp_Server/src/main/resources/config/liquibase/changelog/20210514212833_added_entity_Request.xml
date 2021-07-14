@@ -29,10 +29,10 @@
             <column name="destination_contact" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="init_date" type="${datetimeType}">
+            <column name="init_date" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="expiration_date" type="${datetimeType}">
+            <column name="expiration_date" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="description" type="varchar(255)">
@@ -47,10 +47,10 @@
             <column name="status" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="estimated_date" type="${datetimeType}">
+            <column name="estimated_date" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="delivery_time" type="${datetimeType}">
+            <column name="delivery_time" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="shipping_costs" type="double">
@@ -85,10 +85,10 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="request" columnName="init_date" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="request" columnName="expiration_date" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="request" columnName="estimated_date" columnDataType="${datetimeType}"/>
-        <dropDefaultValue tableName="request" columnName="delivery_time" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="request" columnName="init_date" columnDataType="varchar(255)"/>
+        <dropDefaultValue tableName="request" columnName="expiration_date" columnDataType="varchar(255)"/>
+        <dropDefaultValue tableName="request" columnName="estimated_date" columnDataType="varchar(255)"/>
+        <dropDefaultValue tableName="request" columnName="delivery_time" columnDataType="varchar(255)"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
