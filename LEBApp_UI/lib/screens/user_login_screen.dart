@@ -21,6 +21,8 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
   final controllerEmailTextField = TextEditingController();
   final controllerPasswordTextField = TextEditingController();
 
+  String selectedProfile = null;
+
   bool _saveForm(){
     if(_keyForm.currentState.validate()){
       _keyForm.currentState.save();
@@ -81,24 +83,26 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
             final response = await http.post(url, body: body, headers: headers);
             var jsonResponse = json.decode(response.body);
 
+            // parse response in login DTO
             LoginDTO loginDTO = new LoginDTO.fromJson(jsonResponse);
 
             print("Response:");
             print(loginDTO);
 
             print(loginDTO.token);
+            print(loginDTO.userID);
             print(loginDTO.firstName);
             print(loginDTO.lastName);
             print(loginDTO.profiles);
 
-            teste(loginDTO.profiles);
+            // select available profile
+            await teste(loginDTO.profiles);
 
-
-            /*Navigator.push(
+            Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => User_Main_Area(loginDTO.firstName)));
-*/
+                    builder: (context) => User_Main_Area(loginDTO.firstName, loginDTO.userID, selectedProfile,loginDTO.token)));
+
           }else{
             print("validator fail: fill user and pass");
           }
@@ -207,6 +211,9 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
                       title: Text(profileList[index]),
                       onTap: () {
                         Navigator.pop(context, profileList[index]);
+                        if( profileList[index] != null){
+                          selectedProfile = profileList[index];
+                        }
                       },
                     );
                   },
