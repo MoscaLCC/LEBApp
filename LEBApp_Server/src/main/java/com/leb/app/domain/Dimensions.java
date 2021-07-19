@@ -29,6 +29,9 @@ public class Dimensions implements Serializable {
     @Column(name = "depth")
     private Double depth;
 
+    @Column(name = "weight")
+    private Double Weight;
+
     @JsonIgnoreProperties(value = { "dimensions", "ridePath", "producer" }, allowSetters = true)
     @OneToOne(mappedBy = "dimensions")
     private Request request;
@@ -88,6 +91,14 @@ public class Dimensions implements Serializable {
 
     public Request getRequest() {
         return this.request;
+    }
+
+    public Double getWeight() {
+        return Weight;
+    }
+
+    public void setWeight(Double weight) {
+        Weight = weight;
     }
 
     public Dimensions request(Request request) {

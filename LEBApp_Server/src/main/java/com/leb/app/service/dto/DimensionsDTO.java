@@ -16,6 +16,8 @@ public class DimensionsDTO implements Serializable {
 
     private Double depth;
 
+    private Double weight;
+
     public Long getId() {
         return id;
     }
@@ -42,6 +44,14 @@ public class DimensionsDTO implements Serializable {
 
     public Double getDepth() {
         return depth;
+    }
+
+    public Double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Double weight) {
+        this.weight = weight;
     }
 
     public void setDepth(Double depth) {

@@ -62,9 +62,6 @@ public class Request implements Serializable {
     @Column(name = "special_characteristics")
     private String specialCharacteristics;
 
-    @Column(name = "product_weight")
-    private Double productWeight;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private Status status;
@@ -248,19 +245,6 @@ public class Request implements Serializable {
         this.specialCharacteristics = specialCharacteristics;
     }
 
-    public Double getProductWeight() {
-        return this.productWeight;
-    }
-
-    public Request productWeight(Double productWeight) {
-        this.productWeight = productWeight;
-        return this;
-    }
-
-    public void setProductWeight(Double productWeight) {
-        this.productWeight = productWeight;
-    }
-
     public Status getStatus() {
         return this.status;
     }
@@ -437,7 +421,7 @@ public class Request implements Serializable {
                 + destinationPoint + ", destributor=" + destributor + ", dimensions=" + dimensions + ", estimatedDate="
                 + estimatedDate + ", expirationDate=" + expirationDate + ", id=" + id + ", initDate=" + initDate
                 + ", originalPoint=" + originalPoint + ", producer=" + producer + ", productName=" + productName
-                + ", productValue=" + productValue + ", productWeight=" + productWeight + ", rating=" + rating
+                + ", productValue=" + productValue + ", rating=" + rating
                 + ", ridePath=" + ridePath + ", shippingCosts=" + shippingCosts + ", source=" + source
                 + ", specialCharacteristics=" + specialCharacteristics + ", status=" + status + ", transporter="
                 + transporter + "]";

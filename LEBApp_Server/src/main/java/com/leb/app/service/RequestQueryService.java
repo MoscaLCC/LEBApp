@@ -108,9 +108,6 @@ public class RequestQueryService extends QueryService<Request> {
                 specification =
                     specification.and(buildStringSpecification(criteria.getSpecialCharacteristics(), Request_.specialCharacteristics));
             }
-            if (criteria.getProductWeight() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getProductWeight(), Request_.productWeight));
-            }
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatus(), Request_.status));
             }

@@ -1,6 +1,7 @@
 package com.leb.app.web.rest;
 
 import com.leb.app.domain.Producer;
+import com.leb.app.domain.enumeration.Status;
 import com.leb.app.repository.ProducerRepository;
 import com.leb.app.repository.RequestRepository;
 import com.leb.app.service.DimensionsService;
@@ -28,9 +29,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -212,12 +215,25 @@ public class RequestResource {
 
 
     @DeleteMapping("/requests/{id}")
-    public ResponseEntity<Void> deleteRequest(@PathVariable Long id) {
+    public ResponseEntity<HttpStatus> deleteRequest(@PathVariable Long id) {
         log.debug("REST request to delete Request : {}", id);
-        requestService.delete(id);
-        return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-            .build();
+
+        
+        Optional<RequestDTO> opRequest = requestService.findOne(id);
+        RequestDTO request = new RequestDTO();
+
+        if(opRequest.isPresent()){
+            request = opRequest.get();
+        }
+        
+        if(request.getStatus().equals(Status.WAITING_COLLECTION)){
+            requestService.delete(id);
+            return ResponseEntity
+                .noContent()
+                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+                .build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 }

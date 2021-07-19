@@ -41,9 +41,6 @@
             <column name="special_characteristics" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="product_weight" type="double">
-                <constraints nullable="true" />
-            </column>
             <column name="status" type="varchar(255)">
                 <constraints nullable="true" />
             </column>

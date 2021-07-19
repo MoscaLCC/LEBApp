@@ -29,8 +29,6 @@ public class RequestDTO implements Serializable {
 
     private String specialCharacteristics;
 
-    private Double productWeight;
-
     private Status status;
 
     private String estimatedDate;
@@ -125,14 +123,6 @@ public class RequestDTO implements Serializable {
 
     public void setSpecialCharacteristics(String specialCharacteristics) {
         this.specialCharacteristics = specialCharacteristics;
-    }
-
-    public Double getProductWeight() {
-        return productWeight;
-    }
-
-    public void setProductWeight(Double productWeight) {
-        this.productWeight = productWeight;
     }
 
     public Status getStatus() {
@@ -234,7 +224,6 @@ public class RequestDTO implements Serializable {
             ", expirationDate='" + getExpirationDate() + "'" +
             ", description='" + getDescription() + "'" +
             ", specialCharacteristics='" + getSpecialCharacteristics() + "'" +
-            ", productWeight=" + getProductWeight() +
             ", status='" + getStatus() + "'" +
             ", estimatedDate='" + getEstimatedDate() + "'" +
             ", deliveryTime='" + getDeliveryTime() + "'" +

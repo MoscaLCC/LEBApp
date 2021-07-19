@@ -23,6 +23,9 @@
             <column name="depth" type="double">
                 <constraints nullable="true" />
             </column>
+            <column name="weight" type="double">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>
