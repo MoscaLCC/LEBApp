@@ -11,19 +11,18 @@ class CreateRequestDTO {
   String _productName; //ok
   String _source; //ok
   String _destination; //ok
-  String _destinationContact;
-  String _initDate;
-  String _expirationDate;
+  String _destinationContact; // ok
+  DateTime _initDate; // ok
+  DateTime _expirationDate; // ok
   String _description; //ok
   String _specialCharacteristics; //ok
-  double _productWeight;
-  String _status;
-  String _estimatedDate;
-  String _deliveryTime;
+  String _status; // when created, default value is ...
+  DateTime _estimatedDate; // ok
+  String _deliveryTime; // ok
   double _shippingCosts;
-  double _rating;
-  DimensionsDTO _dimensions;
-  RidePathDTO _ridePath;
+  double _rating; // when created, default value is ...
+  DimensionsDTO _dimensions; // ok
+  RidePathDTO _ridePath; // after listing available transporters
   int _producer;
 
   CreateRequestDTO(
@@ -36,7 +35,6 @@ class CreateRequestDTO {
       this._expirationDate,
       this._description,
       this._specialCharacteristics,
-      this._productWeight,
       this._status,
       this._estimatedDate,
       this._deliveryTime,
@@ -82,9 +80,9 @@ class CreateRequestDTO {
     _deliveryTime = value;
   }
 
-  String get estimatedDate => _estimatedDate;
+  DateTime get estimatedDate => _estimatedDate;
 
-  set estimatedDate(String value) {
+  set estimatedDate(DateTime value) {
     _estimatedDate = value;
   }
 
@@ -92,12 +90,6 @@ class CreateRequestDTO {
 
   set status(String value) {
     _status = value;
-  }
-
-  double get productWeight => _productWeight;
-
-  set productWeight(double value) {
-    _productWeight = value;
   }
 
   String get specialCharacteristics => _specialCharacteristics;
@@ -112,15 +104,15 @@ class CreateRequestDTO {
     _description = value;
   }
 
-  String get expirationDate => _expirationDate;
+  DateTime get expirationDate => _expirationDate;
 
-  set expirationDate(String value) {
+  set expirationDate(DateTime value) {
     _expirationDate = value;
   }
 
-  String get initDate => _initDate;
+  DateTime get initDate => _initDate;
 
-  set initDate(String value) {
+  set initDate(DateTime value) {
     _initDate = value;
   }
 
@@ -164,7 +156,6 @@ class CreateRequestDTO {
         _expirationDate = json['expirationDate'],
         _description = json['description'],
         _specialCharacteristics = json['specialCharacteristics'],
-        _productWeight = json['productWeight'],
         _status = json['status'],
         _estimatedDate = json['estimatedDate'],
         _deliveryTime = json['deliveryTime'],
@@ -180,13 +171,12 @@ class CreateRequestDTO {
     'source' :  _source,
     'destination' :  _destination,
     'destinationContact' :  _destinationContact,
-    'initDate' :  _initDate,
-    'expirationDate' :  _expirationDate,
+    'initDate' :  _initDate.toString(),
+    'expirationDate' :  _expirationDate.toString(),
     'description' :  _description,
     'specialCharacteristics' :  _specialCharacteristics,
-    'productWeight' :  _productWeight,
     'status' :  _status,
-    'estimatedDate' :  _estimatedDate,
+    'estimatedDate' :  _estimatedDate.toString(),
     'deliveryTime' :  _deliveryTime,
     'shippingCosts' :  _shippingCosts,
     'rating' :  _rating,
@@ -197,6 +187,6 @@ class CreateRequestDTO {
 
   @override
   String toString() {
-    return 'CreateRequestDTO{_productValue: $_productValue, _productName: $_productName, _source: $_source, _destination: $_destination, _destinationContact: $_destinationContact, _initDate: $_initDate, _expirationDate: $_expirationDate, _description: $_description, _specialCharacteristics: $_specialCharacteristics, _productWeight: $_productWeight, _status: $_status, _estimatedDate: $_estimatedDate, _deliveryTime: $_deliveryTime, _shippingCosts: $_shippingCosts, _rating: $_rating, _dimensions: $_dimensions, _ridePath: $_ridePath, _producerId: $_producer}';
+    return 'CreateRequestDTO{_productValue: $_productValue, _productName: $_productName, _source: $_source, _destination: $_destination, _destinationContact: $_destinationContact, _initDate: $_initDate, _expirationDate: $_expirationDate, _description: $_description, _specialCharacteristics: $_specialCharacteristics, _status: $_status, _estimatedDate: $_estimatedDate, _deliveryTime: $_deliveryTime, _shippingCosts: $_shippingCosts, _rating: $_rating, _dimensions: $_dimensions, _ridePath: $_ridePath, _producer: $_producer}';
   }
 }

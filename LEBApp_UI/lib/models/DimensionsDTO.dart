@@ -8,8 +8,9 @@ class DimensionsDTO {
    double _height;
    double _width;
    double _depth;
+   double _weight;
 
-   DimensionsDTO(this._height,this._width,this._depth);
+   DimensionsDTO(this._height,this._width,this._depth,this._weight);
 
    double get depth => _depth;
 
@@ -29,19 +30,27 @@ class DimensionsDTO {
     _height = value;
   }
 
-   DimensionsDTO.fromJson(Map<String, dynamic> json)
+   double get weight => _weight;
+
+  set weight(double value) {
+    _weight = value;
+  }
+
+  DimensionsDTO.fromJson(Map<String, dynamic> json)
        : _height = json['height'],
          _width = json['width'],
-         _depth = json['depth'];
+         _depth = json['depth'],
+         _weight = json['weight'];
 
    Map<String, dynamic> toJson() => {
      'height' : _height,
      'width' : _width,
      'depth' :  _depth,
+     'weight' :  _weight,
    };
 
    @override
   String toString() {
-    return 'DimensionsDTO{_height: $_height, _width: $_width, _depth: $_depth}';
+    return 'DimensionsDTO{_height: $_height, _width: $_width, _depth: $_depth, _weight: $_weight}';
   }
 }
