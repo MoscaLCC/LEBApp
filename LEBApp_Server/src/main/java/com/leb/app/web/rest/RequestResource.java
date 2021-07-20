@@ -23,6 +23,8 @@ import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import org.jboss.jandex.VoidType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -79,7 +81,7 @@ public class RequestResource {
         this.requestMapper = requestMapper;
     }
 
-
+    //METODO PARA CRIAR UM PEDIDO PARA PRODUTOR
     @PostMapping("/requests/{id}")
     public ResponseEntity<RequestDTO> createRequest(
         @NotNull
@@ -105,7 +107,7 @@ public class RequestResource {
             .body(result);
     }
 
-
+    /*
     @PutMapping("/requests/{id}")
     public ResponseEntity<RequestDTO> updateRequest(
         @PathVariable(value = "id", required = false) final Long id,
@@ -128,9 +130,9 @@ public class RequestResource {
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, requestDTO.getId().toString()))
             .body(result);
-    }
+    }*/
 
-
+    /*
     @PatchMapping(value = "/requests/{id}", consumes = "application/merge-patch+json")
     public ResponseEntity<RequestDTO> partialUpdateRequest(
         @PathVariable(value = "id", required = false) final Long id,
@@ -154,21 +156,21 @@ public class RequestResource {
             result,
             HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, requestDTO.getId().toString())
         );
-    }
+    }*/
 
-
-    @GetMapping("/requests")
+    //METODO PARA OBTER TODOS OS PEDIDOS
+    /*@GetMapping("/requests")
     public ResponseEntity<List<RequestDTO>> getAllRequests(RequestCriteria criteria, Pageable pageable) {
         log.debug("REST request to get Requests by criteria: {}", criteria);
         Page<RequestDTO> page = requestQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
+    }*/
 
 
-    @GetMapping("/requests/{id}/{profile}")
+    @GetMapping("/requests/{userId}/{profile}")
     public ResponseEntity<List<RequestDTO>> getAllByIdAndProfile(
-        @PathVariable(value = "id", required = false) final Long id,
+        @PathVariable(value = "userId", required = false) final Long id,
         @PathVariable(value = "profile", required = false) final String profile
     ) {
         log.debug("{} Requeste with profile {}", id, profile);
@@ -198,25 +200,51 @@ public class RequestResource {
         return ResponseEntity.ok().body(requests);
     }
 
-
-    @GetMapping("/requests/count")
+    //METODO PARA RETORNAR O NUMERO DE PEDIDOS NO SISTEMA
+    /*@GetMapping("/requests/count")
     public ResponseEntity<Long> countRequests(RequestCriteria criteria) {
         log.debug("REST request to count Requests by criteria: {}", criteria);
         return ResponseEntity.ok().body(requestQueryService.countByCriteria(criteria));
-    }
+    }*/
 
-
-    @GetMapping("/requests/{id}")
+    //METODO PARA OBTER A INFO DE UM PEDIDO
+    /*@GetMapping("/requests/{id}")
     public ResponseEntity<RequestDTO> getRequest(@PathVariable Long id) {
         log.debug("REST request to get Request : {}", id);
         Optional<RequestDTO> requestDTO = requestService.findOne(id);
         return ResponseUtil.wrapOrNotFound(requestDTO);
+    }*/
+
+    //METODO PARA OBTER A INFO DE UM PEDIDO CASO SE SEJA O PRODUTOR
+    @GetMapping("/requests/interface/{id}/{userId}")
+    public ResponseEntity<RequestDTO> getRequestProducer(@PathVariable Long id, Long userId) {
+        log.debug("REST request to get Request : {} from {}", id, userId);
+
+        Optional<RequestDTO> requestDTO = requestService.findOne(id);
+        RequestDTO request = new RequestDTO();
+
+        if(requestDTO.isPresent()) request = requestDTO.get();
+
+        if(request.getProducer().getId().equals(userId)) return ResponseUtil.wrapOrNotFound(requestDTO);
+        else throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
     }
 
 
-    @DeleteMapping("/requests/{id}")
-    public ResponseEntity<HttpStatus> deleteRequest(@PathVariable Long id) {
-        log.debug("REST request to delete Request : {}", id);
+    //METODO PARA APAGAR UM PEDIDO
+    /*@DeleteMapping("/requests/{id}")
+    public ResponseEntity<Void> deleteRequest(@PathVariable Long id) {
+        log.debug("REST request to delete Transporter : {}", id);
+        requestService.delete(id);
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+            .build();
+    }*/
+
+    //METODO PARA APAGAR UM PEDIDO CASO SEJA O PRODUTOR
+    @DeleteMapping("/requests/{id}/{userId}")
+    public ResponseEntity<HttpStatus> deleteRequestProducer(@PathVariable Long id, Long userId) {
+        log.debug("REST request to delete Request : {} from {}", id, userId);
 
         
         Optional<RequestDTO> opRequest = requestService.findOne(id);
@@ -226,7 +254,7 @@ public class RequestResource {
             request = opRequest.get();
         }
         
-        if(request.getStatus().equals(Status.WAITING_COLLECTION)){
+        if(request.getStatus().equals(Status.WAITING_COLLECTION) && request.getProducer().getId().equals(userId)){
             requestService.delete(id);
             return ResponseEntity
                 .noContent()
