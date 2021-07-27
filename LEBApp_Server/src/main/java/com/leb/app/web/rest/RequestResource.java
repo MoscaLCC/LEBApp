@@ -1,43 +1,42 @@
 package com.leb.app.web.rest;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import javax.validation.constraints.NotNull;
+
 import com.leb.app.domain.Producer;
+import com.leb.app.domain.Request;
 import com.leb.app.domain.enumeration.Status;
 import com.leb.app.repository.ProducerRepository;
 import com.leb.app.repository.RequestRepository;
 import com.leb.app.service.DimensionsService;
-import com.leb.app.service.RequestQueryService;
 import com.leb.app.service.RequestService;
 import com.leb.app.service.RidePathService;
-import com.leb.app.service.criteria.RequestCriteria;
 import com.leb.app.service.dto.DimensionsDTO;
 import com.leb.app.service.dto.RequestDTO;
 import com.leb.app.service.dto.RidePathDTO;
 import com.leb.app.service.mapper.ProducerMapper;
 import com.leb.app.service.mapper.RequestMapper;
 import com.leb.app.web.rest.errors.BadRequestAlertException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
-import org.jboss.jandex.VoidType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import tech.jhipster.web.util.HeaderUtil;
-import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -58,8 +57,6 @@ public class RequestResource {
 
     private final RequestRepository requestRepository;
 
-    private final RequestQueryService requestQueryService;
-
     private final ProducerRepository producerRepository;
 
     private final ProducerMapper producerMapper;
@@ -70,10 +67,9 @@ public class RequestResource {
 
     private final RequestMapper requestMapper;
 
-    public RequestResource(RequestService requestService, RequestRepository requestRepository, RequestQueryService requestQueryService, ProducerRepository producerRepository, ProducerMapper producerMapper, DimensionsService dimensionsService, RidePathService ridePathService, RequestMapper requestMapper) {
+    public RequestResource(RequestService requestService, RequestRepository requestRepository, ProducerRepository producerRepository, ProducerMapper producerMapper, DimensionsService dimensionsService, RidePathService ridePathService, RequestMapper requestMapper) {
         this.requestService = requestService;
         this.requestRepository = requestRepository;
-        this.requestQueryService = requestQueryService;
         this.producerRepository = producerRepository;
         this.producerMapper = producerMapper;
         this.dimensionsService = dimensionsService;
@@ -85,7 +81,7 @@ public class RequestResource {
     @PostMapping("/requests/{id}")
     public ResponseEntity<RequestDTO> createRequest(
         @NotNull
-        @PathVariable(value = "id", required = false) final Long id,
+        @PathVariable(value = "id", required = true) final Long id,
         @NotNull @RequestBody RequestDTO requestDTO
     ) throws URISyntaxException {
         log.debug("REST request to update Request : {}, {}", id, requestDTO);
@@ -170,30 +166,30 @@ public class RequestResource {
 
     @GetMapping("/requests/{userId}/{profile}")
     public ResponseEntity<List<RequestDTO>> getAllByIdAndProfile(
-        @PathVariable(value = "userId", required = false) final Long id,
-        @PathVariable(value = "profile", required = false) final String profile
-    ) {
-        log.debug("{} Requeste with profile {}", id, profile);
+        @PathVariable(value = "userId", required = true) final Long userId,
+        @PathVariable(value = "profile", required = true) final String profile
+        ) {
+        log.debug("{} Requeste with profile {}", userId, profile);
 
         List<RequestDTO> requests;
 
         switch (profile) {
             case "Producer" :
-                requests = requestMapper.toDto(requestRepository.findByProducerIdEquals(id));
+                requests = requestMapper.toDto(requestRepository.findByProducerIdEquals(userId));
                 break;
             case "DeliveryMan" :
-                requests = requestMapper.toDto(requestRepository.findByCollectorIdEquals(id));
-                requests.addAll(requestMapper.toDto(requestRepository.findByDestributorIdEquals(id))); 
+                requests = requestMapper.toDto(requestRepository.findByCollectorIdEquals(userId));
+                requests.addAll(requestMapper.toDto(requestRepository.findByDestributorIdEquals(userId))); 
                 break;
             case "Transporter" :
-                requests = requestMapper.toDto(requestRepository.findByTransporterIdEquals(id));
+                requests = requestMapper.toDto(requestRepository.findByTransporterIdEquals(userId));
                 break;
             case "Point" :
-                requests = requestMapper.toDto(requestRepository.findByOriginalPointIdEquals(id));
-                requests.addAll(requestMapper.toDto(requestRepository.findByDestinationPointIdEquals(id)));
+                requests = requestMapper.toDto(requestRepository.findByOriginalPointIdEquals(userId));
+                requests.addAll(requestMapper.toDto(requestRepository.findByDestinationPointIdEquals(userId)));
                 break;
             default:
-                requests = new ArrayList<RequestDTO>();
+                requests = new ArrayList<>();
                 break;
         }
 
@@ -217,7 +213,10 @@ public class RequestResource {
 
     //METODO PARA OBTER A INFO DE UM PEDIDO CASO SE SEJA O PRODUTOR
     @GetMapping("/requests/interface/{id}/{userId}")
-    public ResponseEntity<RequestDTO> getRequestProducer(@PathVariable Long id, Long userId) {
+    public ResponseEntity<RequestDTO> getRequestProducer(
+        @PathVariable(value = "id", required = true) final Long id, 
+        @PathVariable(value = "userId", required = true) final  Long userId
+        ) {
         log.debug("REST request to get Request : {} from {}", id, userId);
 
         Optional<RequestDTO> requestDTO = requestService.findOne(id);
@@ -243,24 +242,25 @@ public class RequestResource {
 
     //METODO PARA APAGAR UM PEDIDO CASO SEJA O PRODUTOR
     @DeleteMapping("/requests/{id}/{userId}")
-    public ResponseEntity<HttpStatus> deleteRequestProducer(@PathVariable Long id, Long userId) {
-        log.debug("REST request to delete Request : {} from {}", id, userId);
+    public ResponseEntity<HttpStatus> deleteRequestProducer(
+        @PathVariable(value = "id", required = true) final Long id, 
+        @PathVariable(value = "userId", required = true) final  Long userId
+        ) {
+        log.info("REST request to delete Request : {} from {}", id, userId);
 
-        
-        Optional<RequestDTO> opRequest = requestService.findOne(id);
-        RequestDTO request = new RequestDTO();
+        try {
+            Request request = requestRepository.findTopByIdEquals(id);
+            
+            log.info("DELETE REQUEST ID={}, STATUS={}, PRODUCER={}", request.getId(), request.getStatus(), request.getProducer().getId());
 
-        if(opRequest.isPresent()){
-            request = opRequest.get();
-        }
-        
-        if(request.getStatus().equals(Status.WAITING_COLLECTION) && request.getProducer().getId().equals(userId)){
-            requestService.delete(id);
-            return ResponseEntity
-                .noContent()
-                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-                .build();
-        } else {
+            if(request.getStatus().equals(Status.WAITING_COLLECTION) && request.getProducer().getId().equals(userId)){
+                requestService.delete(id);
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.badRequest().build();
+            }
+        } catch (Exception e){
+            log.info("REQUEST is not present");
             return ResponseEntity.badRequest().build();
         }
     }

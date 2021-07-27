@@ -24,4 +24,6 @@ public interface RequestRepository extends JpaRepository<Request, Long>, JpaSpec
 
     List<Request> findByDestinationPointIdEquals(Long id);
 
+    Request findTopByIdEquals(Long id);
+
 }

@@ -3,6 +3,7 @@
 ######################
 /src/main/webapp/content/css/main.css
 /target/classes/static/**
+/target/**
 /src/test/javascript/coverage/
 
 ######################
