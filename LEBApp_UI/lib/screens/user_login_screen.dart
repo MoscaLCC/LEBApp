@@ -146,6 +146,7 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
       appBar: AppBar(
           title: Text('Login Area'),
           backgroundColor: Colors.teal),
+
       body: SingleChildScrollView(
         child: Form(
           key: _keyForm,

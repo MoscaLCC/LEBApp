@@ -290,7 +290,7 @@ class _CreateRequestState extends State<CreateRequest> {
           RidePathDTO ride = new RidePathDTO("Guimarães", "Braga", "16", "20");
 
           //CreateRequestDTO newReq = new CreateRequestDTO(29.0, "Caixa Bolos", "Guimarães", "Braga", "916585452", DateTime.now().toString(), DateTime.now().toString(), "Bolos secos", "tem bolor", "OPENED", DateTime.now().toString(), "20", 0.75, 0.0, dim, ride, null);
-          CreateRequestDTO newReq = new CreateRequestDTO(double.parse(productValueController.text), productNameController.text, sourceController.text,
+          CreateRequestDTO newReq = new CreateRequestDTO(null,double.parse(productValueController.text), productNameController.text, sourceController.text,
              destinationController.text, destinationContactController.text, DateTime.parse(initDateController.text),
               DateTime.parse(expirationDateController.text), descriptionController.text, specialCharController.text, "OPENED", DateTime.parse(estimatedDateController.text),
               deliveryTimeController.text, double.parse(shippingCostsController.text), 0.0, dim, ride, null);

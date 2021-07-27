@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:lebapp_ui/models/CreateRequestDTO.dart';
+import 'dart:async';
+
+import 'expandRequest.dart';
 
 //General Area User Main Page
 // ignore: camel_case_types
@@ -22,12 +25,20 @@ class _ConsultRequestState extends State<ConsultRequest> {
 
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
+  final List<String> alphabets = <String>['A', 'B', 'C'];
+
   String firstName;
   int userID;
   String profile;
   String token;
 
   _ConsultRequestState(this.firstName,this.userID,this.profile,this.token);
+
+  List<CreateRequestDTO> _listFinal = [];
+  void _receiveListReq() async{
+    final resultList = await fetchRequests(userID.toString(), profile,token);
+    setState(() => _listFinal = resultList);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,35 +53,36 @@ class _ConsultRequestState extends State<ConsultRequest> {
           onSurface: Colors.grey,
         ),
         onPressed: () {
-          //button action
-
-          print(" ## Get object - Consult Request ## ");
-
-          fetchRequests(userID.toString(), profile,token);
-
+          _receiveListReq();
+          print(_listFinal);
         },
       ),
     );
+
     return Scaffold(
       appBar: AppBar(
-          title: Text('Consult Requests'),
-          backgroundColor: Colors.teal),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            confirmRequestButton,
-            SizedBox(
-              height: 15.0,
-            )
-          ],
-        ),
+          title:Text("Consult Request")
+      ),
+      body: ListView(
+        children: [
+          for (int count in List.generate(_listFinal.length, (index) => index + 1))
+            ListTile(
+              title: Text('Product --> '+ _listFinal[count-1].productName),
+              leading: Icon(Icons.add),
+              trailing: Text("0$count"),
+              onTap: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ExpandRequest(firstName, userID, profile,token,_listFinal[count-1])));
+              },
+            ),
+          SizedBox(height: 15.0),
+          confirmRequestButton,
+        ],
       ),
     );
   }
 }
 
-void fetchRequests(String userID, String profile, String token)  async {
+Future<List<CreateRequestDTO>> fetchRequests(String userID, String profile, String token) async {
 
   print(userID);
   print(profile);
@@ -84,7 +96,12 @@ void fetchRequests(String userID, String profile, String token)  async {
     'Authorization' : token,
   };
 
+  List<CreateRequestDTO> listReq;
   final response = await http.get(url,headers: headers);
-  final responseJson = response.body;
-  print(responseJson);
+  listReq=(json.decode(response.body) as List).map((i) =>
+      CreateRequestDTO.fromJson(i)).toList();
+
+  print(listReq.toString());
+
+  return listReq;
 }

@@ -7,6 +7,7 @@ import 'RidePathDTO.dart';
 @JsonSerializable(explicitToJson: true)
 class CreateRequestDTO {
 
+  int _id;
   double _productValue; //ok
   String _productName; //ok
   String _source; //ok
@@ -26,6 +27,7 @@ class CreateRequestDTO {
   int _producer;
 
   CreateRequestDTO(
+      this._id,
       this._productValue,
       this._productName,
       this._source,
@@ -146,26 +148,34 @@ class CreateRequestDTO {
     _productValue = value;
   }
 
+  int get requestID => _id;
+
+  set requestID(int value) {
+    _id = value;
+  }
+
   CreateRequestDTO.fromJson(Map<String, dynamic> json)
-      : _productValue = json['productValue'],
+      : _id = json['id'],
+        _productValue = json['productValue'],
         _productName = json['productName'],
         _source = json['source'],
         _destination = json['destination'],
         _destinationContact = json['destinationContact'],
-        _initDate = json['initDate'],
-        _expirationDate = json['expirationDate'],
+        _initDate = DateTime.parse(json['initDate']),
+        _expirationDate = DateTime.parse(json['expirationDate']),
         _description = json['description'],
         _specialCharacteristics = json['specialCharacteristics'],
         _status = json['status'],
-        _estimatedDate = json['estimatedDate'],
+        _estimatedDate = DateTime.parse(json['estimatedDate']),
         _deliveryTime = json['deliveryTime'],
         _shippingCosts = json['shippingCosts'],
-        _rating = json['rating'],
-        _dimensions = json['dimensions'],
-        _ridePath = json['ridePath'],
-        _producer = json['producer'];
+        _rating = json['rating'];
+        //_dimensions = json['dimensions'],
+        //_ridePath = json['ridePath'],
+        //_producer = json['producer'];
 
   Map<String, dynamic> toJson() => {
+    'id' : '_id',
     'productValue' : _productValue,
     'productName' : _productName,
     'source' :  _source,
@@ -187,6 +197,6 @@ class CreateRequestDTO {
 
   @override
   String toString() {
-    return 'CreateRequestDTO{_productValue: $_productValue, _productName: $_productName, _source: $_source, _destination: $_destination, _destinationContact: $_destinationContact, _initDate: $_initDate, _expirationDate: $_expirationDate, _description: $_description, _specialCharacteristics: $_specialCharacteristics, _status: $_status, _estimatedDate: $_estimatedDate, _deliveryTime: $_deliveryTime, _shippingCosts: $_shippingCosts, _rating: $_rating, _dimensions: $_dimensions, _ridePath: $_ridePath, _producer: $_producer}';
+    return 'CreateRequestDTO{_id: $_id, _productValue: $_productValue, _productName: $_productName, _source: $_source, _destination: $_destination, _destinationContact: $_destinationContact, _initDate: $_initDate, _expirationDate: $_expirationDate, _description: $_description, _specialCharacteristics: $_specialCharacteristics, _status: $_status, _estimatedDate: $_estimatedDate, _deliveryTime: $_deliveryTime, _shippingCosts: $_shippingCosts, _rating: $_rating, _dimensions: $_dimensions, _ridePath: $_ridePath, _producer: $_producer}';
   }
 }
