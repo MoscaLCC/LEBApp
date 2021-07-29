@@ -47,4 +47,6 @@ public interface RequestService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    void update(RequestDTO requestDTO, Long id);
 }

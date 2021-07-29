@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -104,7 +105,7 @@ public class RequestResource {
     }
 
     /*
-    @PutMapping("/requests/{id}")
+    @PutMapping("/requests/{id}/")
     public ResponseEntity<RequestDTO> updateRequest(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody RequestDTO requestDTO
@@ -127,6 +128,22 @@ public class RequestResource {
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, requestDTO.getId().toString()))
             .body(result);
     }*/
+
+    
+    @PutMapping("/requests/interface/{id}/{userId}")
+    public ResponseEntity<HttpStatus> updateRequestByUser(
+        @PathVariable(value = "id", required = true) final Long id,
+        @PathVariable(value = "userId", required = true) final Long userId,
+        @RequestBody RequestDTO requestDTO
+    ){
+        log.debug("REST request to update Request : {}, {}", id, requestDTO);
+        if (!(requestDTO.getId() == null && !requestRepository.existsById(id)) && (requestDTO.getStatus().equals(Status.WAITING_COLLECTION) && requestDTO.getProducer().getId().equals(userId))) {
+            requestService.update(requestDTO, id);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
 
     /*
     @PatchMapping(value = "/requests/{id}", consumes = "application/merge-patch+json")
@@ -255,6 +272,29 @@ public class RequestResource {
 
             if(request.getStatus().equals(Status.WAITING_COLLECTION) && request.getProducer().getId().equals(userId)){
                 requestService.delete(id);
+                return ResponseEntity.ok().build();
+            } else {
+                return ResponseEntity.badRequest().build();
+            }
+        } catch (Exception e){
+            log.info("REQUEST is not present");
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping("/requests/interface/IN_COLLECTION/{id}/{userId}")
+    public ResponseEntity<HttpStatus> updateInCollection(
+        @PathVariable(value = "id", required = true) final Long id,
+        @PathVariable(value = "userId", required = true) final Long userId
+    ){
+        try {
+            Request request = requestRepository.findTopByIdEquals(id);
+            
+            log.info("UPDATE SATATUS TO IN_COLLECTION ID={}, STATUS={}, PRODUCER={}", request.getId(), request.getStatus(), request.getProducer().getId());
+
+            if(request.getStatus().equals(Status.WAITING_COLLECTION) && request.getProducer().getId().equals(userId)){
+                request.setStatus(Status.IN_COLLECTION);
+                requestRepository.saveAndFlush(request);
                 return ResponseEntity.ok().build();
             } else {
                 return ResponseEntity.badRequest().build();
