@@ -22,6 +22,13 @@ export class UserInfoUpdateComponent implements OnInit {
     nif: [],
     birthday: [],
     address: [],
+    linkSocial: [],
+    numberRequests: [],
+    payedValue: [],
+    valueToPay: [],
+    ranking: [],
+    numberOfDeliveries: [],
+    numberOfKm: [],
   });
 
   constructor(protected userInfoService: UserInfoService, protected activatedRoute: ActivatedRoute, protected fb: FormBuilder) {}
@@ -73,6 +80,13 @@ export class UserInfoUpdateComponent implements OnInit {
       nif: userInfo.nif,
       birthday: userInfo.birthday,
       address: userInfo.address,
+      linkSocial: userInfo.linkSocial,
+      numberRequests: userInfo.numberRequests,
+      payedValue: userInfo.payedValue,
+      valueToPay: userInfo.valueToPay,
+      ranking: userInfo.ranking,
+      numberOfDeliveries: userInfo.numberOfDeliveries,
+      numberOfKm: userInfo.numberOfKm,
     });
   }
 
@@ -85,6 +99,13 @@ export class UserInfoUpdateComponent implements OnInit {
       nif: this.editForm.get(['nif'])!.value,
       birthday: this.editForm.get(['birthday'])!.value,
       address: this.editForm.get(['address'])!.value,
+      linkSocial: this.editForm.get(['linkSocial'])!.value,
+      numberRequests: this.editForm.get(['numberRequests'])!.value,
+      payedValue: this.editForm.get(['payedValue'])!.value,
+      valueToPay: this.editForm.get(['valueToPay'])!.value,
+      ranking: this.editForm.get(['ranking'])!.value,
+      numberOfDeliveries: this.editForm.get(['numberOfDeliveries'])!.value,
+      numberOfKm: this.editForm.get(['numberOfKm'])!.value,
     };
   }
 }

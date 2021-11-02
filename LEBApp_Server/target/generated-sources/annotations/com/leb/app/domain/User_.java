@@ -1,5 +1,6 @@
 package com.leb.app.domain;
 
+import java.time.Instant;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
@@ -10,7 +11,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class User_ extends com.leb.app.domain.AbstractAuditingEntity_ {
 
 	public static volatile SingularAttribute<User, String> lastName;
-	public static volatile SingularAttribute<User, String> resetDate;
+	public static volatile SingularAttribute<User, Instant> resetDate;
 	public static volatile SingularAttribute<User, String> login;
 	public static volatile SingularAttribute<User, String> activationKey;
 	public static volatile SingularAttribute<User, String> resetKey;

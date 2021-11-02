@@ -18,6 +18,8 @@ public class RidePathDTO implements Serializable {
 
     private String estimatedTime;
 
+    private Double radius;
+
     public Long getId() {
         return id;
     }
@@ -58,6 +60,14 @@ public class RidePathDTO implements Serializable {
         this.estimatedTime = estimatedTime;
     }
 
+    public Double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(Double radius) {
+        this.radius = radius;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -88,6 +98,7 @@ public class RidePathDTO implements Serializable {
             ", destination='" + getDestination() + "'" +
             ", distance='" + getDistance() + "'" +
             ", estimatedTime='" + getEstimatedTime() + "'" +
+            ", radius=" + getRadius() +
             "}";
     }
 }

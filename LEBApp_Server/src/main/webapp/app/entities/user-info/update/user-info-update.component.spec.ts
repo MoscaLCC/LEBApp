@@ -12,102 +12,100 @@ import { IUserInfo, UserInfo } from '../user-info.model';
 
 import { UserInfoUpdateComponent } from './user-info-update.component';
 
-describe('Component Tests', () => {
-  describe('UserInfo Management Update Component', () => {
-    let comp: UserInfoUpdateComponent;
-    let fixture: ComponentFixture<UserInfoUpdateComponent>;
-    let activatedRoute: ActivatedRoute;
-    let userInfoService: UserInfoService;
+describe('UserInfo Management Update Component', () => {
+  let comp: UserInfoUpdateComponent;
+  let fixture: ComponentFixture<UserInfoUpdateComponent>;
+  let activatedRoute: ActivatedRoute;
+  let userInfoService: UserInfoService;
 
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
-        declarations: [UserInfoUpdateComponent],
-        providers: [FormBuilder, ActivatedRoute],
-      })
-        .overrideTemplate(UserInfoUpdateComponent, '')
-        .compileComponents();
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      declarations: [UserInfoUpdateComponent],
+      providers: [FormBuilder, ActivatedRoute],
+    })
+      .overrideTemplate(UserInfoUpdateComponent, '')
+      .compileComponents();
 
-      fixture = TestBed.createComponent(UserInfoUpdateComponent);
-      activatedRoute = TestBed.inject(ActivatedRoute);
-      userInfoService = TestBed.inject(UserInfoService);
+    fixture = TestBed.createComponent(UserInfoUpdateComponent);
+    activatedRoute = TestBed.inject(ActivatedRoute);
+    userInfoService = TestBed.inject(UserInfoService);
 
-      comp = fixture.componentInstance;
+    comp = fixture.componentInstance;
+  });
+
+  describe('ngOnInit', () => {
+    it('Should update editForm', () => {
+      const userInfo: IUserInfo = { id: 456 };
+
+      activatedRoute.data = of({ userInfo });
+      comp.ngOnInit();
+
+      expect(comp.editForm.value).toEqual(expect.objectContaining(userInfo));
+    });
+  });
+
+  describe('save', () => {
+    it('Should call update service on save for existing entity', () => {
+      // GIVEN
+      const saveSubject = new Subject<HttpResponse<UserInfo>>();
+      const userInfo = { id: 123 };
+      jest.spyOn(userInfoService, 'update').mockReturnValue(saveSubject);
+      jest.spyOn(comp, 'previousState');
+      activatedRoute.data = of({ userInfo });
+      comp.ngOnInit();
+
+      // WHEN
+      comp.save();
+      expect(comp.isSaving).toEqual(true);
+      saveSubject.next(new HttpResponse({ body: userInfo }));
+      saveSubject.complete();
+
+      // THEN
+      expect(comp.previousState).toHaveBeenCalled();
+      expect(userInfoService.update).toHaveBeenCalledWith(userInfo);
+      expect(comp.isSaving).toEqual(false);
     });
 
-    describe('ngOnInit', () => {
-      it('Should update editForm', () => {
-        const userInfo: IUserInfo = { id: 456 };
+    it('Should call create service on save for new entity', () => {
+      // GIVEN
+      const saveSubject = new Subject<HttpResponse<UserInfo>>();
+      const userInfo = new UserInfo();
+      jest.spyOn(userInfoService, 'create').mockReturnValue(saveSubject);
+      jest.spyOn(comp, 'previousState');
+      activatedRoute.data = of({ userInfo });
+      comp.ngOnInit();
 
-        activatedRoute.data = of({ userInfo });
-        comp.ngOnInit();
+      // WHEN
+      comp.save();
+      expect(comp.isSaving).toEqual(true);
+      saveSubject.next(new HttpResponse({ body: userInfo }));
+      saveSubject.complete();
 
-        expect(comp.editForm.value).toEqual(expect.objectContaining(userInfo));
-      });
+      // THEN
+      expect(userInfoService.create).toHaveBeenCalledWith(userInfo);
+      expect(comp.isSaving).toEqual(false);
+      expect(comp.previousState).toHaveBeenCalled();
     });
 
-    describe('save', () => {
-      it('Should call update service on save for existing entity', () => {
-        // GIVEN
-        const saveSubject = new Subject();
-        const userInfo = { id: 123 };
-        spyOn(userInfoService, 'update').and.returnValue(saveSubject);
-        spyOn(comp, 'previousState');
-        activatedRoute.data = of({ userInfo });
-        comp.ngOnInit();
+    it('Should set isSaving to false on error', () => {
+      // GIVEN
+      const saveSubject = new Subject<HttpResponse<UserInfo>>();
+      const userInfo = { id: 123 };
+      jest.spyOn(userInfoService, 'update').mockReturnValue(saveSubject);
+      jest.spyOn(comp, 'previousState');
+      activatedRoute.data = of({ userInfo });
+      comp.ngOnInit();
 
-        // WHEN
-        comp.save();
-        expect(comp.isSaving).toEqual(true);
-        saveSubject.next(new HttpResponse({ body: userInfo }));
-        saveSubject.complete();
+      // WHEN
+      comp.save();
+      expect(comp.isSaving).toEqual(true);
+      saveSubject.error('This is an error!');
 
-        // THEN
-        expect(comp.previousState).toHaveBeenCalled();
-        expect(userInfoService.update).toHaveBeenCalledWith(userInfo);
-        expect(comp.isSaving).toEqual(false);
-      });
-
-      it('Should call create service on save for new entity', () => {
-        // GIVEN
-        const saveSubject = new Subject();
-        const userInfo = new UserInfo();
-        spyOn(userInfoService, 'create').and.returnValue(saveSubject);
-        spyOn(comp, 'previousState');
-        activatedRoute.data = of({ userInfo });
-        comp.ngOnInit();
-
-        // WHEN
-        comp.save();
-        expect(comp.isSaving).toEqual(true);
-        saveSubject.next(new HttpResponse({ body: userInfo }));
-        saveSubject.complete();
-
-        // THEN
-        expect(userInfoService.create).toHaveBeenCalledWith(userInfo);
-        expect(comp.isSaving).toEqual(false);
-        expect(comp.previousState).toHaveBeenCalled();
-      });
-
-      it('Should set isSaving to false on error', () => {
-        // GIVEN
-        const saveSubject = new Subject();
-        const userInfo = { id: 123 };
-        spyOn(userInfoService, 'update').and.returnValue(saveSubject);
-        spyOn(comp, 'previousState');
-        activatedRoute.data = of({ userInfo });
-        comp.ngOnInit();
-
-        // WHEN
-        comp.save();
-        expect(comp.isSaving).toEqual(true);
-        saveSubject.error('This is an error!');
-
-        // THEN
-        expect(userInfoService.update).toHaveBeenCalledWith(userInfo);
-        expect(comp.isSaving).toEqual(false);
-        expect(comp.previousState).not.toHaveBeenCalled();
-      });
+      // THEN
+      expect(userInfoService.update).toHaveBeenCalledWith(userInfo);
+      expect(comp.isSaving).toEqual(false);
+      expect(comp.previousState).not.toHaveBeenCalled();
     });
   });
 });

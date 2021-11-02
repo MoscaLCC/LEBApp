@@ -24,6 +24,23 @@
         </div>
 
         <div class="form-group">
+          <label class="form-control-label" for="field_closingTime">Closing Time</label>
+          <input
+            type="text"
+            class="form-control"
+            name="closingTime"
+            id="field_closingTime"
+            data-cy="closingTime"
+            formControlName="closingTime"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_address">Address</label>
+          <input type="text" class="form-control" name="address" id="field_address" data-cy="address" formControlName="address" />
+        </div>
+
+        <div class="form-group">
           <label class="form-control-label" for="field_numberOfDeliveries">Number Of Deliveries</label>
           <input
             type="number"
@@ -36,66 +53,26 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" for="field_receivedValue">Received Value</label>
-          <input
-            type="number"
-            class="form-control"
-            name="receivedValue"
-            id="field_receivedValue"
-            data-cy="receivedValue"
-            formControlName="receivedValue"
-          />
-        </div>
-
-        <div class="form-group">
-          <label class="form-control-label" for="field_valueToReceive">Value To Receive</label>
-          <input
-            type="number"
-            class="form-control"
-            name="valueToReceive"
-            id="field_valueToReceive"
-            data-cy="valueToReceive"
-            formControlName="valueToReceive"
-          />
-        </div>
-
-        <div class="form-group">
-          <label class="form-control-label" for="field_ranking">Ranking</label>
-          <input type="number" class="form-control" name="ranking" id="field_ranking" data-cy="ranking" formControlName="ranking" />
-        </div>
-
-        <div class="form-group">
-          <label class="form-control-label" for="field_userInfo">User Info</label>
-          <select class="form-control" id="field_userInfo" data-cy="userInfo" name="userInfo" formControlName="userInfo">
-            <option *ngIf="editForm.get(['userInfo'])!.value == null" [ngValue]="null" selected></option>
+          <label class="form-control-label" for="field_ownerPoint">Owner Point</label>
+          <select class="form-control" id="field_ownerPoint" data-cy="ownerPoint" name="ownerPoint" formControlName="ownerPoint">
+            <option *ngIf="!editForm.get('ownerPoint')!.value" [ngValue]="null" selected></option>
             <option
-              [ngValue]="userInfoOption.id === editForm.get('userInfo')!.value?.id ? editForm.get('userInfo')!.value : userInfoOption"
-              *ngFor="let userInfoOption of userInfosCollection; trackBy: trackUserInfoById"
+              [ngValue]="userInfoOption.id === editForm.get('ownerPoint')!.value?.id ? editForm.get('ownerPoint')!.value : userInfoOption"
+              *ngFor="let userInfoOption of userInfosSharedCollection; trackBy: trackUserInfoById"
             >
               {{ userInfoOption.id }}
             </option>
           </select>
         </div>
-        <div *ngIf="editForm.get(['userInfo'])!.invalid && (editForm.get(['userInfo'])!.dirty || editForm.get(['userInfo'])!.touched)">
-          <small class="form-text text-danger" *ngIf="editForm.get(['userInfo'])?.errors?.required"> This field is required. </small>
-        </div>
-
-        <div class="form-group">
-          <label class="form-control-label" for="field_zone">Zone</label>
-          <select class="form-control" id="field_zone" data-cy="zone" name="zone" formControlName="zone">
-            <option [ngValue]="null"></option>
-            <option
-              [ngValue]="zoneOption.id === editForm.get('zone')!.value?.id ? editForm.get('zone')!.value : zoneOption"
-              *ngFor="let zoneOption of zonesSharedCollection; trackBy: trackZoneById"
-            >
-              {{ zoneOption.id }}
-            </option>
-          </select>
+        <div
+          *ngIf="editForm.get(['ownerPoint'])!.invalid && (editForm.get(['ownerPoint'])!.dirty || editForm.get(['ownerPoint'])!.touched)"
+        >
+          <small class="form-text text-danger" *ngIf="editForm.get(['ownerPoint'])?.errors?.required"> This field is required. </small>
         </div>
       </div>
 
       <div>
-        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
           <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
         </button>
 

@@ -83,43 +83,32 @@ public class PointQueryService extends QueryService<Point> {
     protected Specification<Point> createSpecification(PointCriteria criteria) {
         Specification<Point> specification = Specification.where(null);
         if (criteria != null) {
+            // This has to be called first, because the distinct method returns null
+            if (criteria.getDistinct() != null) {
+                specification = specification.and(distinct(criteria.getDistinct()));
+            }
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), Point_.id));
             }
             if (criteria.getOpeningTime() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getOpeningTime(), Point_.openingTime));
             }
+            if (criteria.getClosingTime() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getClosingTime(), Point_.closingTime));
+            }
+            if (criteria.getAddress() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAddress(), Point_.address));
+            }
             if (criteria.getNumberOfDeliveries() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getNumberOfDeliveries(), Point_.numberOfDeliveries));
             }
-            if (criteria.getReceivedValue() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getReceivedValue(), Point_.receivedValue));
-            }
-            if (criteria.getValueToReceive() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getValueToReceive(), Point_.valueToReceive));
-            }
-            if (criteria.getRanking() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getRanking(), Point_.ranking));
-            }
-            if (criteria.getUserInfoId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(criteria.getUserInfoId(), root -> root.join(Point_.userInfo, JoinType.LEFT).get(UserInfo_.id))
-                    );
-            }
-            if (criteria.getDeliveryManId() != null) {
+            if (criteria.getOwnerPointId() != null) {
                 specification =
                     specification.and(
                         buildSpecification(
-                            criteria.getDeliveryManId(),
-                            root -> root.join(Point_.deliveryMen, JoinType.LEFT).get(DeliveryMan_.id)
+                            criteria.getOwnerPointId(),
+                            root -> root.join(Point_.ownerPoint, JoinType.LEFT).get(UserInfo_.id)
                         )
-                    );
-            }
-            if (criteria.getZoneId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(criteria.getZoneId(), root -> root.join(Point_.zone, JoinType.LEFT).get(Zone_.id))
                     );
             }
         }

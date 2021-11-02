@@ -31,13 +31,20 @@
   <div class="table-responsive" id="entities" *ngIf="userInfos && userInfos.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
-        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
           <th scope="col" jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="phoneNumber"><span>Phone Number</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="nib"><span>Nib</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="nif"><span>Nif</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="birthday"><span>Birthday</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="address"><span>Addres</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="address"><span>Address</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="linkSocial"><span>Link Social</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="numberRequests"><span>Number Requests</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="payedValue"><span>Payed Value</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="valueToPay"><span>Value To Pay</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="ranking"><span>Ranking</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="numberOfDeliveries"><span>Number Of Deliveries</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="numberOfKm"><span>Number Of Km</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -51,6 +58,13 @@
           <td>{{ userInfo.nif }}</td>
           <td>{{ userInfo.birthday | formatMediumDate }}</td>
           <td>{{ userInfo.address }}</td>
+          <td>{{ userInfo.linkSocial }}</td>
+          <td>{{ userInfo.numberRequests }}</td>
+          <td>{{ userInfo.payedValue }}</td>
+          <td>{{ userInfo.valueToPay }}</td>
+          <td>{{ userInfo.ranking }}</td>
+          <td>{{ userInfo.numberOfDeliveries }}</td>
+          <td>{{ userInfo.numberOfKm }}</td>
           <td class="text-right">
             <div class="btn-group">
               <button

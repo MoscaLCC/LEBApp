@@ -12,9 +12,9 @@ export type EntityArrayResponseType = HttpResponse<IRidePath[]>;
 
 @Injectable({ providedIn: 'root' })
 export class RidePathService {
-  public resourceUrl = this.applicationConfigService.getEndpointFor('api/ride-paths');
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/ride-paths');
 
-  constructor(protected http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
+  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(ridePath: IRidePath): Observable<EntityResponseType> {
     return this.http.post<IRidePath>(this.resourceUrl, ridePath, { observe: 'response' });

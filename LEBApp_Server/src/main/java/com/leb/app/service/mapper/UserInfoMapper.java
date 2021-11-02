@@ -1,6 +1,6 @@
 package com.leb.app.service.mapper;
 
-import com.leb.app.domain.*;
+import com.leb.app.domain.UserInfo;
 import com.leb.app.service.dto.UserInfoDTO;
 import org.mapstruct.*;
 

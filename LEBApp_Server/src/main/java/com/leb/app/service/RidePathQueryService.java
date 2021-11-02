@@ -83,6 +83,10 @@ public class RidePathQueryService extends QueryService<RidePath> {
     protected Specification<RidePath> createSpecification(RidePathCriteria criteria) {
         Specification<RidePath> specification = Specification.where(null);
         if (criteria != null) {
+            // This has to be called first, because the distinct method returns null
+            if (criteria.getDistinct() != null) {
+                specification = specification.and(distinct(criteria.getDistinct()));
+            }
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), RidePath_.id));
             }
@@ -98,20 +102,8 @@ public class RidePathQueryService extends QueryService<RidePath> {
             if (criteria.getEstimatedTime() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getEstimatedTime(), RidePath_.estimatedTime));
             }
-            if (criteria.getRequestId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(criteria.getRequestId(), root -> root.join(RidePath_.requests, JoinType.LEFT).get(Request_.id))
-                    );
-            }
-            if (criteria.getTransportsId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getTransportsId(),
-                            root -> root.join(RidePath_.transports, JoinType.LEFT).get(Transporter_.id)
-                        )
-                    );
+            if (criteria.getRadius() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getRadius(), RidePath_.radius));
             }
         }
         return specification;

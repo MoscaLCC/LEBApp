@@ -10,7 +10,7 @@ import { RequestService } from '../service/request.service';
 export class RequestDeleteDialogComponent {
   request?: IRequest;
 
-  constructor(protected requestService: RequestService, public activeModal: NgbActiveModal) {}
+  constructor(protected requestService: RequestService, protected activeModal: NgbActiveModal) {}
 
   cancel(): void {
     this.activeModal.dismiss();

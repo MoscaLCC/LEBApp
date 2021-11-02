@@ -10,7 +10,7 @@ import { UserInfoService } from '../service/user-info.service';
 export class UserInfoDeleteDialogComponent {
   userInfo?: IUserInfo;
 
-  constructor(protected userInfoService: UserInfoService, public activeModal: NgbActiveModal) {}
+  constructor(protected userInfoService: UserInfoService, protected activeModal: NgbActiveModal) {}
 
   cancel(): void {
     this.activeModal.dismiss();

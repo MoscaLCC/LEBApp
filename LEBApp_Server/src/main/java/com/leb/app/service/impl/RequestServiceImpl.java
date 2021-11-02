@@ -45,12 +45,11 @@ public class RequestServiceImpl implements RequestService {
 
         return requestRepository
             .findById(requestDTO.getId())
-            .map(
-                existingRequest -> {
-                    requestMapper.partialUpdate(existingRequest, requestDTO);
-                    return existingRequest;
-                }
-            )
+            .map(existingRequest -> {
+                requestMapper.partialUpdate(existingRequest, requestDTO);
+
+                return existingRequest;
+            })
             .map(requestRepository::save)
             .map(requestMapper::toDto);
     }
@@ -74,22 +73,4 @@ public class RequestServiceImpl implements RequestService {
         log.debug("Request to delete Request : {}", id);
         requestRepository.deleteById(id);
     }
-
-    @Override
-    public void update(RequestDTO requestDTO, Long id) {
-        Request request = requestRepository.findTopByIdEquals(id);
-
-        request.setProductValue(requestDTO.getProductValue());
-        request.setProductName(requestDTO.getProductName()); 
-        request.setSource(requestDTO.getSource());
-        request.setDestination(requestDTO.getDestination());
-        request.setDestinationContact(requestDTO.getDestinationContact());
-        request.setInitDate(requestDTO.getInitDate());
-        request.setExpirationDate(requestDTO.getExpirationDate());
-        request.setDescription(requestDTO.getDescription());
-        request.setSpecialCharacteristics(requestDTO.getSpecialCharacteristics());
-
-        requestRepository.saveAndFlush(request);
-    }
-
 }

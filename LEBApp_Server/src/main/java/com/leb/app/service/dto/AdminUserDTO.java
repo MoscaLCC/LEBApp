@@ -3,7 +3,7 @@ package com.leb.app.service.dto;
 import com.leb.app.config.Constants;
 import com.leb.app.domain.Authority;
 import com.leb.app.domain.User;
-
+import java.time.Instant;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.validation.constraints.*;
@@ -11,7 +11,6 @@ import javax.validation.constraints.*;
 /**
  * A DTO representing a user, with his authorities.
  */
-
 public class AdminUserDTO {
 
     private Long id;
@@ -41,11 +40,11 @@ public class AdminUserDTO {
 
     private String createdBy;
 
-    private String createdDate;
+    private Instant createdDate;
 
     private String lastModifiedBy;
 
-    private String lastModifiedDate;
+    private Instant lastModifiedDate;
 
     private Set<String> authorities;
 
@@ -63,17 +62,9 @@ public class AdminUserDTO {
         this.imageUrl = user.getImageUrl();
         this.langKey = user.getLangKey();
         this.createdBy = user.getCreatedBy();
-        if(user.getCreatedDate() != null){
-            this.createdDate = user.getCreatedDate().toString();
-        } else {
-            this.createdDate = "2021-01-01";
-        }
+        this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
-        if(user.getLastModifiedDate() != null){
-            this.lastModifiedDate = user.getLastModifiedDate().toString();
-        } else {
-            this.lastModifiedDate = "2021-01-01";
-        }
+        this.lastModifiedDate = user.getLastModifiedDate();
         this.authorities = user.getAuthorities().stream().map(Authority::getName).collect(Collectors.toSet());
     }
 
@@ -149,11 +140,11 @@ public class AdminUserDTO {
         this.createdBy = createdBy;
     }
 
-    public String getCreatedDate() {
+    public Instant getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(String createdDate) {
+    public void setCreatedDate(Instant createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -165,11 +156,11 @@ public class AdminUserDTO {
         this.lastModifiedBy = lastModifiedBy;
     }
 
-    public String getLastModifiedDate() {
+    public Instant getLastModifiedDate() {
         return lastModifiedDate;
     }
 
-    public void setLastModifiedDate(String lastModifiedDate) {
+    public void setLastModifiedDate(Instant lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
 
@@ -181,12 +172,22 @@ public class AdminUserDTO {
         this.authorities = authorities;
     }
 
+    // prettier-ignore
     @Override
     public String toString() {
-        return "AdminUserDTO [activated=" + activated + ", authorities=" + authorities + ", createdBy=" + createdBy
-                + ", createdDate=" + createdDate + ", email=" + email + ", firstName=" + firstName + ", id=" + id
-                + ", imageUrl=" + imageUrl + ", langKey=" + langKey + ", lastModifiedBy=" + lastModifiedBy
-                + ", lastModifiedDate=" + lastModifiedDate + ", lastName=" + lastName + ", login=" + login + "]";
+        return "AdminUserDTO{" +
+            "login='" + login + '\'' +
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", email='" + email + '\'' +
+            ", imageUrl='" + imageUrl + '\'' +
+            ", activated=" + activated +
+            ", langKey='" + langKey + '\'' +
+            ", createdBy=" + createdBy +
+            ", createdDate=" + createdDate +
+            ", lastModifiedBy='" + lastModifiedBy + '\'' +
+            ", lastModifiedDate=" + lastModifiedDate +
+            ", authorities=" + authorities +
+            "}";
     }
-
 }

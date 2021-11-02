@@ -1,0 +1,102 @@
+entity Request {
+    productValue Double,
+    productName String,
+    source String,
+    destination String,
+    destinationContact String,
+    initDate String,
+    expirationDate String,
+    description String,
+    specialCharacteristics String,
+    weight Double,
+    hight Double,
+    width Double,
+    status Status,
+    estimatedDate String,
+    deliveryTime String, 
+    shippingCosts Double,
+    rating Double
+}
+
+entity UserInfo {
+    phoneNumber String,
+    nib String,
+    nif Integer,
+    birthday LocalDate,
+    address String,
+    linkSocial String,
+    numberRequests Integer,
+    payedValue Double,
+    valueToPay Double,
+    ranking Double,
+    numberOfDeliveries Integer,
+    numberOfKm Double
+}
+
+
+entity RidePath {
+    source String,
+    destination String,
+    distance String,
+    estimatedTime String,
+    radius Double
+}
+
+
+entity Point {
+    openingTime String,
+    closingTime String,
+    address String,
+    numberOfDeliveries Integer
+}
+
+
+relationship OneToMany {
+    UserInfo{requests} to Request{ownerRequest required},
+    UserInfo{transportations} to Request{tranporter},
+    UserInfo to Point{ownerPoint required}
+}
+
+enum Status {
+    WAITING,
+    OPENED,
+    OPENING,
+    COMPLETING,
+    COMPLETED,
+    REFUSING,
+    REFUSED,
+    PENDING,
+    CLOSING,
+    CLOSED,
+    IN_PROGRESS,
+    PROCESSING,
+    PROCESSED,
+    PRE_PROCESSING,
+    PRE_PROCESSED,
+    LOSTED,
+    CHECKING,
+    CHECKED,
+    CANCELED,
+    CANCELING,
+    DENIED,
+    FAIL,
+    INCOMPLET,
+    PENDING,
+    SHIPPED,
+    IN_TRANSIT,
+    WAITING_COLLECTION, 
+    WAITING_COLLECTION_ACCEPTED, 
+    IN_COLLECTION, 
+    WAITING_TRANSIT, 
+    WAITING_TRANSIT_ACCEPTED,  
+    WAITING_DISTRIBUTION, 
+    WAITING_DISTRIBUTION_ACCEPTED, 
+    IN_DISTRIBUTION,
+    REJECTED,  
+    FINISHED
+}
+
+service * with serviceImpl
+dto * with mapstruct
+paginate * with pagination
+filter all

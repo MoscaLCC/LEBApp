@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { SharedModule } from 'app/shared/shared.module';
 import { RidePathComponent } from './list/ride-path.component';
 import { RidePathDetailComponent } from './detail/ride-path-detail.component';

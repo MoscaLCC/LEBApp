@@ -1,18 +1,19 @@
 package com.leb.app.service;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import com.leb.app.config.Constants;
 import com.leb.app.domain.Authority;
-import com.leb.app.domain.DeliveryMan;
-import com.leb.app.domain.Point;
-import com.leb.app.domain.Producer;
-import com.leb.app.domain.Transporter;
 import com.leb.app.domain.User;
 import com.leb.app.domain.UserInfo;
 import com.leb.app.repository.AuthorityRepository;
-import com.leb.app.repository.DeliveryManRepository;
-import com.leb.app.repository.PointRepository;
-import com.leb.app.repository.ProducerRepository;
-import com.leb.app.repository.TransporterRepository;
 import com.leb.app.repository.UserInfoRepository;
 import com.leb.app.repository.UserRepository;
 import com.leb.app.security.AuthoritiesConstants;
@@ -20,10 +21,7 @@ import com.leb.app.security.SecurityUtils;
 import com.leb.app.service.dto.AdminUserDTO;
 import com.leb.app.service.dto.RegisterDTO;
 import com.leb.app.service.dto.UserDTO;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.util.*;
-import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
@@ -33,6 +31,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import tech.jhipster.security.RandomUtil;
 
 /**
@@ -47,14 +46,6 @@ public class UserService {
 
     private final UserInfoRepository userInfoRepository;
 
-    private final TransporterRepository transporterRepository;
-
-    private final ProducerRepository producerRepository;
-
-    private final PointRepository pointRepository;
-    
-    private final DeliveryManRepository deliveryManRepository;
-
     private final PasswordEncoder passwordEncoder;
 
     private final AuthorityRepository authorityRepository;
@@ -66,21 +57,17 @@ public class UserService {
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
         CacheManager cacheManager,
-        UserInfoRepository userInfoRepository,
-        TransporterRepository transporterRepository,
-        ProducerRepository producerRepository,
-        PointRepository pointRepository,
-        DeliveryManRepository deliveryManRepository
+        UserInfoRepository userInfoRepository
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
         this.userInfoRepository = userInfoRepository;
-        this.transporterRepository = transporterRepository;
-        this.producerRepository = producerRepository;
-        this.pointRepository = pointRepository;
-        this.deliveryManRepository = deliveryManRepository;
+    }
+
+    public Optional<User> getUserByLogin(String login){
+        return userRepository.findOneByLogin(login);
     }
 
     @Transactional
@@ -88,16 +75,14 @@ public class UserService {
         log.debug("Activating user for activation key {}", key);
         return userRepository
             .findOneByActivationKey(key)
-            .map(
-                user -> {
-                    // activate given user for the registration key.
-                    user.setActivated(true);
-                    user.setActivationKey(null);
-                    this.clearUserCaches(user);
-                    log.debug("Activated user: {}", user);
-                    return user;
-                }
-            );
+            .map(user -> {
+                // activate given user for the registration key.
+                user.setActivated(true);
+                user.setActivationKey(null);
+                this.clearUserCaches(user);
+                log.debug("Activated user: {}", user);
+                return user;
+            });
     }
 
     @Transactional
@@ -105,15 +90,14 @@ public class UserService {
         log.debug("Reset user password for reset key {}", key);
         return userRepository
             .findOneByResetKey(key)
-            .map(
-                user -> {
-                    user.setPassword(passwordEncoder.encode(newPassword));
-                    user.setResetKey(null);
-                    user.setResetDate(null);
-                    this.clearUserCaches(user);
-                    return user;
-                }
-            );
+            .filter(user -> user.getResetDate().isAfter(Instant.now().minus(1, ChronoUnit.DAYS)))
+            .map(user -> {
+                user.setPassword(passwordEncoder.encode(newPassword));
+                user.setResetKey(null);
+                user.setResetDate(null);
+                this.clearUserCaches(user);
+                return user;
+            });
     }
 
     @Transactional
@@ -121,14 +105,12 @@ public class UserService {
         return userRepository
             .findOneByEmailIgnoreCase(mail)
             .filter(User::isActivated)
-            .map(
-                user -> {
-                    user.setResetKey(RandomUtil.generateResetKey());
-                    user.setResetDate(LocalDate.now().toString());
-                    this.clearUserCaches(user);
-                    return user;
-                }
-            );
+            .map(user -> {
+                user.setResetKey(RandomUtil.generateResetKey());
+                user.setResetDate(Instant.now());
+                this.clearUserCaches(user);
+                return user;
+            });
     }
 
     public User registerUser(AdminUserDTO userDTO, String password) {
@@ -156,7 +138,7 @@ public class UserService {
 
         return newUser;
     }
-
+        
     public User registerUser2(RegisterDTO registerDTO, String password) {
         
         AdminUserDTO userDTO = createNewAdminDTO(registerDTO);
@@ -184,18 +166,6 @@ public class UserService {
         User newUser = registerNewUser(userDTO, password);
 
         UserInfo userInfo = registerNewUserInfo(newUser, registerDTO);
-        if (registerDTO.isTransporter()){
-            createNewTransporter(userInfo, registerDTO);
-        }
-        if (registerDTO.isProducer()) {
-            createNewProducer(userInfo, registerDTO);
-        }
-        if (registerDTO.isPoint()){
-            createPoint(userInfo, registerDTO);
-        }
-        if (registerDTO.isDeliveryMan()){
-            createDeliveryMan(userInfo, registerDTO);
-        }
 
         return newUser;
     }
@@ -218,11 +188,11 @@ public class UserService {
 
         userDTO.setCreatedBy("SYSTEM");
 
-        userDTO.setCreatedDate(LocalDate.now().toString());
+        userDTO.setCreatedDate(Instant.now());
 
         userDTO.setLastModifiedBy("SYSTEM");
 
-        userDTO.setLastModifiedDate(LocalDate.now().toString());
+        userDTO.setLastModifiedDate(Instant.now());
 
         Set<String> roles = new HashSet<String>();
         roles.add("ROLE_USER");
@@ -232,7 +202,7 @@ public class UserService {
         return userDTO;
     }
 
-    
+
     @Transactional
     public User registerNewUser(AdminUserDTO userDTO, String password) {
         User newUser = new User();
@@ -254,72 +224,13 @@ public class UserService {
         Set<Authority> authorities = new HashSet<>();
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
-        userRepository.saveAndFlush(newUser);
+        userRepository.save(newUser);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
     }
 
-    @Transactional
-    private void createDeliveryMan(UserInfo userInfo, RegisterDTO userDTO){
-        DeliveryMan deliveryMan = new DeliveryMan();
-
-        deliveryMan.setOpeningTime(userDTO.getOpeningTime());
-        deliveryMan.setClosingTime(userDTO.getClosingTime());
-        deliveryMan.setNumberOfDeliveries(0);
-        deliveryMan.setNumberOfKm(0.0);
-        deliveryMan.setReceivedValue(0.0);
-        deliveryMan.setValueToReceive(0.0);
-        deliveryMan.setRanking(2.0);
-        deliveryMan.setUserInfo(userInfo);
-
-        deliveryManRepository.saveAndFlush(deliveryMan);
-    }
-
-    @Transactional
-    private void createPoint(UserInfo userInfo, RegisterDTO userDTO){
-        Point point = new Point();
-
-        point.setOpeningTime(userDTO.getOpeningTimePoint());
-        point.setClosingTime(userDTO.getClosingTimePoint());
-        point.setNumberOfDeliveries(0);
-        point.setReceivedValue(0.0);
-        point.setValueToReceive(0.0);
-        point.setRanking(2.0);
-        point.setUserInfo(userInfo);
     
-        pointRepository.saveAndFlush(point);
-    }
-
-    @Transactional
-    private void createNewProducer(UserInfo userInfo, RegisterDTO userDTO){
-        Producer producer = new Producer();
-
-        producer.setLinkSocial(userDTO.getLinkSocial());
-        producer.setNumberRequests(0);
-        producer.setPayedValue(0.0);
-        producer.setValueToPay(0.0);
-        producer.setRanking(2.0);
-        producer.setUserInfo(userInfo);
-    
-        producerRepository.saveAndFlush(producer);
-    }
-
-    @Transactional
-    private void createNewTransporter(UserInfo userInfo, RegisterDTO userDTO) {
-        Transporter transporter = new Transporter();
-
-        transporter.setFavouriteTransport(userDTO.getFavouriteTransport());
-        transporter.setNumberOfDeliveries(0);
-        transporter.setNumberOfKm(0.0);
-        transporter.setReceivedValue(0.0);
-        transporter.setValueToReceive(0.0);
-        transporter.setRanking(2.0);
-        transporter.setUserInfo(userInfo);
-
-        transporterRepository.saveAndFlush(transporter);
-    }
-
     @Transactional
     private UserInfo registerNewUserInfo(User user, RegisterDTO userDTO) {
         UserInfo userInfo = new UserInfo();
@@ -328,14 +239,13 @@ public class UserService {
         userInfo.setNib("");
         userInfo.setNif(userDTO.getNif());
         log.info(userDTO.getBirthday());
-        userInfo.setBirthday(LocalDate.now());
+        userInfo.setBirthday(userDTO.getBirthday());
         userInfo.setAdress(userDTO.getAddress());
         userInfo.setUser(user);
 
         userInfo = userInfoRepository.saveAndFlush(userInfo);
         return userInfo;
     }
-
     @Transactional
     private boolean removeNonActivatedUser(User existingUser) {
         if (existingUser.isActivated()) {
@@ -365,7 +275,7 @@ public class UserService {
         String encryptedPassword = passwordEncoder.encode(RandomUtil.generatePassword());
         user.setPassword(encryptedPassword);
         user.setResetKey(RandomUtil.generateResetKey());
-        user.setResetDate(LocalDate.now().toString());
+        user.setResetDate(Instant.now());
         user.setActivated(true);
         if (userDTO.getAuthorities() != null) {
             Set<Authority> authorities = userDTO
@@ -377,7 +287,7 @@ public class UserService {
                 .collect(Collectors.toSet());
             user.setAuthorities(authorities);
         }
-        userRepository.saveAndFlush(user);
+        userRepository.save(user);
         this.clearUserCaches(user);
         log.debug("Created Information for User: {}", user);
         return user;
@@ -390,51 +300,46 @@ public class UserService {
      * @return updated user.
      */
     @Transactional
-    public Optional<AdminUserDTO> updateUser(AdminUserDTO userDTO) {
+     public Optional<AdminUserDTO> updateUser(AdminUserDTO userDTO) {
         return Optional
             .of(userRepository.findById(userDTO.getId()))
             .filter(Optional::isPresent)
             .map(Optional::get)
-            .map(
-                user -> {
-                    this.clearUserCaches(user);
-                    user.setLogin(userDTO.getLogin().toLowerCase());
-                    user.setFirstName(userDTO.getFirstName());
-                    user.setLastName(userDTO.getLastName());
-                    if (userDTO.getEmail() != null) {
-                        user.setEmail(userDTO.getEmail().toLowerCase());
-                    }
-                    user.setImageUrl(userDTO.getImageUrl());
-                    user.setActivated(userDTO.isActivated());
-                    user.setLangKey(userDTO.getLangKey());
-                    Set<Authority> managedAuthorities = user.getAuthorities();
-                    managedAuthorities.clear();
-                    userDTO
-                        .getAuthorities()
-                        .stream()
-                        .map(authorityRepository::findById)
-                        .filter(Optional::isPresent)
-                        .map(Optional::get)
-                        .forEach(managedAuthorities::add);
-                    this.clearUserCaches(user);
-                    log.debug("Changed Information for User: {}", user);
-                    return user;
+            .map(user -> {
+                this.clearUserCaches(user);
+                user.setLogin(userDTO.getLogin().toLowerCase());
+                user.setFirstName(userDTO.getFirstName());
+                user.setLastName(userDTO.getLastName());
+                if (userDTO.getEmail() != null) {
+                    user.setEmail(userDTO.getEmail().toLowerCase());
                 }
-            )
+                user.setImageUrl(userDTO.getImageUrl());
+                user.setActivated(userDTO.isActivated());
+                user.setLangKey(userDTO.getLangKey());
+                Set<Authority> managedAuthorities = user.getAuthorities();
+                managedAuthorities.clear();
+                userDTO
+                    .getAuthorities()
+                    .stream()
+                    .map(authorityRepository::findById)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .forEach(managedAuthorities::add);
+                this.clearUserCaches(user);
+                log.debug("Changed Information for User: {}", user);
+                return user;
+            })
             .map(AdminUserDTO::new);
     }
 
-    @Transactional
     public void deleteUser(String login) {
         userRepository
             .findOneByLogin(login)
-            .ifPresent(
-                user -> {
-                    userRepository.delete(user);
-                    this.clearUserCaches(user);
-                    log.debug("Deleted User: {}", user);
-                }
-            );
+            .ifPresent(user -> {
+                userRepository.delete(user);
+                this.clearUserCaches(user);
+                log.debug("Deleted User: {}", user);
+            });
     }
 
     /**
@@ -448,23 +353,21 @@ public class UserService {
      */
 
     @Transactional
-    public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl) {
+     public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl) {
         SecurityUtils
             .getCurrentUserLogin()
             .flatMap(userRepository::findOneByLogin)
-            .ifPresent(
-                user -> {
-                    user.setFirstName(firstName);
-                    user.setLastName(lastName);
-                    if (email != null) {
-                        user.setEmail(email.toLowerCase());
-                    }
-                    user.setLangKey(langKey);
-                    user.setImageUrl(imageUrl);
-                    this.clearUserCaches(user);
-                    log.debug("Changed Information for User: {}", user);
+            .ifPresent(user -> {
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
+                if (email != null) {
+                    user.setEmail(email.toLowerCase());
                 }
-            );
+                user.setLangKey(langKey);
+                user.setImageUrl(imageUrl);
+                this.clearUserCaches(user);
+                log.debug("Changed Information for User: {}", user);
+            });
     }
 
     @Transactional
@@ -472,18 +375,16 @@ public class UserService {
         SecurityUtils
             .getCurrentUserLogin()
             .flatMap(userRepository::findOneByLogin)
-            .ifPresent(
-                user -> {
-                    String currentEncryptedPassword = user.getPassword();
-                    if (!passwordEncoder.matches(currentClearTextPassword, currentEncryptedPassword)) {
-                        throw new InvalidPasswordException();
-                    }
-                    String encryptedPassword = passwordEncoder.encode(newPassword);
-                    user.setPassword(encryptedPassword);
-                    this.clearUserCaches(user);
-                    log.debug("Changed password for User: {}", user);
+            .ifPresent(user -> {
+                String currentEncryptedPassword = user.getPassword();
+                if (!passwordEncoder.matches(currentClearTextPassword, currentEncryptedPassword)) {
+                    throw new InvalidPasswordException();
                 }
-            );
+                String encryptedPassword = passwordEncoder.encode(newPassword);
+                user.setPassword(encryptedPassword);
+                this.clearUserCaches(user);
+                log.debug("Changed password for User: {}", user);
+            });
     }
 
     @Transactional(readOnly = true)
@@ -514,14 +415,12 @@ public class UserService {
     @Scheduled(cron = "0 0 1 * * ?")
     public void removeNotActivatedUsers() {
         userRepository
-            .findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(LocalDate.now().minus(3, ChronoUnit.DAYS).toString())
-            .forEach(
-                user -> {
-                    log.debug("Deleting not activated user {}", user.getLogin());
-                    userRepository.delete(user);
-                    this.clearUserCaches(user);
-                }
-            );
+            .findAllByActivatedIsFalseAndActivationKeyIsNotNullAndCreatedDateBefore(Instant.now().minus(3, ChronoUnit.DAYS))
+            .forEach(user -> {
+                log.debug("Deleting not activated user {}", user.getLogin());
+                userRepository.delete(user);
+                this.clearUserCaches(user);
+            });
     }
 
     /**

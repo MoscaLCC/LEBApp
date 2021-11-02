@@ -3,8 +3,10 @@ package com.leb.app.service.criteria;
 import java.io.Serializable;
 import java.util.Objects;
 import tech.jhipster.service.Criteria;
+import tech.jhipster.service.filter.BooleanFilter;
 import tech.jhipster.service.filter.DoubleFilter;
 import tech.jhipster.service.filter.Filter;
+import tech.jhipster.service.filter.FloatFilter;
 import tech.jhipster.service.filter.IntegerFilter;
 import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.service.filter.StringFilter;
@@ -26,32 +28,26 @@ public class PointCriteria implements Serializable, Criteria {
 
     private StringFilter openingTime;
 
+    private StringFilter closingTime;
+
+    private StringFilter address;
+
     private IntegerFilter numberOfDeliveries;
 
-    private DoubleFilter receivedValue;
+    private LongFilter ownerPointId;
 
-    private DoubleFilter valueToReceive;
-
-    private DoubleFilter ranking;
-
-    private LongFilter userInfoId;
-
-    private LongFilter deliveryManId;
-
-    private LongFilter zoneId;
+    private Boolean distinct;
 
     public PointCriteria() {}
 
     public PointCriteria(PointCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.openingTime = other.openingTime == null ? null : other.openingTime.copy();
+        this.closingTime = other.closingTime == null ? null : other.closingTime.copy();
+        this.address = other.address == null ? null : other.address.copy();
         this.numberOfDeliveries = other.numberOfDeliveries == null ? null : other.numberOfDeliveries.copy();
-        this.receivedValue = other.receivedValue == null ? null : other.receivedValue.copy();
-        this.valueToReceive = other.valueToReceive == null ? null : other.valueToReceive.copy();
-        this.ranking = other.ranking == null ? null : other.ranking.copy();
-        this.userInfoId = other.userInfoId == null ? null : other.userInfoId.copy();
-        this.deliveryManId = other.deliveryManId == null ? null : other.deliveryManId.copy();
-        this.zoneId = other.zoneId == null ? null : other.zoneId.copy();
+        this.ownerPointId = other.ownerPointId == null ? null : other.ownerPointId.copy();
+        this.distinct = other.distinct;
     }
 
     @Override
@@ -89,6 +85,36 @@ public class PointCriteria implements Serializable, Criteria {
         this.openingTime = openingTime;
     }
 
+    public StringFilter getClosingTime() {
+        return closingTime;
+    }
+
+    public StringFilter closingTime() {
+        if (closingTime == null) {
+            closingTime = new StringFilter();
+        }
+        return closingTime;
+    }
+
+    public void setClosingTime(StringFilter closingTime) {
+        this.closingTime = closingTime;
+    }
+
+    public StringFilter getAddress() {
+        return address;
+    }
+
+    public StringFilter address() {
+        if (address == null) {
+            address = new StringFilter();
+        }
+        return address;
+    }
+
+    public void setAddress(StringFilter address) {
+        this.address = address;
+    }
+
     public IntegerFilter getNumberOfDeliveries() {
         return numberOfDeliveries;
     }
@@ -104,94 +130,27 @@ public class PointCriteria implements Serializable, Criteria {
         this.numberOfDeliveries = numberOfDeliveries;
     }
 
-    public DoubleFilter getReceivedValue() {
-        return receivedValue;
+    public LongFilter getOwnerPointId() {
+        return ownerPointId;
     }
 
-    public DoubleFilter receivedValue() {
-        if (receivedValue == null) {
-            receivedValue = new DoubleFilter();
+    public LongFilter ownerPointId() {
+        if (ownerPointId == null) {
+            ownerPointId = new LongFilter();
         }
-        return receivedValue;
+        return ownerPointId;
     }
 
-    public void setReceivedValue(DoubleFilter receivedValue) {
-        this.receivedValue = receivedValue;
+    public void setOwnerPointId(LongFilter ownerPointId) {
+        this.ownerPointId = ownerPointId;
     }
 
-    public DoubleFilter getValueToReceive() {
-        return valueToReceive;
+    public Boolean getDistinct() {
+        return distinct;
     }
 
-    public DoubleFilter valueToReceive() {
-        if (valueToReceive == null) {
-            valueToReceive = new DoubleFilter();
-        }
-        return valueToReceive;
-    }
-
-    public void setValueToReceive(DoubleFilter valueToReceive) {
-        this.valueToReceive = valueToReceive;
-    }
-
-    public DoubleFilter getRanking() {
-        return ranking;
-    }
-
-    public DoubleFilter ranking() {
-        if (ranking == null) {
-            ranking = new DoubleFilter();
-        }
-        return ranking;
-    }
-
-    public void setRanking(DoubleFilter ranking) {
-        this.ranking = ranking;
-    }
-
-    public LongFilter getUserInfoId() {
-        return userInfoId;
-    }
-
-    public LongFilter userInfoId() {
-        if (userInfoId == null) {
-            userInfoId = new LongFilter();
-        }
-        return userInfoId;
-    }
-
-    public void setUserInfoId(LongFilter userInfoId) {
-        this.userInfoId = userInfoId;
-    }
-
-    public LongFilter getDeliveryManId() {
-        return deliveryManId;
-    }
-
-    public LongFilter deliveryManId() {
-        if (deliveryManId == null) {
-            deliveryManId = new LongFilter();
-        }
-        return deliveryManId;
-    }
-
-    public void setDeliveryManId(LongFilter deliveryManId) {
-        this.deliveryManId = deliveryManId;
-    }
-
-    public LongFilter getZoneId() {
-        return zoneId;
-    }
-
-    public LongFilter zoneId() {
-        if (zoneId == null) {
-            zoneId = new LongFilter();
-        }
-        return zoneId;
-    }
-
-    public void setZoneId(LongFilter zoneId) {
-        this.zoneId = zoneId;
+    public void setDistinct(Boolean distinct) {
+        this.distinct = distinct;
     }
 
     @Override
@@ -206,19 +165,17 @@ public class PointCriteria implements Serializable, Criteria {
         return (
             Objects.equals(id, that.id) &&
             Objects.equals(openingTime, that.openingTime) &&
+            Objects.equals(closingTime, that.closingTime) &&
+            Objects.equals(address, that.address) &&
             Objects.equals(numberOfDeliveries, that.numberOfDeliveries) &&
-            Objects.equals(receivedValue, that.receivedValue) &&
-            Objects.equals(valueToReceive, that.valueToReceive) &&
-            Objects.equals(ranking, that.ranking) &&
-            Objects.equals(userInfoId, that.userInfoId) &&
-            Objects.equals(deliveryManId, that.deliveryManId) &&
-            Objects.equals(zoneId, that.zoneId)
+            Objects.equals(ownerPointId, that.ownerPointId) &&
+            Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, openingTime, numberOfDeliveries, receivedValue, valueToReceive, ranking, userInfoId, deliveryManId, zoneId);
+        return Objects.hash(id, openingTime, closingTime, address, numberOfDeliveries, ownerPointId, distinct);
     }
 
     // prettier-ignore
@@ -227,13 +184,11 @@ public class PointCriteria implements Serializable, Criteria {
         return "PointCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (openingTime != null ? "openingTime=" + openingTime + ", " : "") +
+            (closingTime != null ? "closingTime=" + closingTime + ", " : "") +
+            (address != null ? "address=" + address + ", " : "") +
             (numberOfDeliveries != null ? "numberOfDeliveries=" + numberOfDeliveries + ", " : "") +
-            (receivedValue != null ? "receivedValue=" + receivedValue + ", " : "") +
-            (valueToReceive != null ? "valueToReceive=" + valueToReceive + ", " : "") +
-            (ranking != null ? "ranking=" + ranking + ", " : "") +
-            (userInfoId != null ? "userInfoId=" + userInfoId + ", " : "") +
-            (deliveryManId != null ? "deliveryManId=" + deliveryManId + ", " : "") +
-            (zoneId != null ? "zoneId=" + zoneId + ", " : "") +
+            (ownerPointId != null ? "ownerPointId=" + ownerPointId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

@@ -53,13 +53,90 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" for="field_adress">Address</label>
-          <input type="text" class="form-control" name="address" id="field_adress" data-cy="address" formControlName="address" />
+          <label class="form-control-label" for="field_address">Address</label>
+          <input type="text" class="form-control" name="address" id="field_address" data-cy="address" formControlName="address" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_linkSocial">Link Social</label>
+          <input
+            type="text"
+            class="form-control"
+            name="linkSocial"
+            id="field_linkSocial"
+            data-cy="linkSocial"
+            formControlName="linkSocial"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_numberRequests">Number Requests</label>
+          <input
+            type="number"
+            class="form-control"
+            name="numberRequests"
+            id="field_numberRequests"
+            data-cy="numberRequests"
+            formControlName="numberRequests"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_payedValue">Payed Value</label>
+          <input
+            type="number"
+            class="form-control"
+            name="payedValue"
+            id="field_payedValue"
+            data-cy="payedValue"
+            formControlName="payedValue"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_valueToPay">Value To Pay</label>
+          <input
+            type="number"
+            class="form-control"
+            name="valueToPay"
+            id="field_valueToPay"
+            data-cy="valueToPay"
+            formControlName="valueToPay"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_ranking">Ranking</label>
+          <input type="number" class="form-control" name="ranking" id="field_ranking" data-cy="ranking" formControlName="ranking" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_numberOfDeliveries">Number Of Deliveries</label>
+          <input
+            type="number"
+            class="form-control"
+            name="numberOfDeliveries"
+            id="field_numberOfDeliveries"
+            data-cy="numberOfDeliveries"
+            formControlName="numberOfDeliveries"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_numberOfKm">Number Of Km</label>
+          <input
+            type="number"
+            class="form-control"
+            name="numberOfKm"
+            id="field_numberOfKm"
+            data-cy="numberOfKm"
+            formControlName="numberOfKm"
+          />
         </div>
       </div>
 
       <div>
-        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
           <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
         </button>
 

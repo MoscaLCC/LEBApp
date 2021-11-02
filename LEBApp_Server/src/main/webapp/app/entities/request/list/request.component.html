@@ -31,7 +31,7 @@
   <div class="table-responsive" id="entities" *ngIf="requests && requests.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
-        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
           <th scope="col" jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="productValue"><span>Product Value</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="productName"><span>Product Name</span> <fa-icon icon="sort"></fa-icon></th>
@@ -42,15 +42,16 @@
           <th scope="col" jhiSortBy="expirationDate"><span>Expiration Date</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="description"><span>Description</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="specialCharacteristics"><span>Special Characteristics</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="productWeight"><span>Product Weight</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="weight"><span>Weight</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="hight"><span>Hight</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="width"><span>Width</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="status"><span>Status</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="estimatedDate"><span>Estimated Date</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="deliveryTime"><span>Delivery Time</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="shippingCosts"><span>Shipping Costs</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="rating"><span>Rating</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="dimensions.id"><span>Dimensions</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="ridePath.id"><span>Ride Path</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="producer.id"><span>Producer</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="ownerRequest.id"><span>Owner Request</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="tranporter.id"><span>Tranporter</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -64,29 +65,26 @@
           <td>{{ request.source }}</td>
           <td>{{ request.destination }}</td>
           <td>{{ request.destinationContact }}</td>
-          <td>{{ request.initDate | formatMediumDatetime }}</td>
-          <td>{{ request.expirationDate | formatMediumDatetime }}</td>
+          <td>{{ request.initDate }}</td>
+          <td>{{ request.expirationDate }}</td>
           <td>{{ request.description }}</td>
           <td>{{ request.specialCharacteristics }}</td>
-          <td>{{ request.productWeight }}</td>
+          <td>{{ request.weight }}</td>
+          <td>{{ request.hight }}</td>
+          <td>{{ request.width }}</td>
           <td>{{ request.status }}</td>
-          <td>{{ request.estimatedDate | formatMediumDatetime }}</td>
-          <td>{{ request.deliveryTime | formatMediumDatetime }}</td>
+          <td>{{ request.estimatedDate }}</td>
+          <td>{{ request.deliveryTime }}</td>
           <td>{{ request.shippingCosts }}</td>
           <td>{{ request.rating }}</td>
           <td>
-            <div *ngIf="request.dimensions">
-              <a [routerLink]="['/dimensions', request.dimensions?.id, 'view']">{{ request.dimensions?.id }}</a>
+            <div *ngIf="request.ownerRequest">
+              <a [routerLink]="['/user-info', request.ownerRequest?.id, 'view']">{{ request.ownerRequest?.id }}</a>
             </div>
           </td>
           <td>
-            <div *ngIf="request.ridePath">
-              <a [routerLink]="['/ride-path', request.ridePath?.id, 'view']">{{ request.ridePath?.id }}</a>
-            </div>
-          </td>
-          <td>
-            <div *ngIf="request.producer">
-              <a [routerLink]="['/producer', request.producer?.id, 'view']">{{ request.producer?.id }}</a>
+            <div *ngIf="request.tranporter">
+              <a [routerLink]="['/user-info', request.tranporter?.id, 'view']">{{ request.tranporter?.id }}</a>
             </div>
           </td>
           <td class="text-right">

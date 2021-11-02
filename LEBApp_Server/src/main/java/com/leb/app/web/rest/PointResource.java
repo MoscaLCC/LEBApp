@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -117,7 +118,7 @@ public class PointResource {
      * or with status {@code 500 (Internal Server Error)} if the pointDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/points/{id}", consumes = "application/merge-patch+json")
+    @PatchMapping(value = "/points/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<PointDTO> partialUpdatePoint(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody PointDTO pointDTO

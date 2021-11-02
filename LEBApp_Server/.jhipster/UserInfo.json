@@ -20,9 +20,56 @@
     {
       "fieldName": "address",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "linkSocial",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "numberRequests",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "payedValue",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "valueToPay",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "ranking",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "numberOfDeliveries",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "numberOfKm",
+      "fieldType": "Double"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "request",
+      "otherEntityRelationshipName": "ownerRequest",
+      "relationshipName": "requests"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "request",
+      "otherEntityRelationshipName": "tranporter",
+      "relationshipName": "transportations"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "point",
+      "otherEntityRelationshipName": "ownerPoint",
+      "relationshipName": "point"
+    }
+  ],
   "entityTableName": "user_info",
   "dto": "mapstruct",
   "pagination": "pagination",
@@ -32,5 +79,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": "*",
-  "changelogDate": "20210514221745"
+  "changelogDate": "20211019225134"
 }

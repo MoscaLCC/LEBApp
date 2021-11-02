@@ -45,12 +45,11 @@ public class RidePathServiceImpl implements RidePathService {
 
         return ridePathRepository
             .findById(ridePathDTO.getId())
-            .map(
-                existingRidePath -> {
-                    ridePathMapper.partialUpdate(existingRidePath, ridePathDTO);
-                    return existingRidePath;
-                }
-            )
+            .map(existingRidePath -> {
+                ridePathMapper.partialUpdate(existingRidePath, ridePathDTO);
+
+                return existingRidePath;
+            })
             .map(ridePathRepository::save)
             .map(ridePathMapper::toDto);
     }

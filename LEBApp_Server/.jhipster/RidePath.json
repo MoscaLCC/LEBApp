@@ -16,23 +16,13 @@
     {
       "fieldName": "estimatedTime",
       "fieldType": "String"
-    }
-  ],
-  "relationships": [
-    {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "request",
-      "otherEntityRelationshipName": "ridePath",
-      "relationshipName": "request"
     },
     {
-      "relationshipType": "many-to-many",
-      "otherEntityName": "transporter",
-      "otherEntityRelationshipName": "ridePath",
-      "relationshipName": "transports",
-      "ownerSide": false
+      "fieldName": "radius",
+      "fieldType": "Double"
     }
   ],
+  "relationships": [],
   "entityTableName": "ride_path",
   "dto": "mapstruct",
   "pagination": "pagination",
@@ -42,5 +32,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": "*",
-  "changelogDate": "20210514212834"
+  "changelogDate": "20211019225135"
 }

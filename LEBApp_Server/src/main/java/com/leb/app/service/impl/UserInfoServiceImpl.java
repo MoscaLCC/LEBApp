@@ -45,12 +45,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 
         return userInfoRepository
             .findById(userInfoDTO.getId())
-            .map(
-                existingUserInfo -> {
-                    userInfoMapper.partialUpdate(existingUserInfo, userInfoDTO);
-                    return existingUserInfo;
-                }
-            )
+            .map(existingUserInfo -> {
+                userInfoMapper.partialUpdate(existingUserInfo, userInfoDTO);
+
+                return existingUserInfo;
+            })
             .map(userInfoRepository::save)
             .map(userInfoMapper::toDto);
     }

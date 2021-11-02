@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { SharedModule } from 'app/shared/shared.module';
 import { PointComponent } from './list/point.component';
 import { PointDetailComponent } from './detail/point-detail.component';

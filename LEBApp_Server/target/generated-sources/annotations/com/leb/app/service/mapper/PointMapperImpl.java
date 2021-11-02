@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-11-02T22:39:14+0000",
+    date = "2021-11-02T22:49:44+0000",
     comments = "version: 1.4.2.Final, compiler: Eclipse JDT (IDE) 1.4.50.v20210914-1429, environment: Java 11.0.11 (Oracle Corporation)"
 )
 @Component
@@ -18,8 +18,6 @@ public class PointMapperImpl implements PointMapper {
 
     @Autowired
     private UserInfoMapper userInfoMapper;
-    @Autowired
-    private ZoneMapper zoneMapper;
 
     @Override
     public Point toEntity(PointDTO dto) {
@@ -29,15 +27,12 @@ public class PointMapperImpl implements PointMapper {
 
         Point point = new Point();
 
-        point.id( dto.getId() );
+        point.setId( dto.getId() );
         point.setOpeningTime( dto.getOpeningTime() );
-        point.setNumberOfDeliveries( dto.getNumberOfDeliveries() );
-        point.setReceivedValue( dto.getReceivedValue() );
-        point.setValueToReceive( dto.getValueToReceive() );
-        point.setRanking( dto.getRanking() );
-        point.setUserInfo( userInfoMapper.toEntity( dto.getUserInfo() ) );
         point.setClosingTime( dto.getClosingTime() );
-        point.setZone( zoneMapper.toEntity( dto.getZone() ) );
+        point.setAddress( dto.getAddress() );
+        point.setNumberOfDeliveries( dto.getNumberOfDeliveries() );
+        point.ownerPoint( userInfoMapper.toEntity( dto.getOwnerPoint() ) );
 
         return point;
     }
@@ -77,31 +72,22 @@ public class PointMapperImpl implements PointMapper {
         }
 
         if ( dto.getId() != null ) {
-            entity.id( dto.getId() );
+            entity.setId( dto.getId() );
         }
         if ( dto.getOpeningTime() != null ) {
             entity.setOpeningTime( dto.getOpeningTime() );
         }
-        if ( dto.getNumberOfDeliveries() != null ) {
-            entity.setNumberOfDeliveries( dto.getNumberOfDeliveries() );
-        }
-        if ( dto.getReceivedValue() != null ) {
-            entity.setReceivedValue( dto.getReceivedValue() );
-        }
-        if ( dto.getValueToReceive() != null ) {
-            entity.setValueToReceive( dto.getValueToReceive() );
-        }
-        if ( dto.getRanking() != null ) {
-            entity.setRanking( dto.getRanking() );
-        }
-        if ( dto.getUserInfo() != null ) {
-            entity.setUserInfo( userInfoMapper.toEntity( dto.getUserInfo() ) );
-        }
         if ( dto.getClosingTime() != null ) {
             entity.setClosingTime( dto.getClosingTime() );
         }
-        if ( dto.getZone() != null ) {
-            entity.setZone( zoneMapper.toEntity( dto.getZone() ) );
+        if ( dto.getAddress() != null ) {
+            entity.setAddress( dto.getAddress() );
+        }
+        if ( dto.getNumberOfDeliveries() != null ) {
+            entity.setNumberOfDeliveries( dto.getNumberOfDeliveries() );
+        }
+        if ( dto.getOwnerPoint() != null ) {
+            entity.ownerPoint( userInfoMapper.toEntity( dto.getOwnerPoint() ) );
         }
     }
 
@@ -113,28 +99,12 @@ public class PointMapperImpl implements PointMapper {
 
         PointDTO pointDTO = new PointDTO();
 
-        pointDTO.setUserInfo( userInfoMapper.toDtoId( s.getUserInfo() ) );
-        pointDTO.setZone( zoneMapper.toDtoId( s.getZone() ) );
+        pointDTO.setOwnerPoint( userInfoMapper.toDtoId( s.getOwnerPoint() ) );
         pointDTO.setId( s.getId() );
-        pointDTO.setClosingTime( s.getClosingTime() );
         pointDTO.setOpeningTime( s.getOpeningTime() );
+        pointDTO.setClosingTime( s.getClosingTime() );
+        pointDTO.setAddress( s.getAddress() );
         pointDTO.setNumberOfDeliveries( s.getNumberOfDeliveries() );
-        pointDTO.setReceivedValue( s.getReceivedValue() );
-        pointDTO.setValueToReceive( s.getValueToReceive() );
-        pointDTO.setRanking( s.getRanking() );
-
-        return pointDTO;
-    }
-
-    @Override
-    public PointDTO toDtoId(Point point) {
-        if ( point == null ) {
-            return null;
-        }
-
-        PointDTO pointDTO = new PointDTO();
-
-        pointDTO.setId( point.getId() );
 
         return pointDTO;
     }

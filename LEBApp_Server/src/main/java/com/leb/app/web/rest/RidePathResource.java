@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -119,7 +120,7 @@ public class RidePathResource {
      * or with status {@code 500 (Internal Server Error)} if the ridePathDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/ride-paths/{id}", consumes = "application/merge-patch+json")
+    @PatchMapping(value = "/ride-paths/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<RidePathDTO> partialUpdateRidePath(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody RidePathDTO ridePathDTO

@@ -3,6 +3,7 @@ package com.leb.app.service.dto;
 import com.leb.app.domain.enumeration.Status;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.validation.constraints.*;
 
 /**
  * A DTO for the {@link com.leb.app.domain.Request} entity.
@@ -29,6 +30,12 @@ public class RequestDTO implements Serializable {
 
     private String specialCharacteristics;
 
+    private Double weight;
+
+    private Double hight;
+
+    private Double width;
+
     private Status status;
 
     private String estimatedDate;
@@ -39,11 +46,9 @@ public class RequestDTO implements Serializable {
 
     private Double rating;
 
-    private DimensionsDTO dimensions;
+    private UserInfoDTO ownerRequest;
 
-    private RidePathDTO ridePath;
-
-    private ProducerDTO producer;
+    private UserInfoDTO tranporter;
 
     public Long getId() {
         return id;
@@ -125,6 +130,30 @@ public class RequestDTO implements Serializable {
         this.specialCharacteristics = specialCharacteristics;
     }
 
+    public Double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
+
+    public Double getHight() {
+        return hight;
+    }
+
+    public void setHight(Double hight) {
+        this.hight = hight;
+    }
+
+    public Double getWidth() {
+        return width;
+    }
+
+    public void setWidth(Double width) {
+        this.width = width;
+    }
+
     public Status getStatus() {
         return status;
     }
@@ -165,28 +194,20 @@ public class RequestDTO implements Serializable {
         this.rating = rating;
     }
 
-    public DimensionsDTO getDimensions() {
-        return dimensions;
+    public UserInfoDTO getOwnerRequest() {
+        return ownerRequest;
     }
 
-    public void setDimensions(DimensionsDTO dimensions) {
-        this.dimensions = dimensions;
+    public void setOwnerRequest(UserInfoDTO ownerRequest) {
+        this.ownerRequest = ownerRequest;
     }
 
-    public RidePathDTO getRidePath() {
-        return ridePath;
+    public UserInfoDTO getTranporter() {
+        return tranporter;
     }
 
-    public void setRidePath(RidePathDTO ridePath) {
-        this.ridePath = ridePath;
-    }
-
-    public ProducerDTO getProducer() {
-        return producer;
-    }
-
-    public void setProducer(ProducerDTO producer) {
-        this.producer = producer;
+    public void setTranporter(UserInfoDTO tranporter) {
+        this.tranporter = tranporter;
     }
 
     @Override
@@ -224,14 +245,16 @@ public class RequestDTO implements Serializable {
             ", expirationDate='" + getExpirationDate() + "'" +
             ", description='" + getDescription() + "'" +
             ", specialCharacteristics='" + getSpecialCharacteristics() + "'" +
+            ", weight=" + getWeight() +
+            ", hight=" + getHight() +
+            ", width=" + getWidth() +
             ", status='" + getStatus() + "'" +
             ", estimatedDate='" + getEstimatedDate() + "'" +
             ", deliveryTime='" + getDeliveryTime() + "'" +
             ", shippingCosts=" + getShippingCosts() +
             ", rating=" + getRating() +
-            ", dimensions=" + getDimensions() +
-            ", ridePath=" + getRidePath() +
-            ", producer=" + getProducer() +
+            ", ownerRequest=" + getOwnerRequest() +
+            ", tranporter=" + getTranporter() +
             "}";
     }
 }

@@ -83,6 +83,10 @@ public class RequestQueryService extends QueryService<Request> {
     protected Specification<Request> createSpecification(RequestCriteria criteria) {
         Specification<Request> specification = Specification.where(null);
         if (criteria != null) {
+            // This has to be called first, because the distinct method returns null
+            if (criteria.getDistinct() != null) {
+                specification = specification.and(distinct(criteria.getDistinct()));
+            }
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), Request_.id));
             }
@@ -101,6 +105,12 @@ public class RequestQueryService extends QueryService<Request> {
             if (criteria.getDestinationContact() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getDestinationContact(), Request_.destinationContact));
             }
+            if (criteria.getInitDate() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getInitDate(), Request_.initDate));
+            }
+            if (criteria.getExpirationDate() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getExpirationDate(), Request_.expirationDate));
+            }
             if (criteria.getDescription() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getDescription(), Request_.description));
             }
@@ -108,8 +118,23 @@ public class RequestQueryService extends QueryService<Request> {
                 specification =
                     specification.and(buildStringSpecification(criteria.getSpecialCharacteristics(), Request_.specialCharacteristics));
             }
+            if (criteria.getWeight() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getWeight(), Request_.weight));
+            }
+            if (criteria.getHight() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getHight(), Request_.hight));
+            }
+            if (criteria.getWidth() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getWidth(), Request_.width));
+            }
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatus(), Request_.status));
+            }
+            if (criteria.getEstimatedDate() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getEstimatedDate(), Request_.estimatedDate));
+            }
+            if (criteria.getDeliveryTime() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getDeliveryTime(), Request_.deliveryTime));
             }
             if (criteria.getShippingCosts() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getShippingCosts(), Request_.shippingCosts));
@@ -117,25 +142,22 @@ public class RequestQueryService extends QueryService<Request> {
             if (criteria.getRating() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getRating(), Request_.rating));
             }
-            if (criteria.getDimensionsId() != null) {
+            if (criteria.getOwnerRequestId() != null) {
                 specification =
                     specification.and(
                         buildSpecification(
-                            criteria.getDimensionsId(),
-                            root -> root.join(Request_.dimensions, JoinType.LEFT).get(Dimensions_.id)
+                            criteria.getOwnerRequestId(),
+                            root -> root.join(Request_.ownerRequest, JoinType.LEFT).get(UserInfo_.id)
                         )
                     );
             }
-            if (criteria.getRidePathId() != null) {
+            if (criteria.getTranporterId() != null) {
                 specification =
                     specification.and(
-                        buildSpecification(criteria.getRidePathId(), root -> root.join(Request_.ridePath, JoinType.LEFT).get(RidePath_.id))
-                    );
-            }
-            if (criteria.getProducerId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(criteria.getProducerId(), root -> root.join(Request_.producer, JoinType.LEFT).get(Producer_.id))
+                        buildSpecification(
+                            criteria.getTranporterId(),
+                            root -> root.join(Request_.tranporter, JoinType.LEFT).get(UserInfo_.id)
+                        )
                     );
             }
         }

@@ -6,8 +6,8 @@ import com.leb.app.security.SecurityUtils;
 import com.leb.app.service.MailService;
 import com.leb.app.service.UserService;
 import com.leb.app.service.dto.AdminUserDTO;
-import com.leb.app.service.dto.PasswordChangeDTO;
 import com.leb.app.service.dto.RegisterDTO;
+import com.leb.app.service.dto.PasswordChangeDTO;
 import com.leb.app.web.rest.errors.*;
 import com.leb.app.web.rest.vm.KeyAndPasswordVM;
 import com.leb.app.web.rest.vm.ManagedUserVM;
@@ -59,7 +59,7 @@ public class AccountResource {
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
     public void registerAccount(@Valid @RequestBody ManagedUserVM managedUserVM) {
-        log.error("USER: {}", managedUserVM);
+        log.debug("USER: {}", managedUserVM);
         if (isPasswordLengthInvalid(managedUserVM.getPassword())) {
             throw new InvalidPasswordException();
         }
@@ -76,7 +76,7 @@ public class AccountResource {
         }
         User user = userService.registerUser2(registerDTO, registerDTO.getPassword());
         mailService.sendActivationEmail(user);
-    }
+    }    
 
     /**
      * {@code GET  /activate} : activate the registered user.

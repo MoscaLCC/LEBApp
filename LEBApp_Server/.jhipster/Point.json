@@ -6,42 +6,25 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "closingTime",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "numberOfDeliveries",
       "fieldType": "Integer"
-    },
-    {
-      "fieldName": "receivedValue",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "valueToReceive",
-      "fieldType": "Double"
-    },
-    {
-      "fieldName": "ranking",
-      "fieldType": "Double"
     }
   ],
   "relationships": [
     {
-      "relationshipType": "one-to-one",
+      "relationshipType": "many-to-one",
       "otherEntityName": "userInfo",
       "otherEntityRelationshipName": "point",
       "relationshipValidateRules": "required",
-      "relationshipName": "userInfo",
-      "ownerSide": true
-    },
-    {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "deliveryMan",
-      "otherEntityRelationshipName": "point",
-      "relationshipName": "deliveryMan"
-    },
-    {
-      "relationshipType": "many-to-one",
-      "otherEntityName": "zone",
-      "otherEntityRelationshipName": "point",
-      "relationshipName": "zone"
+      "relationshipName": "ownerPoint"
     }
   ],
   "entityTableName": "point",
@@ -53,5 +36,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": "*",
-  "changelogDate": "20210514212837"
+  "changelogDate": "20211019225136"
 }

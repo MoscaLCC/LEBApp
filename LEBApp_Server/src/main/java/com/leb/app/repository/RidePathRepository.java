@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data SQL repository for the RidePath entity.
  */
+@SuppressWarnings("unused")
 @Repository
 public interface RidePathRepository extends JpaRepository<RidePath, Long>, JpaSpecificationExecutor<RidePath> {}

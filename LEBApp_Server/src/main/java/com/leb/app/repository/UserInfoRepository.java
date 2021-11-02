@@ -7,9 +7,11 @@ import org.springframework.stereotype.Repository;
 /**
  * Spring Data SQL repository for the UserInfo entity.
  */
+@SuppressWarnings("unused")
 @Repository
 public interface UserInfoRepository extends JpaRepository<UserInfo, Long>, JpaSpecificationExecutor<UserInfo> {
 
-    UserInfo findByUserId(Long id); 
-
+    UserInfo findByUserId(Long id);
+    
 }
+

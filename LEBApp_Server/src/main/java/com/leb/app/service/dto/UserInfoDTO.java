@@ -21,6 +21,20 @@ public class UserInfoDTO implements Serializable {
 
     private String address;
 
+    private String linkSocial;
+
+    private Integer numberRequests;
+
+    private Double payedValue;
+
+    private Double valueToPay;
+
+    private Double ranking;
+
+    private Integer numberOfDeliveries;
+
+    private Double numberOfKm;
+
     public Long getId() {
         return id;
     }
@@ -61,12 +75,68 @@ public class UserInfoDTO implements Serializable {
         this.birthday = birthday;
     }
 
-    public String getAdress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAdress(String address) {
+    public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getLinkSocial() {
+        return linkSocial;
+    }
+
+    public void setLinkSocial(String linkSocial) {
+        this.linkSocial = linkSocial;
+    }
+
+    public Integer getNumberRequests() {
+        return numberRequests;
+    }
+
+    public void setNumberRequests(Integer numberRequests) {
+        this.numberRequests = numberRequests;
+    }
+
+    public Double getPayedValue() {
+        return payedValue;
+    }
+
+    public void setPayedValue(Double payedValue) {
+        this.payedValue = payedValue;
+    }
+
+    public Double getValueToPay() {
+        return valueToPay;
+    }
+
+    public void setValueToPay(Double valueToPay) {
+        this.valueToPay = valueToPay;
+    }
+
+    public Double getRanking() {
+        return ranking;
+    }
+
+    public void setRanking(Double ranking) {
+        this.ranking = ranking;
+    }
+
+    public Integer getNumberOfDeliveries() {
+        return numberOfDeliveries;
+    }
+
+    public void setNumberOfDeliveries(Integer numberOfDeliveries) {
+        this.numberOfDeliveries = numberOfDeliveries;
+    }
+
+    public Double getNumberOfKm() {
+        return numberOfKm;
+    }
+
+    public void setNumberOfKm(Double numberOfKm) {
+        this.numberOfKm = numberOfKm;
     }
 
     @Override
@@ -99,7 +169,14 @@ public class UserInfoDTO implements Serializable {
             ", nib='" + getNib() + "'" +
             ", nif=" + getNif() +
             ", birthday='" + getBirthday() + "'" +
-            ", address='" + getAdress() + "'" +
+            ", address='" + getAddress() + "'" +
+            ", linkSocial='" + getLinkSocial() + "'" +
+            ", numberRequests=" + getNumberRequests() +
+            ", payedValue=" + getPayedValue() +
+            ", valueToPay=" + getValueToPay() +
+            ", ranking=" + getRanking() +
+            ", numberOfDeliveries=" + getNumberOfDeliveries() +
+            ", numberOfKm=" + getNumberOfKm() +
             "}";
     }
 }

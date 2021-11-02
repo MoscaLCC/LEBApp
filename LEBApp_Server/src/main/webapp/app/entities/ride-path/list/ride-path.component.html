@@ -31,12 +31,13 @@
   <div class="table-responsive" id="entities" *ngIf="ridePaths && ridePaths.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
-        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
           <th scope="col" jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="source"><span>Source</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="destination"><span>Destination</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="distance"><span>Distance</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="estimatedTime"><span>Estimated Time</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="radius"><span>Radius</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -49,6 +50,7 @@
           <td>{{ ridePath.destination }}</td>
           <td>{{ ridePath.distance }}</td>
           <td>{{ ridePath.estimatedTime }}</td>
+          <td>{{ ridePath.radius }}</td>
           <td class="text-right">
             <div class="btn-group">
               <button

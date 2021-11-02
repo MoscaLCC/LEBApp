@@ -3,15 +3,13 @@ package com.leb.app.service.mapper;
 import com.leb.app.domain.RidePath;
 import com.leb.app.service.dto.RidePathDTO;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-11-02T22:39:15+0000",
+    date = "2021-11-02T22:49:44+0000",
     comments = "version: 1.4.2.Final, compiler: Eclipse JDT (IDE) 1.4.50.v20210914-1429, environment: Java 11.0.11 (Oracle Corporation)"
 )
 @Component
@@ -25,11 +23,12 @@ public class RidePathMapperImpl implements RidePathMapper {
 
         RidePath ridePath = new RidePath();
 
-        ridePath.id( dto.getId() );
+        ridePath.setId( dto.getId() );
         ridePath.setSource( dto.getSource() );
         ridePath.setDestination( dto.getDestination() );
         ridePath.setDistance( dto.getDistance() );
         ridePath.setEstimatedTime( dto.getEstimatedTime() );
+        ridePath.setRadius( dto.getRadius() );
 
         return ridePath;
     }
@@ -47,6 +46,7 @@ public class RidePathMapperImpl implements RidePathMapper {
         ridePathDTO.setDestination( entity.getDestination() );
         ridePathDTO.setDistance( entity.getDistance() );
         ridePathDTO.setEstimatedTime( entity.getEstimatedTime() );
+        ridePathDTO.setRadius( entity.getRadius() );
 
         return ridePathDTO;
     }
@@ -86,7 +86,7 @@ public class RidePathMapperImpl implements RidePathMapper {
         }
 
         if ( dto.getId() != null ) {
-            entity.id( dto.getId() );
+            entity.setId( dto.getId() );
         }
         if ( dto.getSource() != null ) {
             entity.setSource( dto.getSource() );
@@ -100,32 +100,8 @@ public class RidePathMapperImpl implements RidePathMapper {
         if ( dto.getEstimatedTime() != null ) {
             entity.setEstimatedTime( dto.getEstimatedTime() );
         }
-    }
-
-    @Override
-    public RidePathDTO toDtoId(RidePath ridePath) {
-        if ( ridePath == null ) {
-            return null;
+        if ( dto.getRadius() != null ) {
+            entity.setRadius( dto.getRadius() );
         }
-
-        RidePathDTO ridePathDTO = new RidePathDTO();
-
-        ridePathDTO.setId( ridePath.getId() );
-
-        return ridePathDTO;
-    }
-
-    @Override
-    public Set<RidePathDTO> toDtoIdSet(Set<RidePath> ridePath) {
-        if ( ridePath == null ) {
-            return null;
-        }
-
-        Set<RidePathDTO> set = new HashSet<RidePathDTO>( Math.max( (int) ( ridePath.size() / .75f ) + 1, 16 ) );
-        for ( RidePath ridePath1 : ridePath ) {
-            set.add( toDto( ridePath1 ) );
-        }
-
-        return set;
     }
 }

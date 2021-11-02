@@ -4,10 +4,13 @@ import com.leb.app.domain.enumeration.Status;
 import java.io.Serializable;
 import java.util.Objects;
 import tech.jhipster.service.Criteria;
+import tech.jhipster.service.filter.BooleanFilter;
 import tech.jhipster.service.filter.DoubleFilter;
 import tech.jhipster.service.filter.Filter;
-import tech.jhipster.service.filter.StringFilter;
+import tech.jhipster.service.filter.FloatFilter;
+import tech.jhipster.service.filter.IntegerFilter;
 import tech.jhipster.service.filter.LongFilter;
+import tech.jhipster.service.filter.StringFilter;
 
 /**
  * Criteria class for the {@link com.leb.app.domain.Request} entity. This class is used
@@ -59,7 +62,11 @@ public class RequestCriteria implements Serializable, Criteria {
 
     private StringFilter specialCharacteristics;
 
-    private DoubleFilter productWeight;
+    private DoubleFilter weight;
+
+    private DoubleFilter hight;
+
+    private DoubleFilter width;
 
     private StatusFilter status;
 
@@ -71,11 +78,11 @@ public class RequestCriteria implements Serializable, Criteria {
 
     private DoubleFilter rating;
 
-    private LongFilter dimensionsId;
+    private LongFilter ownerRequestId;
 
-    private LongFilter ridePathId;
+    private LongFilter tranporterId;
 
-    private LongFilter producerId;
+    private Boolean distinct;
 
     public RequestCriteria() {}
 
@@ -90,15 +97,17 @@ public class RequestCriteria implements Serializable, Criteria {
         this.expirationDate = other.expirationDate == null ? null : other.expirationDate.copy();
         this.description = other.description == null ? null : other.description.copy();
         this.specialCharacteristics = other.specialCharacteristics == null ? null : other.specialCharacteristics.copy();
-        this.productWeight = other.productWeight == null ? null : other.productWeight.copy();
+        this.weight = other.weight == null ? null : other.weight.copy();
+        this.hight = other.hight == null ? null : other.hight.copy();
+        this.width = other.width == null ? null : other.width.copy();
         this.status = other.status == null ? null : other.status.copy();
         this.estimatedDate = other.estimatedDate == null ? null : other.estimatedDate.copy();
         this.deliveryTime = other.deliveryTime == null ? null : other.deliveryTime.copy();
         this.shippingCosts = other.shippingCosts == null ? null : other.shippingCosts.copy();
         this.rating = other.rating == null ? null : other.rating.copy();
-        this.dimensionsId = other.dimensionsId == null ? null : other.dimensionsId.copy();
-        this.ridePathId = other.ridePathId == null ? null : other.ridePathId.copy();
-        this.producerId = other.producerId == null ? null : other.producerId.copy();
+        this.ownerRequestId = other.ownerRequestId == null ? null : other.ownerRequestId.copy();
+        this.tranporterId = other.tranporterId == null ? null : other.tranporterId.copy();
+        this.distinct = other.distinct;
     }
 
     @Override
@@ -256,19 +265,49 @@ public class RequestCriteria implements Serializable, Criteria {
         this.specialCharacteristics = specialCharacteristics;
     }
 
-    public DoubleFilter getProductWeight() {
-        return productWeight;
+    public DoubleFilter getWeight() {
+        return weight;
     }
 
-    public DoubleFilter productWeight() {
-        if (productWeight == null) {
-            productWeight = new DoubleFilter();
+    public DoubleFilter weight() {
+        if (weight == null) {
+            weight = new DoubleFilter();
         }
-        return productWeight;
+        return weight;
     }
 
-    public void setProductWeight(DoubleFilter productWeight) {
-        this.productWeight = productWeight;
+    public void setWeight(DoubleFilter weight) {
+        this.weight = weight;
+    }
+
+    public DoubleFilter getHight() {
+        return hight;
+    }
+
+    public DoubleFilter hight() {
+        if (hight == null) {
+            hight = new DoubleFilter();
+        }
+        return hight;
+    }
+
+    public void setHight(DoubleFilter hight) {
+        this.hight = hight;
+    }
+
+    public DoubleFilter getWidth() {
+        return width;
+    }
+
+    public DoubleFilter width() {
+        if (width == null) {
+            width = new DoubleFilter();
+        }
+        return width;
+    }
+
+    public void setWidth(DoubleFilter width) {
+        this.width = width;
     }
 
     public StatusFilter getStatus() {
@@ -346,49 +385,42 @@ public class RequestCriteria implements Serializable, Criteria {
         this.rating = rating;
     }
 
-    public LongFilter getDimensionsId() {
-        return dimensionsId;
+    public LongFilter getOwnerRequestId() {
+        return ownerRequestId;
     }
 
-    public LongFilter dimensionsId() {
-        if (dimensionsId == null) {
-            dimensionsId = new LongFilter();
+    public LongFilter ownerRequestId() {
+        if (ownerRequestId == null) {
+            ownerRequestId = new LongFilter();
         }
-        return dimensionsId;
+        return ownerRequestId;
     }
 
-    public void setDimensionsId(LongFilter dimensionsId) {
-        this.dimensionsId = dimensionsId;
+    public void setOwnerRequestId(LongFilter ownerRequestId) {
+        this.ownerRequestId = ownerRequestId;
     }
 
-    public LongFilter getRidePathId() {
-        return ridePathId;
+    public LongFilter getTranporterId() {
+        return tranporterId;
     }
 
-    public LongFilter ridePathId() {
-        if (ridePathId == null) {
-            ridePathId = new LongFilter();
+    public LongFilter tranporterId() {
+        if (tranporterId == null) {
+            tranporterId = new LongFilter();
         }
-        return ridePathId;
+        return tranporterId;
     }
 
-    public void setRidePathId(LongFilter ridePathId) {
-        this.ridePathId = ridePathId;
+    public void setTranporterId(LongFilter tranporterId) {
+        this.tranporterId = tranporterId;
     }
 
-    public LongFilter getProducerId() {
-        return producerId;
+    public Boolean getDistinct() {
+        return distinct;
     }
 
-    public LongFilter producerId() {
-        if (producerId == null) {
-            producerId = new LongFilter();
-        }
-        return producerId;
-    }
-
-    public void setProducerId(LongFilter producerId) {
-        this.producerId = producerId;
+    public void setDistinct(Boolean distinct) {
+        this.distinct = distinct;
     }
 
     @Override
@@ -411,15 +443,17 @@ public class RequestCriteria implements Serializable, Criteria {
             Objects.equals(expirationDate, that.expirationDate) &&
             Objects.equals(description, that.description) &&
             Objects.equals(specialCharacteristics, that.specialCharacteristics) &&
-            Objects.equals(productWeight, that.productWeight) &&
+            Objects.equals(weight, that.weight) &&
+            Objects.equals(hight, that.hight) &&
+            Objects.equals(width, that.width) &&
             Objects.equals(status, that.status) &&
             Objects.equals(estimatedDate, that.estimatedDate) &&
             Objects.equals(deliveryTime, that.deliveryTime) &&
             Objects.equals(shippingCosts, that.shippingCosts) &&
             Objects.equals(rating, that.rating) &&
-            Objects.equals(dimensionsId, that.dimensionsId) &&
-            Objects.equals(ridePathId, that.ridePathId) &&
-            Objects.equals(producerId, that.producerId)
+            Objects.equals(ownerRequestId, that.ownerRequestId) &&
+            Objects.equals(tranporterId, that.tranporterId) &&
+            Objects.equals(distinct, that.distinct)
         );
     }
 
@@ -436,15 +470,17 @@ public class RequestCriteria implements Serializable, Criteria {
             expirationDate,
             description,
             specialCharacteristics,
-            productWeight,
+            weight,
+            hight,
+            width,
             status,
             estimatedDate,
             deliveryTime,
             shippingCosts,
             rating,
-            dimensionsId,
-            ridePathId,
-            producerId
+            ownerRequestId,
+            tranporterId,
+            distinct
         );
     }
 
@@ -462,15 +498,17 @@ public class RequestCriteria implements Serializable, Criteria {
             (expirationDate != null ? "expirationDate=" + expirationDate + ", " : "") +
             (description != null ? "description=" + description + ", " : "") +
             (specialCharacteristics != null ? "specialCharacteristics=" + specialCharacteristics + ", " : "") +
-            (productWeight != null ? "productWeight=" + productWeight + ", " : "") +
+            (weight != null ? "weight=" + weight + ", " : "") +
+            (hight != null ? "hight=" + hight + ", " : "") +
+            (width != null ? "width=" + width + ", " : "") +
             (status != null ? "status=" + status + ", " : "") +
             (estimatedDate != null ? "estimatedDate=" + estimatedDate + ", " : "") +
             (deliveryTime != null ? "deliveryTime=" + deliveryTime + ", " : "") +
             (shippingCosts != null ? "shippingCosts=" + shippingCosts + ", " : "") +
             (rating != null ? "rating=" + rating + ", " : "") +
-            (dimensionsId != null ? "dimensionsId=" + dimensionsId + ", " : "") +
-            (ridePathId != null ? "ridePathId=" + ridePathId + ", " : "") +
-            (producerId != null ? "producerId=" + producerId + ", " : "") +
+            (ownerRequestId != null ? "ownerRequestId=" + ownerRequestId + ", " : "") +
+            (tranporterId != null ? "tranporterId=" + tranporterId + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

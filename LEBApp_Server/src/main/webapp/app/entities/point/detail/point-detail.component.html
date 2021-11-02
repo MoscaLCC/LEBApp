@@ -18,32 +18,22 @@
         <dd>
           <span>{{ point.openingTime }}</span>
         </dd>
+        <dt><span>Closing Time</span></dt>
+        <dd>
+          <span>{{ point.closingTime }}</span>
+        </dd>
+        <dt><span>Address</span></dt>
+        <dd>
+          <span>{{ point.address }}</span>
+        </dd>
         <dt><span>Number Of Deliveries</span></dt>
         <dd>
           <span>{{ point.numberOfDeliveries }}</span>
         </dd>
-        <dt><span>Received Value</span></dt>
+        <dt><span>Owner Point</span></dt>
         <dd>
-          <span>{{ point.receivedValue }}</span>
-        </dd>
-        <dt><span>Value To Receive</span></dt>
-        <dd>
-          <span>{{ point.valueToReceive }}</span>
-        </dd>
-        <dt><span>Ranking</span></dt>
-        <dd>
-          <span>{{ point.ranking }}</span>
-        </dd>
-        <dt><span>User Info</span></dt>
-        <dd>
-          <div *ngIf="point.userInfo">
-            <a [routerLink]="['/user-info', point.userInfo?.id, 'view']">{{ point.userInfo?.id }}</a>
-          </div>
-        </dd>
-        <dt><span>Zone</span></dt>
-        <dd>
-          <div *ngIf="point.zone">
-            <a [routerLink]="['/zone', point.zone?.id, 'view']">{{ point.zone?.id }}</a>
+          <div *ngIf="point.ownerPoint">
+            <a [routerLink]="['/user-info', point.ownerPoint?.id, 'view']">{{ point.ownerPoint?.id }}</a>
           </div>
         </dd>
       </dl>

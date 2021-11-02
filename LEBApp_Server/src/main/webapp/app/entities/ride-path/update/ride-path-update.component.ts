@@ -21,6 +21,7 @@ export class RidePathUpdateComponent implements OnInit {
     destination: [],
     distance: [],
     estimatedTime: [],
+    radius: [],
   });
 
   constructor(protected ridePathService: RidePathService, protected activatedRoute: ActivatedRoute, protected fb: FormBuilder) {}
@@ -71,6 +72,7 @@ export class RidePathUpdateComponent implements OnInit {
       destination: ridePath.destination,
       distance: ridePath.distance,
       estimatedTime: ridePath.estimatedTime,
+      radius: ridePath.radius,
     });
   }
 
@@ -82,6 +84,7 @@ export class RidePathUpdateComponent implements OnInit {
       destination: this.editForm.get(['destination'])!.value,
       distance: this.editForm.get(['distance'])!.value,
       estimatedTime: this.editForm.get(['estimatedTime'])!.value,
+      radius: this.editForm.get(['radius'])!.value,
     };
   }
 }

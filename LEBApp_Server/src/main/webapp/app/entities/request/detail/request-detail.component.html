@@ -36,11 +36,11 @@
         </dd>
         <dt><span>Init Date</span></dt>
         <dd>
-          <span>{{ request.initDate | formatMediumDatetime }}</span>
+          <span>{{ request.initDate }}</span>
         </dd>
         <dt><span>Expiration Date</span></dt>
         <dd>
-          <span>{{ request.expirationDate | formatMediumDatetime }}</span>
+          <span>{{ request.expirationDate }}</span>
         </dd>
         <dt><span>Description</span></dt>
         <dd>
@@ -50,9 +50,17 @@
         <dd>
           <span>{{ request.specialCharacteristics }}</span>
         </dd>
-        <dt><span>Product Weight</span></dt>
+        <dt><span>Weight</span></dt>
         <dd>
-          <span>{{ request.productWeight }}</span>
+          <span>{{ request.weight }}</span>
+        </dd>
+        <dt><span>Hight</span></dt>
+        <dd>
+          <span>{{ request.hight }}</span>
+        </dd>
+        <dt><span>Width</span></dt>
+        <dd>
+          <span>{{ request.width }}</span>
         </dd>
         <dt><span>Status</span></dt>
         <dd>
@@ -60,11 +68,11 @@
         </dd>
         <dt><span>Estimated Date</span></dt>
         <dd>
-          <span>{{ request.estimatedDate | formatMediumDatetime }}</span>
+          <span>{{ request.estimatedDate }}</span>
         </dd>
         <dt><span>Delivery Time</span></dt>
         <dd>
-          <span>{{ request.deliveryTime | formatMediumDatetime }}</span>
+          <span>{{ request.deliveryTime }}</span>
         </dd>
         <dt><span>Shipping Costs</span></dt>
         <dd>
@@ -74,22 +82,16 @@
         <dd>
           <span>{{ request.rating }}</span>
         </dd>
-        <dt><span>Dimensions</span></dt>
+        <dt><span>Owner Request</span></dt>
         <dd>
-          <div *ngIf="request.dimensions">
-            <a [routerLink]="['/dimensions', request.dimensions?.id, 'view']">{{ request.dimensions?.id }}</a>
+          <div *ngIf="request.ownerRequest">
+            <a [routerLink]="['/user-info', request.ownerRequest?.id, 'view']">{{ request.ownerRequest?.id }}</a>
           </div>
         </dd>
-        <dt><span>Ride Path</span></dt>
+        <dt><span>Tranporter</span></dt>
         <dd>
-          <div *ngIf="request.ridePath">
-            <a [routerLink]="['/ride-path', request.ridePath?.id, 'view']">{{ request.ridePath?.id }}</a>
-          </div>
-        </dd>
-        <dt><span>Producer</span></dt>
-        <dd>
-          <div *ngIf="request.producer">
-            <a [routerLink]="['/producer', request.producer?.id, 'view']">{{ request.producer?.id }}</a>
+          <div *ngIf="request.tranporter">
+            <a [routerLink]="['/user-info', request.tranporter?.id, 'view']">{{ request.tranporter?.id }}</a>
           </div>
         </dd>
       </dl>
