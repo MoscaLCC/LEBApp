@@ -99,9 +99,6 @@ public class UserInfoQueryService extends QueryService<UserInfo> {
             if (criteria.getNif() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getNif(), UserInfo_.nif));
             }
-            if (criteria.getBirthday() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getBirthday(), UserInfo_.birthday));
-            }
             if (criteria.getAddress() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getAddress(), UserInfo_.address));
             }

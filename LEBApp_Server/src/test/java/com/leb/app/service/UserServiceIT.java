@@ -3,16 +3,16 @@ package com.leb.app.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-import com.leb.app.IntegrationTest;
-import com.leb.app.config.Constants;
-import com.leb.app.domain.User;
-import com.leb.app.repository.UserRepository;
-import com.leb.app.service.dto.AdminUserDTO;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
+
+import com.leb.app.IntegrationTest;
+import com.leb.app.domain.User;
+import com.leb.app.repository.UserRepository;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,9 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.auditing.AuditingHandler;
 import org.springframework.data.auditing.DateTimeProvider;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
+
 import tech.jhipster.security.RandomUtil;
 
 /**

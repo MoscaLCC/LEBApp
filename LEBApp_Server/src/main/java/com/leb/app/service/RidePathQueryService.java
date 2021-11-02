@@ -1,13 +1,15 @@
 package com.leb.app.service;
 
-import com.leb.app.domain.*; // for static metamodels
+import java.util.List;
+
+// for static metamodels
 import com.leb.app.domain.RidePath;
+import com.leb.app.domain.RidePath_;
 import com.leb.app.repository.RidePathRepository;
 import com.leb.app.service.criteria.RidePathCriteria;
 import com.leb.app.service.dto.RidePathDTO;
 import com.leb.app.service.mapper.RidePathMapper;
-import java.util.List;
-import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -15,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import tech.jhipster.service.QueryService;
 
 /**

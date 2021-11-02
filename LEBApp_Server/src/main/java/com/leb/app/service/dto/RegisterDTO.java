@@ -1,6 +1,7 @@
 package com.leb.app.service.dto;
 
 import java.io.Serializable;
+import java.time.Instant;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -18,7 +19,7 @@ public class RegisterDTO implements Serializable {
 
     private int nif;
 
-    private String birthday;
+    private Instant birthday;
 
     private String address;
 
@@ -96,11 +97,11 @@ public class RegisterDTO implements Serializable {
         this.nif = nif;
     }
 
-    public String getBirthday() {
+    public Instant getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Instant birthday) {
         this.birthday = birthday;
     }
 

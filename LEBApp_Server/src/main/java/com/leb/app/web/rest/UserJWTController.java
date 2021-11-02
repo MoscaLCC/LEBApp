@@ -1,5 +1,7 @@
 package com.leb.app.web.rest;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -73,13 +75,16 @@ public class UserJWTController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
         
-        User user = userService.getUserByLogin(loginVM.getUsername()).get();
-        
-        //TODO: RETIRAR PROFILES DA LISTA, NO CASO ESTA A NULL 
-        LoginDTO login = new LoginDTO("Bearer " + jwt, user.getId(), user.getFirstName(), user.getLastName(), null);
-
-        log.info("</authorize>");
-        return new ResponseEntity<>(login, httpHeaders, HttpStatus.OK);
+        Optional<User> opUser = userService.getUserByLogin(loginVM.getUsername());
+        if (opUser.isPresent()){
+            User user = opUser.get();
+            LoginDTO login = new LoginDTO("Bearer " + jwt, user.getId(), user.getFirstName(), user.getLastName());
+            log.info("</authorize>");
+            return new ResponseEntity<>(login, httpHeaders, HttpStatus.OK);
+        } else {
+            log.info("</authorize>");
+            return new ResponseEntity<>(null, httpHeaders, HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**

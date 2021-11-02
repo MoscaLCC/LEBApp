@@ -2,8 +2,17 @@ package com.leb.app.web.rest;
 
 import static com.leb.app.web.rest.AccountResourceIT.TEST_USER_LOGIN;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.time.Instant;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 import com.leb.app.IntegrationTest;
 import com.leb.app.config.Constants;
@@ -14,11 +23,9 @@ import com.leb.app.security.AuthoritiesConstants;
 import com.leb.app.service.UserService;
 import com.leb.app.service.dto.AdminUserDTO;
 import com.leb.app.service.dto.PasswordChangeDTO;
-import com.leb.app.service.dto.UserDTO;
 import com.leb.app.web.rest.vm.KeyAndPasswordVM;
 import com.leb.app.web.rest.vm.ManagedUserVM;
-import java.time.Instant;
-import java.util.*;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

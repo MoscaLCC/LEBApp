@@ -1,7 +1,6 @@
 package com.leb.app.service.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * A DTO for the {@link com.leb.app.domain.Dimensions} entity.
@@ -15,21 +14,18 @@ public class LoginDTO implements Serializable {
     private String firstName;
 
     private String lastName;
-    
-    private List<String> profiles;
 
 
     public LoginDTO() {
         super();
     }
 
-    public LoginDTO(String token, Long userId, String firstName, String lastName, List<String> profiles) {
+    public LoginDTO(String token, Long userId, String firstName, String lastName) {
         super();
         this.token = token;
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.profiles = profiles;
     }
 
     public String getToken() {
@@ -56,14 +52,6 @@ public class LoginDTO implements Serializable {
         this.lastName = lastName;
     }
 
-    public List<String> getProfiles() {
-        return profiles;
-    }
-
-    public void setProfiles(List<String> profils) {
-        this.profiles = profils;
-    }
-
     public Long getUserId() {
         return userId;
     }
@@ -74,7 +62,7 @@ public class LoginDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "LoginDTO [firstName=" + firstName + ", lastName=" + lastName + ", profiles=" + profiles + ", token="
+        return "LoginDTO [firstName=" + firstName + ", lastName=" + lastName + ", token="
                 + token + ", userId=" + userId + "]";
     }
 
@@ -84,7 +72,6 @@ public class LoginDTO implements Serializable {
         int result = 1;
         result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
         result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-        result = prime * result + ((profiles == null) ? 0 : profiles.hashCode());
         result = prime * result + ((token == null) ? 0 : token.hashCode());
         result = prime * result + ((userId == null) ? 0 : userId.hashCode());
         return result;
@@ -108,11 +95,6 @@ public class LoginDTO implements Serializable {
             if (other.lastName != null)
                 return false;
         } else if (!lastName.equals(other.lastName))
-            return false;
-        if (profiles == null) {
-            if (other.profiles != null)
-                return false;
-        } else if (!profiles.equals(other.profiles))
             return false;
         if (token == null) {
             if (other.token != null)

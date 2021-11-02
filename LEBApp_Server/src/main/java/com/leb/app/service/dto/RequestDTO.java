@@ -1,9 +1,9 @@
 package com.leb.app.service.dto;
 
-import com.leb.app.domain.enumeration.Status;
 import java.io.Serializable;
 import java.util.Objects;
-import javax.validation.constraints.*;
+
+import com.leb.app.domain.enumeration.Status;
 
 /**
  * A DTO for the {@link com.leb.app.domain.Request} entity.

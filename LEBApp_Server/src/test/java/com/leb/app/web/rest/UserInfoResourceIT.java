@@ -2,23 +2,29 @@ package com.leb.app.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicLong;
+
+import javax.persistence.EntityManager;
 
 import com.leb.app.IntegrationTest;
 import com.leb.app.domain.Point;
 import com.leb.app.domain.Request;
 import com.leb.app.domain.UserInfo;
 import com.leb.app.repository.UserInfoRepository;
-import com.leb.app.service.criteria.UserInfoCriteria;
 import com.leb.app.service.dto.UserInfoDTO;
 import com.leb.app.service.mapper.UserInfoMapper;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.atomic.AtomicLong;
-import javax.persistence.EntityManager;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,10 +51,6 @@ class UserInfoResourceIT {
     private static final Integer DEFAULT_NIF = 1;
     private static final Integer UPDATED_NIF = 2;
     private static final Integer SMALLER_NIF = 1 - 1;
-
-    private static final LocalDate DEFAULT_BIRTHDAY = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_BIRTHDAY = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_BIRTHDAY = LocalDate.ofEpochDay(-1L);
 
     private static final String DEFAULT_ADDRESS = "AAAAAAAAAA";
     private static final String UPDATED_ADDRESS = "BBBBBBBBBB";
@@ -111,7 +113,6 @@ class UserInfoResourceIT {
             .phoneNumber(DEFAULT_PHONE_NUMBER)
             .nib(DEFAULT_NIB)
             .nif(DEFAULT_NIF)
-            .birthday(DEFAULT_BIRTHDAY)
             .address(DEFAULT_ADDRESS)
             .linkSocial(DEFAULT_LINK_SOCIAL)
             .numberRequests(DEFAULT_NUMBER_REQUESTS)
@@ -134,7 +135,6 @@ class UserInfoResourceIT {
             .phoneNumber(UPDATED_PHONE_NUMBER)
             .nib(UPDATED_NIB)
             .nif(UPDATED_NIF)
-            .birthday(UPDATED_BIRTHDAY)
             .address(UPDATED_ADDRESS)
             .linkSocial(UPDATED_LINK_SOCIAL)
             .numberRequests(UPDATED_NUMBER_REQUESTS)
@@ -168,7 +168,6 @@ class UserInfoResourceIT {
         assertThat(testUserInfo.getPhoneNumber()).isEqualTo(DEFAULT_PHONE_NUMBER);
         assertThat(testUserInfo.getNib()).isEqualTo(DEFAULT_NIB);
         assertThat(testUserInfo.getNif()).isEqualTo(DEFAULT_NIF);
-        assertThat(testUserInfo.getBirthday()).isEqualTo(DEFAULT_BIRTHDAY);
         assertThat(testUserInfo.getAddress()).isEqualTo(DEFAULT_ADDRESS);
         assertThat(testUserInfo.getLinkSocial()).isEqualTo(DEFAULT_LINK_SOCIAL);
         assertThat(testUserInfo.getNumberRequests()).isEqualTo(DEFAULT_NUMBER_REQUESTS);
@@ -213,7 +212,6 @@ class UserInfoResourceIT {
             .andExpect(jsonPath("$.[*].phoneNumber").value(hasItem(DEFAULT_PHONE_NUMBER)))
             .andExpect(jsonPath("$.[*].nib").value(hasItem(DEFAULT_NIB)))
             .andExpect(jsonPath("$.[*].nif").value(hasItem(DEFAULT_NIF)))
-            .andExpect(jsonPath("$.[*].birthday").value(hasItem(DEFAULT_BIRTHDAY.toString())))
             .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
             .andExpect(jsonPath("$.[*].linkSocial").value(hasItem(DEFAULT_LINK_SOCIAL)))
             .andExpect(jsonPath("$.[*].numberRequests").value(hasItem(DEFAULT_NUMBER_REQUESTS)))
@@ -239,7 +237,6 @@ class UserInfoResourceIT {
             .andExpect(jsonPath("$.phoneNumber").value(DEFAULT_PHONE_NUMBER))
             .andExpect(jsonPath("$.nib").value(DEFAULT_NIB))
             .andExpect(jsonPath("$.nif").value(DEFAULT_NIF))
-            .andExpect(jsonPath("$.birthday").value(DEFAULT_BIRTHDAY.toString()))
             .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS))
             .andExpect(jsonPath("$.linkSocial").value(DEFAULT_LINK_SOCIAL))
             .andExpect(jsonPath("$.numberRequests").value(DEFAULT_NUMBER_REQUESTS))
@@ -530,45 +527,6 @@ class UserInfoResourceIT {
 
     @Test
     @Transactional
-    void getAllUserInfosByBirthdayIsEqualToSomething() throws Exception {
-        // Initialize the database
-        userInfoRepository.saveAndFlush(userInfo);
-
-        // Get all the userInfoList where birthday equals to DEFAULT_BIRTHDAY
-        defaultUserInfoShouldBeFound("birthday.equals=" + DEFAULT_BIRTHDAY);
-
-        // Get all the userInfoList where birthday equals to UPDATED_BIRTHDAY
-        defaultUserInfoShouldNotBeFound("birthday.equals=" + UPDATED_BIRTHDAY);
-    }
-
-    @Test
-    @Transactional
-    void getAllUserInfosByBirthdayIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        userInfoRepository.saveAndFlush(userInfo);
-
-        // Get all the userInfoList where birthday not equals to DEFAULT_BIRTHDAY
-        defaultUserInfoShouldNotBeFound("birthday.notEquals=" + DEFAULT_BIRTHDAY);
-
-        // Get all the userInfoList where birthday not equals to UPDATED_BIRTHDAY
-        defaultUserInfoShouldBeFound("birthday.notEquals=" + UPDATED_BIRTHDAY);
-    }
-
-    @Test
-    @Transactional
-    void getAllUserInfosByBirthdayIsInShouldWork() throws Exception {
-        // Initialize the database
-        userInfoRepository.saveAndFlush(userInfo);
-
-        // Get all the userInfoList where birthday in DEFAULT_BIRTHDAY or UPDATED_BIRTHDAY
-        defaultUserInfoShouldBeFound("birthday.in=" + DEFAULT_BIRTHDAY + "," + UPDATED_BIRTHDAY);
-
-        // Get all the userInfoList where birthday equals to UPDATED_BIRTHDAY
-        defaultUserInfoShouldNotBeFound("birthday.in=" + UPDATED_BIRTHDAY);
-    }
-
-    @Test
-    @Transactional
     void getAllUserInfosByBirthdayIsNullOrNotNull() throws Exception {
         // Initialize the database
         userInfoRepository.saveAndFlush(userInfo);
@@ -578,58 +536,6 @@ class UserInfoResourceIT {
 
         // Get all the userInfoList where birthday is null
         defaultUserInfoShouldNotBeFound("birthday.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllUserInfosByBirthdayIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        userInfoRepository.saveAndFlush(userInfo);
-
-        // Get all the userInfoList where birthday is greater than or equal to DEFAULT_BIRTHDAY
-        defaultUserInfoShouldBeFound("birthday.greaterThanOrEqual=" + DEFAULT_BIRTHDAY);
-
-        // Get all the userInfoList where birthday is greater than or equal to UPDATED_BIRTHDAY
-        defaultUserInfoShouldNotBeFound("birthday.greaterThanOrEqual=" + UPDATED_BIRTHDAY);
-    }
-
-    @Test
-    @Transactional
-    void getAllUserInfosByBirthdayIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        userInfoRepository.saveAndFlush(userInfo);
-
-        // Get all the userInfoList where birthday is less than or equal to DEFAULT_BIRTHDAY
-        defaultUserInfoShouldBeFound("birthday.lessThanOrEqual=" + DEFAULT_BIRTHDAY);
-
-        // Get all the userInfoList where birthday is less than or equal to SMALLER_BIRTHDAY
-        defaultUserInfoShouldNotBeFound("birthday.lessThanOrEqual=" + SMALLER_BIRTHDAY);
-    }
-
-    @Test
-    @Transactional
-    void getAllUserInfosByBirthdayIsLessThanSomething() throws Exception {
-        // Initialize the database
-        userInfoRepository.saveAndFlush(userInfo);
-
-        // Get all the userInfoList where birthday is less than DEFAULT_BIRTHDAY
-        defaultUserInfoShouldNotBeFound("birthday.lessThan=" + DEFAULT_BIRTHDAY);
-
-        // Get all the userInfoList where birthday is less than UPDATED_BIRTHDAY
-        defaultUserInfoShouldBeFound("birthday.lessThan=" + UPDATED_BIRTHDAY);
-    }
-
-    @Test
-    @Transactional
-    void getAllUserInfosByBirthdayIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        userInfoRepository.saveAndFlush(userInfo);
-
-        // Get all the userInfoList where birthday is greater than DEFAULT_BIRTHDAY
-        defaultUserInfoShouldNotBeFound("birthday.greaterThan=" + DEFAULT_BIRTHDAY);
-
-        // Get all the userInfoList where birthday is greater than SMALLER_BIRTHDAY
-        defaultUserInfoShouldBeFound("birthday.greaterThan=" + SMALLER_BIRTHDAY);
     }
 
     @Test
@@ -1502,7 +1408,6 @@ class UserInfoResourceIT {
             .andExpect(jsonPath("$.[*].phoneNumber").value(hasItem(DEFAULT_PHONE_NUMBER)))
             .andExpect(jsonPath("$.[*].nib").value(hasItem(DEFAULT_NIB)))
             .andExpect(jsonPath("$.[*].nif").value(hasItem(DEFAULT_NIF)))
-            .andExpect(jsonPath("$.[*].birthday").value(hasItem(DEFAULT_BIRTHDAY.toString())))
             .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
             .andExpect(jsonPath("$.[*].linkSocial").value(hasItem(DEFAULT_LINK_SOCIAL)))
             .andExpect(jsonPath("$.[*].numberRequests").value(hasItem(DEFAULT_NUMBER_REQUESTS)))
@@ -1562,7 +1467,6 @@ class UserInfoResourceIT {
             .phoneNumber(UPDATED_PHONE_NUMBER)
             .nib(UPDATED_NIB)
             .nif(UPDATED_NIF)
-            .birthday(UPDATED_BIRTHDAY)
             .address(UPDATED_ADDRESS)
             .linkSocial(UPDATED_LINK_SOCIAL)
             .numberRequests(UPDATED_NUMBER_REQUESTS)
@@ -1588,7 +1492,6 @@ class UserInfoResourceIT {
         assertThat(testUserInfo.getPhoneNumber()).isEqualTo(UPDATED_PHONE_NUMBER);
         assertThat(testUserInfo.getNib()).isEqualTo(UPDATED_NIB);
         assertThat(testUserInfo.getNif()).isEqualTo(UPDATED_NIF);
-        assertThat(testUserInfo.getBirthday()).isEqualTo(UPDATED_BIRTHDAY);
         assertThat(testUserInfo.getAddress()).isEqualTo(UPDATED_ADDRESS);
         assertThat(testUserInfo.getLinkSocial()).isEqualTo(UPDATED_LINK_SOCIAL);
         assertThat(testUserInfo.getNumberRequests()).isEqualTo(UPDATED_NUMBER_REQUESTS);
@@ -1679,7 +1582,6 @@ class UserInfoResourceIT {
         partialUpdatedUserInfo
             .nib(UPDATED_NIB)
             .nif(UPDATED_NIF)
-            .birthday(UPDATED_BIRTHDAY)
             .payedValue(UPDATED_PAYED_VALUE)
             .valueToPay(UPDATED_VALUE_TO_PAY)
             .ranking(UPDATED_RANKING)
@@ -1700,7 +1602,6 @@ class UserInfoResourceIT {
         assertThat(testUserInfo.getPhoneNumber()).isEqualTo(DEFAULT_PHONE_NUMBER);
         assertThat(testUserInfo.getNib()).isEqualTo(UPDATED_NIB);
         assertThat(testUserInfo.getNif()).isEqualTo(UPDATED_NIF);
-        assertThat(testUserInfo.getBirthday()).isEqualTo(UPDATED_BIRTHDAY);
         assertThat(testUserInfo.getAddress()).isEqualTo(DEFAULT_ADDRESS);
         assertThat(testUserInfo.getLinkSocial()).isEqualTo(DEFAULT_LINK_SOCIAL);
         assertThat(testUserInfo.getNumberRequests()).isEqualTo(DEFAULT_NUMBER_REQUESTS);
@@ -1727,7 +1628,6 @@ class UserInfoResourceIT {
             .phoneNumber(UPDATED_PHONE_NUMBER)
             .nib(UPDATED_NIB)
             .nif(UPDATED_NIF)
-            .birthday(UPDATED_BIRTHDAY)
             .address(UPDATED_ADDRESS)
             .linkSocial(UPDATED_LINK_SOCIAL)
             .numberRequests(UPDATED_NUMBER_REQUESTS)
@@ -1752,7 +1652,6 @@ class UserInfoResourceIT {
         assertThat(testUserInfo.getPhoneNumber()).isEqualTo(UPDATED_PHONE_NUMBER);
         assertThat(testUserInfo.getNib()).isEqualTo(UPDATED_NIB);
         assertThat(testUserInfo.getNif()).isEqualTo(UPDATED_NIF);
-        assertThat(testUserInfo.getBirthday()).isEqualTo(UPDATED_BIRTHDAY);
         assertThat(testUserInfo.getAddress()).isEqualTo(UPDATED_ADDRESS);
         assertThat(testUserInfo.getLinkSocial()).isEqualTo(UPDATED_LINK_SOCIAL);
         assertThat(testUserInfo.getNumberRequests()).isEqualTo(UPDATED_NUMBER_REQUESTS);

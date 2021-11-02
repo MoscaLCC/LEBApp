@@ -134,9 +134,8 @@ public class UserService {
                     }
                 }
             );
-        User newUser = registerNewUser(userDTO, password);
+        return registerNewUser(userDTO, password);
 
-        return newUser;
     }
         
     public User registerUser2(RegisterDTO registerDTO, String password) {
@@ -165,7 +164,7 @@ public class UserService {
             );
         User newUser = registerNewUser(userDTO, password);
 
-        UserInfo userInfo = registerNewUserInfo(newUser, registerDTO);
+        registerNewUserInfo(newUser, registerDTO);
 
         return newUser;
     }
@@ -194,7 +193,7 @@ public class UserService {
 
         userDTO.setLastModifiedDate(Instant.now());
 
-        Set<String> roles = new HashSet<String>();
+        Set<String> roles = new HashSet<>();
         roles.add("ROLE_USER");
 
         userDTO.setAuthorities(roles);
@@ -238,10 +237,8 @@ public class UserService {
         userInfo.setPhoneNumber(userDTO.getPhoneNumber());
         userInfo.setNib("");
         userInfo.setNif(userDTO.getNif());
-        log.info(userDTO.getBirthday());
         userInfo.setBirthday(userDTO.getBirthday());
-        userInfo.setAdress(userDTO.getAddress());
-        userInfo.setUser(user);
+        userInfo.setAddress(userDTO.getAddress());
 
         userInfo = userInfoRepository.saveAndFlush(userInfo);
         return userInfo;
