@@ -235,10 +235,18 @@ public class UserService {
         UserInfo userInfo = new UserInfo();
 
         userInfo.setPhoneNumber(userDTO.getPhoneNumber());
-        userInfo.setNib("");
+        userInfo.setNib("PT50 0030 0000 72947293089 73");
         userInfo.setNif(userDTO.getNif());
+        userInfo.setLinkSocial(userDTO.getLinkSocial());
         userInfo.setBirthday(Instant.parse(userDTO.getBirthday()));
         userInfo.setAddress(userDTO.getAddress());
+        userInfo.setPayedValue(0);
+        userInfo.setValueToPay(0);
+        userInfo.setRanking(1.5);
+        userInfo.setNumberOfDeliveries(0);
+        userInfo.setNumberRequests(0);
+        userInfo.setNumberOfKm(0);
+
 
         userInfo = userInfoRepository.saveAndFlush(userInfo);
         return userInfo;
