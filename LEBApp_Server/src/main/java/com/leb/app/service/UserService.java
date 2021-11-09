@@ -183,7 +183,7 @@ public class UserService {
 
         userDTO.setActivated(false);
 
-        userDTO.setLangKey("EN");
+        userDTO.setLangKey(dto.getLangKey());
 
         userDTO.setCreatedBy("SYSTEM");
 
@@ -237,7 +237,7 @@ public class UserService {
         userInfo.setPhoneNumber(userDTO.getPhoneNumber());
         userInfo.setNib("");
         userInfo.setNif(userDTO.getNif());
-        userInfo.setBirthday(userDTO.getBirthday());
+        userInfo.setBirthday(Instant.parse(userDTO.getBirthday()));
         userInfo.setAddress(userDTO.getAddress());
 
         userInfo = userInfoRepository.saveAndFlush(userInfo);

@@ -15,7 +15,7 @@
     },
     {
       "fieldName": "birthday",
-      "fieldType": "LocalDate"
+      "fieldType": "Instant"
     },
     {
       "fieldName": "address",

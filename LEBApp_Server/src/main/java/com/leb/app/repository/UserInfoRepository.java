@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface UserInfoRepository extends JpaRepository<UserInfo, Long>, JpaSpecificationExecutor<UserInfo> {
-
-    UserInfo findByUserId(Long id);
     
 }
 

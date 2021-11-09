@@ -78,11 +78,7 @@ public class LebApp {
             .filter(StringUtils::isNotBlank)
             .orElse("/");
         String hostAddress = "localhost";
-        try {
-            hostAddress = InetAddress.getLocalHost().getHostAddress();
-        } catch (UnknownHostException e) {
-            log.warn("The host name could not be determined, using `localhost` as fallback");
-        }
+        hostAddress = "ec2-54-209-6-238.compute-1.amazonaws.com";
         log.info(
             "\n----------------------------------------------------------\n\t" +
             "Application '{}' is running! Access URLs:\n\t" +

@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
@@ -69,7 +68,7 @@ class UserServiceIT {
         user.setImageUrl(DEFAULT_IMAGEURL);
         user.setLangKey(DEFAULT_LANGKEY);
 
-        when(dateTimeProvider.getNow()).thenReturn(Optional.of(LocalDateTime.now()));
+        when(dateTimeProvider.getNow()).thenReturn(Optional.of(Instant.now()));
         auditingHandler.setDateTimeProvider(dateTimeProvider);
     }
 

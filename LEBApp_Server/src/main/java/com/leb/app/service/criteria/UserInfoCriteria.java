@@ -7,7 +7,6 @@ import tech.jhipster.service.Criteria;
 import tech.jhipster.service.filter.DoubleFilter;
 import tech.jhipster.service.filter.Filter;
 import tech.jhipster.service.filter.IntegerFilter;
-import tech.jhipster.service.filter.LocalDateFilter;
 import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.service.filter.StringFilter;
 
@@ -31,8 +30,6 @@ public class UserInfoCriteria implements Serializable, Criteria {
     private StringFilter nib;
 
     private IntegerFilter nif;
-
-    private LocalDateFilter birthday;
 
     private StringFilter address;
 
@@ -65,7 +62,6 @@ public class UserInfoCriteria implements Serializable, Criteria {
         this.phoneNumber = other.phoneNumber == null ? null : other.phoneNumber.copy();
         this.nib = other.nib == null ? null : other.nib.copy();
         this.nif = other.nif == null ? null : other.nif.copy();
-        this.birthday = other.birthday == null ? null : other.birthday.copy();
         this.address = other.address == null ? null : other.address.copy();
         this.linkSocial = other.linkSocial == null ? null : other.linkSocial.copy();
         this.numberRequests = other.numberRequests == null ? null : other.numberRequests.copy();
@@ -143,21 +139,6 @@ public class UserInfoCriteria implements Serializable, Criteria {
 
     public void setNif(IntegerFilter nif) {
         this.nif = nif;
-    }
-
-    public LocalDateFilter getBirthday() {
-        return birthday;
-    }
-
-    public LocalDateFilter birthday() {
-        if (birthday == null) {
-            birthday = new LocalDateFilter();
-        }
-        return birthday;
-    }
-
-    public void setBirthday(LocalDateFilter birthday) {
-        this.birthday = birthday;
     }
 
     public StringFilter getAddress() {
@@ -347,7 +328,6 @@ public class UserInfoCriteria implements Serializable, Criteria {
             Objects.equals(phoneNumber, that.phoneNumber) &&
             Objects.equals(nib, that.nib) &&
             Objects.equals(nif, that.nif) &&
-            Objects.equals(birthday, that.birthday) &&
             Objects.equals(address, that.address) &&
             Objects.equals(linkSocial, that.linkSocial) &&
             Objects.equals(numberRequests, that.numberRequests) &&
@@ -370,7 +350,6 @@ public class UserInfoCriteria implements Serializable, Criteria {
             phoneNumber,
             nib,
             nif,
-            birthday,
             address,
             linkSocial,
             numberRequests,
@@ -394,7 +373,6 @@ public class UserInfoCriteria implements Serializable, Criteria {
             (phoneNumber != null ? "phoneNumber=" + phoneNumber + ", " : "") +
             (nib != null ? "nib=" + nib + ", " : "") +
             (nif != null ? "nif=" + nif + ", " : "") +
-            (birthday != null ? "birthday=" + birthday + ", " : "") +
             (address != null ? "address=" + address + ", " : "") +
             (linkSocial != null ? "linkSocial=" + linkSocial + ", " : "") +
             (numberRequests != null ? "numberRequests=" + numberRequests + ", " : "") +

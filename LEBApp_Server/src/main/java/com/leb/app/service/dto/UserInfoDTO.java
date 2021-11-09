@@ -1,7 +1,7 @@
 package com.leb.app.service.dto;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -17,7 +17,7 @@ public class UserInfoDTO implements Serializable {
 
     private Integer nif;
 
-    private LocalDate birthday;
+    private Instant birthday;
 
     private String address;
 
@@ -67,11 +67,11 @@ public class UserInfoDTO implements Serializable {
         this.nif = nif;
     }
 
-    public LocalDate getBirthday() {
+    public Instant getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(LocalDate birthday) {
+    public void setBirthday(Instant birthday) {
         this.birthday = birthday;
     }
 

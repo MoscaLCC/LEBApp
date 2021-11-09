@@ -22,7 +22,7 @@ entity UserInfo {
     phoneNumber String,
     nib String,
     nif Integer,
-    birthday LocalDate,
+    birthday Instant,
     address String,
     linkSocial String,
     numberRequests Integer,
