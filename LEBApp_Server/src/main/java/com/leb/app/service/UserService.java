@@ -240,12 +240,12 @@ public class UserService {
         userInfo.setLinkSocial(userDTO.getLinkSocial());
         userInfo.setBirthday(Instant.parse(userDTO.getBirthday()));
         userInfo.setAddress(userDTO.getAddress());
-        userInfo.setPayedValue(0);
-        userInfo.setValueToPay(0);
+        userInfo.setPayedValue(0.0);
+        userInfo.setValueToPay(0.0);
         userInfo.setRanking(1.5);
         userInfo.setNumberOfDeliveries(0);
         userInfo.setNumberRequests(0);
-        userInfo.setNumberOfKm(0);
+        userInfo.setNumberOfKm(0.0);
 
 
         userInfo = userInfoRepository.saveAndFlush(userInfo);
