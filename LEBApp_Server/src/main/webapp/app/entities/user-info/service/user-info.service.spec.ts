@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import * as dayjs from 'dayjs';
 
-import { DATE_FORMAT } from 'app/config/input.constants';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { IUserInfo, UserInfo } from '../user-info.model';
 
 import { UserInfoService } from './user-info.service';
@@ -44,7 +44,7 @@ describe('UserInfo Service', () => {
     it('should find an element', () => {
       const returnedFromService = Object.assign(
         {
-          birthday: currentDate.format(DATE_FORMAT),
+          birthday: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
@@ -60,7 +60,7 @@ describe('UserInfo Service', () => {
       const returnedFromService = Object.assign(
         {
           id: 0,
-          birthday: currentDate.format(DATE_FORMAT),
+          birthday: currentDate.format(DATE_TIME_FORMAT),
         },
         elemDefault
       );
@@ -86,7 +86,7 @@ describe('UserInfo Service', () => {
           phoneNumber: 'BBBBBB',
           nib: 'BBBBBB',
           nif: 1,
-          birthday: currentDate.format(DATE_FORMAT),
+          birthday: currentDate.format(DATE_TIME_FORMAT),
           address: 'BBBBBB',
           linkSocial: 'BBBBBB',
           numberRequests: 1,
@@ -147,7 +147,7 @@ describe('UserInfo Service', () => {
           phoneNumber: 'BBBBBB',
           nib: 'BBBBBB',
           nif: 1,
-          birthday: currentDate.format(DATE_FORMAT),
+          birthday: currentDate.format(DATE_TIME_FORMAT),
           address: 'BBBBBB',
           linkSocial: 'BBBBBB',
           numberRequests: 1,

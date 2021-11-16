@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import * as dayjs from 'dayjs';
 
 import { isPresent } from 'app/core/util/operators';
-import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IUserInfo, getUserInfoIdentifier } from '../user-info.model';
@@ -76,7 +75,7 @@ export class UserInfoService {
 
   protected convertDateFromClient(userInfo: IUserInfo): IUserInfo {
     return Object.assign({}, userInfo, {
-      birthday: userInfo.birthday?.isValid() ? userInfo.birthday.format(DATE_FORMAT) : undefined,
+      birthday: userInfo.birthday?.isValid() ? userInfo.birthday.toJSON() : undefined,
     });
   }
 

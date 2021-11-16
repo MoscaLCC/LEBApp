@@ -1,12 +1,13 @@
 package com.leb.app;
 
-import com.leb.app.config.ApplicationProperties;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
+
 import javax.annotation.PostConstruct;
+
+import com.leb.app.config.ApplicationProperties;
+
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.core.env.Environment;
+
 import tech.jhipster.config.DefaultProfileUtil;
 import tech.jhipster.config.JHipsterConstants;
 
@@ -77,8 +79,7 @@ public class LebApp {
             .ofNullable(env.getProperty("server.servlet.context-path"))
             .filter(StringUtils::isNotBlank)
             .orElse("/");
-        String hostAddress = "localhost";
-        hostAddress = "ec2-54-209-6-238.compute-1.amazonaws.com";
+        String hostAddress = "ec2-54-209-6-238.compute-1.amazonaws.com";
         log.info(
             "\n----------------------------------------------------------\n\t" +
             "Application '{}' is running! Access URLs:\n\t" +

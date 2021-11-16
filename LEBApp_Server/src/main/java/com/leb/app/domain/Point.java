@@ -1,9 +1,7 @@
 package com.leb.app.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -35,10 +33,8 @@ public class Point implements Serializable {
     @Column(name = "number_of_deliveries")
     private Integer numberOfDeliveries;
 
-    @ManyToOne(optional = false)
-    @NotNull
-    @JsonIgnoreProperties(value = { "requests", "transportations", "points" }, allowSetters = true)
-    private UserInfo ownerPoint;
+    @Column(name = "owner_point")
+    private Long ownerPoint;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -107,15 +103,15 @@ public class Point implements Serializable {
         this.numberOfDeliveries = numberOfDeliveries;
     }
 
-    public UserInfo getOwnerPoint() {
+    public Long getOwnerPoint() {
         return this.ownerPoint;
     }
 
-    public void setOwnerPoint(UserInfo userInfo) {
+    public void setOwnerPoint(Long userInfo) {
         this.ownerPoint = userInfo;
     }
 
-    public Point ownerPoint(UserInfo userInfo) {
+    public Point ownerPoint(Long userInfo) {
         this.setOwnerPoint(userInfo);
         return this;
     }

@@ -50,13 +50,6 @@ entity Point {
     numberOfDeliveries Integer
 }
 
-
-relationship OneToMany {
-    UserInfo{requests} to Request{ownerRequest required},
-    UserInfo{transportations} to Request{tranporter},
-    UserInfo to Point{ownerPoint required}
-}
-
 enum Status {
     WAITING,
     OPENED,

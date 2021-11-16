@@ -142,24 +142,6 @@ public class RequestQueryService extends QueryService<Request> {
             if (criteria.getRating() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getRating(), Request_.rating));
             }
-            if (criteria.getOwnerRequestId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getOwnerRequestId(),
-                            root -> root.join(Request_.ownerRequest, JoinType.LEFT).get(UserInfo_.id)
-                        )
-                    );
-            }
-            if (criteria.getTranporterId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getTranporterId(),
-                            root -> root.join(Request_.tranporter, JoinType.LEFT).get(UserInfo_.id)
-                        )
-                    );
-            }
         }
         return specification;
     }

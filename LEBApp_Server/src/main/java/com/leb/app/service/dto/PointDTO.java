@@ -18,7 +18,7 @@ public class PointDTO implements Serializable {
 
     private Integer numberOfDeliveries;
 
-    private UserInfoDTO ownerPoint;
+    private Long ownerPoint;
 
     public Long getId() {
         return id;
@@ -60,11 +60,11 @@ public class PointDTO implements Serializable {
         this.numberOfDeliveries = numberOfDeliveries;
     }
 
-    public UserInfoDTO getOwnerPoint() {
+    public Long getOwnerPoint() {
         return ownerPoint;
     }
 
-    public void setOwnerPoint(UserInfoDTO ownerPoint) {
+    public void setOwnerPoint(Long ownerPoint) {
         this.ownerPoint = ownerPoint;
     }
 

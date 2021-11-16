@@ -2,7 +2,6 @@ package com.leb.app.service.criteria;
 
 import java.io.Serializable;
 import java.util.Objects;
-
 import tech.jhipster.service.Criteria;
 import tech.jhipster.service.filter.Filter;
 import tech.jhipster.service.filter.IntegerFilter;

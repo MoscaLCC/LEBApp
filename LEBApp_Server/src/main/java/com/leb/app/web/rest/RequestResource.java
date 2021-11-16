@@ -1,39 +1,28 @@
 package com.leb.app.web.rest;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
 import com.leb.app.repository.RequestRepository;
 import com.leb.app.service.RequestQueryService;
 import com.leb.app.service.RequestService;
 import com.leb.app.service.criteria.RequestCriteria;
 import com.leb.app.service.dto.RequestDTO;
 import com.leb.app.web.rest.errors.BadRequestAlertException;
-
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -71,17 +60,19 @@ public class RequestResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new requestDTO, or with status {@code 400 (Bad Request)} if the request has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/requests")
-    public ResponseEntity<RequestDTO> createRequest(@Valid @RequestBody RequestDTO requestDTO) throws URISyntaxException {
+    @PostMapping("/requests/{id}")
+    public ResponseEntity<RequestDTO> createRequest(@Valid @RequestBody RequestDTO requestDTO, @PathVariable(value = "id", required = false) final Long id) throws URISyntaxException {
         log.debug("REST request to save Request : {}", requestDTO);
-        if (requestDTO.getId() != null) {
-            throw new BadRequestAlertException("A new request cannot already have an ID", ENTITY_NAME, "idexists");
+        if (!requestDTO.getOwnerRequest().equals(id)){
+            log.debug("USER ID IS DIFERENTE THAT REQUEST ID");
+            return ResponseEntity.badRequest().build();
+        } else {
+            RequestDTO result = requestService.save(requestDTO);
+            return ResponseEntity
+                .created(new URI("/api/requests/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+                .body(result);
         }
-        RequestDTO result = requestService.save(requestDTO);
-        return ResponseEntity
-            .created(new URI("/api/requests/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
     }
 
     /**

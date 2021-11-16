@@ -71,21 +71,6 @@
       "fieldType": "Double"
     }
   ],
-  "relationships": [
-    {
-      "relationshipType": "many-to-one",
-      "otherEntityName": "userInfo",
-      "otherEntityRelationshipName": "requests",
-      "relationshipValidateRules": "required",
-      "relationshipName": "ownerRequest"
-    },
-    {
-      "relationshipType": "many-to-one",
-      "otherEntityName": "userInfo",
-      "otherEntityRelationshipName": "transportations",
-      "relationshipName": "tranporter"
-    }
-  ],
   "entityTableName": "request",
   "dto": "mapstruct",
   "pagination": "pagination",

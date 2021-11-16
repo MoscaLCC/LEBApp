@@ -5,6 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
+import * as dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+
 import { IUserInfo, UserInfo } from '../user-info.model';
 import { UserInfoService } from '../service/user-info.service';
 
@@ -35,6 +38,11 @@ export class UserInfoUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ userInfo }) => {
+      if (userInfo.id === undefined) {
+        const today = dayjs().startOf('day');
+        userInfo.birthday = today;
+      }
+
       this.updateForm(userInfo);
     });
   }
@@ -78,7 +86,7 @@ export class UserInfoUpdateComponent implements OnInit {
       phoneNumber: userInfo.phoneNumber,
       nib: userInfo.nib,
       nif: userInfo.nif,
-      birthday: userInfo.birthday,
+      birthday: userInfo.birthday ? userInfo.birthday.format(DATE_TIME_FORMAT) : null,
       address: userInfo.address,
       linkSocial: userInfo.linkSocial,
       numberRequests: userInfo.numberRequests,
@@ -97,7 +105,7 @@ export class UserInfoUpdateComponent implements OnInit {
       phoneNumber: this.editForm.get(['phoneNumber'])!.value,
       nib: this.editForm.get(['nib'])!.value,
       nif: this.editForm.get(['nif'])!.value,
-      birthday: this.editForm.get(['birthday'])!.value,
+      birthday: this.editForm.get(['birthday'])!.value ? dayjs(this.editForm.get(['birthday'])!.value, DATE_TIME_FORMAT) : undefined,
       address: this.editForm.get(['address'])!.value,
       linkSocial: this.editForm.get(['linkSocial'])!.value,
       numberRequests: this.editForm.get(['numberRequests'])!.value,

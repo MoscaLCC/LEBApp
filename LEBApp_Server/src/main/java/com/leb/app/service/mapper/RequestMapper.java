@@ -9,7 +9,5 @@ import org.mapstruct.*;
  */
 @Mapper(componentModel = "spring", uses = { UserInfoMapper.class })
 public interface RequestMapper extends EntityMapper<RequestDTO, Request> {
-    @Mapping(target = "ownerRequest", source = "ownerRequest", qualifiedByName = "id")
-    @Mapping(target = "tranporter", source = "tranporter", qualifiedByName = "id")
     RequestDTO toDto(Request s);
 }

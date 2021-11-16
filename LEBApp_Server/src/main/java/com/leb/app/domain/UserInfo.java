@@ -2,20 +2,7 @@ package com.leb.app.domain;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -70,21 +57,6 @@ public class UserInfo implements Serializable {
 
     @Column(name = "number_of_km")
     private Double numberOfKm;
-
-    @OneToMany(mappedBy = "ownerRequest")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "ownerRequest", "tranporter" }, allowSetters = true)
-    private Set<Request> requests = new HashSet<>();
-
-    @OneToMany(mappedBy = "tranporter")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "ownerRequest", "tranporter" }, allowSetters = true)
-    private Set<Request> transportations = new HashSet<>();
-
-    @OneToMany(mappedBy = "ownerPoint")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "ownerPoint" }, allowSetters = true)
-    private Set<Point> points = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -256,100 +228,7 @@ public class UserInfo implements Serializable {
     public void setNumberOfKm(Double numberOfKm) {
         this.numberOfKm = numberOfKm;
     }
-
-    public Set<Request> getRequests() {
-        return this.requests;
-    }
-
-    public void setRequests(Set<Request> requests) {
-        if (this.requests != null) {
-            this.requests.forEach(i -> i.setOwnerRequest(null));
-        }
-        if (requests != null) {
-            requests.forEach(i -> i.setOwnerRequest(this));
-        }
-        this.requests = requests;
-    }
-
-    public UserInfo requests(Set<Request> requests) {
-        this.setRequests(requests);
-        return this;
-    }
-
-    public UserInfo addRequests(Request request) {
-        this.requests.add(request);
-        request.setOwnerRequest(this);
-        return this;
-    }
-
-    public UserInfo removeRequests(Request request) {
-        this.requests.remove(request);
-        request.setOwnerRequest(null);
-        return this;
-    }
-
-    public Set<Request> getTransportations() {
-        return this.transportations;
-    }
-
-    public void setTransportations(Set<Request> requests) {
-        if (this.transportations != null) {
-            this.transportations.forEach(i -> i.setTranporter(null));
-        }
-        if (requests != null) {
-            requests.forEach(i -> i.setTranporter(this));
-        }
-        this.transportations = requests;
-    }
-
-    public UserInfo transportations(Set<Request> requests) {
-        this.setTransportations(requests);
-        return this;
-    }
-
-    public UserInfo addTransportations(Request request) {
-        this.transportations.add(request);
-        request.setTranporter(this);
-        return this;
-    }
-
-    public UserInfo removeTransportations(Request request) {
-        this.transportations.remove(request);
-        request.setTranporter(null);
-        return this;
-    }
-
-    public Set<Point> getPoints() {
-        return this.points;
-    }
-
-    public void setPoints(Set<Point> points) {
-        if (this.points != null) {
-            this.points.forEach(i -> i.setOwnerPoint(null));
-        }
-        if (points != null) {
-            points.forEach(i -> i.setOwnerPoint(this));
-        }
-        this.points = points;
-    }
-
-    public UserInfo points(Set<Point> points) {
-        this.setPoints(points);
-        return this;
-    }
-
-    public UserInfo addPoint(Point point) {
-        this.points.add(point);
-        point.setOwnerPoint(this);
-        return this;
-    }
-
-    public UserInfo removePoint(Point point) {
-        this.points.remove(point);
-        point.setOwnerPoint(null);
-        return this;
-    }
-
+    
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override

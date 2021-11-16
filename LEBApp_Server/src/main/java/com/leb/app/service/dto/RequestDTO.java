@@ -1,9 +1,9 @@
 package com.leb.app.service.dto;
 
+import com.leb.app.domain.enumeration.Status;
 import java.io.Serializable;
 import java.util.Objects;
-
-import com.leb.app.domain.enumeration.Status;
+import javax.validation.constraints.*;
 
 /**
  * A DTO for the {@link com.leb.app.domain.Request} entity.
@@ -46,9 +46,9 @@ public class RequestDTO implements Serializable {
 
     private Double rating;
 
-    private UserInfoDTO ownerRequest;
+    private Long ownerRequest;
 
-    private UserInfoDTO tranporter;
+    private Long tranporter;
 
     public Long getId() {
         return id;
@@ -194,19 +194,19 @@ public class RequestDTO implements Serializable {
         this.rating = rating;
     }
 
-    public UserInfoDTO getOwnerRequest() {
+    public Long getOwnerRequest() {
         return ownerRequest;
     }
 
-    public void setOwnerRequest(UserInfoDTO ownerRequest) {
+    public void setOwnerRequest(Long ownerRequest) {
         this.ownerRequest = ownerRequest;
     }
 
-    public UserInfoDTO getTranporter() {
+    public Long getTranporter() {
         return tranporter;
     }
 
-    public void setTranporter(UserInfoDTO tranporter) {
+    public void setTranporter(Long tranporter) {
         this.tranporter = tranporter;
     }
 

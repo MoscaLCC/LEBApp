@@ -7,7 +7,6 @@ import com.leb.app.service.criteria.UserInfoCriteria;
 import com.leb.app.service.dto.UserInfoDTO;
 import com.leb.app.service.mapper.UserInfoMapper;
 import java.util.List;
-import javax.persistence.criteria.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -99,6 +98,9 @@ public class UserInfoQueryService extends QueryService<UserInfo> {
             if (criteria.getNif() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getNif(), UserInfo_.nif));
             }
+            if (criteria.getBirthday() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getBirthday(), UserInfo_.birthday));
+            }
             if (criteria.getAddress() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getAddress(), UserInfo_.address));
             }
@@ -122,27 +124,6 @@ public class UserInfoQueryService extends QueryService<UserInfo> {
             }
             if (criteria.getNumberOfKm() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getNumberOfKm(), UserInfo_.numberOfKm));
-            }
-            if (criteria.getRequestsId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(criteria.getRequestsId(), root -> root.join(UserInfo_.requests, JoinType.LEFT).get(Request_.id))
-                    );
-            }
-            if (criteria.getTransportationsId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getTransportationsId(),
-                            root -> root.join(UserInfo_.transportations, JoinType.LEFT).get(Request_.id)
-                        )
-                    );
-            }
-            if (criteria.getPointId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(criteria.getPointId(), root -> root.join(UserInfo_.points, JoinType.LEFT).get(Point_.id))
-                    );
             }
         }
         return specification;

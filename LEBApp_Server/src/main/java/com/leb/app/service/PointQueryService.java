@@ -7,7 +7,6 @@ import com.leb.app.service.criteria.PointCriteria;
 import com.leb.app.service.dto.PointDTO;
 import com.leb.app.service.mapper.PointMapper;
 import java.util.List;
-import javax.persistence.criteria.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -101,15 +100,6 @@ public class PointQueryService extends QueryService<Point> {
             }
             if (criteria.getNumberOfDeliveries() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getNumberOfDeliveries(), Point_.numberOfDeliveries));
-            }
-            if (criteria.getOwnerPointId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getOwnerPointId(),
-                            root -> root.join(Point_.ownerPoint, JoinType.LEFT).get(UserInfo_.id)
-                        )
-                    );
             }
         }
         return specification;

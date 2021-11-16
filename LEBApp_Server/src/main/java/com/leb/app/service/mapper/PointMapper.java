@@ -9,6 +9,5 @@ import org.mapstruct.*;
  */
 @Mapper(componentModel = "spring", uses = { UserInfoMapper.class })
 public interface PointMapper extends EntityMapper<PointDTO, Point> {
-    @Mapping(target = "ownerPoint", source = "ownerPoint", qualifiedByName = "id")
     PointDTO toDto(Point s);
 }

@@ -50,26 +50,6 @@
       "fieldType": "Double"
     }
   ],
-  "relationships": [
-    {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "request",
-      "otherEntityRelationshipName": "ownerRequest",
-      "relationshipName": "requests"
-    },
-    {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "request",
-      "otherEntityRelationshipName": "tranporter",
-      "relationshipName": "transportations"
-    },
-    {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "point",
-      "otherEntityRelationshipName": "ownerPoint",
-      "relationshipName": "point"
-    }
-  ],
   "entityTableName": "user_info",
   "dto": "mapstruct",
   "pagination": "pagination",

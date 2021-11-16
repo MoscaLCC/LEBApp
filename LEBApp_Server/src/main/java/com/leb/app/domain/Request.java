@@ -1,10 +1,8 @@
 package com.leb.app.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.leb.app.domain.enumeration.Status;
 import java.io.Serializable;
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -76,14 +74,11 @@ public class Request implements Serializable {
     @Column(name = "rating")
     private Double rating;
 
-    @ManyToOne(optional = false)
-    @NotNull
-    @JsonIgnoreProperties(value = { "requests", "transportations", "points" }, allowSetters = true)
-    private UserInfo ownerRequest;
+    @Column(name = "owner_request")
+    private Long ownerRequest;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "requests", "transportations", "points" }, allowSetters = true)
-    private UserInfo tranporter;
+    @Column(name = "tranporter")
+    private Long tranporter;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -321,28 +316,28 @@ public class Request implements Serializable {
         this.rating = rating;
     }
 
-    public UserInfo getOwnerRequest() {
+    public Long getOwnerRequest() {
         return this.ownerRequest;
     }
 
-    public void setOwnerRequest(UserInfo userInfo) {
+    public void setOwnerRequest(Long userInfo) {
         this.ownerRequest = userInfo;
     }
 
-    public Request ownerRequest(UserInfo userInfo) {
+    public Request ownerRequest(Long userInfo) {
         this.setOwnerRequest(userInfo);
         return this;
     }
 
-    public UserInfo getTranporter() {
+    public Long getTranporter() {
         return this.tranporter;
     }
 
-    public void setTranporter(UserInfo userInfo) {
+    public void setTranporter(Long userInfo) {
         this.tranporter = userInfo;
     }
 
-    public Request tranporter(UserInfo userInfo) {
+    public Request tranporter(Long userInfo) {
         this.setTranporter(userInfo);
         return this;
     }
