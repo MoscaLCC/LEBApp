@@ -1,41 +1,13 @@
 package com.leb.app.service.criteria;
 
-import com.leb.app.domain.enumeration.Status;
 import java.io.Serializable;
 import java.util.Objects;
 import tech.jhipster.service.Criteria;
 import tech.jhipster.service.filter.DoubleFilter;
-import tech.jhipster.service.filter.Filter;
 import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.service.filter.StringFilter;
 
-/**
- * Criteria class for the {@link com.leb.app.domain.Request} entity. This class is used
- * in {@link com.leb.app.web.rest.RequestResource} to receive all the possible filtering options from
- * the Http GET request parameters.
- * For example the following could be a valid request:
- * {@code /requests?id.greaterThan=5&attr1.contains=something&attr2.specified=false}
- * As Spring is unable to properly convert the types, unless specific {@link Filter} class are used, we need to use
- * fix type specific filters.
- */
 public class RequestCriteria implements Serializable, Criteria {
-
-    /**
-     * Class for filtering Status
-     */
-    public static class StatusFilter extends Filter<Status> {
-
-        public StatusFilter() {}
-
-        public StatusFilter(StatusFilter filter) {
-            super(filter);
-        }
-
-        @Override
-        public StatusFilter copy() {
-            return new StatusFilter(this);
-        }
-    }
 
     private static final long serialVersionUID = 1L;
 

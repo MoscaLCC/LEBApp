@@ -4,6 +4,7 @@ import com.leb.app.repository.RequestRepository;
 import com.leb.app.service.RequestQueryService;
 import com.leb.app.service.RequestService;
 import com.leb.app.service.criteria.RequestCriteria;
+import com.leb.app.service.dto.RequestCriteriaDTO;
 import com.leb.app.service.dto.RequestDTO;
 import com.leb.app.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -26,9 +27,6 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
-/**
- * REST controller for managing {@link com.leb.app.domain.Request}.
- */
 @RestController
 @RequestMapping("/api")
 public class RequestResource {
@@ -52,17 +50,10 @@ public class RequestResource {
         this.requestQueryService = requestQueryService;
     }
 
-    /**
-     * {@code POST  /requests} : Create a new request.
-     *
-     * @param requestDTO the requestDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new requestDTO, or with status {@code 400 (Bad Request)} if the request has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PostMapping("/requests/{id}")
-    public ResponseEntity<RequestDTO> createRequest(@Valid @RequestBody RequestDTO requestDTO, @PathVariable(value = "id", required = false) final Long id) throws URISyntaxException {
+    @PostMapping("/requests/create/{clientId}")
+    public ResponseEntity<RequestDTO> createRequest(@Valid @RequestBody RequestDTO requestDTO, @PathVariable(value = "clientId", required = false) final Long clientId) throws URISyntaxException {
         log.debug("REST request to save Request : {}", requestDTO);
-        if (!requestDTO.getOwnerRequest().equals(id)){
+        if (!requestDTO.getOwnerRequest().equals(clientId)){
             log.debug("USER ID IS DIFERENTE THAT REQUEST ID");
             return ResponseEntity.badRequest().build();
         } else {
@@ -74,16 +65,6 @@ public class RequestResource {
         }
     }
 
-    /**
-     * {@code PUT  /requests/:id} : Updates an existing request.
-     *
-     * @param id the id of the requestDTO to save.
-     * @param requestDTO the requestDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated requestDTO,
-     * or with status {@code 400 (Bad Request)} if the requestDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the requestDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
     @PutMapping("/requests/{id}")
     public ResponseEntity<RequestDTO> updateRequest(
         @PathVariable(value = "id", required = false) final Long id,
@@ -108,17 +89,6 @@ public class RequestResource {
             .body(result);
     }
 
-    /**
-     * {@code PATCH  /requests/:id} : Partial updates given fields of an existing request, field will ignore if it is null
-     *
-     * @param id the id of the requestDTO to save.
-     * @param requestDTO the requestDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated requestDTO,
-     * or with status {@code 400 (Bad Request)} if the requestDTO is not valid,
-     * or with status {@code 404 (Not Found)} if the requestDTO is not found,
-     * or with status {@code 500 (Internal Server Error)} if the requestDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
     @PatchMapping(value = "/requests/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<RequestDTO> partialUpdateRequest(
         @PathVariable(value = "id", required = false) final Long id,
@@ -144,39 +114,28 @@ public class RequestResource {
         );
     }
 
-    /**
-     * {@code GET  /requests} : get all the requests.
-     *
-     * @param pageable the pagination information.
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of requests in body.
-     */
     @GetMapping("/requests")
     public ResponseEntity<List<RequestDTO>> getAllRequests(RequestCriteria criteria, Pageable pageable) {
-        log.debug("REST request to get Requests by criteria: {}", criteria);
         Page<RequestDTO> page = requestQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-    /**
-     * {@code GET  /requests/count} : count all the requests.
-     *
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-     */
+    @PostMapping("/requests/{clientId}")
+    public ResponseEntity<List<RequestDTO>> postAllRequests(RequestCriteriaDTO criteria, Pageable pageable, @PathVariable(value = "clientId", required = false) final Long clientId) {
+        log.debug("REST request to get Requests by criteria: {}", criteria);
+
+        Page<RequestDTO> page = requestQueryService.findByCriteria(criteria.toCriteria(), pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
     @GetMapping("/requests/count")
     public ResponseEntity<Long> countRequests(RequestCriteria criteria) {
         log.debug("REST request to count Requests by criteria: {}", criteria);
         return ResponseEntity.ok().body(requestQueryService.countByCriteria(criteria));
     }
 
-    /**
-     * {@code GET  /requests/:id} : get the "id" request.
-     *
-     * @param id the id of the requestDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the requestDTO, or with status {@code 404 (Not Found)}.
-     */
     @GetMapping("/requests/{id}")
     public ResponseEntity<RequestDTO> getRequest(@PathVariable Long id) {
         log.debug("REST request to get Request : {}", id);
@@ -184,12 +143,6 @@ public class RequestResource {
         return ResponseUtil.wrapOrNotFound(requestDTO);
     }
 
-    /**
-     * {@code DELETE  /requests/:id} : delete the "id" request.
-     *
-     * @param id the id of the requestDTO to delete.
-     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
-     */
     @DeleteMapping("/requests/{id}")
     public ResponseEntity<Void> deleteRequest(@PathVariable Long id) {
         log.debug("REST request to delete Request : {}", id);
