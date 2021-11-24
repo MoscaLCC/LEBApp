@@ -121,13 +121,11 @@ public class RequestResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-    @PostMapping("/requests/{clientId}")
-    public ResponseEntity<List<RequestDTO>> postAllRequests(RequestCriteriaDTO criteria, Pageable pageable, @PathVariable(value = "clientId", required = false) final Long clientId) {
+    @PostMapping("/requests")
+    public ResponseEntity<List<RequestDTO>> postAllRequests(@RequestBody RequestCriteriaDTO criteria) {
         log.debug("REST request to get Requests by criteria: {}", criteria);
-
-        Page<RequestDTO> page = requestQueryService.findByCriteria(criteria.toCriteria(), pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
+        List<RequestDTO> page = requestQueryService.findByCriteria(criteria.toCriteria());
+        return ResponseEntity.ok().body(page);
     }
 
     @GetMapping("/requests/count")

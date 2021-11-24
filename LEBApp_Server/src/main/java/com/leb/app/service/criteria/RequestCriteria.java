@@ -49,7 +49,7 @@ public class RequestCriteria implements Serializable, Criteria {
 
     private LongFilter ownerRequestId;
 
-    private LongFilter tranporterId;
+    private LongFilter transporterId;
 
     private Boolean distinct;
 
@@ -75,7 +75,7 @@ public class RequestCriteria implements Serializable, Criteria {
         this.shippingCosts = other.shippingCosts == null ? null : other.shippingCosts.copy();
         this.rating = other.rating == null ? null : other.rating.copy();
         this.ownerRequestId = other.ownerRequestId == null ? null : other.ownerRequestId.copy();
-        this.tranporterId = other.tranporterId == null ? null : other.tranporterId.copy();
+        this.transporterId = other.transporterId == null ? null : other.transporterId.copy();
         this.distinct = other.distinct;
     }
 
@@ -369,19 +369,19 @@ public class RequestCriteria implements Serializable, Criteria {
         this.ownerRequestId = ownerRequestId;
     }
 
-    public LongFilter getTranporterId() {
-        return tranporterId;
+    public LongFilter getTransporterId() {
+        return transporterId;
     }
 
-    public LongFilter tranporterId() {
-        if (tranporterId == null) {
-            tranporterId = new LongFilter();
+    public LongFilter transporterId() {
+        if (transporterId == null) {
+            transporterId = new LongFilter();
         }
-        return tranporterId;
+        return transporterId;
     }
 
-    public void setTranporterId(LongFilter tranporterId) {
-        this.tranporterId = tranporterId;
+    public void setTransporterId(LongFilter transporterId) {
+        this.transporterId = transporterId;
     }
 
     public Boolean getDistinct() {
@@ -421,7 +421,7 @@ public class RequestCriteria implements Serializable, Criteria {
             Objects.equals(shippingCosts, that.shippingCosts) &&
             Objects.equals(rating, that.rating) &&
             Objects.equals(ownerRequestId, that.ownerRequestId) &&
-            Objects.equals(tranporterId, that.tranporterId) &&
+            Objects.equals(transporterId, that.transporterId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -448,7 +448,7 @@ public class RequestCriteria implements Serializable, Criteria {
             shippingCosts,
             rating,
             ownerRequestId,
-            tranporterId,
+            transporterId,
             distinct
         );
     }
@@ -476,7 +476,7 @@ public class RequestCriteria implements Serializable, Criteria {
             (shippingCosts != null ? "shippingCosts=" + shippingCosts + ", " : "") +
             (rating != null ? "rating=" + rating + ", " : "") +
             (ownerRequestId != null ? "ownerRequestId=" + ownerRequestId + ", " : "") +
-            (tranporterId != null ? "tranporterId=" + tranporterId + ", " : "") +
+            (transporterId != null ? "transporterId=" + transporterId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

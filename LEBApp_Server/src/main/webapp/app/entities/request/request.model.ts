@@ -21,7 +21,7 @@ export interface IRequest {
   shippingCosts?: number | null;
   rating?: number | null;
   ownerRequest?: IUserInfo;
-  tranporter?: IUserInfo | null;
+  transporter?: IUserInfo | null;
 }
 
 export class Request implements IRequest {
@@ -45,7 +45,7 @@ export class Request implements IRequest {
     public shippingCosts?: number | null,
     public rating?: number | null,
     public ownerRequest?: IUserInfo,
-    public tranporter?: IUserInfo | null
+    public transporter?: IUserInfo | null
   ) {}
 }
 

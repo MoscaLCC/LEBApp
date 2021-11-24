@@ -88,10 +88,10 @@
             <a [routerLink]="['/user-info', request.ownerRequest?.id, 'view']">{{ request.ownerRequest?.id }}</a>
           </div>
         </dd>
-        <dt><span>Tranporter</span></dt>
+        <dt><span>Transporter</span></dt>
         <dd>
-          <div *ngIf="request.tranporter">
-            <a [routerLink]="['/user-info', request.tranporter?.id, 'view']">{{ request.tranporter?.id }}</a>
+          <div *ngIf="request.transporter">
+            <a [routerLink]="['/user-info', request.transporter?.id, 'view']">{{ request.transporter?.id }}</a>
           </div>
         </dd>
       </dl>

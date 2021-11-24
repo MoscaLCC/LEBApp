@@ -43,12 +43,12 @@ describe('Request Management Update Component', () => {
       const request: IRequest = { id: 456 };
       const ownerRequest: IUserInfo = { id: 80661 };
       request.ownerRequest = ownerRequest;
-      const tranporter: IUserInfo = { id: 12264 };
-      request.tranporter = tranporter;
+      const transporter: IUserInfo = { id: 12264 };
+      request.transporter = transporter;
 
       const userInfoCollection: IUserInfo[] = [{ id: 96221 }];
       jest.spyOn(userInfoService, 'query').mockReturnValue(of(new HttpResponse({ body: userInfoCollection })));
-      const additionalUserInfos = [ownerRequest, tranporter];
+      const additionalUserInfos = [ownerRequest, transporter];
       const expectedCollection: IUserInfo[] = [...additionalUserInfos, ...userInfoCollection];
       jest.spyOn(userInfoService, 'addUserInfoToCollectionIfMissing').mockReturnValue(expectedCollection);
 
@@ -64,15 +64,15 @@ describe('Request Management Update Component', () => {
       const request: IRequest = { id: 456 };
       const ownerRequest: IUserInfo = { id: 47549 };
       request.ownerRequest = ownerRequest;
-      const tranporter: IUserInfo = { id: 83313 };
-      request.tranporter = tranporter;
+      const transporter: IUserInfo = { id: 83313 };
+      request.transporter = transporter;
 
       activatedRoute.data = of({ request });
       comp.ngOnInit();
 
       expect(comp.editForm.value).toEqual(expect.objectContaining(request));
       expect(comp.userInfosSharedCollection).toContain(ownerRequest);
-      expect(comp.userInfosSharedCollection).toContain(tranporter);
+      expect(comp.userInfosSharedCollection).toContain(transporter);
     });
   });
 

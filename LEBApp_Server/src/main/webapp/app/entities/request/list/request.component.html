@@ -51,7 +51,7 @@
           <th scope="col" jhiSortBy="shippingCosts"><span>Shipping Costs</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="rating"><span>Rating</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="ownerRequest.id"><span>Owner Request</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="tranporter.id"><span>Tranporter</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="transporter.id"><span>Transporter</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -83,8 +83,8 @@
             </div>
           </td>
           <td>
-            <div *ngIf="request.tranporter">
-              <a [routerLink]="['/user-info', request.tranporter?.id, 'view']">{{ request.tranporter?.id }}</a>
+            <div *ngIf="request.transporter">
+              <a [routerLink]="['/user-info', request.transporter?.id, 'view']">{{ request.transporter?.id }}</a>
             </div>
           </td>
           <td class="text-right">

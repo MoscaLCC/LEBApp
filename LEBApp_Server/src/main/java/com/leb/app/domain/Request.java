@@ -77,8 +77,8 @@ public class Request implements Serializable {
     @Column(name = "owner_request")
     private Long ownerRequest;
 
-    @Column(name = "tranporter")
-    private Long tranporter;
+    @Column(name = "transporter")
+    private Long transporter;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -329,16 +329,16 @@ public class Request implements Serializable {
         return this;
     }
 
-    public Long getTranporter() {
-        return this.tranporter;
+    public Long getTransporter() {
+        return this.transporter;
     }
 
-    public void setTranporter(Long userInfo) {
-        this.tranporter = userInfo;
+    public void setTransporter(Long userInfo) {
+        this.transporter = userInfo;
     }
 
-    public Request tranporter(Long userInfo) {
-        this.setTranporter(userInfo);
+    public Request transporter(Long userInfo) {
+        this.setTransporter(userInfo);
         return this;
     }
 

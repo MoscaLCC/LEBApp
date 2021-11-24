@@ -192,11 +192,11 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" for="field_tranporter">Tranporter</label>
-          <select class="form-control" id="field_tranporter" data-cy="tranporter" name="tranporter" formControlName="tranporter">
+          <label class="form-control-label" for="field_transporter">Transporter</label>
+          <select class="form-control" id="field_transporter" data-cy="transporter" name="transporter" formControlName="transporter">
             <option [ngValue]="null"></option>
             <option
-              [ngValue]="userInfoOption.id === editForm.get('tranporter')!.value?.id ? editForm.get('tranporter')!.value : userInfoOption"
+              [ngValue]="userInfoOption.id === editForm.get('transporter')!.value?.id ? editForm.get('transporter')!.value : userInfoOption"
               *ngFor="let userInfoOption of userInfosSharedCollection; trackBy: trackUserInfoById"
             >
               {{ userInfoOption.id }}

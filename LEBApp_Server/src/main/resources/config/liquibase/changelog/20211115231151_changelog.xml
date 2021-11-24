@@ -35,7 +35,7 @@
             <column name="source" type="VARCHAR(255)"/>
             <column name="special_characteristics" type="VARCHAR(255)"/>
             <column name="status" type="VARCHAR(255)"/>
-            <column name="tranporter" type="BIGINT"/>
+            <column name="transporter" type="BIGINT"/>
             <column name="weight" type="DOUBLE"/>
             <column name="width" type="DOUBLE"/>
         </createTable>

@@ -41,7 +41,7 @@ export class RequestUpdateComponent implements OnInit {
     shippingCosts: [],
     rating: [],
     ownerRequest: [null, Validators.required],
-    tranporter: [],
+    transporter: [],
   });
 
   constructor(
@@ -117,13 +117,13 @@ export class RequestUpdateComponent implements OnInit {
       shippingCosts: request.shippingCosts,
       rating: request.rating,
       ownerRequest: request.ownerRequest,
-      tranporter: request.tranporter,
+      transporter: request.transporter,
     });
 
     this.userInfosSharedCollection = this.userInfoService.addUserInfoToCollectionIfMissing(
       this.userInfosSharedCollection,
       request.ownerRequest,
-      request.tranporter
+      request.transporter
     );
   }
 
@@ -136,7 +136,7 @@ export class RequestUpdateComponent implements OnInit {
           this.userInfoService.addUserInfoToCollectionIfMissing(
             userInfos,
             this.editForm.get('ownerRequest')!.value,
-            this.editForm.get('tranporter')!.value
+            this.editForm.get('transporter')!.value
           )
         )
       )
@@ -165,7 +165,7 @@ export class RequestUpdateComponent implements OnInit {
       shippingCosts: this.editForm.get(['shippingCosts'])!.value,
       rating: this.editForm.get(['rating'])!.value,
       ownerRequest: this.editForm.get(['ownerRequest'])!.value,
-      tranporter: this.editForm.get(['tranporter'])!.value,
+      transporter: this.editForm.get(['transporter'])!.value,
     };
   }
 }

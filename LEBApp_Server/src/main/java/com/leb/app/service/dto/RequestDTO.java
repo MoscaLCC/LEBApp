@@ -47,7 +47,7 @@ public class RequestDTO implements Serializable {
 
     private Long ownerRequest;
 
-    private Long tranporter;
+    private Long transporter;
 
     public Long getId() {
         return id;
@@ -201,12 +201,12 @@ public class RequestDTO implements Serializable {
         this.ownerRequest = ownerRequest;
     }
 
-    public Long getTranporter() {
-        return tranporter;
+    public Long getTransporter() {
+        return transporter;
     }
 
-    public void setTranporter(Long tranporter) {
-        this.tranporter = tranporter;
+    public void setTransporter(Long transporter) {
+        this.transporter = transporter;
     }
 
     @Override
@@ -253,7 +253,7 @@ public class RequestDTO implements Serializable {
             ", shippingCosts=" + getShippingCosts() +
             ", rating=" + getRating() +
             ", ownerRequest=" + getOwnerRequest() +
-            ", tranporter=" + getTranporter() +
+            ", transporter=" + getTransporter() +
             "}";
     }
 }

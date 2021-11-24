@@ -17,103 +17,64 @@ import tech.jhipster.service.filter.LongFilter;
  */
 public class RequestCriteriaDTO implements Serializable{
 
-    private Status status;
+    private String status;
 
-    private Long ownerRequestId;
+    private int ownerRequestId;
 
-    private Long tranporterId;
+    private int transporterId;
 
 
-    public RequestCriteriaDTO() {
-        super();
-    }
-
-    public RequestCriteriaDTO(Status status, Long ownerRequestId,
-            Long tranporterId) {
-                super();
-        this.status = status;
-        this.ownerRequestId = ownerRequestId;
-        this.tranporterId = tranporterId;
-    }
-
-    public Status getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public Long getOwnerRequestId() {
+    public int getOwnerRequestId() {
         return ownerRequestId;
     }
 
-    public void setOwnerRequestId(Long ownerRequestId) {
+    public void setOwnerRequestId(int ownerRequestId) {
         this.ownerRequestId = ownerRequestId;
     }
 
-    public Long getTranporterId() {
-        return tranporterId;
+    public int getTransporterId() {
+        return transporterId;
     }
 
-    public void setTranporterId(Long tranporterId) {
-        this.tranporterId = tranporterId;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((ownerRequestId == null) ? 0 : ownerRequestId.hashCode());
-        result = prime * result + ((status == null) ? 0 : status.hashCode());
-        result = prime * result + ((tranporterId == null) ? 0 : tranporterId.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        RequestCriteriaDTO other = (RequestCriteriaDTO) obj;
-        if (ownerRequestId == null) {
-            if (other.ownerRequestId != null)
-                return false;
-        } else if (!ownerRequestId.equals(other.ownerRequestId))
-            return false;
-        if (status != other.status)
-            return false;
-        if (tranporterId == null) {
-            if (other.tranporterId != null)
-                return false;
-        } else if (!tranporterId.equals(other.tranporterId))
-            return false;
-        return true;
+    public void setTransporterId(int transporterId) {
+        this.transporterId = transporterId;
     }
 
     @Override
     public String toString() {
         return "RequestCriteriaDTO [ownerRequestId=" + ownerRequestId + ", status=" + status
-                + ", tranporterId=" + tranporterId + "]";
+                + ", transporterId=" + transporterId + "]";
     }
 
     public RequestCriteria toCriteria(){
         RequestCriteria criteria = new RequestCriteria();
 
         LongFilter ownerRequestIdFilter = new LongFilter();
-        ownerRequestIdFilter.setEquals(ownerRequestId);
+        ownerRequestIdFilter.setEquals(Long.valueOf(ownerRequestId));
         criteria.setOwnerRequestId(ownerRequestIdFilter);
 
         StatusFilter statusFilter = new StatusFilter();
-        statusFilter.setEquals(status);
+        switch (status){
+            case "Available":
+                statusFilter.setEquals(Status.WAITING_COLLECTION);
+                break;
+            default:
+                statusFilter.setEquals(Status.WAITING_COLLECTION);
+                break;
+        }
         criteria.setStatus(statusFilter);
 
-        LongFilter tranporterIdFilter = new LongFilter();
-        tranporterIdFilter.setEquals(tranporterId);
-        criteria.setTranporterId(tranporterIdFilter);
+        LongFilter transporterIdFilter = new LongFilter();
+        transporterIdFilter.setEquals(Long.valueOf(transporterId));
+        criteria.setTransporterId(transporterIdFilter);
 
         return criteria;
     }

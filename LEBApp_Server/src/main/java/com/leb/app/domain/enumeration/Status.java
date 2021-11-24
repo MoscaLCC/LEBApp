@@ -38,5 +38,5 @@ public enum Status {
     WAITING_DISTRIBUTION_ACCEPTED,
     IN_DISTRIBUTION,
     REJECTED,
-    FINISHED,
+    FINISHED
 }
