@@ -1,6 +1,9 @@
 package com.leb.app.service;
 
+import com.leb.app.service.dto.RequestCriteriaDTO;
 import com.leb.app.service.dto.RequestDTO;
+
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,4 +50,6 @@ public interface RequestService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    List<RequestDTO> findAllByCriteria(RequestCriteriaDTO criteria);
 }

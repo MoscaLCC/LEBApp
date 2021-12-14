@@ -3,25 +3,20 @@ package com.leb.app.service.dto;
 import com.leb.app.domain.enumeration.Status;
 import com.leb.app.service.criteria.RequestCriteria;
 import com.leb.app.service.criteria.StatusFilter;
-import java.io.Serializable;
+
 import tech.jhipster.service.filter.LongFilter;
 
-/**
- * Criteria class for the {@link com.leb.app.domain.Request} entity. This class is used
- * in {@link com.leb.app.web.rest.RequestResource} to receive all the possible filtering options from
- * the Http GET request parameters.
- * For example the following could be a valid request:
- * {@code /requests?id.greaterThan=5&attr1.contains=something&attr2.specified=false}
- * As Spring is unable to properly convert the types, unless specific {@link } class are used, we need to use
- * fix type specific filters.
- */
-public class RequestCriteriaDTO implements Serializable{
+import java.io.Serializable;
+import java.util.Objects;
+
+
+public class RequestCriteriaDTO implements Serializable {
 
     private String status;
 
-    private int ownerRequestId;
+    private Integer ownerRequest;
 
-    private int transporterId;
+    private Integer transporter;
 
 
     public String getStatus() {
@@ -32,33 +27,53 @@ public class RequestCriteriaDTO implements Serializable{
         this.status = status;
     }
 
-    public int getOwnerRequestId() {
-        return ownerRequestId;
+    public Integer getOwnerRequest() {
+        return ownerRequest;
     }
 
-    public void setOwnerRequestId(int ownerRequestId) {
-        this.ownerRequestId = ownerRequestId;
+    public void setOwnerRequest(Integer ownerRequest) {
+        this.ownerRequest = ownerRequest;
     }
 
-    public int getTransporterId() {
-        return transporterId;
+    public Integer getTransporter() {
+        return transporter;
     }
 
-    public void setTransporterId(int transporterId) {
-        this.transporterId = transporterId;
+    public void setTransporter(Integer transporter) {
+        this.transporter = transporter;
     }
 
     @Override
-    public String toString() {
-        return "RequestCriteriaDTO [ownerRequestId=" + ownerRequestId + ", status=" + status
-                + ", transporterId=" + transporterId + "]";
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof RequestDTO)) {
+            return false;
+        }
+        return false;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(ownerRequest + transporter);
+    }
+
+    // prettier-ignore
+    @Override
+    public String toString() {
+        return "RequestDTO{" +
+            "status='" + getStatus() + "'" +
+            ", ownerRequest=" + getOwnerRequest() +
+            ", transporter=" + getTransporter() +
+            "}";
+    }
+    
     public RequestCriteria toCriteria(){
         RequestCriteria criteria = new RequestCriteria();
 
         LongFilter ownerRequestIdFilter = new LongFilter();
-        ownerRequestIdFilter.setEquals(Long.valueOf(ownerRequestId));
+        ownerRequestIdFilter.setEquals(Long.valueOf(ownerRequest));
         criteria.setOwnerRequestId(ownerRequestIdFilter);
 
         StatusFilter statusFilter = new StatusFilter();
@@ -73,10 +88,9 @@ public class RequestCriteriaDTO implements Serializable{
         criteria.setStatus(statusFilter);
 
         LongFilter transporterIdFilter = new LongFilter();
-        transporterIdFilter.setEquals(Long.valueOf(transporterId));
+        transporterIdFilter.setEquals(Long.valueOf(transporter));
         criteria.setTransporterId(transporterIdFilter);
 
         return criteria;
     }
-
 }

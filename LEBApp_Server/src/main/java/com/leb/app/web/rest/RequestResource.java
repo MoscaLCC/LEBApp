@@ -14,6 +14,8 @@ import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.query.criteria.internal.path.ListAttributeJoin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -122,10 +124,10 @@ public class RequestResource {
     }
 
     @PostMapping("/requests")
-    public ResponseEntity<List<RequestDTO>> postAllRequests(@RequestBody RequestCriteriaDTO criteria) {
+    public ResponseEntity<List<RequestDTO>> postAllRequests(@Valid @RequestBody RequestCriteriaDTO criteria) {
         log.debug("REST request to get Requests by criteria: {}", criteria);
-        List<RequestDTO> page = requestQueryService.findByCriteria(criteria.toCriteria());
-        return ResponseEntity.ok().body(page);
+        List<RequestDTO> list = requestService.findAllByCriteria(criteria);
+        return ResponseEntity.ok().body(list);
     }
 
     @GetMapping("/requests/count")

@@ -3,9 +3,16 @@ package com.leb.app.service.impl;
 import com.leb.app.domain.Request;
 import com.leb.app.repository.RequestRepository;
 import com.leb.app.service.RequestService;
+import com.leb.app.service.dto.RequestCriteriaDTO;
 import com.leb.app.service.dto.RequestDTO;
 import com.leb.app.service.mapper.RequestMapper;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.hibernate.Criteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -72,5 +79,30 @@ public class RequestServiceImpl implements RequestService {
     public void delete(Long id) {
         log.debug("Request to delete Request : {}", id);
         requestRepository.deleteById(id);
+    }
+
+    public Boolean inTheCriteria(RequestDTO request, RequestCriteriaDTO criteria){
+        if(criteria.getOwnerRequest() != null && !request.getOwnerRequest().equals(Long.valueOf(criteria.getOwnerRequest()))) 
+            return false;
+        else if(criteria.getTransporter() != null && !request.getTransporter().equals(Long.valueOf(criteria.getTransporter())))
+            return false;
+        else if(criteria.getStatus() != null && !request.getStatus().toString().equals(criteria.getStatus()))
+            return false;
+        else
+            return true;
+    }
+
+    @Override
+    public List<RequestDTO> findAllByCriteria(RequestCriteriaDTO criteria){
+        List<RequestDTO> total_list = requestRepository.findAll().stream().map(requestMapper::toDto).collect(Collectors.toList());
+        List<RequestDTO> filtered_list = new ArrayList<>();
+
+        for (RequestDTO request : total_list){
+            if(inTheCriteria(request, criteria)){
+                filtered_list.add(request);
+            }
+        }
+        
+        return filtered_list;
     }
 }
