@@ -28,7 +28,7 @@
         <java.version>11</java.version>
         <node.version>v14.17.6</node.version>
         <npm.version>8.1.0</npm.version>
-
+        <!-- ATENÇÃO VERSÃO LOG4J-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>

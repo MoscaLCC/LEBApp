@@ -8,4 +8,8 @@ import org.springframework.stereotype.Repository;
  * Spring Data SQL repository for the Request entity.
  */
 @Repository
-public interface RequestRepository extends JpaRepository<Request, Long>, JpaSpecificationExecutor<Request> {}
+public interface RequestRepository extends JpaRepository<Request, Long>, JpaSpecificationExecutor<Request> {
+
+    Request findByIdEquals(Long id);
+
+}
