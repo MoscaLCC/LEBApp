@@ -15,14 +15,15 @@ import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.query.criteria.internal.path.ListAttributeJoin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -71,7 +72,7 @@ public class RequestResource {
     public ResponseEntity<RequestDTO> updateRequest(
         @PathVariable(value = "id", required = false) final Long id,
         @Valid @RequestBody RequestDTO requestDTO
-    ) throws URISyntaxException {
+    ){
         log.debug("REST request to update Request : {}, {}", id, requestDTO);
         if (requestDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -95,7 +96,7 @@ public class RequestResource {
     public ResponseEntity<RequestDTO> partialUpdateRequest(
         @PathVariable(value = "id", required = false) final Long id,
         @NotNull @RequestBody RequestDTO requestDTO
-    ) throws URISyntaxException {
+    ){
         log.debug("REST request to partial update Request partially : {}, {}", id, requestDTO);
         if (requestDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -151,5 +152,13 @@ public class RequestResource {
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PutMapping("/requests/{requestId}/{userId}/assign")
+    public ResponseEntity<HttpStatus> assignToUser(
+        @PathVariable(value = "requestId", required = true) final Long requestId,  
+        @PathVariable(value = "userId", required = true) final Long userId){
+        requestService.assignToUser(requestId, userId);
+        return ResponseEntity.ok().build();
     }
 }
