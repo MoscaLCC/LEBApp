@@ -82,11 +82,12 @@ public class RequestServiceImpl implements RequestService {
     }
 
     public Boolean inTheCriteria(RequestDTO request, RequestCriteriaDTO criteria){
-        if(criteria.getOwnerRequest() != null && !request.getOwnerRequest().equals(Long.valueOf(criteria.getOwnerRequest()))) 
+        if(criteria.getOwnerRequest() != null && !request.getOwnerRequest().equals(Long.valueOf(criteria.getOwnerRequest())))
             return false;
         else if(criteria.getTransporter() != null && !request.getTransporter().equals(Long.valueOf(criteria.getTransporter())))
             return false;
-        else if(criteria.getStatus() != null && !request.getStatus().toString().equals(criteria.getStatus()))
+        else if(criteria.getStatus() != null && (!request.getStatus().toString().equals(criteria.getStatus()) && (criteria.getStatus().equals("OPENED") && request.getStatus().toString().equals("CLOSED"))))
+        // TODO: PARTIR EM IF ELSE
             return false;
         else
             return true;
@@ -102,7 +103,7 @@ public class RequestServiceImpl implements RequestService {
                 filtered_list.add(request);
             }
         }
-        
+
         return filtered_list;
     }
 }
