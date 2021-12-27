@@ -6,14 +6,11 @@ entity Request {
     destinationContact String,
     initDate String,
     expirationDate String,
-    description String,
     specialCharacteristics String,
     weight Double,
     hight Double,
     width Double,
     status Status,
-    estimatedDate String,
-    deliveryTime String, 
     shippingCosts Double,
     rating Double
 }
@@ -77,15 +74,15 @@ enum Status {
     PENDING,
     SHIPPED,
     IN_TRANSIT,
-    WAITING_COLLECTION, 
-    WAITING_COLLECTION_ACCEPTED, 
-    IN_COLLECTION, 
-    WAITING_TRANSIT, 
-    WAITING_TRANSIT_ACCEPTED,  
-    WAITING_DISTRIBUTION, 
-    WAITING_DISTRIBUTION_ACCEPTED, 
+    WAITING_COLLECTION,
+    WAITING_COLLECTION_ACCEPTED,
+    IN_COLLECTION,
+    WAITING_TRANSIT,
+    WAITING_TRANSIT_ACCEPTED,
+    WAITING_DISTRIBUTION,
+    WAITING_DISTRIBUTION_ACCEPTED,
     IN_DISTRIBUTION,
-    REJECTED,  
+    REJECTED,
     FINISHED
 }
 

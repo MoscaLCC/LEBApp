@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 //import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RegisterDTO implements Serializable { 
+public class RegisterDTO implements Serializable {
 
     private String email;
 
     private String phoneNumber;
 
     private Integer nif;
-    
+
     private String firstName;
 
     private String lastName;
@@ -211,11 +211,6 @@ public class RegisterDTO implements Serializable {
                 + phoneNumber + "]";
     }
 
-    
 
-    //@JsonProperty("isDeliveryMan")
-    //private boolean isDeliveryMan;
-
-    
 
 }

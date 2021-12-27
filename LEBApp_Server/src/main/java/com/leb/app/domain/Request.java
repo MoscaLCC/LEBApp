@@ -43,9 +43,6 @@ public class Request implements Serializable {
     @Column(name = "expiration_date")
     private String expirationDate;
 
-    @Column(name = "description")
-    private String description;
-
     @Column(name = "special_characteristics")
     private String specialCharacteristics;
 
@@ -61,12 +58,6 @@ public class Request implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private Status status;
-
-    @Column(name = "estimated_date")
-    private String estimatedDate;
-
-    @Column(name = "delivery_time")
-    private String deliveryTime;
 
     @Column(name = "shipping_costs")
     private Double shippingCosts;
@@ -186,19 +177,6 @@ public class Request implements Serializable {
         this.expirationDate = expirationDate;
     }
 
-    public String getDescription() {
-        return this.description;
-    }
-
-    public Request description(String description) {
-        this.setDescription(description);
-        return this;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getSpecialCharacteristics() {
         return this.specialCharacteristics;
     }
@@ -262,32 +240,6 @@ public class Request implements Serializable {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public String getEstimatedDate() {
-        return this.estimatedDate;
-    }
-
-    public Request estimatedDate(String estimatedDate) {
-        this.setEstimatedDate(estimatedDate);
-        return this;
-    }
-
-    public void setEstimatedDate(String estimatedDate) {
-        this.estimatedDate = estimatedDate;
-    }
-
-    public String getDeliveryTime() {
-        return this.deliveryTime;
-    }
-
-    public Request deliveryTime(String deliveryTime) {
-        this.setDeliveryTime(deliveryTime);
-        return this;
-    }
-
-    public void setDeliveryTime(String deliveryTime) {
-        this.deliveryTime = deliveryTime;
     }
 
     public Double getShippingCosts() {
@@ -373,14 +325,11 @@ public class Request implements Serializable {
             ", destinationContact='" + getDestinationContact() + "'" +
             ", initDate='" + getInitDate() + "'" +
             ", expirationDate='" + getExpirationDate() + "'" +
-            ", description='" + getDescription() + "'" +
             ", specialCharacteristics='" + getSpecialCharacteristics() + "'" +
             ", weight=" + getWeight() +
             ", hight=" + getHight() +
             ", width=" + getWidth() +
             ", status='" + getStatus() + "'" +
-            ", estimatedDate='" + getEstimatedDate() + "'" +
-            ", deliveryTime='" + getDeliveryTime() + "'" +
             ", shippingCosts=" + getShippingCosts() +
             ", rating=" + getRating() +
             "}";

@@ -110,9 +110,6 @@ public class RequestQueryService extends QueryService<Request> {
             if (criteria.getExpirationDate() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getExpirationDate(), Request_.expirationDate));
             }
-            if (criteria.getDescription() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getDescription(), Request_.description));
-            }
             if (criteria.getSpecialCharacteristics() != null) {
                 specification =
                     specification.and(buildStringSpecification(criteria.getSpecialCharacteristics(), Request_.specialCharacteristics));
@@ -128,12 +125,6 @@ public class RequestQueryService extends QueryService<Request> {
             }
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatus(), Request_.status));
-            }
-            if (criteria.getEstimatedDate() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getEstimatedDate(), Request_.estimatedDate));
-            }
-            if (criteria.getDeliveryTime() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getDeliveryTime(), Request_.deliveryTime));
             }
             if (criteria.getShippingCosts() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getShippingCosts(), Request_.shippingCosts));

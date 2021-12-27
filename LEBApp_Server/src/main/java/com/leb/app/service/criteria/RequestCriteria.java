@@ -27,8 +27,6 @@ public class RequestCriteria implements Serializable, Criteria {
 
     private StringFilter expirationDate;
 
-    private StringFilter description;
-
     private StringFilter specialCharacteristics;
 
     private DoubleFilter weight;
@@ -38,10 +36,6 @@ public class RequestCriteria implements Serializable, Criteria {
     private DoubleFilter width;
 
     private StatusFilter status;
-
-    private StringFilter estimatedDate;
-
-    private StringFilter deliveryTime;
 
     private DoubleFilter shippingCosts;
 
@@ -64,14 +58,11 @@ public class RequestCriteria implements Serializable, Criteria {
         this.destinationContact = other.destinationContact == null ? null : other.destinationContact.copy();
         this.initDate = other.initDate == null ? null : other.initDate.copy();
         this.expirationDate = other.expirationDate == null ? null : other.expirationDate.copy();
-        this.description = other.description == null ? null : other.description.copy();
         this.specialCharacteristics = other.specialCharacteristics == null ? null : other.specialCharacteristics.copy();
         this.weight = other.weight == null ? null : other.weight.copy();
         this.hight = other.hight == null ? null : other.hight.copy();
         this.width = other.width == null ? null : other.width.copy();
         this.status = other.status == null ? null : other.status.copy();
-        this.estimatedDate = other.estimatedDate == null ? null : other.estimatedDate.copy();
-        this.deliveryTime = other.deliveryTime == null ? null : other.deliveryTime.copy();
         this.shippingCosts = other.shippingCosts == null ? null : other.shippingCosts.copy();
         this.rating = other.rating == null ? null : other.rating.copy();
         this.ownerRequestId = other.ownerRequestId == null ? null : other.ownerRequestId.copy();
@@ -204,21 +195,6 @@ public class RequestCriteria implements Serializable, Criteria {
         this.expirationDate = expirationDate;
     }
 
-    public StringFilter getDescription() {
-        return description;
-    }
-
-    public StringFilter description() {
-        if (description == null) {
-            description = new StringFilter();
-        }
-        return description;
-    }
-
-    public void setDescription(StringFilter description) {
-        this.description = description;
-    }
-
     public StringFilter getSpecialCharacteristics() {
         return specialCharacteristics;
     }
@@ -292,36 +268,6 @@ public class RequestCriteria implements Serializable, Criteria {
 
     public void setStatus(StatusFilter status) {
         this.status = status;
-    }
-
-    public StringFilter getEstimatedDate() {
-        return estimatedDate;
-    }
-
-    public StringFilter estimatedDate() {
-        if (estimatedDate == null) {
-            estimatedDate = new StringFilter();
-        }
-        return estimatedDate;
-    }
-
-    public void setEstimatedDate(StringFilter estimatedDate) {
-        this.estimatedDate = estimatedDate;
-    }
-
-    public StringFilter getDeliveryTime() {
-        return deliveryTime;
-    }
-
-    public StringFilter deliveryTime() {
-        if (deliveryTime == null) {
-            deliveryTime = new StringFilter();
-        }
-        return deliveryTime;
-    }
-
-    public void setDeliveryTime(StringFilter deliveryTime) {
-        this.deliveryTime = deliveryTime;
     }
 
     public DoubleFilter getShippingCosts() {
@@ -410,14 +356,11 @@ public class RequestCriteria implements Serializable, Criteria {
             Objects.equals(destinationContact, that.destinationContact) &&
             Objects.equals(initDate, that.initDate) &&
             Objects.equals(expirationDate, that.expirationDate) &&
-            Objects.equals(description, that.description) &&
             Objects.equals(specialCharacteristics, that.specialCharacteristics) &&
             Objects.equals(weight, that.weight) &&
             Objects.equals(hight, that.hight) &&
             Objects.equals(width, that.width) &&
             Objects.equals(status, that.status) &&
-            Objects.equals(estimatedDate, that.estimatedDate) &&
-            Objects.equals(deliveryTime, that.deliveryTime) &&
             Objects.equals(shippingCosts, that.shippingCosts) &&
             Objects.equals(rating, that.rating) &&
             Objects.equals(ownerRequestId, that.ownerRequestId) &&
@@ -437,14 +380,11 @@ public class RequestCriteria implements Serializable, Criteria {
             destinationContact,
             initDate,
             expirationDate,
-            description,
             specialCharacteristics,
             weight,
             hight,
             width,
             status,
-            estimatedDate,
-            deliveryTime,
             shippingCosts,
             rating,
             ownerRequestId,
@@ -465,14 +405,11 @@ public class RequestCriteria implements Serializable, Criteria {
             (destinationContact != null ? "destinationContact=" + destinationContact + ", " : "") +
             (initDate != null ? "initDate=" + initDate + ", " : "") +
             (expirationDate != null ? "expirationDate=" + expirationDate + ", " : "") +
-            (description != null ? "description=" + description + ", " : "") +
             (specialCharacteristics != null ? "specialCharacteristics=" + specialCharacteristics + ", " : "") +
             (weight != null ? "weight=" + weight + ", " : "") +
             (hight != null ? "hight=" + hight + ", " : "") +
             (width != null ? "width=" + width + ", " : "") +
             (status != null ? "status=" + status + ", " : "") +
-            (estimatedDate != null ? "estimatedDate=" + estimatedDate + ", " : "") +
-            (deliveryTime != null ? "deliveryTime=" + deliveryTime + ", " : "") +
             (shippingCosts != null ? "shippingCosts=" + shippingCosts + ", " : "") +
             (rating != null ? "rating=" + rating + ", " : "") +
             (ownerRequestId != null ? "ownerRequestId=" + ownerRequestId + ", " : "") +

@@ -3,7 +3,9 @@ package com.leb.app.web.rest;
 import com.leb.app.repository.RequestRepository;
 import com.leb.app.service.RequestQueryService;
 import com.leb.app.service.RequestService;
+import com.leb.app.service.UserService;
 import com.leb.app.service.criteria.RequestCriteria;
+import com.leb.app.service.dto.AdminUserDTO;
 import com.leb.app.service.dto.RequestCriteriaDTO;
 import com.leb.app.service.dto.RequestDTO;
 import com.leb.app.web.rest.errors.BadRequestAlertException;
@@ -47,24 +49,43 @@ public class RequestResource {
 
     private final RequestQueryService requestQueryService;
 
-    public RequestResource(RequestService requestService, RequestRepository requestRepository, RequestQueryService requestQueryService) {
+    private final UserService userService;
+
+    public RequestResource(RequestService requestService, RequestRepository requestRepository, RequestQueryService requestQueryService, UserService userService) {
         this.requestService = requestService;
         this.requestRepository = requestRepository;
         this.requestQueryService = requestQueryService;
+        this.userService = userService;
     }
 
-    @PostMapping("/requests/create/{clientId}")
-    public ResponseEntity<RequestDTO> createRequest(@Valid @RequestBody RequestDTO requestDTO, @PathVariable(value = "clientId", required = false) final Long clientId) throws URISyntaxException {
+    public Long getCurrentUser(){
+        Optional<AdminUserDTO> userLogin = userService
+        .getUserWithAuthorities()
+        .map(AdminUserDTO::new);
+
+        Long clientId = null;
+        if (userLogin.isPresent()) {
+            clientId = userLogin.get().getId();
+        }
+        return clientId;
+    }
+
+    @PostMapping("/requests/create")
+    public ResponseEntity<RequestDTO> createRequest(@Valid @RequestBody RequestDTO requestDTO) throws URISyntaxException {
         log.debug("REST request to save Request : {}", requestDTO);
-        if (!requestDTO.getOwnerRequest().equals(clientId)){
-            log.debug("USER ID IS DIFERENTE THAT REQUEST ID");
-            return ResponseEntity.badRequest().build();
-        } else {
+
+        Long clientId = this.getCurrentUser();
+
+        if(clientId != null){
+            requestDTO = requestService.prepareNewRequest(requestDTO, clientId);
             RequestDTO result = requestService.save(requestDTO);
             return ResponseEntity
                 .created(new URI("/api/requests/" + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
                 .body(result);
+        } else {
+            log.debug("USER ID IS DIFERENTE THAT REQUEST ID");
+            return ResponseEntity.badRequest().build();
         }
     }
 
@@ -156,7 +177,7 @@ public class RequestResource {
 
     @PutMapping("/requests/{requestId}/{userId}/assign")
     public ResponseEntity<HttpStatus> assignToUser(
-        @PathVariable(value = "requestId", required = true) final Long requestId,  
+        @PathVariable(value = "requestId", required = true) final Long requestId,
         @PathVariable(value = "userId", required = true) final Long userId){
         requestService.assignToUser(requestId, userId);
         return ResponseEntity.ok().build();

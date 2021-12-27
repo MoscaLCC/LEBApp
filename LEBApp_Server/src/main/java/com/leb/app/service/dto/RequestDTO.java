@@ -25,8 +25,6 @@ public class RequestDTO implements Serializable {
 
     private String expirationDate;
 
-    private String description;
-
     private String specialCharacteristics;
 
     private Double weight;
@@ -36,10 +34,6 @@ public class RequestDTO implements Serializable {
     private Double width;
 
     private Status status;
-
-    private String estimatedDate;
-
-    private String deliveryTime;
 
     private Double shippingCosts;
 
@@ -113,14 +107,6 @@ public class RequestDTO implements Serializable {
         this.expirationDate = expirationDate;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getSpecialCharacteristics() {
         return specialCharacteristics;
     }
@@ -159,22 +145,6 @@ public class RequestDTO implements Serializable {
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public String getEstimatedDate() {
-        return estimatedDate;
-    }
-
-    public void setEstimatedDate(String estimatedDate) {
-        this.estimatedDate = estimatedDate;
-    }
-
-    public String getDeliveryTime() {
-        return deliveryTime;
-    }
-
-    public void setDeliveryTime(String deliveryTime) {
-        this.deliveryTime = deliveryTime;
     }
 
     public Double getShippingCosts() {
@@ -242,14 +212,11 @@ public class RequestDTO implements Serializable {
             ", destinationContact='" + getDestinationContact() + "'" +
             ", initDate='" + getInitDate() + "'" +
             ", expirationDate='" + getExpirationDate() + "'" +
-            ", description='" + getDescription() + "'" +
             ", specialCharacteristics='" + getSpecialCharacteristics() + "'" +
             ", weight=" + getWeight() +
             ", hight=" + getHight() +
             ", width=" + getWidth() +
             ", status='" + getStatus() + "'" +
-            ", estimatedDate='" + getEstimatedDate() + "'" +
-            ", deliveryTime='" + getDeliveryTime() + "'" +
             ", shippingCosts=" + getShippingCosts() +
             ", rating=" + getRating() +
             ", ownerRequest=" + getOwnerRequest() +

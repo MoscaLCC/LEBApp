@@ -30,10 +30,6 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "description",
-      "fieldType": "String"
-    },
-    {
       "fieldName": "specialCharacteristics",
       "fieldType": "String"
     },
@@ -53,14 +49,6 @@
       "fieldName": "status",
       "fieldType": "Status",
       "fieldValues": "WAITING,OPENED,OPENING,COMPLETING,COMPLETED,REFUSING,REFUSED,PENDING,CLOSING,CLOSED,IN_PROGRESS,PROCESSING,PROCESSED,PRE_PROCESSING,PRE_PROCESSED,LOSTED,CHECKING,CHECKED,CANCELED,CANCELING,DENIED,FAIL,INCOMPLET,SHIPPED,IN_TRANSIT,WAITING_COLLECTION,WAITING_COLLECTION_ACCEPTED,IN_COLLECTION,WAITING_TRANSIT,WAITING_TRANSIT_ACCEPTED,WAITING_DISTRIBUTION,WAITING_DISTRIBUTION_ACCEPTED,IN_DISTRIBUTION,REJECTED,FINISHED"
-    },
-    {
-      "fieldName": "estimatedDate",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "deliveryTime",
-      "fieldType": "String"
     },
     {
       "fieldName": "shippingCosts",

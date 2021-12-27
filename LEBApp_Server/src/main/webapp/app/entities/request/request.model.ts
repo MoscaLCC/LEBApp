@@ -10,14 +10,11 @@ export interface IRequest {
   destinationContact?: string | null;
   initDate?: string | null;
   expirationDate?: string | null;
-  description?: string | null;
   specialCharacteristics?: string | null;
   weight?: number | null;
   hight?: number | null;
   width?: number | null;
   status?: Status | null;
-  estimatedDate?: string | null;
-  deliveryTime?: string | null;
   shippingCosts?: number | null;
   rating?: number | null;
   ownerRequest?: IUserInfo;
@@ -34,14 +31,11 @@ export class Request implements IRequest {
     public destinationContact?: string | null,
     public initDate?: string | null,
     public expirationDate?: string | null,
-    public description?: string | null,
     public specialCharacteristics?: string | null,
     public weight?: number | null,
     public hight?: number | null,
     public width?: number | null,
     public status?: Status | null,
-    public estimatedDate?: string | null,
-    public deliveryTime?: string | null,
     public shippingCosts?: number | null,
     public rating?: number | null,
     public ownerRequest?: IUserInfo,

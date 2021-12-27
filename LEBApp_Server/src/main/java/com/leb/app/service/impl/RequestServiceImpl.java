@@ -8,6 +8,8 @@ import com.leb.app.service.dto.RequestCriteriaDTO;
 import com.leb.app.service.dto.RequestDTO;
 import com.leb.app.service.mapper.RequestMapper;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -89,9 +91,19 @@ public class RequestServiceImpl implements RequestService {
             return false;
         else if(criteria.getTransporter() != null && !request.getTransporter().equals(Long.valueOf(criteria.getTransporter())))
             return false;
-        else if(criteria.getStatus() != null && (!request.getStatus().toString().equals(criteria.getStatus()) && (criteria.getStatus().equals("OPENED") && request.getStatus().toString().equals("CLOSED"))))
-        // TODO: PARTIR EM IF ELSE
-            return false;
+        else if(criteria.getStatus() != null){
+            if (criteria.getStatus().equals("OPENED")){
+                if (request.getStatus().toString().equals("CLOSED")){
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+            else if (!request.getStatus().toString().equals(criteria.getStatus()))
+                return false;
+            else
+                return true;
+        }
         else
             return true;
     }
@@ -119,5 +131,50 @@ public class RequestServiceImpl implements RequestService {
         request.setTransporter(userId);
         request.setStatus(Status.IN_COLLECTION);
         requestRepository.save(request);
+    }
+
+    public Double getMax(List<Double> values){
+        Double max = 0.0;
+        for(Double d : values){
+            if(d > max){
+                max = d;
+            }
+        }
+        return max;
+    }
+
+    public Double getSum(List<Double> values){
+        Double sum = 0.0;
+        for(Double d : values){
+            sum += d;
+        }
+        return sum;
+    }
+
+    @Override
+    public RequestDTO prepareNewRequest(RequestDTO request, Long userId){
+
+        Instant expirationsDate = Instant.parse(request.getInitDate()).plus(48, ChronoUnit.HOURS);
+        request.setExpirationDate(expirationsDate.toString());
+
+        List<Double> listValues = new ArrayList<>();
+        listValues.add(10.0);
+        listValues.add(request.getHight());
+        listValues.add(request.getWidth());
+        listValues.add(request.getWeight());
+        listValues.add(request.getProductValue());
+
+        Double max = getMax(listValues);
+        Double sum = getSum(listValues);
+        Double costs = sum / max;
+        request.setShippingCosts(costs);
+
+        request.setOwnerRequest(userId);
+
+        request.setStatus(Status.WAITING_COLLECTION);
+
+        request.setRating(1.5);
+
+        return request;
     }
 }

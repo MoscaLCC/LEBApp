@@ -17,7 +17,7 @@ export class RequestService {
   constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(request: IRequest): Observable<EntityResponseType> {
-    return this.http.post<IRequest>(this.resourceUrl, request, { observe: 'response' });
+    return this.http.post<IRequest>(this.resourceUrl + "/create", request, { observe: 'response' });
   }
 
   update(request: IRequest): Observable<EntityResponseType> {

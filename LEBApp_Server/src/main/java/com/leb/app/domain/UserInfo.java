@@ -228,7 +228,7 @@ public class UserInfo implements Serializable {
     public void setNumberOfKm(Double numberOfKm) {
         this.numberOfKm = numberOfKm;
     }
-    
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override

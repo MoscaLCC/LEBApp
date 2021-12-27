@@ -26,4 +26,6 @@ public interface RequestService {
     List<RequestDTO> findAllByCriteria(RequestCriteriaDTO criteria);
 
     void assignToUser(Long requestId, Long userId);
+
+    RequestDTO prepareNewRequest(RequestDTO request, Long userId);
 }
