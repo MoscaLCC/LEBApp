@@ -28,4 +28,8 @@ public interface RequestService {
     void assignToUser(Long requestId, Long userId);
 
     RequestDTO prepareNewRequest(RequestDTO request, Long userId);
+
+    void virtualDelete(Long id);
+
+    void virtualDeleteRestricted(Long id);
 }

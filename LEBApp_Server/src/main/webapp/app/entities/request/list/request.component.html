@@ -71,16 +71,8 @@
           <td>{{ request.status }}</td>
           <td>{{ request.shippingCosts }}</td>
           <td>{{ request.rating }}</td>
-          <td>
-            <div *ngIf="request.ownerRequest">
-              <a [routerLink]="['/user-info', request.ownerRequest?.id, 'view']">{{ request.ownerRequest?.id }}</a>
-            </div>
-          </td>
-          <td>
-            <div *ngIf="request.transporter">
-              <a [routerLink]="['/user-info', request.transporter?.id, 'view']">{{ request.transporter?.id }}</a>
-            </div>
-          </td>
+          <td>{{ request.ownerRequest }}</td>
+          <td>{{ request.transporter }}</td>
           <td class="text-right">
             <div class="btn-group">
               <button

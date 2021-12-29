@@ -16,7 +16,7 @@
         </dd>
         <dt><span>Product Value</span></dt>
         <dd>
-          <span>{{ request.productValue }}</span>
+          <span>{{ request.productValue }}€</span>
         </dd>
         <dt><span>Product Name</span></dt>
         <dd>
@@ -48,15 +48,15 @@
         </dd>
         <dt><span>Weight</span></dt>
         <dd>
-          <span>{{ request.weight }}</span>
+          <span>{{ request.weight }} kg</span>
         </dd>
         <dt><span>Hight</span></dt>
         <dd>
-          <span>{{ request.hight }}</span>
+          <span>{{ request.hight }} cm</span>
         </dd>
         <dt><span>Width</span></dt>
         <dd>
-          <span>{{ request.width }}</span>
+          <span>{{ request.width }} cm</span>
         </dd>
         <dt><span>Status</span></dt>
         <dd>
@@ -64,7 +64,7 @@
         </dd>
         <dt><span>Shipping Costs</span></dt>
         <dd>
-          <span>{{ request.shippingCosts }}</span>
+          <span>{{ request.shippingCosts }} €</span>
         </dd>
         <dt><span>Rating</span></dt>
         <dd>
@@ -72,15 +72,11 @@
         </dd>
         <dt><span>Owner Request</span></dt>
         <dd>
-          <div *ngIf="request.ownerRequest">
-            <a [routerLink]="['/user-info', request.ownerRequest?.id, 'view']">{{ request.ownerRequest?.id }}</a>
-          </div>
+          <span>{{ request.ownerRequest }}</span>
         </dd>
         <dt><span>Transporter</span></dt>
         <dd>
-          <div *ngIf="request.transporter">
-            <a [routerLink]="['/user-info', request.transporter?.id, 'view']">{{ request.transporter?.id }}</a>
-          </div>
+          <span>{{ request.transporter }}</span>
         </dd>
       </dl>
 

@@ -168,7 +168,17 @@ public class RequestResource {
     @DeleteMapping("/requests/{id}")
     public ResponseEntity<Void> deleteRequest(@PathVariable Long id) {
         log.debug("REST request to delete Request : {}", id);
-        requestService.delete(id);
+        requestService.virtualDelete(id);
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+            .build();
+    }
+
+    @DeleteMapping("/requests/interface/{id}")
+    public ResponseEntity<Void> deleteRequestInterface(@PathVariable Long id) {
+        log.debug("REST request to delete Request : {}", id);
+        requestService.virtualDeleteRestricted(id);
         return ResponseEntity
             .noContent()
             .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))

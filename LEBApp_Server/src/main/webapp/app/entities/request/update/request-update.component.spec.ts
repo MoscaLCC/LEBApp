@@ -9,8 +9,6 @@ import { of, Subject } from 'rxjs';
 
 import { RequestService } from '../service/request.service';
 import { IRequest, Request } from '../request.model';
-import { IUserInfo } from 'app/entities/user-info/user-info.model';
-import { UserInfoService } from 'app/entities/user-info/service/user-info.service';
 
 import { RequestUpdateComponent } from './request-update.component';
 
@@ -19,7 +17,6 @@ describe('Request Management Update Component', () => {
   let fixture: ComponentFixture<RequestUpdateComponent>;
   let activatedRoute: ActivatedRoute;
   let requestService: RequestService;
-  let userInfoService: UserInfoService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -33,7 +30,6 @@ describe('Request Management Update Component', () => {
     fixture = TestBed.createComponent(RequestUpdateComponent);
     activatedRoute = TestBed.inject(ActivatedRoute);
     requestService = TestBed.inject(RequestService);
-    userInfoService = TestBed.inject(UserInfoService);
 
     comp = fixture.componentInstance;
   });
@@ -41,38 +37,18 @@ describe('Request Management Update Component', () => {
   describe('ngOnInit', () => {
     it('Should call UserInfo query and add missing value', () => {
       const request: IRequest = { id: 456 };
-      const ownerRequest: IUserInfo = { id: 80661 };
-      request.ownerRequest = ownerRequest;
-      const transporter: IUserInfo = { id: 12264 };
-      request.transporter = transporter;
-
-      const userInfoCollection: IUserInfo[] = [{ id: 96221 }];
-      jest.spyOn(userInfoService, 'query').mockReturnValue(of(new HttpResponse({ body: userInfoCollection })));
-      const additionalUserInfos = [ownerRequest, transporter];
-      const expectedCollection: IUserInfo[] = [...additionalUserInfos, ...userInfoCollection];
-      jest.spyOn(userInfoService, 'addUserInfoToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ request });
       comp.ngOnInit();
-
-      expect(userInfoService.query).toHaveBeenCalled();
-      expect(userInfoService.addUserInfoToCollectionIfMissing).toHaveBeenCalledWith(userInfoCollection, ...additionalUserInfos);
-      expect(comp.userInfosSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should update editForm', () => {
       const request: IRequest = { id: 456 };
-      const ownerRequest: IUserInfo = { id: 47549 };
-      request.ownerRequest = ownerRequest;
-      const transporter: IUserInfo = { id: 83313 };
-      request.transporter = transporter;
 
       activatedRoute.data = of({ request });
       comp.ngOnInit();
 
       expect(comp.editForm.value).toEqual(expect.objectContaining(request));
-      expect(comp.userInfosSharedCollection).toContain(ownerRequest);
-      expect(comp.userInfosSharedCollection).toContain(transporter);
     });
   });
 

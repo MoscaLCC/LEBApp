@@ -7,8 +7,6 @@ import { finalize, map } from 'rxjs/operators';
 
 import { IRequest, Request } from '../request.model';
 import { RequestService } from '../service/request.service';
-import { IUserInfo } from 'app/entities/user-info/user-info.model';
-import { UserInfoService } from 'app/entities/user-info/service/user-info.service';
 import { Status } from 'app/entities/enumerations/status.model';
 
 @Component({
@@ -18,8 +16,6 @@ import { Status } from 'app/entities/enumerations/status.model';
 export class RequestUpdateComponent implements OnInit {
   isSaving = false;
   statusValues = Object.keys(Status);
-
-  userInfosSharedCollection: IUserInfo[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -37,13 +33,12 @@ export class RequestUpdateComponent implements OnInit {
     status: [],
     shippingCosts: [],
     rating: [],
-    ownerRequest: [null, Validators.required],
+    ownerRequest: [],
     transporter: [],
   });
 
   constructor(
     protected requestService: RequestService,
-    protected userInfoService: UserInfoService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
@@ -51,8 +46,6 @@ export class RequestUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ request }) => {
       this.updateForm(request);
-
-      this.loadRelationshipsOptions();
     });
   }
 
@@ -68,10 +61,6 @@ export class RequestUpdateComponent implements OnInit {
     } else {
       this.subscribeToSaveResponse(this.requestService.create(request));
     }
-  }
-
-  trackUserInfoById(index: number, item: IUserInfo): number {
-    return item.id!;
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IRequest>>): void {
@@ -113,28 +102,6 @@ export class RequestUpdateComponent implements OnInit {
       ownerRequest: request.ownerRequest,
       transporter: request.transporter,
     });
-
-    this.userInfosSharedCollection = this.userInfoService.addUserInfoToCollectionIfMissing(
-      this.userInfosSharedCollection,
-      request.ownerRequest,
-      request.transporter
-    );
-  }
-
-  protected loadRelationshipsOptions(): void {
-    this.userInfoService
-      .query()
-      .pipe(map((res: HttpResponse<IUserInfo[]>) => res.body ?? []))
-      .pipe(
-        map((userInfos: IUserInfo[]) =>
-          this.userInfoService.addUserInfoToCollectionIfMissing(
-            userInfos,
-            this.editForm.get('ownerRequest')!.value,
-            this.editForm.get('transporter')!.value
-          )
-        )
-      )
-      .subscribe((userInfos: IUserInfo[]) => (this.userInfosSharedCollection = userInfos));
   }
 
   protected createFromForm(): IRequest {

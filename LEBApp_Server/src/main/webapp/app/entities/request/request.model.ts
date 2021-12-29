@@ -1,4 +1,3 @@
-import { IUserInfo } from 'app/entities/user-info/user-info.model';
 import { Status } from 'app/entities/enumerations/status.model';
 
 export interface IRequest {
@@ -17,8 +16,8 @@ export interface IRequest {
   status?: Status | null;
   shippingCosts?: number | null;
   rating?: number | null;
-  ownerRequest?: IUserInfo;
-  transporter?: IUserInfo | null;
+  ownerRequest?: number | null;
+  transporter?: number | null;
 }
 
 export class Request implements IRequest {
@@ -38,8 +37,8 @@ export class Request implements IRequest {
     public status?: Status | null,
     public shippingCosts?: number | null,
     public rating?: number | null,
-    public ownerRequest?: IUserInfo,
-    public transporter?: IUserInfo | null
+    public ownerRequest?: number | null,
+    public transporter?: number | null
   ) {}
 }
 

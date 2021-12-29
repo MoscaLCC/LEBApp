@@ -86,17 +86,54 @@ public class RequestServiceImpl implements RequestService {
         requestRepository.deleteById(id);
     }
 
+    @Override
+    @Transactional
+    public void virtualDelete(Long id) {
+        log.debug("Request to Virtual Delete Request : {}", id);
+        Optional<Request> optRequest = requestRepository.findById(id);
+        
+        if(optRequest.isPresent()){
+            Request request = optRequest.get();
+            request.setStatus(Status.DELETED);
+            requestRepository.save(request);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void virtualDeleteRestricted(Long id) {
+        log.debug("Request to Virtual Delete Request : {}", id);
+        Optional<Request> optRequest = requestRepository.findById(id);
+        
+        if(optRequest.isPresent()){
+            Request request = optRequest.get();
+            if(request.getStatus().equals(Status.WAITING_COLLECTION)){
+                request.setStatus(Status.DELETED);
+            }
+            requestRepository.save(request);
+        }
+    }
+
     public Boolean inTheCriteria(RequestDTO request, RequestCriteriaDTO criteria){
         if(criteria.getOwnerRequest() != null && !request.getOwnerRequest().equals(Long.valueOf(criteria.getOwnerRequest())))
+            return false;
+        else if(criteria.getTransporter() != null && request.getTransporter() == null)
             return false;
         else if(criteria.getTransporter() != null && !request.getTransporter().equals(Long.valueOf(criteria.getTransporter())))
             return false;
         else if(criteria.getStatus() != null){
             if (criteria.getStatus().equals("OPENED")){
-                if (request.getStatus().toString().equals("CLOSED")){
+                if (request.getStatus().toString().equals("CLOSED") || request.getStatus().toString().equals("DELETED")){
                     return false;
                 } else {
                     return true;
+                }
+            }
+            else if (criteria.getStatus().equals("CLOSED")){
+                if (request.getStatus().toString().equals("CLOSED") || request.getStatus().toString().equals("DELETED")){
+                    return true;
+                } else {
+                    return false;
                 }
             }
             else if (!request.getStatus().toString().equals(criteria.getStatus()))
@@ -151,23 +188,28 @@ public class RequestServiceImpl implements RequestService {
         return sum;
     }
 
+    public Double calculateCosts(RequestDTO request){
+
+        Double dimentionFactor = ((request.getHight() + request.getWidth() + request.getWeight()) / 3) / 100;
+        
+        List<Double> listValues = new ArrayList<>();
+        listValues.add(10.0);
+        listValues.add(dimentionFactor);
+        listValues.add(request.getProductValue());
+        
+        Double max = getMax(listValues);
+        Double sum = getSum(listValues);
+        Double size = Double.valueOf(listValues.size());
+
+        return 2 + ((sum / max) / size);
+    }
+
     @Override
     public RequestDTO prepareNewRequest(RequestDTO request, Long userId){
 
-        Instant expirationsDate = Instant.parse(request.getInitDate()).plus(48, ChronoUnit.HOURS);
-        request.setExpirationDate(expirationsDate.toString());
+        request.setExpirationDate(Instant.parse(request.getInitDate()).plus(48, ChronoUnit.HOURS).toString());
 
-        List<Double> listValues = new ArrayList<>();
-        listValues.add(10.0);
-        listValues.add(request.getHight());
-        listValues.add(request.getWidth());
-        listValues.add(request.getWeight());
-        listValues.add(request.getProductValue());
-
-        Double max = getMax(listValues);
-        Double sum = getSum(listValues);
-        Double costs = sum / max;
-        request.setShippingCosts(costs);
+        request.setShippingCosts(calculateCosts(request));
 
         request.setOwnerRequest(userId);
 

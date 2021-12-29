@@ -14,6 +14,8 @@ export class RequestDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ request }) => {
+      request.expirationDate = request.expirationDate.split("T")[0];
+      request.initDate = request.initDate.split("T")[0];
       this.request = request;
     });
   }
