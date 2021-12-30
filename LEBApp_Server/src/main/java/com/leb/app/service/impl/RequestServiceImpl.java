@@ -188,20 +188,28 @@ public class RequestServiceImpl implements RequestService {
         return sum;
     }
 
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+    
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
+
     public Double calculateCosts(RequestDTO request){
 
         Double dimentionFactor = ((request.getHight() + request.getWidth() + request.getWeight()) / 3) / 100;
         
         List<Double> listValues = new ArrayList<>();
-        listValues.add(10.0);
+        
         listValues.add(dimentionFactor);
         listValues.add(request.getProductValue());
         
-        Double max = getMax(listValues);
         Double sum = getSum(listValues);
         Double size = Double.valueOf(listValues.size());
 
-        return 2 + ((sum / max) / size);
+        return round((1 + Math.cbrt(sum/size)), 2);
     }
 
     @Override
@@ -218,5 +226,36 @@ public class RequestServiceImpl implements RequestService {
         request.setRating(1.5);
 
         return request;
+    }
+
+
+    @Override
+    public RequestDTO objectToUpdate(RequestDTO request, Long requestId){
+
+        Optional<Request> optDbRequest = requestRepository.findById(requestId);
+        Request finalRequest = new Request();
+
+        if(optDbRequest.isPresent()){
+            Request dbRequest = optDbRequest.get();
+            finalRequest.setId(dbRequest.getId());
+            finalRequest.setProductValue(request.getProductValue());
+            finalRequest.setProductName(request.getProductName());
+            finalRequest.setSource(request.getSource());
+            finalRequest.setDestination(request.getDestination());
+            finalRequest.setDestinationContact(request.getDestinationContact());
+            finalRequest.setInitDate(request.getInitDate());
+            finalRequest.setExpirationDate(Instant.parse(request.getInitDate()).plus(48, ChronoUnit.HOURS).toString());
+            finalRequest.setSpecialCharacteristics(request.getSpecialCharacteristics());
+            finalRequest.setWeight(request.getWeight());
+            finalRequest.setHight(request.getHight());
+            finalRequest.setWidth(request.getWidth());
+            finalRequest.setStatus(dbRequest.getStatus());
+            finalRequest.setShippingCosts(calculateCosts(request));
+            finalRequest.setRating(dbRequest.getRating());
+            finalRequest.setOwnerRequest(dbRequest.getOwnerRequest());
+            finalRequest.setTransporter(dbRequest.getTransporter());
+        }
+
+        return requestMapper.toDto(finalRequest);
     }
 }

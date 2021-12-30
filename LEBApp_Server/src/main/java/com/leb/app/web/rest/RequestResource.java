@@ -101,12 +101,11 @@ public class RequestResource {
         if (!Objects.equals(id, requestDTO.getId())) {
             throw new BadRequestAlertException("Invalid ID", ENTITY_NAME, "idinvalid");
         }
-
         if (!requestRepository.existsById(id)) {
             throw new BadRequestAlertException("Entity not found", ENTITY_NAME, "idnotfound");
         }
 
-        RequestDTO result = requestService.save(requestDTO);
+        RequestDTO result = requestService.save(requestService.objectToUpdate(requestDTO, id));
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, requestDTO.getId().toString()))
