@@ -191,4 +191,12 @@ public class RequestResource {
         requestService.assignToUser(requestId, userId);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/requests/rating/{requestId}/{value}/")
+    public ResponseEntity<HttpStatus> updateRating(
+        @PathVariable(value = "requestId", required = true) final Long requestId,
+        @PathVariable(value = "value", required = true) final Double value){
+        requestService.updateRating(requestId, value);
+        return ResponseEntity.ok().build();
+    }
 }

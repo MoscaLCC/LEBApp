@@ -34,4 +34,6 @@ public interface RequestService {
     void virtualDeleteRestricted(Long id);
 
     RequestDTO objectToUpdate(RequestDTO request, Long requestId);
+
+    void updateRating(Long requestId, Double value);
 }

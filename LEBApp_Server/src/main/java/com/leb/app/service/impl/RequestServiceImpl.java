@@ -163,10 +163,18 @@ public class RequestServiceImpl implements RequestService {
     @Transactional
     public void assignToUser(Long requestId, Long userId){
         Request request = requestRepository.findByIdEquals(requestId);
-        log.info("REQUEST: {}", request);
         log.info("RequestID: {}, UserID: {}", requestId, userId);
         request.setTransporter(userId);
         request.setStatus(Status.IN_COLLECTION);
+        requestRepository.save(request);
+    }
+
+    @Override
+    @Transactional
+    public void updateRating(Long requestId, Double value){
+        Request request = requestRepository.findByIdEquals(requestId);
+        log.info("RequestID: {}, UserID: {}", requestId, value);
+        request.setRating(value);
         requestRepository.save(request);
     }
 
