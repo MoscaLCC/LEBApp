@@ -21,10 +21,13 @@ describe('Point Service', () => {
 
     elemDefault = {
       id: 0,
+      name: ' ',
       openingTime: 'AAAAAAA',
       closingTime: 'AAAAAAA',
       address: 'AAAAAAA',
       numberOfDeliveries: 0,
+      status: 0,
+      ownerPoint: 1,
     };
   });
 

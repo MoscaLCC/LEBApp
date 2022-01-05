@@ -21,7 +21,9 @@ public class RequestDTO implements Serializable {
 
     private String destination;
 
-    private String destinationContact;
+    private String destinationContactMobile;
+
+    private String destinationContactEmail;
 
     private String initDate;
 
@@ -85,12 +87,22 @@ public class RequestDTO implements Serializable {
         this.destination = destination;
     }
 
-    public String getDestinationContact() {
-        return destinationContact;
+    
+
+    public String getDestinationContactMobile() {
+        return destinationContactMobile;
     }
 
-    public void setDestinationContact(String destinationContact) {
-        this.destinationContact = destinationContact;
+    public void setDestinationContactMobile(String destinationContactMobile) {
+        this.destinationContactMobile = destinationContactMobile;
+    }
+
+    public String getDestinationContactEmail() {
+        return destinationContactEmail;
+    }
+
+    public void setDestinationContactEmail(String destinationContactEmail) {
+        this.destinationContactEmail = destinationContactEmail;
     }
 
     public String getInitDate() {
@@ -211,7 +223,8 @@ public class RequestDTO implements Serializable {
             ", productName='" + getProductName() + "'" +
             ", source='" + getSource() + "'" +
             ", destination='" + getDestination() + "'" +
-            ", destinationContact='" + getDestinationContact() + "'" +
+            ", destinationContact='" + getDestinationContactEmail() + "'" +
+            ", destinationContact='" + getDestinationContactMobile() + "'" +
             ", initDate='" + getInitDate() + "'" +
             ", expirationDate='" + getExpirationDate() + "'" +
             ", specialCharacteristics='" + getSpecialCharacteristics() + "'" +

@@ -102,7 +102,7 @@ public class RequestQueryService extends QueryService<Request> {
                 specification = specification.and(buildStringSpecification(criteria.getDestination(), Request_.destination));
             }
             if (criteria.getDestinationContact() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getDestinationContact(), Request_.destinationContact));
+                specification = specification.and(buildStringSpecification(criteria.getDestinationContact(), Request_.destinationContactEmail));
             }
             if (criteria.getInitDate() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getInitDate(), Request_.initDate));

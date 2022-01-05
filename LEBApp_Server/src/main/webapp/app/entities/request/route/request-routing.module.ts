@@ -18,6 +18,9 @@ const requestRoute: Routes = [
   },
   {
     path: ':id/view',
+    data: {
+      authorities: [],
+    },
     component: RequestDetailComponent,
     resolve: {
       request: RequestRoutingResolveService,

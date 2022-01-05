@@ -88,8 +88,9 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     @Transactional
-    public void virtualDelete(Long id) {
+    public Boolean virtualDelete(Long id) {
         log.debug("Request to Virtual Delete Request : {}", id);
+        Boolean flag = false;
         Optional<Request> optRequest = requestRepository.findById(id);
         
         if(optRequest.isPresent()){
@@ -97,12 +98,15 @@ public class RequestServiceImpl implements RequestService {
             request.setStatus(Status.DELETED);
             requestRepository.save(request);
         }
+        flag = true;
+        return flag;
     }
 
     @Override
     @Transactional
-    public void virtualDeleteRestricted(Long id) {
+    public Boolean virtualDeleteRestricted(Long id) {
         log.debug("Request to Virtual Delete Request : {}", id);
+        Boolean flag = false;
         Optional<Request> optRequest = requestRepository.findById(id);
         
         if(optRequest.isPresent()){
@@ -112,6 +116,8 @@ public class RequestServiceImpl implements RequestService {
             }
             requestRepository.save(request);
         }
+        flag = true;
+        return flag;
     }
 
     public Boolean inTheCriteria(RequestDTO request, RequestCriteriaDTO criteria){
@@ -161,21 +167,55 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     @Transactional
-    public void assignToUser(Long requestId, Long userId){
+    public Boolean assignToUser(Long requestId, Long userId){
+        Boolean flag = false;
         Request request = requestRepository.findByIdEquals(requestId);
         log.info("RequestID: {}, UserID: {}", requestId, userId);
         request.setTransporter(userId);
         request.setStatus(Status.IN_COLLECTION);
         requestRepository.save(request);
+        flag = true;
+        return flag;
     }
 
     @Override
     @Transactional
-    public void updateRating(Long requestId, Double value){
+    public Boolean inTransit(Long requestId, Long code){
+        Request request = requestRepository.findByIdEquals(requestId);
+        Boolean flag = false;
+        log.info("RequestID: {}, Code: {}", requestId, code);
+        if (request.getOwnerRequest().equals(code)){
+            request.setStatus(Status.IN_TRANSIT);
+            requestRepository.save(request);
+            flag = true;
+        }
+        return flag;
+    }
+
+    @Override
+    @Transactional
+    public Boolean closeRequest(Long requestId, Long code){
+        Request request = requestRepository.findByIdEquals(requestId);
+        Boolean flag = false;
+        log.info("RequestID: {}, Code: {}", requestId, code);
+        if (request.getOwnerRequest().equals(code)){
+            request.setStatus(Status.CLOSED);
+            requestRepository.save(request);
+            flag = true;
+        }
+        return flag;
+    }
+
+    @Override
+    @Transactional
+    public Boolean updateRating(Long requestId, Double value){
+        Boolean flag = false; 
         Request request = requestRepository.findByIdEquals(requestId);
         log.info("RequestID: {}, UserID: {}", requestId, value);
         request.setRating(value);
         requestRepository.save(request);
+        flag = true;
+        return flag;
     }
 
     public Double getMax(List<Double> values){
@@ -250,7 +290,8 @@ public class RequestServiceImpl implements RequestService {
             finalRequest.setProductName(request.getProductName());
             finalRequest.setSource(request.getSource());
             finalRequest.setDestination(request.getDestination());
-            finalRequest.setDestinationContact(request.getDestinationContact());
+            finalRequest.setDestinationContactEmail(request.getDestinationContactEmail());
+            finalRequest.setDestinationContactMobile(request.getDestinationContactMobile());
             finalRequest.setInitDate(request.getInitDate());
             finalRequest.setExpirationDate(Instant.parse(request.getInitDate()).plus(48, ChronoUnit.HOURS).toString());
             finalRequest.setSpecialCharacteristics(request.getSpecialCharacteristics());

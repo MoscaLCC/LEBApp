@@ -12,6 +12,11 @@
         </div>
 
         <div class="form-group">
+          <label class="form-control-label" for="field_name">Name</label>
+          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+        </div>
+
+        <div class="form-group">
           <label class="form-control-label" for="field_openingTime">Opening Time</label>
           <input
             type="text"
@@ -53,24 +58,22 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" for="field_ownerPoint">Owner Point</label>
-          <select class="form-control" id="field_ownerPoint" data-cy="ownerPoint" name="ownerPoint" formControlName="ownerPoint">
-            <option *ngIf="!editForm.get('ownerPoint')!.value" [ngValue]="null" selected></option>
-            <option
-              [ngValue]="userInfoOption.id === editForm.get('ownerPoint')!.value?.id ? editForm.get('ownerPoint')!.value : userInfoOption"
-              *ngFor="let userInfoOption of userInfosSharedCollection; trackBy: trackUserInfoById"
-            >
-              {{ userInfoOption.id }}
-            </option>
-          </select>
+          <label class="form-control-label" for="field_status">Status</label>
+          <input type="number" class="form-control" name="status" id="field_status" data-cy="status" formControlName="status" />
         </div>
-        <div
-          *ngIf="editForm.get(['ownerPoint'])!.invalid && (editForm.get(['ownerPoint'])!.dirty || editForm.get(['ownerPoint'])!.touched)"
-        >
-          <small class="form-text text-danger" *ngIf="editForm.get(['ownerPoint'])?.errors?.required"> This field is required. </small>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_ownerPoint">Owner Point</label>
+          <input
+            type="number"
+            class="form-control"
+            name="ownerPoint"
+            id="field_ownerPoint"
+            data-cy="ownerPoint"
+            formControlName="ownerPoint"
+          />
         </div>
       </div>
-
       <div>
         <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
           <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>

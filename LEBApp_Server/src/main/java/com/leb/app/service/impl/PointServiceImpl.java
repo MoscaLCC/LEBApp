@@ -73,4 +73,16 @@ public class PointServiceImpl implements PointService {
         log.debug("Request to delete Point : {}", id);
         pointRepository.deleteById(id);
     }
+
+    @Override
+    public PointDTO prepareNewPoint(PointDTO point, Long userId){
+
+        point.setStatus(Long.valueOf(0));
+
+        point.setNumberOfDeliveries(0);
+
+        point.setOwnerPoint(userId);
+
+        return point;
+    }
 }

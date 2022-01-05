@@ -7,8 +7,6 @@ import { finalize, map } from 'rxjs/operators';
 
 import { IPoint, Point } from '../point.model';
 import { PointService } from '../service/point.service';
-import { IUserInfo } from 'app/entities/user-info/user-info.model';
-import { UserInfoService } from 'app/entities/user-info/service/user-info.service';
 
 @Component({
   selector: 'jhi-point-update',
@@ -17,20 +15,19 @@ import { UserInfoService } from 'app/entities/user-info/service/user-info.servic
 export class PointUpdateComponent implements OnInit {
   isSaving = false;
 
-  userInfosSharedCollection: IUserInfo[] = [];
-
   editForm = this.fb.group({
     id: [],
+    name: [],
     openingTime: [],
     closingTime: [],
     address: [],
     numberOfDeliveries: [],
-    ownerPoint: [null, Validators.required],
+    status: [],
+    ownerPoint: [],
   });
 
   constructor(
     protected pointService: PointService,
-    protected userInfoService: UserInfoService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
@@ -38,8 +35,6 @@ export class PointUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ point }) => {
       this.updateForm(point);
-
-      this.loadRelationshipsOptions();
     });
   }
 
@@ -55,10 +50,6 @@ export class PointUpdateComponent implements OnInit {
     } else {
       this.subscribeToSaveResponse(this.pointService.create(point));
     }
-  }
-
-  trackUserInfoById(index: number, item: IUserInfo): number {
-    return item.id!;
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IPoint>>): void {
@@ -83,39 +74,26 @@ export class PointUpdateComponent implements OnInit {
   protected updateForm(point: IPoint): void {
     this.editForm.patchValue({
       id: point.id,
+      name: point.name,
       openingTime: point.openingTime,
       closingTime: point.closingTime,
       address: point.address,
       numberOfDeliveries: point.numberOfDeliveries,
+      status: point.status,
       ownerPoint: point.ownerPoint,
     });
-
-    this.userInfosSharedCollection = this.userInfoService.addUserInfoToCollectionIfMissing(
-      this.userInfosSharedCollection,
-      point.ownerPoint
-    );
-  }
-
-  protected loadRelationshipsOptions(): void {
-    this.userInfoService
-      .query()
-      .pipe(map((res: HttpResponse<IUserInfo[]>) => res.body ?? []))
-      .pipe(
-        map((userInfos: IUserInfo[]) =>
-          this.userInfoService.addUserInfoToCollectionIfMissing(userInfos, this.editForm.get('ownerPoint')!.value)
-        )
-      )
-      .subscribe((userInfos: IUserInfo[]) => (this.userInfosSharedCollection = userInfos));
   }
 
   protected createFromForm(): IPoint {
     return {
       ...new Point(),
       id: this.editForm.get(['id'])!.value,
+      name: this.editForm.get(['name'])!.value,
       openingTime: this.editForm.get(['openingTime'])!.value,
       closingTime: this.editForm.get(['closingTime'])!.value,
       address: this.editForm.get(['address'])!.value,
       numberOfDeliveries: this.editForm.get(['numberOfDeliveries'])!.value,
+      status: this.editForm.get(['status'])!.value,
       ownerPoint: this.editForm.get(['ownerPoint'])!.value,
     };
   }

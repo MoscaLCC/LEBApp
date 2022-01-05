@@ -9,8 +9,6 @@ import { of, Subject } from 'rxjs';
 
 import { PointService } from '../service/point.service';
 import { IPoint, Point } from '../point.model';
-import { IUserInfo } from 'app/entities/user-info/user-info.model';
-import { UserInfoService } from 'app/entities/user-info/service/user-info.service';
 
 import { PointUpdateComponent } from './point-update.component';
 
@@ -19,7 +17,6 @@ describe('Point Management Update Component', () => {
   let fixture: ComponentFixture<PointUpdateComponent>;
   let activatedRoute: ActivatedRoute;
   let pointService: PointService;
-  let userInfoService: UserInfoService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -33,42 +30,8 @@ describe('Point Management Update Component', () => {
     fixture = TestBed.createComponent(PointUpdateComponent);
     activatedRoute = TestBed.inject(ActivatedRoute);
     pointService = TestBed.inject(PointService);
-    userInfoService = TestBed.inject(UserInfoService);
 
     comp = fixture.componentInstance;
-  });
-
-  describe('ngOnInit', () => {
-    it('Should call UserInfo query and add missing value', () => {
-      const point: IPoint = { id: 456 };
-      const ownerPoint: IUserInfo = { id: 45174 };
-      point.ownerPoint = ownerPoint;
-
-      const userInfoCollection: IUserInfo[] = [{ id: 92853 }];
-      jest.spyOn(userInfoService, 'query').mockReturnValue(of(new HttpResponse({ body: userInfoCollection })));
-      const additionalUserInfos = [ownerPoint];
-      const expectedCollection: IUserInfo[] = [...additionalUserInfos, ...userInfoCollection];
-      jest.spyOn(userInfoService, 'addUserInfoToCollectionIfMissing').mockReturnValue(expectedCollection);
-
-      activatedRoute.data = of({ point });
-      comp.ngOnInit();
-
-      expect(userInfoService.query).toHaveBeenCalled();
-      expect(userInfoService.addUserInfoToCollectionIfMissing).toHaveBeenCalledWith(userInfoCollection, ...additionalUserInfos);
-      expect(comp.userInfosSharedCollection).toEqual(expectedCollection);
-    });
-
-    it('Should update editForm', () => {
-      const point: IPoint = { id: 456 };
-      const ownerPoint: IUserInfo = { id: 80629 };
-      point.ownerPoint = ownerPoint;
-
-      activatedRoute.data = of({ point });
-      comp.ngOnInit();
-
-      expect(comp.editForm.value).toEqual(expect.objectContaining(point));
-      expect(comp.userInfosSharedCollection).toContain(ownerPoint);
-    });
   });
 
   describe('save', () => {
@@ -132,16 +95,6 @@ describe('Point Management Update Component', () => {
       expect(pointService.update).toHaveBeenCalledWith(point);
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('Tracking relationships identifiers', () => {
-    describe('trackUserInfoById', () => {
-      it('Should return tracked UserInfo primary key', () => {
-        const entity = { id: 123 };
-        const trackResult = comp.trackUserInfoById(0, entity);
-        expect(trackResult).toEqual(entity.id);
-      });
     });
   });
 });

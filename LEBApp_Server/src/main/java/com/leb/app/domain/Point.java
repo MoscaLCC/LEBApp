@@ -21,6 +21,9 @@ public class Point implements Serializable {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "opening_time")
     private String openingTime;
 
@@ -35,6 +38,9 @@ public class Point implements Serializable {
 
     @Column(name = "owner_point")
     private Long ownerPoint;
+
+    @Column(name = "status")
+    private Long status;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -116,7 +122,25 @@ public class Point implements Serializable {
         return this;
     }
 
+    
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getStatus() {
+        return status;
+    }
+
+    public void setStatus(Long status) {
+        this.status = status;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -140,9 +164,11 @@ public class Point implements Serializable {
     public String toString() {
         return "Point{" +
             "id=" + getId() +
+            ", name='" + getName() + "'" +
             ", openingTime='" + getOpeningTime() + "'" +
             ", closingTime='" + getClosingTime() + "'" +
             ", address='" + getAddress() + "'" +
+            ", status=" + getStatus() +
             ", numberOfDeliveries=" + getNumberOfDeliveries() +
             "}";
     }

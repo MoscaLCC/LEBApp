@@ -16,18 +16,22 @@ import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import com.leb.app.service.MailService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.expression.spel.CodeFlow;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import javassist.CodeConverter;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -51,11 +55,14 @@ public class RequestResource {
 
     private final UserService userService;
 
-    public RequestResource(RequestService requestService, RequestRepository requestRepository, RequestQueryService requestQueryService, UserService userService) {
+    private final MailService mailService;
+
+    public RequestResource(RequestService requestService, RequestRepository requestRepository, RequestQueryService requestQueryService, UserService userService, MailService mailService) {
         this.requestService = requestService;
         this.requestRepository = requestRepository;
         this.requestQueryService = requestQueryService;
         this.userService = userService;
+        this.mailService = mailService;
     }
 
     public Long getCurrentUser(){
@@ -79,6 +86,12 @@ public class RequestResource {
         if(clientId != null){
             requestDTO = requestService.prepareNewRequest(requestDTO, clientId);
             RequestDTO result = requestService.save(requestDTO);
+            
+            String subject = "LEB New Request Nº" + result.getId();
+            String content = "Hello!!\n\nFoi registado na nossa aplicação um pedido de entraga para ti!\n\nNº do pedido:" + result.getId() + 
+            "\n\nDeve entregar este codigo ao transportador: \n" + result.getOwnerRequest() + "\n\n\nObriado pela sua preferencia,\n Equipa LEB.";
+
+            mailService.sendEmail(result.getDestinationContactEmail(), subject, content, false, false);
             return ResponseEntity
                 .created(new URI("/api/requests/" + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
@@ -157,7 +170,9 @@ public class RequestResource {
         return ResponseEntity.ok().body(requestQueryService.countByCriteria(criteria));
     }
 
+
     @GetMapping("/requests/{id}")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<RequestDTO> getRequest(@PathVariable Long id) {
         log.debug("REST request to get Request : {}", id);
         Optional<RequestDTO> requestDTO = requestService.findOne(id);
@@ -167,36 +182,70 @@ public class RequestResource {
     @DeleteMapping("/requests/{id}")
     public ResponseEntity<Void> deleteRequest(@PathVariable Long id) {
         log.debug("REST request to delete Request : {}", id);
-        requestService.virtualDelete(id);
-        return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-            .build();
+        if(requestService.virtualDelete(id)){
+            return ResponseEntity
+                .noContent()
+                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+                .build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @DeleteMapping("/requests/interface/{id}")
     public ResponseEntity<Void> deleteRequestInterface(@PathVariable Long id) {
         log.debug("REST request to delete Request : {}", id);
-        requestService.virtualDeleteRestricted(id);
-        return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-            .build();
+        if(requestService.virtualDeleteRestricted(id)){
+            return ResponseEntity
+                .noContent()
+                .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+                .build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PutMapping("/requests/{requestId}/{userId}/assign")
     public ResponseEntity<HttpStatus> assignToUser(
         @PathVariable(value = "requestId", required = true) final Long requestId,
         @PathVariable(value = "userId", required = true) final Long userId){
-        requestService.assignToUser(requestId, userId);
-        return ResponseEntity.ok().build();
+        if(requestService.assignToUser(requestId, userId)){
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping("/requests/{requestId}/{code}/transit")
+    public ResponseEntity<HttpStatus> inTransit(
+        @PathVariable(value = "requestId", required = true) final Long requestId,
+        @PathVariable(value = "code", required = true) final Long code){
+        if(requestService.inTransit(requestId, code)){
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PutMapping("/requests/rating/{requestId}/{value}/")
     public ResponseEntity<HttpStatus> updateRating(
         @PathVariable(value = "requestId", required = true) final Long requestId,
         @PathVariable(value = "value", required = true) final Double value){
-        requestService.updateRating(requestId, value);
-        return ResponseEntity.ok().build();
+        if(requestService.updateRating(requestId, value)){
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping("/requests/close/{requestId}/{code}/")
+    public ResponseEntity<HttpStatus> closeRequest(
+        @PathVariable(value = "requestId", required = true) final Long requestId,
+        @PathVariable(value = "code", required = true) final Long code){
+        if(requestService.closeRequest(requestId, code)){
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 }

@@ -3,7 +3,9 @@ package com.leb.app.web.rest;
 import com.leb.app.repository.PointRepository;
 import com.leb.app.service.PointQueryService;
 import com.leb.app.service.PointService;
+import com.leb.app.service.UserService;
 import com.leb.app.service.criteria.PointCriteria;
+import com.leb.app.service.dto.AdminUserDTO;
 import com.leb.app.service.dto.PointDTO;
 import com.leb.app.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -46,25 +48,37 @@ public class PointResource {
 
     private final PointQueryService pointQueryService;
 
-    public PointResource(PointService pointService, PointRepository pointRepository, PointQueryService pointQueryService) {
+    private final UserService userService;
+
+    public PointResource(PointService pointService, PointRepository pointRepository, PointQueryService pointQueryService, UserService userService) {
         this.pointService = pointService;
         this.pointRepository = pointRepository;
         this.pointQueryService = pointQueryService;
+        this.userService = userService;
     }
 
-    /**
-     * {@code POST  /points} : Create a new point.
-     *
-     * @param pointDTO the pointDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new pointDTO, or with status {@code 400 (Bad Request)} if the point has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
+    public Long getCurrentUser(){
+        Optional<AdminUserDTO> userLogin = userService
+        .getUserWithAuthorities()
+        .map(AdminUserDTO::new);
+
+        Long clientId = null;
+        if (userLogin.isPresent()) {
+            clientId = userLogin.get().getId();
+        }
+        return clientId;
+    }
+
     @PostMapping("/points")
     public ResponseEntity<PointDTO> createPoint(@Valid @RequestBody PointDTO pointDTO) throws URISyntaxException {
         log.debug("REST request to save Point : {}", pointDTO);
+
+        Long clientId = this.getCurrentUser();
+        pointDTO = pointService.prepareNewPoint(pointDTO, clientId);
         if (pointDTO.getId() != null) {
             throw new BadRequestAlertException("A new point cannot already have an ID", ENTITY_NAME, "idexists");
         }
+
         PointDTO result = pointService.save(pointDTO);
         return ResponseEntity
             .created(new URI("/api/points/" + result.getId()))
@@ -72,16 +86,6 @@ public class PointResource {
             .body(result);
     }
 
-    /**
-     * {@code PUT  /points/:id} : Updates an existing point.
-     *
-     * @param id the id of the pointDTO to save.
-     * @param pointDTO the pointDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated pointDTO,
-     * or with status {@code 400 (Bad Request)} if the pointDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the pointDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
     @PutMapping("/points/{id}")
     public ResponseEntity<PointDTO> updatePoint(
         @PathVariable(value = "id", required = false) final Long id,

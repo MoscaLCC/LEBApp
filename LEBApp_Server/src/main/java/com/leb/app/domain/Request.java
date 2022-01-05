@@ -34,8 +34,11 @@ public class Request implements Serializable {
     @Column(name = "destination")
     private String destination;
 
-    @Column(name = "destination_contact")
-    private String destinationContact;
+    @Column(name = "destination_contact_mobile")
+    private String destinationContactMobile;
+
+    @Column(name = "destination_contact_email")
+    private String destinationContactEmail;
 
     @Column(name = "init_date")
     private String initDate;
@@ -136,19 +139,6 @@ public class Request implements Serializable {
 
     public void setDestination(String destination) {
         this.destination = destination;
-    }
-
-    public String getDestinationContact() {
-        return this.destinationContact;
-    }
-
-    public Request destinationContact(String destinationContact) {
-        this.setDestinationContact(destinationContact);
-        return this;
-    }
-
-    public void setDestinationContact(String destinationContact) {
-        this.destinationContact = destinationContact;
     }
 
     public String getInitDate() {
@@ -281,6 +271,22 @@ public class Request implements Serializable {
         return this;
     }
 
+    public String getDestinationContactMobile() {
+        return destinationContactMobile;
+    }
+
+    public void setDestinationContactMobile(String destinationContactMobile) {
+        this.destinationContactMobile = destinationContactMobile;
+    }
+
+    public String getDestinationContactEmail() {
+        return destinationContactEmail;
+    }
+
+    public void setDestinationContactEmail(String destinationContactEmail) {
+        this.destinationContactEmail = destinationContactEmail;
+    }
+
     public Long getTransporter() {
         return this.transporter;
     }
@@ -322,7 +328,6 @@ public class Request implements Serializable {
             ", productName='" + getProductName() + "'" +
             ", source='" + getSource() + "'" +
             ", destination='" + getDestination() + "'" +
-            ", destinationContact='" + getDestinationContact() + "'" +
             ", initDate='" + getInitDate() + "'" +
             ", expirationDate='" + getExpirationDate() + "'" +
             ", specialCharacteristics='" + getSpecialCharacteristics() + "'" +
@@ -332,6 +337,8 @@ public class Request implements Serializable {
             ", status='" + getStatus() + "'" +
             ", shippingCosts=" + getShippingCosts() +
             ", rating=" + getRating() +
+            ", destinationContactEmail=" + getDestinationContactEmail() +
+            ", rating=" + getDestinationContactMobile() +
             "}";
     }
 }

@@ -14,6 +14,10 @@
         <dd>
           <span>{{ point.id }}</span>
         </dd>
+        <dt><span>Name</span></dt>
+        <dd>
+          <span>{{ point.name }}</span>
+        </dd>
         <dt><span>Opening Time</span></dt>
         <dd>
           <span>{{ point.openingTime }}</span>
@@ -30,11 +34,13 @@
         <dd>
           <span>{{ point.numberOfDeliveries }}</span>
         </dd>
+        <dt><span>Status</span></dt>
+        <dd>
+          <span>{{ point.status }}</span>
+        </dd>
         <dt><span>Owner Point</span></dt>
         <dd>
-          <div *ngIf="point.ownerPoint">
-            <a [routerLink]="['/user-info', point.ownerPoint?.id, 'view']">{{ point.ownerPoint?.id }}</a>
-          </div>
+          <span>{{ point.ownerPoint }}</span>
         </dd>
       </dl>
 

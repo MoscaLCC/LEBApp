@@ -10,6 +10,8 @@ public class PointDTO implements Serializable {
 
     private Long id;
 
+    private String name;
+
     private String openingTime;
 
     private String closingTime;
@@ -19,6 +21,8 @@ public class PointDTO implements Serializable {
     private Integer numberOfDeliveries;
 
     private Long ownerPoint;
+
+    private Long status;
 
     public Long getId() {
         return id;
@@ -60,12 +64,28 @@ public class PointDTO implements Serializable {
         this.numberOfDeliveries = numberOfDeliveries;
     }
 
+    public Long getStatus() {
+        return status;
+    }
+
+    public void setStatus(Long status) {
+        this.status = status;
+    }
+
     public Long getOwnerPoint() {
         return ownerPoint;
     }
 
     public void setOwnerPoint(Long ownerPoint) {
         this.ownerPoint = ownerPoint;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -94,10 +114,12 @@ public class PointDTO implements Serializable {
     public String toString() {
         return "PointDTO{" +
             "id=" + getId() +
+            ", name='" + getName() + "'" +
             ", openingTime='" + getOpeningTime() + "'" +
             ", closingTime='" + getClosingTime() + "'" +
             ", address='" + getAddress() + "'" +
             ", numberOfDeliveries=" + getNumberOfDeliveries() +
+            ", status=" + getStatus() +
             ", ownerPoint=" + getOwnerPoint() +
             "}";
     }

@@ -25,15 +25,19 @@ public interface RequestService {
 
     List<RequestDTO> findAllByCriteria(RequestCriteriaDTO criteria);
 
-    void assignToUser(Long requestId, Long userId);
+    Boolean assignToUser(Long requestId, Long userId);
 
     RequestDTO prepareNewRequest(RequestDTO request, Long userId);
 
-    void virtualDelete(Long id);
+    Boolean virtualDelete(Long id);
 
-    void virtualDeleteRestricted(Long id);
+    Boolean virtualDeleteRestricted(Long id);
 
     RequestDTO objectToUpdate(RequestDTO request, Long requestId);
 
-    void updateRating(Long requestId, Double value);
+    Boolean updateRating(Long requestId, Double value);
+
+    Boolean inTransit(Long requestId, Long code);
+
+    Boolean closeRequest(Long requestId, Long code);
 }

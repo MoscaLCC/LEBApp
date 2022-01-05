@@ -33,11 +33,13 @@
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
           <th scope="col" jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="name"><span>Name</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="openingTime"><span>Opening Time</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="closingTime"><span>Closing Time</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="address"><span>Address</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="numberOfDeliveries"><span>Number Of Deliveries</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="ownerPoint.id"><span>Owner Point</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="status"><span>Status</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="ownerPoint"><span>Owner Point</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -46,15 +48,13 @@
           <td>
             <a [routerLink]="['/point', point.id, 'view']">{{ point.id }}</a>
           </td>
+          <td>{{ point.name }}</td>
           <td>{{ point.openingTime }}</td>
           <td>{{ point.closingTime }}</td>
           <td>{{ point.address }}</td>
           <td>{{ point.numberOfDeliveries }}</td>
-          <td>
-            <div *ngIf="point.ownerPoint">
-              <a [routerLink]="['/user-info', point.ownerPoint?.id, 'view']">{{ point.ownerPoint?.id }}</a>
-            </div>
-          </td>
+          <td>{{ point.status }}</td>
+          <td>{{ point.ownerPoint }}</td>
           <td class="text-right">
             <div class="btn-group">
               <button type="submit" [routerLink]="['/point', point.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
