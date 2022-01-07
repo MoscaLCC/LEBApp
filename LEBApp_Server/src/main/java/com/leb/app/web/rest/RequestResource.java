@@ -8,6 +8,7 @@ import com.leb.app.service.criteria.RequestCriteria;
 import com.leb.app.service.dto.AdminUserDTO;
 import com.leb.app.service.dto.RequestCriteriaDTO;
 import com.leb.app.service.dto.RequestDTO;
+import com.leb.app.service.mapper.RequestMapper;
 import com.leb.app.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -23,7 +24,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.expression.spel.CodeFlow;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +31,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javassist.CodeConverter;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -57,12 +56,15 @@ public class RequestResource {
 
     private final MailService mailService;
 
-    public RequestResource(RequestService requestService, RequestRepository requestRepository, RequestQueryService requestQueryService, UserService userService, MailService mailService) {
+    private final RequestMapper requestMapper;
+
+    public RequestResource(RequestService requestService, RequestRepository requestRepository, RequestQueryService requestQueryService, UserService userService, MailService mailService, RequestMapper requestMapper) {
         this.requestService = requestService;
         this.requestRepository = requestRepository;
         this.requestQueryService = requestQueryService;
         this.userService = userService;
         this.mailService = mailService;
+        this.requestMapper = requestMapper;
     }
 
     public Long getCurrentUser(){
@@ -86,6 +88,8 @@ public class RequestResource {
         if(clientId != null){
             requestDTO = requestService.prepareNewRequest(requestDTO, clientId);
             RequestDTO result = requestService.save(requestDTO);
+
+            requestService.initBalance(requestMapper.toEntity(result));
             
             String subject = "LEB New Request Nº" + result.getId();
             String content = "Hello!!\n\nFoi registado na nossa aplicação um pedido de entraga para ti!\n\nNº do pedido:" + result.getId() + 

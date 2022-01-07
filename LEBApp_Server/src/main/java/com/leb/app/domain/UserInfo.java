@@ -46,8 +46,11 @@ public class UserInfo implements Serializable {
     @Column(name = "payed_value")
     private Double payedValue;
 
-    @Column(name = "value_to_pay")
-    private Double valueToPay;
+    @Column(name = "available_balance")
+    private Double availableBalance;
+
+    @Column(name = "frozen_balance")
+    private Double frozenBalance;
 
     @Column(name = "ranking")
     private Double ranking;
@@ -57,6 +60,9 @@ public class UserInfo implements Serializable {
 
     @Column(name = "number_of_km")
     private Double numberOfKm;
+
+    @Column(name = "user_id")
+    private Long userId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -177,19 +183,6 @@ public class UserInfo implements Serializable {
         this.payedValue = payedValue;
     }
 
-    public Double getValueToPay() {
-        return this.valueToPay;
-    }
-
-    public UserInfo valueToPay(Double valueToPay) {
-        this.setValueToPay(valueToPay);
-        return this;
-    }
-
-    public void setValueToPay(Double valueToPay) {
-        this.valueToPay = valueToPay;
-    }
-
     public Double getRanking() {
         return this.ranking;
     }
@@ -231,6 +224,30 @@ public class UserInfo implements Serializable {
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
+    public Double getAvailableBalance() {
+        return availableBalance;
+    }
+
+    public void setAvailableBalance(Double availableBalance) {
+        this.availableBalance = availableBalance;
+    }
+
+    public Double getFrozenBalance() {
+        return frozenBalance;
+    }
+
+    public void setFrozenBalance(Double frozenBalance) {
+        this.frozenBalance = frozenBalance;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -248,23 +265,16 @@ public class UserInfo implements Serializable {
         return getClass().hashCode();
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
-        return "UserInfo{" +
-            "id=" + getId() +
-            ", phoneNumber='" + getPhoneNumber() + "'" +
-            ", nib='" + getNib() + "'" +
-            ", nif=" + getNif() +
-            ", birthday='" + getBirthday() + "'" +
-            ", address='" + getAddress() + "'" +
-            ", linkSocial='" + getLinkSocial() + "'" +
-            ", numberRequests=" + getNumberRequests() +
-            ", payedValue=" + getPayedValue() +
-            ", valueToPay=" + getValueToPay() +
-            ", ranking=" + getRanking() +
-            ", numberOfDeliveries=" + getNumberOfDeliveries() +
-            ", numberOfKm=" + getNumberOfKm() +
-            "}";
+        return "UserInfo [address=" + address + ", availableBalance=" + availableBalance + ", birthday=" + birthday
+                + ", frozenBalance=" + frozenBalance + ", id=" + id + ", linkSocial=" + linkSocial + ", nib=" + nib
+                + ", nif=" + nif + ", numberOfDeliveries=" + numberOfDeliveries + ", numberOfKm=" + numberOfKm
+                + ", numberRequests=" + numberRequests + ", payedValue=" + payedValue + ", phoneNumber=" + phoneNumber
+                + ", ranking=" + ranking + ", userId=" + userId + "]";
     }
+
+
+    
+
 }

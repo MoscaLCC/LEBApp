@@ -1,8 +1,10 @@
 package com.leb.app.service.impl;
 
 import com.leb.app.domain.Request;
+import com.leb.app.domain.UserInfo;
 import com.leb.app.domain.enumeration.Status;
 import com.leb.app.repository.RequestRepository;
+import com.leb.app.repository.UserInfoRepository;
 import com.leb.app.service.RequestService;
 import com.leb.app.service.dto.RequestCriteriaDTO;
 import com.leb.app.service.dto.RequestDTO;
@@ -35,9 +37,12 @@ public class RequestServiceImpl implements RequestService {
 
     private final RequestMapper requestMapper;
 
-    public RequestServiceImpl(RequestRepository requestRepository, RequestMapper requestMapper) {
+    private final UserInfoRepository userInfoRepository;
+
+    public RequestServiceImpl(RequestRepository requestRepository, RequestMapper requestMapper, UserInfoRepository userInfoRepository) {
         this.requestRepository = requestRepository;
         this.requestMapper = requestMapper;
+        this.userInfoRepository = userInfoRepository;
     }
 
     @Override
@@ -167,6 +172,46 @@ public class RequestServiceImpl implements RequestService {
 
     @Override
     @Transactional
+    public void initBalance(Request request){
+        List<UserInfo> userInfoList = userInfoRepository.findAll();
+        for(UserInfo user : userInfoList){
+            if(request.getOwnerRequest().equals(user.getUserId())){
+                user.setFrozenBalance(user.getFrozenBalance() - request.getShippingCosts());
+            }
+            userInfoRepository.save(user);
+        }
+    }
+
+    @Transactional
+    public void midBalance(Request request){
+        List<UserInfo> userInfoList = userInfoRepository.findAll();
+        for(UserInfo user : userInfoList){
+            if(request.getTransporter().equals(user.getUserId())){
+                user.setFrozenBalance(user.getFrozenBalance() + request.getShippingCosts());
+            }
+            userInfoRepository.save(user);
+        }
+    }
+
+    @Transactional
+    public void endBalance(Request request){
+        List<UserInfo> userInfoList = userInfoRepository.findAll();
+        for(UserInfo user : userInfoList){
+            if(request.getOwnerRequest().equals(user.getUserId())){
+                user.setAvailableBalance(user.getAvailableBalance() - request.getShippingCosts());
+                user.setFrozenBalance(user.getFrozenBalance() + request.getShippingCosts());
+            }
+            if(request.getTransporter().equals(user.getUserId())){
+                user.setAvailableBalance(user.getAvailableBalance() + request.getShippingCosts());
+                user.setPayedValue(user.getPayedValue() + request.getShippingCosts());
+                user.setFrozenBalance(user.getFrozenBalance() - request.getShippingCosts());
+            }
+            userInfoRepository.save(user);
+        }
+    }
+
+    @Override
+    @Transactional
     public Boolean assignToUser(Long requestId, Long userId){
         Boolean flag = false;
         Request request = requestRepository.findByIdEquals(requestId);
@@ -187,6 +232,7 @@ public class RequestServiceImpl implements RequestService {
         if (request.getOwnerRequest().equals(code)){
             request.setStatus(Status.IN_TRANSIT);
             requestRepository.save(request);
+            midBalance(request);
             flag = true;
         }
         return flag;
@@ -201,6 +247,7 @@ public class RequestServiceImpl implements RequestService {
         if (request.getOwnerRequest().equals(code)){
             request.setStatus(Status.CLOSED);
             requestRepository.save(request);
+            endBalance(request);
             flag = true;
         }
         return flag;

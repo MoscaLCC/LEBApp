@@ -35,6 +35,8 @@ public class PointCriteria implements Serializable, Criteria {
 
     private Boolean distinct;
 
+    private LongFilter status;
+
     public PointCriteria() {}
 
     public PointCriteria(PointCriteria other) {
@@ -45,6 +47,7 @@ public class PointCriteria implements Serializable, Criteria {
         this.numberOfDeliveries = other.numberOfDeliveries == null ? null : other.numberOfDeliveries.copy();
         this.ownerPointId = other.ownerPointId == null ? null : other.ownerPointId.copy();
         this.distinct = other.distinct;
+        this.status = other.status;
     }
 
     @Override
@@ -148,6 +151,21 @@ public class PointCriteria implements Serializable, Criteria {
 
     public void setDistinct(Boolean distinct) {
         this.distinct = distinct;
+    }
+
+    public LongFilter getStatus() {
+        return status;
+    }
+
+    public LongFilter status() {
+        if (status == null) {
+            status = new LongFilter();
+        }
+        return status;
+    }
+
+    public void setStatus(LongFilter status) {
+        this.status = status;
     }
 
     @Override

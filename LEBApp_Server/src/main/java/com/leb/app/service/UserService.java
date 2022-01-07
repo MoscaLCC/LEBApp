@@ -70,6 +70,10 @@ public class UserService {
         return userRepository.findOneByLogin(login);
     }
 
+    public Optional<User> getUser(Long id){
+        return userRepository.findById(id);
+    }
+
     @Transactional
     public Optional<User> activateRegistration(String key) {
         log.debug("Activating user for activation key {}", key);
@@ -241,11 +245,13 @@ public class UserService {
         userInfo.setBirthday(Instant.parse(userDTO.getBirthday()));
         userInfo.setAddress(userDTO.getAddress());
         userInfo.setPayedValue(0.0);
-        userInfo.setValueToPay(0.0);
+        userInfo.setAvailableBalance(0.0);
+        userInfo.setFrozenBalance(0.0);
         userInfo.setRanking(1.5);
         userInfo.setNumberOfDeliveries(0);
         userInfo.setNumberRequests(0);
         userInfo.setNumberOfKm(0.0);
+        userInfo.setUserId(user.getId());
 
 
         userInfo = userInfoRepository.saveAndFlush(userInfo);

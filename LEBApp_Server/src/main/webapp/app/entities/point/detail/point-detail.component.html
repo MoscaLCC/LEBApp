@@ -34,10 +34,21 @@
         <dd>
           <span>{{ point.numberOfDeliveries }}</span>
         </dd>
+
         <dt><span>Status</span></dt>
-        <dd>
-          <span>{{ point.status }}</span>
-        </dd>
+        <ng-container *ngIf="point.status = 0; then onapproval; else active">
+        </ng-container>
+        <ng-template #onapproval>
+          <dd>
+            <span>On Approval</span>
+          </dd>
+          </ng-template>
+        <ng-template #active>
+          <dd>
+            <span>Active</span>
+          </dd>   
+        </ng-template>
+
         <dt><span>Owner Point</span></dt>
         <dd>
           <span>{{ point.ownerPoint }}</span>

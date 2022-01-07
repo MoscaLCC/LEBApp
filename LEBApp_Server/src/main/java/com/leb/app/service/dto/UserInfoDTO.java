@@ -27,13 +27,17 @@ public class UserInfoDTO implements Serializable {
 
     private Double payedValue;
 
-    private Double valueToPay;
+    private Double availableBalance;
+
+    private Double frozenBalance;
 
     private Double ranking;
 
     private Integer numberOfDeliveries;
 
     private Double numberOfKm;
+
+    private Long userId;
 
     public Long getId() {
         return id;
@@ -107,12 +111,20 @@ public class UserInfoDTO implements Serializable {
         this.payedValue = payedValue;
     }
 
-    public Double getValueToPay() {
-        return valueToPay;
+    public Double getAvailableBalance() {
+        return availableBalance;
     }
 
-    public void setValueToPay(Double valueToPay) {
-        this.valueToPay = valueToPay;
+    public void setAvailableBalance(Double availableBalance) {
+        this.availableBalance = availableBalance;
+    }
+
+    public Double getFrozenBalance() {
+        return frozenBalance;
+    }
+
+    public void setFrozenBalance(Double frozenBalance) {
+        this.frozenBalance = frozenBalance;
     }
 
     public Double getRanking() {
@@ -139,6 +151,14 @@ public class UserInfoDTO implements Serializable {
         this.numberOfKm = numberOfKm;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -160,23 +180,13 @@ public class UserInfoDTO implements Serializable {
         return Objects.hash(this.id);
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
-        return "UserInfoDTO{" +
-            "id=" + getId() +
-            ", phoneNumber='" + getPhoneNumber() + "'" +
-            ", nib='" + getNib() + "'" +
-            ", nif=" + getNif() +
-            ", birthday='" + getBirthday() + "'" +
-            ", address='" + getAddress() + "'" +
-            ", linkSocial='" + getLinkSocial() + "'" +
-            ", numberRequests=" + getNumberRequests() +
-            ", payedValue=" + getPayedValue() +
-            ", valueToPay=" + getValueToPay() +
-            ", ranking=" + getRanking() +
-            ", numberOfDeliveries=" + getNumberOfDeliveries() +
-            ", numberOfKm=" + getNumberOfKm() +
-            "}";
+        return "UserInfoDTO [address=" + address + ", availableBalance=" + availableBalance + ", birthday=" + birthday
+                + ", frozenBalance=" + frozenBalance + ", id=" + id + ", linkSocial=" + linkSocial + ", nib=" + nib
+                + ", nif=" + nif + ", numberOfDeliveries=" + numberOfDeliveries + ", numberOfKm=" + numberOfKm
+                + ", numberRequests=" + numberRequests + ", payedValue=" + payedValue + ", phoneNumber=" + phoneNumber
+                + ", ranking=" + ranking + ", userId=" + userId + "]";
     }
+
 }

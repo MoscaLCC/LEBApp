@@ -12,10 +12,12 @@ export interface IUserInfo {
   linkSocial?: string | null;
   numberRequests?: number | null;
   payedValue?: number | null;
-  valueToPay?: number | null;
+  availableBalance?: number | null;
+  frozenBalance?: number | null;
   ranking?: number | null;
   numberOfDeliveries?: number | null;
   numberOfKm?: number | null;
+  userId?: number | null;
   requests?: IRequest[] | null;
   transportations?: IRequest[] | null;
   points?: IPoint[] | null;
@@ -32,10 +34,12 @@ export class UserInfo implements IUserInfo {
     public linkSocial?: string | null,
     public numberRequests?: number | null,
     public payedValue?: number | null,
-    public valueToPay?: number | null,
+    public availableBalance?: number | null,
+    public frozenBalance?: number | null,
     public ranking?: number | null,
     public numberOfDeliveries?: number | null,
     public numberOfKm?: number | null,
+    public userId?: number | null,
     public requests?: IRequest[] | null,
     public transportations?: IRequest[] | null,
     public points?: IPoint[] | null

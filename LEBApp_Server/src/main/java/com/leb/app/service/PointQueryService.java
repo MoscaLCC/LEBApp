@@ -101,6 +101,9 @@ public class PointQueryService extends QueryService<Point> {
             if (criteria.getNumberOfDeliveries() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getNumberOfDeliveries(), Point_.numberOfDeliveries));
             }
+            if (criteria.getStatus() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getStatus(), Point_.status));
+            }
         }
         return specification;
     }

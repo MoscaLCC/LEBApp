@@ -53,7 +53,16 @@
           <td>{{ point.closingTime }}</td>
           <td>{{ point.address }}</td>
           <td>{{ point.numberOfDeliveries }}</td>
-          <td>{{ point.status }}</td>
+
+          <ng-container *ngIf="point.status = 0; then onapproval; else active">
+          </ng-container>
+          <ng-template #onapproval>
+            <td>On Approval</td>
+          </ng-template>
+          <ng-template #active>
+            <td>Active</td> 
+          </ng-template>
+
           <td>{{ point.ownerPoint }}</td>
           <td class="text-right">
             <div class="btn-group">

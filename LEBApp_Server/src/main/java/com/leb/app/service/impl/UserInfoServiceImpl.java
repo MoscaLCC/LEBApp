@@ -69,6 +69,13 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Optional<UserInfo> findOneByUserId(Long id) {
+        log.debug("Request to get UserInfo : {}", id);
+        return userInfoRepository.findByUserId(id);
+    }
+
+    @Override
     public void delete(Long id) {
         log.debug("Request to delete UserInfo : {}", id);
         userInfoRepository.deleteById(id);

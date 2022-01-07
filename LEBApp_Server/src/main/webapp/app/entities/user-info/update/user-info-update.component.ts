@@ -28,10 +28,12 @@ export class UserInfoUpdateComponent implements OnInit {
     linkSocial: [],
     numberRequests: [],
     payedValue: [],
-    valueToPay: [],
+    availableBalance: [],
+    frozenBalance: [],
     ranking: [],
     numberOfDeliveries: [],
     numberOfKm: [],
+    userId: [],
   });
 
   constructor(protected userInfoService: UserInfoService, protected activatedRoute: ActivatedRoute, protected fb: FormBuilder) {}
@@ -91,10 +93,12 @@ export class UserInfoUpdateComponent implements OnInit {
       linkSocial: userInfo.linkSocial,
       numberRequests: userInfo.numberRequests,
       payedValue: userInfo.payedValue,
-      valueToPay: userInfo.valueToPay,
+      availableBalance: userInfo.availableBalance,
+      frozenBalance: userInfo.frozenBalance,
       ranking: userInfo.ranking,
       numberOfDeliveries: userInfo.numberOfDeliveries,
       numberOfKm: userInfo.numberOfKm,
+      userId: userInfo.userId,
     });
   }
 
@@ -110,10 +114,12 @@ export class UserInfoUpdateComponent implements OnInit {
       linkSocial: this.editForm.get(['linkSocial'])!.value,
       numberRequests: this.editForm.get(['numberRequests'])!.value,
       payedValue: this.editForm.get(['payedValue'])!.value,
-      valueToPay: this.editForm.get(['valueToPay'])!.value,
+      availableBalance: this.editForm.get(['availableBalance'])!.value,
+      frozenBalance: this.editForm.get(['frozenBalance'])!.value,
       ranking: this.editForm.get(['ranking'])!.value,
       numberOfDeliveries: this.editForm.get(['numberOfDeliveries'])!.value,
       numberOfKm: this.editForm.get(['numberOfKm'])!.value,
+      userId: this.editForm.get(['userId'])!.value,
     };
   }
 }

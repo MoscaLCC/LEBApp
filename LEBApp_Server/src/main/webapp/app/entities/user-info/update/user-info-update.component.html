@@ -88,16 +88,28 @@
             formControlName="payedValue"
           />
         </div>
-
+        
         <div class="form-group">
-          <label class="form-control-label" for="field_valueToPay">Value To Pay</label>
+          <label class="form-control-label" for="field_availableBalance">Available Balance</label>
           <input
             type="number"
             class="form-control"
-            name="valueToPay"
-            id="field_valueToPay"
-            data-cy="valueToPay"
-            formControlName="valueToPay"
+            name="availableBalance"
+            id="field_availableBalance"
+            data-cy="availableBalance"
+            formControlName="availableBalance"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_frozenBalance">Frozen Balance</label>
+          <input
+            type="number"
+            class="form-control"
+            name="frozenBalance"
+            id="field_frozenBalance"
+            data-cy="frozenBalance"
+            formControlName="frozenBalance"
           />
         </div>
 
@@ -127,6 +139,17 @@
             id="field_numberOfKm"
             data-cy="numberOfKm"
             formControlName="numberOfKm"
+          />
+        </div>
+        <div class="form-group">
+          <label class="form-control-label" for="field_userId">User Id</label>
+          <input
+            type="number"
+            class="form-control"
+            name="userId"
+            id="field_userId"
+            data-cy="userId"
+            formControlName="userId"
           />
         </div>
       </div>

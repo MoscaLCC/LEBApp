@@ -59,8 +59,10 @@
 
         <div class="form-group">
           <label class="form-control-label" for="field_status">Status</label>
-          <input type="number" class="form-control" name="status" id="field_status" data-cy="status" formControlName="status" />
+          <input type="number" class="form-control" min="0" max="1" name="status" id="field_status" data-cy="status" formControlName="status" />
         </div>
+        <h6 style="text-align: center">0 > On Approval </h6>
+        <h6 style="text-align: center">1 > Active </h6>
 
         <div class="form-group">
           <label class="form-control-label" for="field_ownerPoint">Owner Point</label>

@@ -113,9 +113,6 @@ public class UserInfoQueryService extends QueryService<UserInfo> {
             if (criteria.getPayedValue() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getPayedValue(), UserInfo_.payedValue));
             }
-            if (criteria.getValueToPay() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getValueToPay(), UserInfo_.valueToPay));
-            }
             if (criteria.getRanking() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getRanking(), UserInfo_.ranking));
             }

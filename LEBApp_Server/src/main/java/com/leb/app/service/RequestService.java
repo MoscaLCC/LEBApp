@@ -1,5 +1,6 @@
 package com.leb.app.service;
 
+import com.leb.app.domain.Request;
 import com.leb.app.service.dto.RequestCriteriaDTO;
 import com.leb.app.service.dto.RequestDTO;
 
@@ -40,4 +41,6 @@ public interface RequestService {
     Boolean inTransit(Long requestId, Long code);
 
     Boolean closeRequest(Long requestId, Long code);
+
+    void initBalance(Request request);
 }

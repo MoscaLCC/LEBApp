@@ -41,10 +41,12 @@
           <th scope="col" jhiSortBy="linkSocial"><span>Link Social</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="numberRequests"><span>Number Requests</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="payedValue"><span>Payed Value</span> <fa-icon icon="sort"></fa-icon></th>
-          <th scope="col" jhiSortBy="valueToPay"><span>Value To Pay</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="availableBalance"><span>Available Balance</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="frozenBalance"><span>Frozen Balance</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="ranking"><span>Ranking</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="numberOfDeliveries"><span>Number Of Deliveries</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="numberOfKm"><span>Number Of Km</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="userId"><span>User ID</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -61,10 +63,12 @@
           <td>{{ userInfo.linkSocial }}</td>
           <td>{{ userInfo.numberRequests }}</td>
           <td>{{ userInfo.payedValue }}</td>
-          <td>{{ userInfo.valueToPay }}</td>
+          <td>{{ userInfo.availableBalance }}</td>
+          <td>{{ userInfo.frozenBalance }}</td>
           <td>{{ userInfo.ranking }}</td>
           <td>{{ userInfo.numberOfDeliveries }}</td>
           <td>{{ userInfo.numberOfKm }}</td>
+          <td>{{ userInfo.userId }}</td>
           <td class="text-right">
             <div class="btn-group">
               <button
