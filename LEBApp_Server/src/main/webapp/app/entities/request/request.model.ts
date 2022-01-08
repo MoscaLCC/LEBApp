@@ -6,7 +6,8 @@ export interface IRequest {
   productName?: string | null;
   source?: string | null;
   destination?: string | null;
-  destinationContact?: string | null;
+  destinationContactEmail?: string | null;
+  destinationContactMobile?: string | null;
   initDate?: string | null;
   expirationDate?: string | null;
   specialCharacteristics?: string | null;
@@ -27,7 +28,8 @@ export class Request implements IRequest {
     public productName?: string | null,
     public source?: string | null,
     public destination?: string | null,
-    public destinationContact?: string | null,
+    public destinationContactEmail?: string | null,
+    public destinationContactMobile?: string | null,
     public initDate?: string | null,
     public expirationDate?: string | null,
     public specialCharacteristics?: string | null,

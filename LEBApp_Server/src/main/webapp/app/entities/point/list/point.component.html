@@ -54,7 +54,7 @@
           <td>{{ point.address }}</td>
           <td>{{ point.numberOfDeliveries }}</td>
 
-          <ng-container *ngIf="point.status = 0; then onapproval; else active">
+          <ng-container *ngIf="point.status == 0; then onapproval; else active">
           </ng-container>
           <ng-template #onapproval>
             <td>On Approval</td>

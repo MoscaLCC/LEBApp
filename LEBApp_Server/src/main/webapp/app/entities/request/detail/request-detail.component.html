@@ -30,9 +30,13 @@
         <dd>
           <span>{{ request.destination }}</span>
         </dd>
-        <dt><span>Destination Contact</span></dt>
+        <dt><span>Destination Email</span></dt>
         <dd>
-          <span>{{ request.destinationContact }}</span>
+          <span>{{ request.destinationContactEmail }}</span>
+        </dd>
+        <dt><span>Destination Mobile</span></dt>
+        <dd>
+          <span>{{ request.destinationContactMobile }}</span>
         </dd>
         <dt><span>Init Date</span></dt>
         <dd>
@@ -80,11 +84,11 @@
         </dd>
       </dl>
 
-      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+      <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']" type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
       </button>
 
-      <button type="button" [routerLink]="['/request', request.id, 'edit']" class="btn btn-primary">
+      <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']" type="button" [routerLink]="['/request', request.id, 'edit']" class="btn btn-primary">
         <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
       </button>
     </div>

@@ -92,10 +92,16 @@ public class RequestResource {
             requestService.initBalance(requestMapper.toEntity(result));
             
             String subject = "LEB New Request Nº" + result.getId();
-            String content = "Hello!!\n\nFoi registado na nossa aplicação um pedido de entraga para ti!\n\nNº do pedido:" + result.getId() + 
-            "\n\nDeve entregar este codigo ao transportador: \n" + result.getOwnerRequest() + "\n\n\nObriado pela sua preferencia,\n Equipa LEB.";
+            String content = "<p>Hello!!</p>" +
+            "<p>Foi registado na nossa aplicação um pedido de entraga para ti!</p>" +
+            "<p>Nº do pedido: " + result.getId() + "</p>" +
+            "<p>Deve entregar este codigo ao transportador:</p>" +
+            "<h2 style=\"text-align: center\">" + result.getOwnerRequest() + "</h2>" +
+            "<a href=\"http://ec2-54-209-6-238.compute-1.amazonaws.com:8080/request/view/" + result.getId() +"\">Siga a sua entrega aqui!</a>" +
+            "<p>Obriado pela sua preferencia,</p>" +
+            "<p>Equipa LEB.</p>";
 
-            mailService.sendEmail(result.getDestinationContactEmail(), subject, content, false, false);
+            mailService.sendEmail(result.getDestinationContactEmail(), subject, content, false, true);
             return ResponseEntity
                 .created(new URI("/api/requests/" + result.getId()))
                 .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
@@ -175,7 +181,7 @@ public class RequestResource {
     }
 
 
-    @GetMapping("/requests/{id}")
+    @GetMapping("/requests/view/{id}")
     @PreAuthorize("permitAll()")
     public ResponseEntity<RequestDTO> getRequest(@PathVariable Long id) {
         log.debug("REST request to get Request : {}", id);

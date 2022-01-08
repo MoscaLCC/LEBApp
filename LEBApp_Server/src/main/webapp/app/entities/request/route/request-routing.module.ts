@@ -17,7 +17,7 @@ const requestRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/view',
+    path: 'view/:id',
     data: {
       authorities: [],
     },
@@ -25,7 +25,7 @@ const requestRoute: Routes = [
     resolve: {
       request: RequestRoutingResolveService,
     },
-    canActivate: [UserRouteAccessService],
+    //canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',

@@ -142,6 +142,14 @@ public class PointResource {
     @GetMapping("/points")
     public ResponseEntity<List<PointDTO>> getAllPoints(PointCriteria criteria, Pageable pageable) {
         log.debug("REST request to get Points by criteria: {}", criteria);
+        Page<PointDTO> page = pointQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    @GetMapping("/points/active")
+    public ResponseEntity<List<PointDTO>> getAllActivePoints(PointCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Points by criteria: {}", criteria);
         LongFilter filter = new LongFilter();
         filter.setEquals(Long.valueOf(1));
         criteria.setStatus(filter);
@@ -149,7 +157,6 @@ public class PointResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
-
 
     @GetMapping("/points/count")
     public ResponseEntity<Long> countPoints(PointCriteria criteria) {

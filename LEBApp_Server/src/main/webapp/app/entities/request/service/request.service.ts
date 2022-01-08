@@ -29,7 +29,7 @@ export class RequestService {
   }
 
   find(id: number): Observable<EntityResponseType> {
-    return this.http.get<IRequest>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    return this.http.get<IRequest>(`${this.resourceUrl}/view/${id}`, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {

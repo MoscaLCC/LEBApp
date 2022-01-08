@@ -53,14 +53,26 @@
         </div>
 
         <div class="form-group">
-          <label class="form-control-label" for="field_destinationContact">Destination Contact</label>
+          <label class="form-control-label" for="field_destinationContactEmail">Destination Email</label>
           <input
             type="text"
             class="form-control"
-            name="destinationContact"
-            id="field_destinationContact"
-            data-cy="destinationContact"
-            formControlName="destinationContact"
+            name="destinationContactEmail"
+            id="destinationContactEmail"
+            data-cy="destinationContactEmail"
+            formControlName="destinationContactEmail"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="field_destinationContactMobile">Destination Mobile</label>
+          <input
+            type="text"
+            class="form-control"
+            name="destinationContactMobile"
+            id="field_destinationContactMobile"
+            data-cy="destinationContactMobile"
+            formControlName="destinationContactMobile"
           />
         </div>
 
@@ -110,10 +122,7 @@
 
         <div class="form-group" [hidden]="editForm.get('status')!.value == null">
           <label class="form-control-label" for="field_status">Status</label>
-          <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
-            <option [ngValue]="null"></option>
-            <option *ngFor="let status of statusValues" [value]="status"></option>
-          </select>
+          <input type="text" class="form-control" name="status" id="field_status" data-cy="status" formControlName="status" />
         </div>
 
         <div class="form-group" [hidden]="editForm.get('shippingCosts')!.value == null">

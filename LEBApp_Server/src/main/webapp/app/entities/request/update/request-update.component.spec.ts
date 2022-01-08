@@ -115,14 +115,4 @@ describe('Request Management Update Component', () => {
       expect(comp.previousState).not.toHaveBeenCalled();
     });
   });
-
-  describe('Tracking relationships identifiers', () => {
-    describe('trackUserInfoById', () => {
-      it('Should return tracked UserInfo primary key', () => {
-        const entity = { id: 123 };
-        const trackResult = comp.trackUserInfoById(0, entity);
-        expect(trackResult).toEqual(entity.id);
-      });
-    });
-  });
 });

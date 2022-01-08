@@ -7,7 +7,6 @@ import com.leb.app.service.UserInfoQueryService;
 import com.leb.app.service.UserInfoService;
 import com.leb.app.service.UserService;
 import com.leb.app.service.criteria.UserInfoCriteria;
-import com.leb.app.service.dto.UserDTO;
 import com.leb.app.service.dto.UserFullInfoDTO;
 import com.leb.app.service.dto.UserInfoDTO;
 import com.leb.app.web.rest.errors.BadRequestAlertException;
@@ -144,9 +143,15 @@ public class UserInfoResource {
         return ResponseEntity.ok().body(userInfoQueryService.countByCriteria(criteria));
     }
 
-
     @GetMapping("/user-infos/{id}")
-    public ResponseEntity<UserFullInfoDTO> getUserInfo(@PathVariable Long id) {
+    public ResponseEntity<UserInfoDTO> getUserInfo(@PathVariable Long id) {
+        log.debug("REST request to get UserInfo : {}", id);
+        Optional<UserInfoDTO> userInfoDTO = userInfoService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(userInfoDTO);
+    }
+
+    @GetMapping("/user-infos/user/{id}")
+    public ResponseEntity<UserFullInfoDTO> getUserInfoUser(@PathVariable Long id) {
         log.debug("REST request to get UserInfo : {}", id);
         Optional<User> user = userService.getUser(id);
         Optional<UserInfo> userInfo = userInfoService.findOneByUserId(id);

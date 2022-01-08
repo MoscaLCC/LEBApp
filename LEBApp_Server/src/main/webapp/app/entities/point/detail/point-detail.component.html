@@ -36,7 +36,7 @@
         </dd>
 
         <dt><span>Status</span></dt>
-        <ng-container *ngIf="point.status = 0; then onapproval; else active">
+        <ng-container *ngIf="point.status == 0; then onapproval; else active">
         </ng-container>
         <ng-template #onapproval>
           <dd>
