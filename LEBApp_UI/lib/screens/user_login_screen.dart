@@ -21,8 +21,6 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
   final controllerEmailTextField = TextEditingController();
   final controllerPasswordTextField = TextEditingController();
 
-  String selectedProfile = null;
-
   bool _saveForm(){
     if(_keyForm.currentState.validate()){
       _keyForm.currentState.save();
@@ -38,7 +36,7 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
     final emailField = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Insert your username.'),
+      decoration: InputDecoration(hintText: 'Insert your email.'),
       controller: controllerEmailTextField,
       validator: (value) {
         if (value.isEmpty) return 'You have to insert an email';
@@ -70,9 +68,9 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
 
           if( _saveForm()){
 
-            print("Link to server to Login ...");
+            print(" ..:: Link to server to Login ::.. ");
 
-            var  url = Uri.parse('http://192.168.1.110:8080/api/interface/authenticate');
+            var  url = Uri.parse('http://ec2-54-209-6-238.compute-1.amazonaws.com:8080/api/interface/authenticate');
             var body = json.encode({"username": controllerEmailTextField.text, "password": controllerPasswordTextField.text, "rememberMe": "false"});
 
             Map<String,String> headers = {
@@ -86,23 +84,18 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
             // parse response in login DTO
             LoginDTO loginDTO = new LoginDTO.fromJson(jsonResponse);
 
-            print("Response:");
+            print(" ## Response:");
             print(loginDTO);
 
-            print(loginDTO.token);
-            print(loginDTO.userID);
-            print(loginDTO.firstName);
-            print(loginDTO.lastName);
-            print(loginDTO.profiles);
-
-            // select available profile
-            await teste(loginDTO.profiles);
+            print("Token:" + loginDTO.token);
+            print("User:" +loginDTO.userID.toString());
+            print("First Name:" +loginDTO.firstName);
+            print("Last Name:" +loginDTO.lastName);
 
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => User_Main_Area(loginDTO.firstName, loginDTO.userID, selectedProfile,loginDTO.token)));
-
+                    builder: (context) => User_Main_Area(loginDTO.firstName, loginDTO.userID, loginDTO.token)));
           }else{
             print("validator fail: fill user and pass");
           }
@@ -145,8 +138,8 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
     return Scaffold(
       appBar: AppBar(
           title: Text('Login Area'),
-          backgroundColor: Colors.teal),
-
+          backgroundColor: Colors.teal,
+      ),
       body: SingleChildScrollView(
         child: Form(
           key: _keyForm,
@@ -195,6 +188,7 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
     );
   }
 
+  /*
   teste(List<dynamic> profileList){
 
     return showDialog(
@@ -231,4 +225,5 @@ class _User_Reg_ScreenState extends State<User_Reg_Screen> {
           );
         });
   }
+   */
 }
