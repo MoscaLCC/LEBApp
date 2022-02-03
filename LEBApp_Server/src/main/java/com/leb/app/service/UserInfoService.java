@@ -22,4 +22,6 @@ public interface UserInfoService {
     void delete(Long id);
 
     Optional<UserInfo> findOneByUserId(Long id);
+
+    void loadMoney(Long id, Double value);
 }

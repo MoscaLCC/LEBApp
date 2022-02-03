@@ -176,6 +176,7 @@ public class RequestServiceImpl implements RequestService {
         List<UserInfo> userInfoList = userInfoRepository.findAll();
         for(UserInfo user : userInfoList){
             if(request.getOwnerRequest().equals(user.getUserId())){
+                user.setAvailableBalance(user.getAvailableBalance() - request.getShippingCosts());
                 user.setFrozenBalance(user.getFrozenBalance() - request.getShippingCosts());
             }
             userInfoRepository.save(user);
@@ -198,7 +199,6 @@ public class RequestServiceImpl implements RequestService {
         List<UserInfo> userInfoList = userInfoRepository.findAll();
         for(UserInfo user : userInfoList){
             if(request.getOwnerRequest().equals(user.getUserId())){
-                user.setAvailableBalance(user.getAvailableBalance() - request.getShippingCosts());
                 user.setFrozenBalance(user.getFrozenBalance() + request.getShippingCosts());
             }
             if(request.getTransporter().equals(user.getUserId())){

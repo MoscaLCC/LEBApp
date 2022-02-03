@@ -80,4 +80,16 @@ public class UserInfoServiceImpl implements UserInfoService {
         log.debug("Request to delete UserInfo : {}", id);
         userInfoRepository.deleteById(id);
     }
+
+
+    @Override
+    @Transactional
+    public void loadMoney(Long id, Double value){
+        Optional<UserInfo> opUser = userInfoRepository.findById(id);
+        if(opUser.isPresent()){
+            UserInfo user = opUser.get();
+            user.setAvailableBalance(user.getAvailableBalance() + value);
+            userInfoRepository.saveAndFlush(user);
+        }
+    }
 }

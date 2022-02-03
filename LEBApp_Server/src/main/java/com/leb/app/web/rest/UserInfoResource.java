@@ -150,6 +150,17 @@ public class UserInfoResource {
         return ResponseUtil.wrapOrNotFound(userInfoDTO);
     }
 
+    @PutMapping("/user-infos/load/{id}/{value}")
+    public ResponseEntity<UserInfoDTO> loadMoney(
+        @PathVariable(value = "id", required = false) final Long id,
+        @PathVariable(value = "value", required = false) final Double value
+    ) throws URISyntaxException {
+        userInfoService.loadMoney(id, value);
+        return ResponseEntity
+            .ok()
+            .build();
+    }
+
     @GetMapping("/user-infos/user/{id}")
     public ResponseEntity<UserFullInfoDTO> getUserInfoUser(@PathVariable Long id) {
         log.debug("REST request to get UserInfo : {}", id);
