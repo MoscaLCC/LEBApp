@@ -32,9 +32,9 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://localhost:3306/LEBApp_Server?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true
-    username: root
-    password: root
+    url: jdbc:mariadb://localhost:3306/LEB?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+    username: lebappdb
+    password: lebappdb
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -46,7 +46,7 @@ spring:
   jpa:
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
-    contexts: dev, faker
+    contexts: dev
   mail:
     host: smtp.gmail.com
     port: 587
@@ -62,6 +62,15 @@ spring:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
   thymeleaf:
     cache: false
+  sleuth:
+    sampler:
+      probability: 1 # report 100% of traces
+  zipkin: # Use the "zipkin" Maven profile to have the Spring Cloud Zipkin dependencies
+    base-url: http://localhost:9411
+    enabled: false
+    locator:
+      discovery:
+        enabled: true
 
 server:
   port: 8080
@@ -80,7 +89,7 @@ jhipster:
   # CORS is only enabled by default with the "dev" profile
   cors:
     # Allow Ionic for JHipster by default (* no longer allowed in Spring Boot 2.4+)
-    allowed-origins: 'http://localhost:8100,http://localhost:9000'
+    allowed-origins: 'http://localhost:8100,https://localhost:8100,http://localhost:9000,https://localhost:9000,http://localhost:4200,https://localhost:4200'
     allowed-methods: '*'
     allowed-headers: '*'
     exposed-headers: 'Authorization,Link,X-Total-Count,X-${jhipster.clientApp.name}-alert,X-${jhipster.clientApp.name}-error,X-${jhipster.clientApp.name}-params'
@@ -90,12 +99,12 @@ jhipster:
     authentication:
       jwt:
         # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
-        base64-secret: ZDlhZWUxMGFhYmE4ODQ3ZWI4NWMxMmVjOTBlYTdjZmNhYjYxODJlODliNWEzYWY1ZWFkOGIwZTNjMTU5ZGUzZTM0ZDExNzdjYTJlYTcyNWM3MDY2Njk4Njc4NTJmOTU1ZWRhN2U5NGE5MmEyNWUxYTYyMWRlMzNiMTNjY2VmMzI=
+        base64-secret: MjI3MzMzZmIwN2Y4YmMyZDM0ODhiMTA5MjE1NWFiMmUxMzBiMWY4NGNlMmQ5YTJiN2I2ZTE0OTBjYTQ1NWVmOWM5ODUyOGM4MjRlODA2N2YxMzZjNWNmZjA3ZWIwZmQzZjFiZjA0MDdkZmQwNTliYWYwMjU3NTAxYjkyMzYwN2E=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000
   mail: # specific JHipster mail property, for standard properties see MailProperties
-    base-url: http://192.168.1.110:8080
+    base-url: http://ec2-54-209-6-238.compute-1.amazonaws.com:8080
   logging:
     use-json-format: false # By default, logs are not in Json format
     logstash: # Forward logs to logstash over a socket, used by LoggingConfiguration

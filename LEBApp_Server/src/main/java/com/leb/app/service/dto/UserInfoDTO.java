@@ -1,7 +1,7 @@
 package com.leb.app.service.dto;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -17,9 +17,27 @@ public class UserInfoDTO implements Serializable {
 
     private Integer nif;
 
-    private LocalDate birthday;
+    private Instant birthday;
 
     private String address;
+
+    private String linkSocial;
+
+    private Integer numberRequests;
+
+    private Double payedValue;
+
+    private Double availableBalance;
+
+    private Double frozenBalance;
+
+    private Double ranking;
+
+    private Integer numberOfDeliveries;
+
+    private Double numberOfKm;
+
+    private Long userId;
 
     public Long getId() {
         return id;
@@ -53,20 +71,92 @@ public class UserInfoDTO implements Serializable {
         this.nif = nif;
     }
 
-    public LocalDate getBirthday() {
+    public Instant getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(LocalDate birthday) {
+    public void setBirthday(Instant birthday) {
         this.birthday = birthday;
     }
 
-    public String getAdress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAdress(String address) {
+    public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getLinkSocial() {
+        return linkSocial;
+    }
+
+    public void setLinkSocial(String linkSocial) {
+        this.linkSocial = linkSocial;
+    }
+
+    public Integer getNumberRequests() {
+        return numberRequests;
+    }
+
+    public void setNumberRequests(Integer numberRequests) {
+        this.numberRequests = numberRequests;
+    }
+
+    public Double getPayedValue() {
+        return payedValue;
+    }
+
+    public void setPayedValue(Double payedValue) {
+        this.payedValue = payedValue;
+    }
+
+    public Double getAvailableBalance() {
+        return availableBalance;
+    }
+
+    public void setAvailableBalance(Double availableBalance) {
+        this.availableBalance = availableBalance;
+    }
+
+    public Double getFrozenBalance() {
+        return frozenBalance;
+    }
+
+    public void setFrozenBalance(Double frozenBalance) {
+        this.frozenBalance = frozenBalance;
+    }
+
+    public Double getRanking() {
+        return ranking;
+    }
+
+    public void setRanking(Double ranking) {
+        this.ranking = ranking;
+    }
+
+    public Integer getNumberOfDeliveries() {
+        return numberOfDeliveries;
+    }
+
+    public void setNumberOfDeliveries(Integer numberOfDeliveries) {
+        this.numberOfDeliveries = numberOfDeliveries;
+    }
+
+    public Double getNumberOfKm() {
+        return numberOfKm;
+    }
+
+    public void setNumberOfKm(Double numberOfKm) {
+        this.numberOfKm = numberOfKm;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -90,16 +180,13 @@ public class UserInfoDTO implements Serializable {
         return Objects.hash(this.id);
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
-        return "UserInfoDTO{" +
-            "id=" + getId() +
-            ", phoneNumber='" + getPhoneNumber() + "'" +
-            ", nib='" + getNib() + "'" +
-            ", nif=" + getNif() +
-            ", birthday='" + getBirthday() + "'" +
-            ", address='" + getAdress() + "'" +
-            "}";
+        return "UserInfoDTO [address=" + address + ", availableBalance=" + availableBalance + ", birthday=" + birthday
+                + ", frozenBalance=" + frozenBalance + ", id=" + id + ", linkSocial=" + linkSocial + ", nib=" + nib
+                + ", nif=" + nif + ", numberOfDeliveries=" + numberOfDeliveries + ", numberOfKm=" + numberOfKm
+                + ", numberRequests=" + numberRequests + ", payedValue=" + payedValue + ", phoneNumber=" + phoneNumber
+                + ", ranking=" + ranking + ", userId=" + userId + "]";
     }
+
 }

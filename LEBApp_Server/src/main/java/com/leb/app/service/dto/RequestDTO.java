@@ -19,31 +19,31 @@ public class RequestDTO implements Serializable {
 
     private String destination;
 
-    private String destinationContact;
+    private String destinationContactMobile;
+
+    private String destinationContactEmail;
 
     private String initDate;
 
     private String expirationDate;
 
-    private String description;
-
     private String specialCharacteristics;
 
+    private Double weight;
+
+    private Double hight;
+
+    private Double width;
+
     private Status status;
-
-    private String estimatedDate;
-
-    private String deliveryTime;
 
     private Double shippingCosts;
 
     private Double rating;
 
-    private DimensionsDTO dimensions;
+    private Long ownerRequest;
 
-    private RidePathDTO ridePath;
-
-    private ProducerDTO producer;
+    private Long transporter;
 
     public Long getId() {
         return id;
@@ -85,12 +85,22 @@ public class RequestDTO implements Serializable {
         this.destination = destination;
     }
 
-    public String getDestinationContact() {
-        return destinationContact;
+    
+
+    public String getDestinationContactMobile() {
+        return destinationContactMobile;
     }
 
-    public void setDestinationContact(String destinationContact) {
-        this.destinationContact = destinationContact;
+    public void setDestinationContactMobile(String destinationContactMobile) {
+        this.destinationContactMobile = destinationContactMobile;
+    }
+
+    public String getDestinationContactEmail() {
+        return destinationContactEmail;
+    }
+
+    public void setDestinationContactEmail(String destinationContactEmail) {
+        this.destinationContactEmail = destinationContactEmail;
     }
 
     public String getInitDate() {
@@ -109,14 +119,6 @@ public class RequestDTO implements Serializable {
         this.expirationDate = expirationDate;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getSpecialCharacteristics() {
         return specialCharacteristics;
     }
@@ -125,28 +127,36 @@ public class RequestDTO implements Serializable {
         this.specialCharacteristics = specialCharacteristics;
     }
 
+    public Double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
+
+    public Double getHight() {
+        return hight;
+    }
+
+    public void setHight(Double hight) {
+        this.hight = hight;
+    }
+
+    public Double getWidth() {
+        return width;
+    }
+
+    public void setWidth(Double width) {
+        this.width = width;
+    }
+
     public Status getStatus() {
         return status;
     }
 
     public void setStatus(Status status) {
         this.status = status;
-    }
-
-    public String getEstimatedDate() {
-        return estimatedDate;
-    }
-
-    public void setEstimatedDate(String estimatedDate) {
-        this.estimatedDate = estimatedDate;
-    }
-
-    public String getDeliveryTime() {
-        return deliveryTime;
-    }
-
-    public void setDeliveryTime(String deliveryTime) {
-        this.deliveryTime = deliveryTime;
     }
 
     public Double getShippingCosts() {
@@ -165,28 +175,20 @@ public class RequestDTO implements Serializable {
         this.rating = rating;
     }
 
-    public DimensionsDTO getDimensions() {
-        return dimensions;
+    public Long getOwnerRequest() {
+        return ownerRequest;
     }
 
-    public void setDimensions(DimensionsDTO dimensions) {
-        this.dimensions = dimensions;
+    public void setOwnerRequest(Long ownerRequest) {
+        this.ownerRequest = ownerRequest;
     }
 
-    public RidePathDTO getRidePath() {
-        return ridePath;
+    public Long getTransporter() {
+        return transporter;
     }
 
-    public void setRidePath(RidePathDTO ridePath) {
-        this.ridePath = ridePath;
-    }
-
-    public ProducerDTO getProducer() {
-        return producer;
-    }
-
-    public void setProducer(ProducerDTO producer) {
-        this.producer = producer;
+    public void setTransporter(Long transporter) {
+        this.transporter = transporter;
     }
 
     @Override
@@ -219,19 +221,19 @@ public class RequestDTO implements Serializable {
             ", productName='" + getProductName() + "'" +
             ", source='" + getSource() + "'" +
             ", destination='" + getDestination() + "'" +
-            ", destinationContact='" + getDestinationContact() + "'" +
+            ", destinationContact='" + getDestinationContactEmail() + "'" +
+            ", destinationContact='" + getDestinationContactMobile() + "'" +
             ", initDate='" + getInitDate() + "'" +
             ", expirationDate='" + getExpirationDate() + "'" +
-            ", description='" + getDescription() + "'" +
             ", specialCharacteristics='" + getSpecialCharacteristics() + "'" +
+            ", weight=" + getWeight() +
+            ", hight=" + getHight() +
+            ", width=" + getWidth() +
             ", status='" + getStatus() + "'" +
-            ", estimatedDate='" + getEstimatedDate() + "'" +
-            ", deliveryTime='" + getDeliveryTime() + "'" +
             ", shippingCosts=" + getShippingCosts() +
             ", rating=" + getRating() +
-            ", dimensions=" + getDimensions() +
-            ", ridePath=" + getRidePath() +
-            ", producer=" + getProducer() +
+            ", ownerRequest=" + getOwnerRequest() +
+            ", transporter=" + getTransporter() +
             "}";
     }
 }

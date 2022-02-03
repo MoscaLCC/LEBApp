@@ -2,6 +2,7 @@ package com.leb.app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.leb.app.config.Constants;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -19,14 +20,15 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  * A user.
  */
 @Entity
-@Table(name = "user")
+@Table(name = "jhi_user")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class User extends AbstractAuditingEntity{
+public class User extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
     @NotNull
@@ -77,12 +79,12 @@ public class User extends AbstractAuditingEntity{
     private String resetKey;
 
     @Column(name = "reset_date")
-    private String resetDate = null;
+    private Instant resetDate = null;
 
     @JsonIgnore
     @ManyToMany
     @JoinTable(
-        name = "user_authority",
+        name = "jhi_user_authority",
         joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id") },
         inverseJoinColumns = { @JoinColumn(name = "authority_name", referencedColumnName = "name") }
     )
@@ -171,11 +173,11 @@ public class User extends AbstractAuditingEntity{
         this.resetKey = resetKey;
     }
 
-    public String getResetDate() {
+    public Instant getResetDate() {
         return resetDate;
     }
 
-    public void setResetDate(String resetDate) {
+    public void setResetDate(Instant resetDate) {
         this.resetDate = resetDate;
     }
 
@@ -208,6 +210,7 @@ public class User extends AbstractAuditingEntity{
 
     @Override
     public int hashCode() {
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
         return getClass().hashCode();
     }
 

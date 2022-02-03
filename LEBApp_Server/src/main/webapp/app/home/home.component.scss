@@ -6,8 +6,23 @@ Main page styles
   display: inline-block;
   width: 347px;
   height: 497px;
-  background: url('../../content/images/jhipster_family_member_2.svg') no-repeat center top;
+  background: url('../../content/images/icon_leb.png') no-repeat center top;
   background-size: contain;
+}
+
+.col-sm-3 {
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-bottom: 10px;
+}
+
+.button-border-blue {
+  border: outset;
+  border-color: #02b875;
+  border-top-width: 1.2px;
+  border-left-width: 1.2px;
+  border-bottom-width: 1.2px;
+  border-right-width: 1.2px;
 }
 
 /* wait autoprefixer update to allow simple generation of high pixel density media query */
@@ -17,7 +32,7 @@ Main page styles
   only screen and (min-resolution: 192dpi),
   only screen and (min-resolution: 2dppx) {
   .hipster {
-    background: url('../../content/images/jhipster_family_member_2.svg') no-repeat center top;
+    background: url('../../content/images/green_back_groud.jpg') no-repeat center top;
     background-size: contain;
   }
 }

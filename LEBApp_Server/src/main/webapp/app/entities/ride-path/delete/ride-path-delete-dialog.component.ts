@@ -10,7 +10,7 @@ import { RidePathService } from '../service/ride-path.service';
 export class RidePathDeleteDialogComponent {
   ridePath?: IRidePath;
 
-  constructor(protected ridePathService: RidePathService, public activeModal: NgbActiveModal) {}
+  constructor(protected ridePathService: RidePathService, protected activeModal: NgbActiveModal) {}
 
   cancel(): void {
     this.activeModal.dismiss();

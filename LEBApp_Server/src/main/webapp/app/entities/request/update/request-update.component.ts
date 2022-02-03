@@ -5,17 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
-import * as dayjs from 'dayjs';
-import { DATE_TIME_FORMAT } from 'app/config/input.constants';
-
 import { IRequest, Request } from '../request.model';
 import { RequestService } from '../service/request.service';
-import { IDimensions } from 'app/entities/dimensions/dimensions.model';
-import { DimensionsService } from 'app/entities/dimensions/service/dimensions.service';
-import { IRidePath } from 'app/entities/ride-path/ride-path.model';
-import { RidePathService } from 'app/entities/ride-path/service/ride-path.service';
-import { IProducer } from 'app/entities/producer/producer.model';
-import { ProducerService } from 'app/entities/producer/service/producer.service';
+import { Status } from 'app/entities/enumerations/status.model';
 
 @Component({
   selector: 'jhi-request-update',
@@ -23,10 +15,7 @@ import { ProducerService } from 'app/entities/producer/service/producer.service'
 })
 export class RequestUpdateComponent implements OnInit {
   isSaving = false;
-
-  dimensionsCollection: IDimensions[] = [];
-  ridePathsSharedCollection: IRidePath[] = [];
-  producersSharedCollection: IProducer[] = [];
+  statusValues = Object.keys(Status);
 
   editForm = this.fb.group({
     id: [],
@@ -34,44 +23,30 @@ export class RequestUpdateComponent implements OnInit {
     productName: [],
     source: [],
     destination: [],
-    destinationContact: [],
+    destinationContactEmail: [],
+    destinationContactMobile: [],
     initDate: [],
     expirationDate: [],
-    description: [],
     specialCharacteristics: [],
-    productWeight: [],
+    weight: [],
+    hight: [],
+    width: [],
     status: [],
-    estimatedDate: [],
-    deliveryTime: [],
     shippingCosts: [],
     rating: [],
-    dimensions: [],
-    ridePath: [null, Validators.required],
-    producer: [null, Validators.required],
+    ownerRequest: [],
+    transporter: [],
   });
 
   constructor(
     protected requestService: RequestService,
-    protected dimensionsService: DimensionsService,
-    protected ridePathService: RidePathService,
-    protected producerService: ProducerService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ request }) => {
-      if (request.id === undefined) {
-        const today = dayjs().startOf('day');
-        request.initDate = today;
-        request.expirationDate = today;
-        request.estimatedDate = today;
-        request.deliveryTime = today;
-      }
-
       this.updateForm(request);
-
-      this.loadRelationshipsOptions();
     });
   }
 
@@ -87,18 +62,6 @@ export class RequestUpdateComponent implements OnInit {
     } else {
       this.subscribeToSaveResponse(this.requestService.create(request));
     }
-  }
-
-  trackDimensionsById(index: number, item: IDimensions): number {
-    return item.id!;
-  }
-
-  trackRidePathById(index: number, item: IRidePath): number {
-    return item.id!;
-  }
-
-  trackProducerById(index: number, item: IProducer): number {
-    return item.id!;
   }
 
   protected subscribeToSaveResponse(result: Observable<HttpResponse<IRequest>>): void {
@@ -127,63 +90,20 @@ export class RequestUpdateComponent implements OnInit {
       productName: request.productName,
       source: request.source,
       destination: request.destination,
-      destinationContact: request.destinationContact,
-      initDate: request.initDate ? request.initDate.format(DATE_TIME_FORMAT) : null,
-      expirationDate: request.expirationDate ? request.expirationDate.format(DATE_TIME_FORMAT) : null,
-      description: request.description,
+      destinationContactEmail: request.destinationContactEmail,
+      destinationContactMobile: request.destinationContactMobile,
+      initDate: request.initDate,
+      expirationDate: request.expirationDate,
       specialCharacteristics: request.specialCharacteristics,
-      productWeight: request.productWeight,
+      weight: request.weight,
+      hight: request.hight,
+      width: request.width,
       status: request.status,
-      estimatedDate: request.estimatedDate ? request.estimatedDate.format(DATE_TIME_FORMAT) : null,
-      deliveryTime: request.deliveryTime ? request.deliveryTime.format(DATE_TIME_FORMAT) : null,
       shippingCosts: request.shippingCosts,
       rating: request.rating,
-      dimensions: request.dimensions,
-      ridePath: request.ridePath,
-      producer: request.producer,
+      ownerRequest: request.ownerRequest,
+      transporter: request.transporter,
     });
-
-    this.dimensionsCollection = this.dimensionsService.addDimensionsToCollectionIfMissing(this.dimensionsCollection, request.dimensions);
-    this.ridePathsSharedCollection = this.ridePathService.addRidePathToCollectionIfMissing(
-      this.ridePathsSharedCollection,
-      request.ridePath
-    );
-    this.producersSharedCollection = this.producerService.addProducerToCollectionIfMissing(
-      this.producersSharedCollection,
-      request.producer
-    );
-  }
-
-  protected loadRelationshipsOptions(): void {
-    this.dimensionsService
-      .query({ 'requestId.specified': 'false' })
-      .pipe(map((res: HttpResponse<IDimensions[]>) => res.body ?? []))
-      .pipe(
-        map((dimensions: IDimensions[]) =>
-          this.dimensionsService.addDimensionsToCollectionIfMissing(dimensions, this.editForm.get('dimensions')!.value)
-        )
-      )
-      .subscribe((dimensions: IDimensions[]) => (this.dimensionsCollection = dimensions));
-
-    this.ridePathService
-      .query()
-      .pipe(map((res: HttpResponse<IRidePath[]>) => res.body ?? []))
-      .pipe(
-        map((ridePaths: IRidePath[]) =>
-          this.ridePathService.addRidePathToCollectionIfMissing(ridePaths, this.editForm.get('ridePath')!.value)
-        )
-      )
-      .subscribe((ridePaths: IRidePath[]) => (this.ridePathsSharedCollection = ridePaths));
-
-    this.producerService
-      .query()
-      .pipe(map((res: HttpResponse<IProducer[]>) => res.body ?? []))
-      .pipe(
-        map((producers: IProducer[]) =>
-          this.producerService.addProducerToCollectionIfMissing(producers, this.editForm.get('producer')!.value)
-        )
-      )
-      .subscribe((producers: IProducer[]) => (this.producersSharedCollection = producers));
   }
 
   protected createFromForm(): IRequest {
@@ -194,26 +114,19 @@ export class RequestUpdateComponent implements OnInit {
       productName: this.editForm.get(['productName'])!.value,
       source: this.editForm.get(['source'])!.value,
       destination: this.editForm.get(['destination'])!.value,
-      destinationContact: this.editForm.get(['destinationContact'])!.value,
-      initDate: this.editForm.get(['initDate'])!.value ? dayjs(this.editForm.get(['initDate'])!.value, DATE_TIME_FORMAT) : undefined,
-      expirationDate: this.editForm.get(['expirationDate'])!.value
-        ? dayjs(this.editForm.get(['expirationDate'])!.value, DATE_TIME_FORMAT)
-        : undefined,
-      description: this.editForm.get(['description'])!.value,
+      destinationContactEmail: this.editForm.get(['destinationContactEmail'])!.value,
+      destinationContactMobile: this.editForm.get(['destinationContactMobile'])!.value,
+      initDate: this.editForm.get(['initDate'])!.value,
+      expirationDate: this.editForm.get(['expirationDate'])!.value,
       specialCharacteristics: this.editForm.get(['specialCharacteristics'])!.value,
-      productWeight: this.editForm.get(['productWeight'])!.value,
+      weight: this.editForm.get(['weight'])!.value,
+      hight: this.editForm.get(['hight'])!.value,
+      width: this.editForm.get(['width'])!.value,
       status: this.editForm.get(['status'])!.value,
-      estimatedDate: this.editForm.get(['estimatedDate'])!.value
-        ? dayjs(this.editForm.get(['estimatedDate'])!.value, DATE_TIME_FORMAT)
-        : undefined,
-      deliveryTime: this.editForm.get(['deliveryTime'])!.value
-        ? dayjs(this.editForm.get(['deliveryTime'])!.value, DATE_TIME_FORMAT)
-        : undefined,
       shippingCosts: this.editForm.get(['shippingCosts'])!.value,
       rating: this.editForm.get(['rating'])!.value,
-      dimensions: this.editForm.get(['dimensions'])!.value,
-      ridePath: this.editForm.get(['ridePath'])!.value,
-      producer: this.editForm.get(['producer'])!.value,
+      ownerRequest: this.editForm.get(['ownerRequest'])!.value,
+      transporter: this.editForm.get(['transporter'])!.value,
     };
   }
 }

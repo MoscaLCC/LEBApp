@@ -1,30 +1,25 @@
-import { IUserInfo } from 'app/entities/user-info/user-info.model';
-import { IDeliveryMan } from 'app/entities/delivery-man/delivery-man.model';
-import { IZone } from 'app/entities/zone/zone.model';
 
 export interface IPoint {
   id?: number;
+  name?: string | null;
   openingTime?: string | null;
+  closingTime?: string | null;
+  address?: string | null;
   numberOfDeliveries?: number | null;
-  receivedValue?: number | null;
-  valueToReceive?: number | null;
-  ranking?: number | null;
-  userInfo?: IUserInfo;
-  deliveryMen?: IDeliveryMan[] | null;
-  zone?: IZone | null;
+  status?: number | null;
+  ownerPoint?: number | null;
 }
 
 export class Point implements IPoint {
   constructor(
     public id?: number,
+    public name?: string | null,
     public openingTime?: string | null,
+    public closingTime?: string | null,
+    public address?: string | null,
     public numberOfDeliveries?: number | null,
-    public receivedValue?: number | null,
-    public valueToReceive?: number | null,
-    public ranking?: number | null,
-    public userInfo?: IUserInfo,
-    public deliveryMen?: IDeliveryMan[] | null,
-    public zone?: IZone | null
+    public status?: number | null,
+    public ownerPoint?: number | null
   ) {}
 }
 

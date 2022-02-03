@@ -8,8 +8,4 @@ import org.springframework.stereotype.Repository;
  * Spring Data SQL repository for the Point entity.
  */
 @Repository
-public interface PointRepository extends JpaRepository<Point, Long>, JpaSpecificationExecutor<Point> {
-
-    Boolean existsByUserInfoId(Long UserId);
-
-}
+public interface PointRepository extends JpaRepository<Point, Long>, JpaSpecificationExecutor<Point> {}

@@ -48,23 +48,13 @@ public class CacheConfiguration {
             createCache(cm, com.leb.app.domain.User.class.getName());
             createCache(cm, com.leb.app.domain.Authority.class.getName());
             createCache(cm, com.leb.app.domain.User.class.getName() + ".authorities");
-            createCache(cm, com.leb.app.domain.Producer.class.getName());
-            createCache(cm, com.leb.app.domain.Producer.class.getName() + ".requests");
             createCache(cm, com.leb.app.domain.Request.class.getName());
-            createCache(cm, com.leb.app.domain.RidePath.class.getName());
-            createCache(cm, com.leb.app.domain.RidePath.class.getName() + ".requests");
-            createCache(cm, com.leb.app.domain.RidePath.class.getName() + ".transports");
-            createCache(cm, com.leb.app.domain.DeliveryMan.class.getName());
-            createCache(cm, com.leb.app.domain.Transporter.class.getName());
-            createCache(cm, com.leb.app.domain.Transporter.class.getName() + ".ridePaths");
-            createCache(cm, com.leb.app.domain.Transporter.class.getName() + ".zones");
-            createCache(cm, com.leb.app.domain.Point.class.getName());
-            createCache(cm, com.leb.app.domain.Point.class.getName() + ".deliveryMen");
-            createCache(cm, com.leb.app.domain.Dimensions.class.getName());
-            createCache(cm, com.leb.app.domain.Zone.class.getName());
-            createCache(cm, com.leb.app.domain.Zone.class.getName() + ".points");
-            createCache(cm, com.leb.app.domain.Zone.class.getName() + ".transporters");
             createCache(cm, com.leb.app.domain.UserInfo.class.getName());
+            createCache(cm, com.leb.app.domain.UserInfo.class.getName() + ".requests");
+            createCache(cm, com.leb.app.domain.UserInfo.class.getName() + ".transportations");
+            createCache(cm, com.leb.app.domain.UserInfo.class.getName() + ".points");
+            createCache(cm, com.leb.app.domain.RidePath.class.getName());
+            createCache(cm, com.leb.app.domain.Point.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

@@ -1,9 +1,6 @@
 package com.leb.app.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -19,7 +16,9 @@ public class RidePath implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    @SequenceGenerator(name = "sequenceGenerator")
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "source")
@@ -34,28 +33,22 @@ public class RidePath implements Serializable {
     @Column(name = "estimated_time")
     private String estimatedTime;
 
-    @OneToMany(mappedBy = "ridePath")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "dimensions", "ridePath", "producer" }, allowSetters = true)
-    private Set<Request> requests = new HashSet<>();
-
-    @ManyToMany(mappedBy = "ridePaths")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "userInfo", "ridePaths", "zones" }, allowSetters = true)
-    private Set<Transporter> transports = new HashSet<>();
+    @Column(name = "radius")
+    private Double radius;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+
     public Long getId() {
-        return id;
+        return this.id;
+    }
+
+    public RidePath id(Long id) {
+        this.setId(id);
+        return this;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public RidePath id(Long id) {
-        this.id = id;
-        return this;
     }
 
     public String getSource() {
@@ -63,7 +56,7 @@ public class RidePath implements Serializable {
     }
 
     public RidePath source(String source) {
-        this.source = source;
+        this.setSource(source);
         return this;
     }
 
@@ -76,7 +69,7 @@ public class RidePath implements Serializable {
     }
 
     public RidePath destination(String destination) {
-        this.destination = destination;
+        this.setDestination(destination);
         return this;
     }
 
@@ -89,7 +82,7 @@ public class RidePath implements Serializable {
     }
 
     public RidePath distance(String distance) {
-        this.distance = distance;
+        this.setDistance(distance);
         return this;
     }
 
@@ -102,7 +95,7 @@ public class RidePath implements Serializable {
     }
 
     public RidePath estimatedTime(String estimatedTime) {
-        this.estimatedTime = estimatedTime;
+        this.setEstimatedTime(estimatedTime);
         return this;
     }
 
@@ -110,66 +103,17 @@ public class RidePath implements Serializable {
         this.estimatedTime = estimatedTime;
     }
 
-    public Set<Request> getRequests() {
-        return this.requests;
+    public Double getRadius() {
+        return this.radius;
     }
 
-    public RidePath requests(Set<Request> requests) {
-        this.setRequests(requests);
+    public RidePath radius(Double radius) {
+        this.setRadius(radius);
         return this;
     }
 
-    public RidePath addRequest(Request request) {
-        this.requests.add(request);
-        request.setRidePath(this);
-        return this;
-    }
-
-    public RidePath removeRequest(Request request) {
-        this.requests.remove(request);
-        request.setRidePath(null);
-        return this;
-    }
-
-    public void setRequests(Set<Request> requests) {
-        if (this.requests != null) {
-            this.requests.forEach(i -> i.setRidePath(null));
-        }
-        if (requests != null) {
-            requests.forEach(i -> i.setRidePath(this));
-        }
-        this.requests = requests;
-    }
-
-    public Set<Transporter> getTransports() {
-        return this.transports;
-    }
-
-    public RidePath transports(Set<Transporter> transporters) {
-        this.setTransports(transporters);
-        return this;
-    }
-
-    public RidePath addTransports(Transporter transporter) {
-        this.transports.add(transporter);
-        transporter.getRidePaths().add(this);
-        return this;
-    }
-
-    public RidePath removeTransports(Transporter transporter) {
-        this.transports.remove(transporter);
-        transporter.getRidePaths().remove(this);
-        return this;
-    }
-
-    public void setTransports(Set<Transporter> transporters) {
-        if (this.transports != null) {
-            this.transports.forEach(i -> i.removeRidePath(this));
-        }
-        if (transporters != null) {
-            transporters.forEach(i -> i.addRidePath(this));
-        }
-        this.transports = transporters;
+    public void setRadius(Double radius) {
+        this.radius = radius;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -200,6 +144,7 @@ public class RidePath implements Serializable {
             ", destination='" + getDestination() + "'" +
             ", distance='" + getDistance() + "'" +
             ", estimatedTime='" + getEstimatedTime() + "'" +
+            ", radius=" + getRadius() +
             "}";
     }
 }

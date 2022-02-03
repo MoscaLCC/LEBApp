@@ -1,10 +1,8 @@
 package com.leb.app.domain;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -19,7 +17,9 @@ public class UserInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    @SequenceGenerator(name = "sequenceGenerator")
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "phone_number")
@@ -32,28 +32,51 @@ public class UserInfo implements Serializable {
     private Integer nif;
 
     @Column(name = "birthday")
-    private LocalDate birthday;
+    private Instant birthday;
 
     @Column(name = "address")
     private String address;
 
-    @OneToOne(optional = false)
-    @NotNull
-    @JoinColumn(unique = true)
-    private User user;
+    @Column(name = "link_social")
+    private String linkSocial;
+
+    @Column(name = "number_requests")
+    private Integer numberRequests;
+
+    @Column(name = "payed_value")
+    private Double payedValue;
+
+    @Column(name = "available_balance")
+    private Double availableBalance;
+
+    @Column(name = "frozen_balance")
+    private Double frozenBalance;
+
+    @Column(name = "ranking")
+    private Double ranking;
+
+    @Column(name = "number_of_deliveries")
+    private Integer numberOfDeliveries;
+
+    @Column(name = "number_of_km")
+    private Double numberOfKm;
+
+    @Column(name = "user_id")
+    private Long userId;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+
     public Long getId() {
-        return id;
+        return this.id;
+    }
+
+    public UserInfo id(Long id) {
+        this.setId(id);
+        return this;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public UserInfo id(Long id) {
-        this.id = id;
-        return this;
     }
 
     public String getPhoneNumber() {
@@ -61,7 +84,7 @@ public class UserInfo implements Serializable {
     }
 
     public UserInfo phoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        this.setPhoneNumber(phoneNumber);
         return this;
     }
 
@@ -74,7 +97,7 @@ public class UserInfo implements Serializable {
     }
 
     public UserInfo nib(String nib) {
-        this.nib = nib;
+        this.setNib(nib);
         return this;
     }
 
@@ -87,7 +110,7 @@ public class UserInfo implements Serializable {
     }
 
     public UserInfo nif(Integer nif) {
-        this.nif = nif;
+        this.setNif(nif);
         return this;
     }
 
@@ -95,45 +118,135 @@ public class UserInfo implements Serializable {
         this.nif = nif;
     }
 
-    public LocalDate getBirthday() {
+    public Instant getBirthday() {
         return this.birthday;
     }
 
-    public UserInfo birthday(LocalDate birthday) {
-        this.birthday = birthday;
+    public UserInfo birthday(Instant birthday) {
+        this.setBirthday(birthday);
         return this;
     }
 
-    public void setBirthday(LocalDate birthday) {
+    public void setBirthday(Instant birthday) {
         this.birthday = birthday;
     }
 
-    public String getAdress() {
+    public String getAddress() {
         return this.address;
     }
 
     public UserInfo address(String address) {
-        this.address = address;
+        this.setAddress(address);
         return this;
     }
 
-    public void setAdress(String address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
-    public User getUser() {
-        return this.user;
+    public String getLinkSocial() {
+        return this.linkSocial;
     }
 
-    public UserInfo user(User user) {
-        this.setUser(user);
+    public UserInfo linkSocial(String linkSocial) {
+        this.setLinkSocial(linkSocial);
         return this;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setLinkSocial(String linkSocial) {
+        this.linkSocial = linkSocial;
     }
+
+    public Integer getNumberRequests() {
+        return this.numberRequests;
+    }
+
+    public UserInfo numberRequests(Integer numberRequests) {
+        this.setNumberRequests(numberRequests);
+        return this;
+    }
+
+    public void setNumberRequests(Integer numberRequests) {
+        this.numberRequests = numberRequests;
+    }
+
+    public Double getPayedValue() {
+        return this.payedValue;
+    }
+
+    public UserInfo payedValue(Double payedValue) {
+        this.setPayedValue(payedValue);
+        return this;
+    }
+
+    public void setPayedValue(Double payedValue) {
+        this.payedValue = payedValue;
+    }
+
+    public Double getRanking() {
+        return this.ranking;
+    }
+
+    public UserInfo ranking(Double ranking) {
+        this.setRanking(ranking);
+        return this;
+    }
+
+    public void setRanking(Double ranking) {
+        this.ranking = ranking;
+    }
+
+    public Integer getNumberOfDeliveries() {
+        return this.numberOfDeliveries;
+    }
+
+    public UserInfo numberOfDeliveries(Integer numberOfDeliveries) {
+        this.setNumberOfDeliveries(numberOfDeliveries);
+        return this;
+    }
+
+    public void setNumberOfDeliveries(Integer numberOfDeliveries) {
+        this.numberOfDeliveries = numberOfDeliveries;
+    }
+
+    public Double getNumberOfKm() {
+        return this.numberOfKm;
+    }
+
+    public UserInfo numberOfKm(Double numberOfKm) {
+        this.setNumberOfKm(numberOfKm);
+        return this;
+    }
+
+    public void setNumberOfKm(Double numberOfKm) {
+        this.numberOfKm = numberOfKm;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
+
+    public Double getAvailableBalance() {
+        return availableBalance;
+    }
+
+    public void setAvailableBalance(Double availableBalance) {
+        this.availableBalance = availableBalance;
+    }
+
+    public Double getFrozenBalance() {
+        return frozenBalance;
+    }
+
+    public void setFrozenBalance(Double frozenBalance) {
+        this.frozenBalance = frozenBalance;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -152,16 +265,16 @@ public class UserInfo implements Serializable {
         return getClass().hashCode();
     }
 
-    // prettier-ignore
     @Override
     public String toString() {
-        return "UserInfo{" +
-            "id=" + getId() +
-            ", phoneNumber='" + getPhoneNumber() + "'" +
-            ", nib='" + getNib() + "'" +
-            ", nif=" + getNif() +
-            ", birthday='" + getBirthday() + "'" +
-            ", address='" + getAdress() + "'" +
-            "}";
+        return "UserInfo [address=" + address + ", availableBalance=" + availableBalance + ", birthday=" + birthday
+                + ", frozenBalance=" + frozenBalance + ", id=" + id + ", linkSocial=" + linkSocial + ", nib=" + nib
+                + ", nif=" + nif + ", numberOfDeliveries=" + numberOfDeliveries + ", numberOfKm=" + numberOfKm
+                + ", numberRequests=" + numberRequests + ", payedValue=" + payedValue + ", phoneNumber=" + phoneNumber
+                + ", ranking=" + ranking + ", userId=" + userId + "]";
     }
+
+
+    
+
 }

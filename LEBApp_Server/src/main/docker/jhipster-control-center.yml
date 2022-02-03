@@ -1,6 +1,6 @@
 ## How to use JHCC docker compose
 # To allow JHCC to reach JHipster application from a docker container note that we set the host as host.docker.internal
-# To reach the application from a browser, you need to add '192.168.1.110 host.docker.internal' to your hosts file.
+# To reach the application from a browser, you need to add '127.0.0.1 host.docker.internal' to your hosts file.
 ### Discovery mode
 # JHCC support 3 kinds of discovery mode: Consul, Eureka and static
 # In order to use one, please set SPRING_PROFILES_ACTIVE to one (and only one) of this values: consul,eureka,static
@@ -23,7 +23,7 @@
 
 #### IMPORTANT
 # If you choose Consul or Eureka mode:
-# Do not forget to remove the prefix "192.168.1.110" in front of their port in order to expose them.
+# Do not forget to remove the prefix "127.0.0.1" in front of their port in order to expose them.
 # This is required because JHCC need to communicate with Consul or Eureka.
 # - In Consul mode, the ports are in the consul.yml file.
 # - In Eureka mode, the ports are in the jhipster-registry.yml file.
@@ -31,7 +31,7 @@
 version: '3.8'
 services:
   jhipster-control-center:
-    image: 'jhipster/jhipster-control-center:v0.4.1'
+    image: 'jhipster/jhipster-control-center:v0.5.0'
     command:
       - /bin/sh
       - -c
@@ -39,14 +39,14 @@ services:
       - echo "`ip route | grep default | cut -d ' ' -f3` host.docker.internal" | tee -a /etc/hosts > /dev/null && java -jar /jhipster-control-center.jar
     environment:
       - _JAVA_OPTIONS=-Xmx512m -Xms256m
-      - SPRING_PROFILES_ACTIVE=prod,api-docs,static
+      - SPRING_PROFILES_ACTIVE=prod,api-docs,no
       - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
       - SPRING_SECURITY_USER_PASSWORD=admin
       # The token should have the same value than the one declared in you Spring configuration under the jhipster.security.authentication.jwt.base64-secret configuration's entry
-      - JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET=ZDlhZWUxMGFhYmE4ODQ3ZWI4NWMxMmVjOTBlYTdjZmNhYjYxODJlODliNWEzYWY1ZWFkOGIwZTNjMTU5ZGUzZTM0ZDExNzdjYTJlYTcyNWM3MDY2Njk4Njc4NTJmOTU1ZWRhN2U5NGE5MmEyNWUxYTYyMWRlMzNiMTNjY2VmMzI=
-      - SPRING_CLOUD_DISCOVERY_CLIENT_SIMPLE_INSTANCES_LEBAPP_SERVER_0_URI=http://host.docker.internal:8080
+      - JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET=MjI3MzMzZmIwN2Y4YmMyZDM0ODhiMTA5MjE1NWFiMmUxMzBiMWY4NGNlMmQ5YTJiN2I2ZTE0OTBjYTQ1NWVmOWM5ODUyOGM4MjRlODA2N2YxMzZjNWNmZjA3ZWIwZmQzZjFiZjA0MDdkZmQwNTliYWYwMjU3NTAxYjkyMzYwN2E=
+      - SPRING_CLOUD_DISCOVERY_CLIENT_SIMPLE_INSTANCES_LEB_0_URI=http://host.docker.internal:8080
       - LOGGING_FILE_NAME=/tmp/jhipster-control-center.log
     # If you want to expose these ports outside your dev PC,
-    # remove the "192.168.1.110:" prefix
+    # remove the "127.0.0.1:" prefix
     ports:
-      - 192.168.1.110:7419:7419
+      - 127.0.0.1:7419:7419

@@ -1,9 +1,13 @@
 package com.leb.app.web.rest;
 
+import com.leb.app.domain.User;
+import com.leb.app.domain.UserInfo;
 import com.leb.app.repository.UserInfoRepository;
 import com.leb.app.service.UserInfoQueryService;
 import com.leb.app.service.UserInfoService;
+import com.leb.app.service.UserService;
 import com.leb.app.service.criteria.UserInfoCriteria;
+import com.leb.app.service.dto.UserFullInfoDTO;
 import com.leb.app.service.dto.UserInfoDTO;
 import com.leb.app.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
@@ -44,23 +48,21 @@ public class UserInfoResource {
 
     private final UserInfoQueryService userInfoQueryService;
 
+    private final UserService userService;
+
     public UserInfoResource(
         UserInfoService userInfoService,
         UserInfoRepository userInfoRepository,
-        UserInfoQueryService userInfoQueryService
+        UserInfoQueryService userInfoQueryService,
+        UserService userService
     ) {
         this.userInfoService = userInfoService;
         this.userInfoRepository = userInfoRepository;
         this.userInfoQueryService = userInfoQueryService;
+        this.userService = userService;
     }
 
-    /**
-     * {@code POST  /user-infos} : Create a new userInfo.
-     *
-     * @param userInfoDTO the userInfoDTO to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new userInfoDTO, or with status {@code 400 (Bad Request)} if the userInfo has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
+
     @PostMapping("/user-infos")
     public ResponseEntity<UserInfoDTO> createUserInfo(@RequestBody UserInfoDTO userInfoDTO) throws URISyntaxException {
         log.debug("REST request to save UserInfo : {}", userInfoDTO);
@@ -74,16 +76,7 @@ public class UserInfoResource {
             .body(result);
     }
 
-    /**
-     * {@code PUT  /user-infos/:id} : Updates an existing userInfo.
-     *
-     * @param id the id of the userInfoDTO to save.
-     * @param userInfoDTO the userInfoDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated userInfoDTO,
-     * or with status {@code 400 (Bad Request)} if the userInfoDTO is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the userInfoDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
+
     @PutMapping("/user-infos/{id}")
     public ResponseEntity<UserInfoDTO> updateUserInfo(
         @PathVariable(value = "id", required = false) final Long id,
@@ -108,18 +101,8 @@ public class UserInfoResource {
             .body(result);
     }
 
-    /**
-     * {@code PATCH  /user-infos/:id} : Partial updates given fields of an existing userInfo, field will ignore if it is null
-     *
-     * @param id the id of the userInfoDTO to save.
-     * @param userInfoDTO the userInfoDTO to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated userInfoDTO,
-     * or with status {@code 400 (Bad Request)} if the userInfoDTO is not valid,
-     * or with status {@code 404 (Not Found)} if the userInfoDTO is not found,
-     * or with status {@code 500 (Internal Server Error)} if the userInfoDTO couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PatchMapping(value = "/user-infos/{id}", consumes = "application/merge-patch+json")
+
+    @PatchMapping(value = "/user-infos/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<UserInfoDTO> partialUpdateUserInfo(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody UserInfoDTO userInfoDTO
@@ -144,13 +127,7 @@ public class UserInfoResource {
         );
     }
 
-    /**
-     * {@code GET  /user-infos} : get all the userInfos.
-     *
-     * @param pageable the pagination information.
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of userInfos in body.
-     */
+
     @GetMapping("/user-infos")
     public ResponseEntity<List<UserInfoDTO>> getAllUserInfos(UserInfoCriteria criteria, Pageable pageable) {
         log.debug("REST request to get UserInfos by criteria: {}", criteria);
@@ -159,24 +136,13 @@ public class UserInfoResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
-    /**
-     * {@code GET  /user-infos/count} : count all the userInfos.
-     *
-     * @param criteria the criteria which the requested entities should match.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-     */
+
     @GetMapping("/user-infos/count")
     public ResponseEntity<Long> countUserInfos(UserInfoCriteria criteria) {
         log.debug("REST request to count UserInfos by criteria: {}", criteria);
         return ResponseEntity.ok().body(userInfoQueryService.countByCriteria(criteria));
     }
 
-    /**
-     * {@code GET  /user-infos/:id} : get the "id" userInfo.
-     *
-     * @param id the id of the userInfoDTO to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the userInfoDTO, or with status {@code 404 (Not Found)}.
-     */
     @GetMapping("/user-infos/{id}")
     public ResponseEntity<UserInfoDTO> getUserInfo(@PathVariable Long id) {
         log.debug("REST request to get UserInfo : {}", id);
@@ -184,12 +150,33 @@ public class UserInfoResource {
         return ResponseUtil.wrapOrNotFound(userInfoDTO);
     }
 
-    /**
-     * {@code DELETE  /user-infos/:id} : delete the "id" userInfo.
-     *
-     * @param id the id of the userInfoDTO to delete.
-     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
-     */
+    @PutMapping("/user-infos/load/{id}/{value}")
+    public ResponseEntity<UserInfoDTO> loadMoney(
+        @PathVariable(value = "id", required = false) final Long id,
+        @PathVariable(value = "value", required = false) final Double value
+    ) throws URISyntaxException {
+        userInfoService.loadMoney(id, value);
+        return ResponseEntity
+            .ok()
+            .build();
+    }
+
+    @GetMapping("/user-infos/user/{id}")
+    public ResponseEntity<UserFullInfoDTO> getUserInfoUser(@PathVariable Long id) {
+        log.debug("REST request to get UserInfo : {}", id);
+        Optional<User> user = userService.getUser(id);
+        Optional<UserInfo> userInfo = userInfoService.findOneByUserId(id);
+        
+        if(user.isPresent() && userInfo.isPresent()){
+            UserFullInfoDTO dto = new UserFullInfoDTO();
+            dto.update(user.get(), userInfo.get());
+            return ResponseEntity.ok().body(dto);
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+        
+    }
+
     @DeleteMapping("/user-infos/{id}")
     public ResponseEntity<Void> deleteUserInfo(@PathVariable Long id) {
         log.debug("REST request to delete UserInfo : {}", id);

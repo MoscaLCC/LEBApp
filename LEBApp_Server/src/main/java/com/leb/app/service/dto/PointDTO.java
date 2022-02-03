@@ -10,21 +10,19 @@ public class PointDTO implements Serializable {
 
     private Long id;
 
+    private String name;
+
     private String openingTime;
 
     private String closingTime;
 
+    private String address;
+
     private Integer numberOfDeliveries;
 
-    private Double receivedValue;
+    private Long ownerPoint;
 
-    private Double valueToReceive;
-
-    private Double ranking;
-
-    private UserInfoDTO userInfo;
-
-    private ZoneDTO zone;
+    private Long status;
 
     public Long getId() {
         return id;
@@ -32,14 +30,6 @@ public class PointDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getClosingTime() {
-        return closingTime;
-    }
-
-    public void setClosingTime(String closingTime) {
-        this.closingTime = closingTime;
     }
 
     public String getOpeningTime() {
@@ -50,6 +40,22 @@ public class PointDTO implements Serializable {
         this.openingTime = openingTime;
     }
 
+    public String getClosingTime() {
+        return closingTime;
+    }
+
+    public void setClosingTime(String closingTime) {
+        this.closingTime = closingTime;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public Integer getNumberOfDeliveries() {
         return numberOfDeliveries;
     }
@@ -58,44 +64,28 @@ public class PointDTO implements Serializable {
         this.numberOfDeliveries = numberOfDeliveries;
     }
 
-    public Double getReceivedValue() {
-        return receivedValue;
+    public Long getStatus() {
+        return status;
     }
 
-    public void setReceivedValue(Double receivedValue) {
-        this.receivedValue = receivedValue;
+    public void setStatus(Long status) {
+        this.status = status;
     }
 
-    public Double getValueToReceive() {
-        return valueToReceive;
+    public Long getOwnerPoint() {
+        return ownerPoint;
     }
 
-    public void setValueToReceive(Double valueToReceive) {
-        this.valueToReceive = valueToReceive;
+    public void setOwnerPoint(Long ownerPoint) {
+        this.ownerPoint = ownerPoint;
     }
 
-    public Double getRanking() {
-        return ranking;
+    public String getName() {
+        return name;
     }
 
-    public void setRanking(Double ranking) {
-        this.ranking = ranking;
-    }
-
-    public UserInfoDTO getUserInfo() {
-        return userInfo;
-    }
-
-    public void setUserInfo(UserInfoDTO userInfo) {
-        this.userInfo = userInfo;
-    }
-
-    public ZoneDTO getZone() {
-        return zone;
-    }
-
-    public void setZone(ZoneDTO zone) {
-        this.zone = zone;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -124,13 +114,13 @@ public class PointDTO implements Serializable {
     public String toString() {
         return "PointDTO{" +
             "id=" + getId() +
+            ", name='" + getName() + "'" +
             ", openingTime='" + getOpeningTime() + "'" +
+            ", closingTime='" + getClosingTime() + "'" +
+            ", address='" + getAddress() + "'" +
             ", numberOfDeliveries=" + getNumberOfDeliveries() +
-            ", receivedValue=" + getReceivedValue() +
-            ", valueToReceive=" + getValueToReceive() +
-            ", ranking=" + getRanking() +
-            ", userInfo=" + getUserInfo() +
-            ", zone=" + getZone() +
+            ", status=" + getStatus() +
+            ", ownerPoint=" + getOwnerPoint() +
             "}";
     }
 }

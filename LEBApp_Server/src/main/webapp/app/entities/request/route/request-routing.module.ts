@@ -17,12 +17,15 @@ const requestRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/view',
+    path: 'view/:id',
+    data: {
+      authorities: [],
+    },
     component: RequestDetailComponent,
     resolve: {
       request: RequestRoutingResolveService,
     },
-    canActivate: [UserRouteAccessService],
+    //canActivate: [UserRouteAccessService],
   },
   {
     path: 'new',

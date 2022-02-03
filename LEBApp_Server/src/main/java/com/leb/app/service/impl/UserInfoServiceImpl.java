@@ -45,12 +45,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 
         return userInfoRepository
             .findById(userInfoDTO.getId())
-            .map(
-                existingUserInfo -> {
-                    userInfoMapper.partialUpdate(existingUserInfo, userInfoDTO);
-                    return existingUserInfo;
-                }
-            )
+            .map(existingUserInfo -> {
+                userInfoMapper.partialUpdate(existingUserInfo, userInfoDTO);
+
+                return existingUserInfo;
+            })
             .map(userInfoRepository::save)
             .map(userInfoMapper::toDto);
     }
@@ -70,8 +69,27 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Optional<UserInfo> findOneByUserId(Long id) {
+        log.debug("Request to get UserInfo : {}", id);
+        return userInfoRepository.findByUserId(id);
+    }
+
+    @Override
     public void delete(Long id) {
         log.debug("Request to delete UserInfo : {}", id);
         userInfoRepository.deleteById(id);
+    }
+
+
+    @Override
+    @Transactional
+    public void loadMoney(Long id, Double value){
+        Optional<UserInfo> opUser = userInfoRepository.findById(id);
+        if(opUser.isPresent()){
+            UserInfo user = opUser.get();
+            user.setAvailableBalance(user.getAvailableBalance() + value);
+            userInfoRepository.saveAndFlush(user);
+        }
     }
 }

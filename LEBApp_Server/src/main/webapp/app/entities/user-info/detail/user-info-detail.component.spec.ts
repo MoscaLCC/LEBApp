@@ -4,35 +4,33 @@ import { of } from 'rxjs';
 
 import { UserInfoDetailComponent } from './user-info-detail.component';
 
-describe('Component Tests', () => {
-  describe('UserInfo Management Detail Component', () => {
-    let comp: UserInfoDetailComponent;
-    let fixture: ComponentFixture<UserInfoDetailComponent>;
+describe('UserInfo Management Detail Component', () => {
+  let comp: UserInfoDetailComponent;
+  let fixture: ComponentFixture<UserInfoDetailComponent>;
 
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        declarations: [UserInfoDetailComponent],
-        providers: [
-          {
-            provide: ActivatedRoute,
-            useValue: { data: of({ userInfo: { id: 123 } }) },
-          },
-        ],
-      })
-        .overrideTemplate(UserInfoDetailComponent, '')
-        .compileComponents();
-      fixture = TestBed.createComponent(UserInfoDetailComponent);
-      comp = fixture.componentInstance;
-    });
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [UserInfoDetailComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: { data: of({ userInfo: { id: 123 } }) },
+        },
+      ],
+    })
+      .overrideTemplate(UserInfoDetailComponent, '')
+      .compileComponents();
+    fixture = TestBed.createComponent(UserInfoDetailComponent);
+    comp = fixture.componentInstance;
+  });
 
-    describe('OnInit', () => {
-      it('Should load userInfo on init', () => {
-        // WHEN
-        comp.ngOnInit();
+  describe('OnInit', () => {
+    it('Should load userInfo on init', () => {
+      // WHEN
+      comp.ngOnInit();
 
-        // THEN
-        expect(comp.userInfo).toEqual(jasmine.objectContaining({ id: 123 }));
-      });
+      // THEN
+      expect(comp.userInfo).toEqual(expect.objectContaining({ id: 123 }));
     });
   });
 });

@@ -5,6 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 
+import * as dayjs from 'dayjs';
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
+
 import { IUserInfo, UserInfo } from '../user-info.model';
 import { UserInfoService } from '../service/user-info.service';
 
@@ -22,12 +25,26 @@ export class UserInfoUpdateComponent implements OnInit {
     nif: [],
     birthday: [],
     address: [],
+    linkSocial: [],
+    numberRequests: [],
+    payedValue: [],
+    availableBalance: [],
+    frozenBalance: [],
+    ranking: [],
+    numberOfDeliveries: [],
+    numberOfKm: [],
+    userId: [],
   });
 
   constructor(protected userInfoService: UserInfoService, protected activatedRoute: ActivatedRoute, protected fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ userInfo }) => {
+      if (userInfo.id === undefined) {
+        const today = dayjs().startOf('day');
+        userInfo.birthday = today;
+      }
+
       this.updateForm(userInfo);
     });
   }
@@ -71,8 +88,17 @@ export class UserInfoUpdateComponent implements OnInit {
       phoneNumber: userInfo.phoneNumber,
       nib: userInfo.nib,
       nif: userInfo.nif,
-      birthday: userInfo.birthday,
+      birthday: userInfo.birthday ? userInfo.birthday.format(DATE_TIME_FORMAT) : null,
       address: userInfo.address,
+      linkSocial: userInfo.linkSocial,
+      numberRequests: userInfo.numberRequests,
+      payedValue: userInfo.payedValue,
+      availableBalance: userInfo.availableBalance,
+      frozenBalance: userInfo.frozenBalance,
+      ranking: userInfo.ranking,
+      numberOfDeliveries: userInfo.numberOfDeliveries,
+      numberOfKm: userInfo.numberOfKm,
+      userId: userInfo.userId,
     });
   }
 
@@ -83,8 +109,17 @@ export class UserInfoUpdateComponent implements OnInit {
       phoneNumber: this.editForm.get(['phoneNumber'])!.value,
       nib: this.editForm.get(['nib'])!.value,
       nif: this.editForm.get(['nif'])!.value,
-      birthday: this.editForm.get(['birthday'])!.value,
+      birthday: this.editForm.get(['birthday'])!.value ? dayjs(this.editForm.get(['birthday'])!.value, DATE_TIME_FORMAT) : undefined,
       address: this.editForm.get(['address'])!.value,
+      linkSocial: this.editForm.get(['linkSocial'])!.value,
+      numberRequests: this.editForm.get(['numberRequests'])!.value,
+      payedValue: this.editForm.get(['payedValue'])!.value,
+      availableBalance: this.editForm.get(['availableBalance'])!.value,
+      frozenBalance: this.editForm.get(['frozenBalance'])!.value,
+      ranking: this.editForm.get(['ranking'])!.value,
+      numberOfDeliveries: this.editForm.get(['numberOfDeliveries'])!.value,
+      numberOfKm: this.editForm.get(['numberOfKm'])!.value,
+      userId: this.editForm.get(['userId'])!.value,
     };
   }
 }

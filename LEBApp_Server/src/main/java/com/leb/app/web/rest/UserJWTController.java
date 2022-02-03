@@ -1,24 +1,17 @@
 package com.leb.app.web.rest;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.leb.app.domain.User;
-import com.leb.app.repository.UserRepository;
-import com.leb.app.security.jwt.JWTFilter;
-import com.leb.app.security.jwt.TokenProvider;
-import com.leb.app.service.DeliveryManService;
-import com.leb.app.service.PointService;
-import com.leb.app.service.ProducerService;
-import com.leb.app.service.TransporterService;
-import com.leb.app.service.dto.LoginDTO;
-import com.leb.app.web.rest.vm.LoginVM;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.leb.app.domain.User;
+import com.leb.app.security.jwt.JWTFilter;
+import com.leb.app.security.jwt.TokenProvider;
+import com.leb.app.service.UserService;
+import com.leb.app.service.dto.LoginDTO;
+import com.leb.app.web.rest.vm.LoginVM;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +19,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Controller to authenticate users.
@@ -35,42 +34,20 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class UserJWTController {
 
-    private final Logger log = LoggerFactory.getLogger(UserJWTController.class);
-
-    private final TokenProvider tokenProvider;
+    private final Logger log = LoggerFactory.getLogger(UserJWTController.class);    private final TokenProvider tokenProvider;
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    private final PointService pointService;
+    private final UserService userService;
 
-    private final TransporterService transporterService;
-
-    private final ProducerService producerService;
-
-    private final DeliveryManService deliveryManService;
-
-    private final UserRepository userRepository;
-
-    public UserJWTController(TokenProvider tokenProvider, 
-    AuthenticationManagerBuilder authenticationManagerBuilder,
-    PointService pointService,
-    TransporterService transporterService,
-    ProducerService produtorService,
-    DeliveryManService deliveryManService,
-    UserRepository userRepository
-    ) {
+    public UserJWTController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder, UserService userService) {
         this.tokenProvider = tokenProvider;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
-        this.pointService = pointService;
-        this.transporterService = transporterService;
-        this.producerService = produtorService;
-        this.deliveryManService = deliveryManService;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<JWTToken> authorize(@Valid @RequestBody LoginVM loginVM) {
-        log.info("<authorize>");
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
             loginVM.getUsername(),
             loginVM.getPassword()
@@ -81,8 +58,7 @@ public class UserJWTController {
         String jwt = tokenProvider.createToken(authentication, loginVM.isRememberMe());
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
-        log.info("</authorize>");
-        return new ResponseEntity<JWTToken>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
     }
 
     @PostMapping("/interface/authenticate")
@@ -99,26 +75,16 @@ public class UserJWTController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
         
-        User user = userRepository.findOneByLogin(loginVM.getUsername()).get();
-        LoginDTO login = new LoginDTO("Bearer " + jwt, user.getId(), user.getFirstName(), user.getLastName(), getProfils(user));
-
-        log.info("</authorize>");
-        return new ResponseEntity<>(login, httpHeaders, HttpStatus.OK);
-    }
-
-    private List<String> getProfils(User user){
-        log.info("<getProfils>");
-        List<String> profils = new ArrayList<>();
-    
-        Long userId = user.getId();
-
-        if(deliveryManService.isDeliveryMan(userId)) profils.add("DeliveryMan");
-        if(producerService.isProducer(userId)) profils.add("Producer");
-        if(transporterService.isTransporter(userId)) profils.add("Transporter");
-        if(pointService.isPoint(userId)) profils.add("Point");
-
-        log.info("</getProfils>");
-        return profils;
+        Optional<User> opUser = userService.getUserByLogin(loginVM.getUsername());
+        if (opUser.isPresent()){
+            User user = opUser.get();
+            LoginDTO login = new LoginDTO("Bearer " + jwt, user.getId(), user.getFirstName(), user.getLastName());
+            log.info("</authorize>");
+            return new ResponseEntity<>(login, httpHeaders, HttpStatus.OK);
+        } else {
+            log.info("</authorize>");
+            return new ResponseEntity<>(null, httpHeaders, HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**

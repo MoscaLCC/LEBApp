@@ -24,6 +24,7 @@ management:
   endpoint:
     health:
       show-details: when_authorized
+      roles: 'ROLE_ADMIN'
       probes:
         enabled: true
     jhimetrics:
@@ -36,7 +37,7 @@ management:
       liveness:
         include: livenessState
       readiness:
-        include: readinessState,datasource
+        include: readinessState,db
     mail:
       enabled: false # When using the MailService, configure an SMTP server and set this to true
   metrics:
@@ -66,7 +67,7 @@ management:
 
 spring:
   application:
-    name: LEBApp_Server
+    name: LEB
   profiles:
     # The commented value for `active` can be replaced with valid Spring profiles to load.
     # Otherwise, it will be filled in by maven when building the JAR file
@@ -110,13 +111,13 @@ spring:
     allow-bean-definition-overriding: true
   task:
     execution:
-      thread-name-prefix: leb-app-server-task-
+      thread-name-prefix: leb-task-
       pool:
         core-size: 2
         max-size: 50
         queue-capacity: 10000
     scheduling:
-      thread-name-prefix: leb-app-server-scheduling-
+      thread-name-prefix: leb-scheduling-
       pool:
         size: 2
   thymeleaf:
@@ -144,7 +145,7 @@ info:
 
 jhipster:
   clientApp:
-    name: 'lebAppServerApp'
+    name: 'lebApp'
   # By default CORS is disabled. Uncomment to enable.
   # cors:
   #   allowed-origins: "http://localhost:8100,http://localhost:9000"
@@ -154,12 +155,12 @@ jhipster:
   #   allow-credentials: true
   #   max-age: 1800
   mail:
-    from: LEBApp_Server@localhost
+    from: LEB@localhost
   api-docs:
     default-include-pattern: ${server.servlet.context-path:}/api/.*
     management-include-pattern: ${server.servlet.context-path:}/management/.*
-    title: LEBApp_Server API
-    description: LEBApp_Server API documentation
+    title: LEB API
+    description: LEB API documentation
     version: 0.0.1
     terms-of-service-url:
     contact-name:

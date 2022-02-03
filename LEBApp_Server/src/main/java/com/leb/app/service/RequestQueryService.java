@@ -7,7 +7,6 @@ import com.leb.app.service.criteria.RequestCriteria;
 import com.leb.app.service.dto.RequestDTO;
 import com.leb.app.service.mapper.RequestMapper;
 import java.util.List;
-import javax.persistence.criteria.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -83,6 +82,10 @@ public class RequestQueryService extends QueryService<Request> {
     protected Specification<Request> createSpecification(RequestCriteria criteria) {
         Specification<Request> specification = Specification.where(null);
         if (criteria != null) {
+            // This has to be called first, because the distinct method returns null
+            if (criteria.getDistinct() != null) {
+                specification = specification.and(distinct(criteria.getDistinct()));
+            }
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), Request_.id));
             }
@@ -99,14 +102,26 @@ public class RequestQueryService extends QueryService<Request> {
                 specification = specification.and(buildStringSpecification(criteria.getDestination(), Request_.destination));
             }
             if (criteria.getDestinationContact() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getDestinationContact(), Request_.destinationContact));
+                specification = specification.and(buildStringSpecification(criteria.getDestinationContact(), Request_.destinationContactEmail));
             }
-            if (criteria.getDescription() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getDescription(), Request_.description));
+            if (criteria.getInitDate() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getInitDate(), Request_.initDate));
+            }
+            if (criteria.getExpirationDate() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getExpirationDate(), Request_.expirationDate));
             }
             if (criteria.getSpecialCharacteristics() != null) {
                 specification =
                     specification.and(buildStringSpecification(criteria.getSpecialCharacteristics(), Request_.specialCharacteristics));
+            }
+            if (criteria.getWeight() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getWeight(), Request_.weight));
+            }
+            if (criteria.getHight() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getHight(), Request_.hight));
+            }
+            if (criteria.getWidth() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getWidth(), Request_.width));
             }
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatus(), Request_.status));
@@ -116,27 +131,6 @@ public class RequestQueryService extends QueryService<Request> {
             }
             if (criteria.getRating() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getRating(), Request_.rating));
-            }
-            if (criteria.getDimensionsId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getDimensionsId(),
-                            root -> root.join(Request_.dimensions, JoinType.LEFT).get(Dimensions_.id)
-                        )
-                    );
-            }
-            if (criteria.getRidePathId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(criteria.getRidePathId(), root -> root.join(Request_.ridePath, JoinType.LEFT).get(RidePath_.id))
-                    );
-            }
-            if (criteria.getProducerId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(criteria.getProducerId(), root -> root.join(Request_.producer, JoinType.LEFT).get(Producer_.id))
-                    );
             }
         }
         return specification;

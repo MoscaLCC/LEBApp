@@ -16,7 +16,7 @@
         </dd>
         <dt><span>Product Value</span></dt>
         <dd>
-          <span>{{ request.productValue }}</span>
+          <span>{{ request.productValue }}€</span>
         </dd>
         <dt><span>Product Name</span></dt>
         <dd>
@@ -30,75 +30,65 @@
         <dd>
           <span>{{ request.destination }}</span>
         </dd>
-        <dt><span>Destination Contact</span></dt>
+        <dt><span>Destination Email</span></dt>
         <dd>
-          <span>{{ request.destinationContact }}</span>
+          <span>{{ request.destinationContactEmail }}</span>
+        </dd>
+        <dt><span>Destination Mobile</span></dt>
+        <dd>
+          <span>{{ request.destinationContactMobile }}</span>
         </dd>
         <dt><span>Init Date</span></dt>
         <dd>
-          <span>{{ request.initDate | formatMediumDatetime }}</span>
+          <span>{{ request.initDate }}</span>
         </dd>
         <dt><span>Expiration Date</span></dt>
         <dd>
-          <span>{{ request.expirationDate | formatMediumDatetime }}</span>
-        </dd>
-        <dt><span>Description</span></dt>
-        <dd>
-          <span>{{ request.description }}</span>
+          <span>{{ request.expirationDate }}</span>
         </dd>
         <dt><span>Special Characteristics</span></dt>
         <dd>
           <span>{{ request.specialCharacteristics }}</span>
         </dd>
-        <dt><span>Product Weight</span></dt>
+        <dt><span>Weight</span></dt>
         <dd>
-          <span>{{ request.productWeight }}</span>
+          <span>{{ request.weight }} kg</span>
+        </dd>
+        <dt><span>Hight</span></dt>
+        <dd>
+          <span>{{ request.hight }} cm</span>
+        </dd>
+        <dt><span>Width</span></dt>
+        <dd>
+          <span>{{ request.width }} cm</span>
         </dd>
         <dt><span>Status</span></dt>
         <dd>
           <span>{{ request.status }}</span>
         </dd>
-        <dt><span>Estimated Date</span></dt>
-        <dd>
-          <span>{{ request.estimatedDate | formatMediumDatetime }}</span>
-        </dd>
-        <dt><span>Delivery Time</span></dt>
-        <dd>
-          <span>{{ request.deliveryTime | formatMediumDatetime }}</span>
-        </dd>
         <dt><span>Shipping Costs</span></dt>
         <dd>
-          <span>{{ request.shippingCosts }}</span>
+          <span>{{ request.shippingCosts }} €</span>
         </dd>
         <dt><span>Rating</span></dt>
         <dd>
           <span>{{ request.rating }}</span>
         </dd>
-        <dt><span>Dimensions</span></dt>
+        <dt><span>Owner Request</span></dt>
         <dd>
-          <div *ngIf="request.dimensions">
-            <a [routerLink]="['/dimensions', request.dimensions?.id, 'view']">{{ request.dimensions?.id }}</a>
-          </div>
+          <span>{{ request.ownerRequest }}</span>
         </dd>
-        <dt><span>Ride Path</span></dt>
+        <dt><span>Transporter</span></dt>
         <dd>
-          <div *ngIf="request.ridePath">
-            <a [routerLink]="['/ride-path', request.ridePath?.id, 'view']">{{ request.ridePath?.id }}</a>
-          </div>
-        </dd>
-        <dt><span>Producer</span></dt>
-        <dd>
-          <div *ngIf="request.producer">
-            <a [routerLink]="['/producer', request.producer?.id, 'view']">{{ request.producer?.id }}</a>
-          </div>
+          <span>{{ request.transporter }}</span>
         </dd>
       </dl>
 
-      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+      <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']" type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
         <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
       </button>
 
-      <button type="button" [routerLink]="['/request', request.id, 'edit']" class="btn btn-primary">
+      <button *jhiHasAnyAuthority="['ROLE_ADMIN', 'ROLE_USER']" type="button" [routerLink]="['/request', request.id, 'edit']" class="btn btn-primary">
         <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
       </button>
     </div>

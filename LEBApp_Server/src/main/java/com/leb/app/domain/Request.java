@@ -1,23 +1,8 @@
 package com.leb.app.domain;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.leb.app.domain.enumeration.Status;
-
+import java.io.Serializable;
+import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -32,7 +17,9 @@ public class Request implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+    @SequenceGenerator(name = "sequenceGenerator")
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "product_value")
@@ -47,8 +34,11 @@ public class Request implements Serializable {
     @Column(name = "destination")
     private String destination;
 
-    @Column(name = "destination_contact")
-    private String destinationContact;
+    @Column(name = "destination_contact_mobile")
+    private String destinationContactMobile;
+
+    @Column(name = "destination_contact_email")
+    private String destinationContactEmail;
 
     @Column(name = "init_date")
     private String initDate;
@@ -56,21 +46,21 @@ public class Request implements Serializable {
     @Column(name = "expiration_date")
     private String expirationDate;
 
-    @Column(name = "description")
-    private String description;
-
     @Column(name = "special_characteristics")
     private String specialCharacteristics;
+
+    @Column(name = "weight")
+    private Double weight;
+
+    @Column(name = "hight")
+    private Double hight;
+
+    @Column(name = "width")
+    private Double width;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private Status status;
-
-    @Column(name = "estimated_date")
-    private String estimatedDate;
-
-    @Column(name = "delivery_time")
-    private String deliveryTime;
 
     @Column(name = "shipping_costs")
     private Double shippingCosts;
@@ -78,54 +68,25 @@ public class Request implements Serializable {
     @Column(name = "rating")
     private Double rating;
 
-    @JsonIgnoreProperties(value = { "request" }, allowSetters = true)
-    @OneToOne
-    @NotNull
-    @JoinColumn(unique = true)
-    private Dimensions dimensions;
+    @Column(name = "owner_request")
+    private Long ownerRequest;
 
-    @ManyToOne(optional = false)
-    @NotNull
-    @JsonIgnoreProperties(value = { "requests", "transports" }, allowSetters = true)
-    private RidePath ridePath;
-
-    @ManyToOne(optional = false)
-    @NotNull
-    @JsonIgnoreProperties(value = { "userInfo", "requests" }, allowSetters = true)
-    private Producer producer;
-
-    @ManyToOne(optional = false)
-    @JsonIgnoreProperties(value = { "userInfo", "point" }, allowSetters = true)
-    private DeliveryMan collector;
-
-    @ManyToOne(optional = false)
-    @JsonIgnoreProperties(value = { "userInfo", "deliveryMen", "zone" }, allowSetters = true)
-    private Point originalPoint;
-
-    @ManyToOne(optional = false)
-    @JsonIgnoreProperties(value = { "userInfo", "ridePaths", "zones" }, allowSetters = true)
-    private Transporter transporter;
-
-    @ManyToOne(optional = false)
-    @JsonIgnoreProperties(value = { "userInfo", "deliveryMen", "zone" }, allowSetters = true)
-    private Point destinationPoint;
-
-    @ManyToOne(optional = false)
-    @JsonIgnoreProperties(value = { "userInfo", "point" }, allowSetters = true)
-    private DeliveryMan destributor;
+    @Column(name = "transporter")
+    private Long transporter;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+
     public Long getId() {
-        return id;
+        return this.id;
+    }
+
+    public Request id(Long id) {
+        this.setId(id);
+        return this;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Request id(Long id) {
-        this.id = id;
-        return this;
     }
 
     public Double getProductValue() {
@@ -133,7 +94,7 @@ public class Request implements Serializable {
     }
 
     public Request productValue(Double productValue) {
-        this.productValue = productValue;
+        this.setProductValue(productValue);
         return this;
     }
 
@@ -146,7 +107,7 @@ public class Request implements Serializable {
     }
 
     public Request productName(String productName) {
-        this.productName = productName;
+        this.setProductName(productName);
         return this;
     }
 
@@ -159,7 +120,7 @@ public class Request implements Serializable {
     }
 
     public Request source(String source) {
-        this.source = source;
+        this.setSource(source);
         return this;
     }
 
@@ -172,7 +133,7 @@ public class Request implements Serializable {
     }
 
     public Request destination(String destination) {
-        this.destination = destination;
+        this.setDestination(destination);
         return this;
     }
 
@@ -180,25 +141,12 @@ public class Request implements Serializable {
         this.destination = destination;
     }
 
-    public String getDestinationContact() {
-        return this.destinationContact;
-    }
-
-    public Request destinationContact(String destinationContact) {
-        this.destinationContact = destinationContact;
-        return this;
-    }
-
-    public void setDestinationContact(String destinationContact) {
-        this.destinationContact = destinationContact;
-    }
-
     public String getInitDate() {
         return this.initDate;
     }
 
     public Request initDate(String initDate) {
-        this.initDate = initDate;
+        this.setInitDate(initDate);
         return this;
     }
 
@@ -211,7 +159,7 @@ public class Request implements Serializable {
     }
 
     public Request expirationDate(String expirationDate) {
-        this.expirationDate = expirationDate;
+        this.setExpirationDate(expirationDate);
         return this;
     }
 
@@ -219,25 +167,12 @@ public class Request implements Serializable {
         this.expirationDate = expirationDate;
     }
 
-    public String getDescription() {
-        return this.description;
-    }
-
-    public Request description(String description) {
-        this.description = description;
-        return this;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getSpecialCharacteristics() {
         return this.specialCharacteristics;
     }
 
     public Request specialCharacteristics(String specialCharacteristics) {
-        this.specialCharacteristics = specialCharacteristics;
+        this.setSpecialCharacteristics(specialCharacteristics);
         return this;
     }
 
@@ -245,12 +180,51 @@ public class Request implements Serializable {
         this.specialCharacteristics = specialCharacteristics;
     }
 
+    public Double getWeight() {
+        return this.weight;
+    }
+
+    public Request weight(Double weight) {
+        this.setWeight(weight);
+        return this;
+    }
+
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
+
+    public Double getHight() {
+        return this.hight;
+    }
+
+    public Request hight(Double hight) {
+        this.setHight(hight);
+        return this;
+    }
+
+    public void setHight(Double hight) {
+        this.hight = hight;
+    }
+
+    public Double getWidth() {
+        return this.width;
+    }
+
+    public Request width(Double width) {
+        this.setWidth(width);
+        return this;
+    }
+
+    public void setWidth(Double width) {
+        this.width = width;
+    }
+
     public Status getStatus() {
         return this.status;
     }
 
     public Request status(Status status) {
-        this.status = status;
+        this.setStatus(status);
         return this;
     }
 
@@ -258,38 +232,12 @@ public class Request implements Serializable {
         this.status = status;
     }
 
-    public String getEstimatedDate() {
-        return this.estimatedDate;
-    }
-
-    public Request estimatedDate(String estimatedDate) {
-        this.estimatedDate = estimatedDate;
-        return this;
-    }
-
-    public void setEstimatedDate(String estimatedDate) {
-        this.estimatedDate = estimatedDate;
-    }
-
-    public String getDeliveryTime() {
-        return this.deliveryTime;
-    }
-
-    public Request deliveryTime(String deliveryTime) {
-        this.deliveryTime = deliveryTime;
-        return this;
-    }
-
-    public void setDeliveryTime(String deliveryTime) {
-        this.deliveryTime = deliveryTime;
-    }
-
     public Double getShippingCosts() {
         return this.shippingCosts;
     }
 
     public Request shippingCosts(Double shippingCosts) {
-        this.shippingCosts = shippingCosts;
+        this.setShippingCosts(shippingCosts);
         return this;
     }
 
@@ -302,7 +250,7 @@ public class Request implements Serializable {
     }
 
     public Request rating(Double rating) {
-        this.rating = rating;
+        this.setRating(rating);
         return this;
     }
 
@@ -310,121 +258,87 @@ public class Request implements Serializable {
         this.rating = rating;
     }
 
-    public Dimensions getDimensions() {
-        return this.dimensions;
+    public Long getOwnerRequest() {
+        return this.ownerRequest;
     }
 
-    public Request dimensions(Dimensions dimensions) {
-        this.setDimensions(dimensions);
+    public void setOwnerRequest(Long userInfo) {
+        this.ownerRequest = userInfo;
+    }
+
+    public Request ownerRequest(Long userInfo) {
+        this.setOwnerRequest(userInfo);
         return this;
     }
 
-    public void setDimensions(Dimensions dimensions) {
-        this.dimensions = dimensions;
+    public String getDestinationContactMobile() {
+        return destinationContactMobile;
     }
 
-    public RidePath getRidePath() {
-        return this.ridePath;
+    public void setDestinationContactMobile(String destinationContactMobile) {
+        this.destinationContactMobile = destinationContactMobile;
     }
 
-    public Request ridePath(RidePath ridePath) {
-        this.setRidePath(ridePath);
+    public String getDestinationContactEmail() {
+        return destinationContactEmail;
+    }
+
+    public void setDestinationContactEmail(String destinationContactEmail) {
+        this.destinationContactEmail = destinationContactEmail;
+    }
+
+    public Long getTransporter() {
+        return this.transporter;
+    }
+
+    public void setTransporter(Long userInfo) {
+        this.transporter = userInfo;
+    }
+
+    public Request transporter(Long userInfo) {
+        this.setTransporter(userInfo);
         return this;
     }
 
-    public void setRidePath(RidePath ridePath) {
-        this.ridePath = ridePath;
-    }
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
-    public Producer getProducer() {
-        return this.producer;
-    }
-
-    public Request producer(Producer producer) {
-        this.setProducer(producer);
-        return this;
-    }
-
-    public void setProducer(Producer producer) {
-        this.producer = producer;
-    }
-
-    public DeliveryMan getCollector() {
-        return collector;
-    }
-
-    public void setCollector(DeliveryMan collector) {
-        this.collector = collector;
-    }
-
-    public Point getOriginalPoint() {
-        return originalPoint;
-    }
-
-    public void setOriginalPoint(Point originalPoint) {
-        this.originalPoint = originalPoint;
-    }
-
-    public Transporter getTransporter() {
-        return transporter;
-    }
-
-    public void setTransporter(Transporter transporter) {
-        this.transporter = transporter;
-    }
-
-    public Point getDestinationPoint() {
-        return destinationPoint;
-    }
-
-    public void setDestinationPoint(Point destinationPoint) {
-        this.destinationPoint = destinationPoint;
-    }
-
-    public DeliveryMan getDestributor() {
-        return destributor;
-    }
-
-    public void setDestributor(DeliveryMan destributor) {
-        this.destributor = destributor;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Request)) {
+            return false;
+        }
+        return id != null && id.equals(((Request) o).id);
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        return getClass().hashCode();
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Request other = (Request) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
-    }
-
+    // prettier-ignore
     @Override
     public String toString() {
-        return "Request [collector=" + collector + ", deliveryTime=" + deliveryTime + ", description=" + description
-                + ", destination=" + destination + ", destinationContact=" + destinationContact + ", destinationPoint="
-                + destinationPoint + ", destributor=" + destributor + ", dimensions=" + dimensions + ", estimatedDate="
-                + estimatedDate + ", expirationDate=" + expirationDate + ", id=" + id + ", initDate=" + initDate
-                + ", originalPoint=" + originalPoint + ", producer=" + producer + ", productName=" + productName
-                + ", productValue=" + productValue + ", rating=" + rating
-                + ", ridePath=" + ridePath + ", shippingCosts=" + shippingCosts + ", source=" + source
-                + ", specialCharacteristics=" + specialCharacteristics + ", status=" + status + ", transporter="
-                + transporter + "]";
+        return "Request{" +
+            "id=" + getId() +
+            ", productValue=" + getProductValue() +
+            ", productName='" + getProductName() + "'" +
+            ", source='" + getSource() + "'" +
+            ", destination='" + getDestination() + "'" +
+            ", initDate='" + getInitDate() + "'" +
+            ", expirationDate='" + getExpirationDate() + "'" +
+            ", specialCharacteristics='" + getSpecialCharacteristics() + "'" +
+            ", weight=" + getWeight() +
+            ", hight=" + getHight() +
+            ", width=" + getWidth() +
+            ", status='" + getStatus() + "'" +
+            ", shippingCosts=" + getShippingCosts() +
+            ", rating=" + getRating() +
+            ", destinationContactEmail=" + getDestinationContactEmail() +
+            ", rating=" + getDestinationContactMobile() +
+            "}";
     }
-
 }

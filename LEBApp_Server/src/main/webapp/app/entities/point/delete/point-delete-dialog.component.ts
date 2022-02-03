@@ -10,7 +10,7 @@ import { PointService } from '../service/point.service';
 export class PointDeleteDialogComponent {
   point?: IPoint;
 
-  constructor(protected pointService: PointService, public activeModal: NgbActiveModal) {}
+  constructor(protected pointService: PointService, protected activeModal: NgbActiveModal) {}
 
   cancel(): void {
     this.activeModal.dismiss();

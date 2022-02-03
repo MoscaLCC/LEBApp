@@ -9,174 +9,92 @@ import { of, Subject } from 'rxjs';
 
 import { PointService } from '../service/point.service';
 import { IPoint, Point } from '../point.model';
-import { IUserInfo } from 'app/entities/user-info/user-info.model';
-import { UserInfoService } from 'app/entities/user-info/service/user-info.service';
-import { IZone } from 'app/entities/zone/zone.model';
-import { ZoneService } from 'app/entities/zone/service/zone.service';
 
 import { PointUpdateComponent } from './point-update.component';
 
-describe('Component Tests', () => {
-  describe('Point Management Update Component', () => {
-    let comp: PointUpdateComponent;
-    let fixture: ComponentFixture<PointUpdateComponent>;
-    let activatedRoute: ActivatedRoute;
-    let pointService: PointService;
-    let userInfoService: UserInfoService;
-    let zoneService: ZoneService;
+describe('Point Management Update Component', () => {
+  let comp: PointUpdateComponent;
+  let fixture: ComponentFixture<PointUpdateComponent>;
+  let activatedRoute: ActivatedRoute;
+  let pointService: PointService;
 
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
-        declarations: [PointUpdateComponent],
-        providers: [FormBuilder, ActivatedRoute],
-      })
-        .overrideTemplate(PointUpdateComponent, '')
-        .compileComponents();
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      declarations: [PointUpdateComponent],
+      providers: [FormBuilder, ActivatedRoute],
+    })
+      .overrideTemplate(PointUpdateComponent, '')
+      .compileComponents();
 
-      fixture = TestBed.createComponent(PointUpdateComponent);
-      activatedRoute = TestBed.inject(ActivatedRoute);
-      pointService = TestBed.inject(PointService);
-      userInfoService = TestBed.inject(UserInfoService);
-      zoneService = TestBed.inject(ZoneService);
+    fixture = TestBed.createComponent(PointUpdateComponent);
+    activatedRoute = TestBed.inject(ActivatedRoute);
+    pointService = TestBed.inject(PointService);
 
-      comp = fixture.componentInstance;
+    comp = fixture.componentInstance;
+  });
+
+  describe('save', () => {
+    it('Should call update service on save for existing entity', () => {
+      // GIVEN
+      const saveSubject = new Subject<HttpResponse<Point>>();
+      const point = { id: 123 };
+      jest.spyOn(pointService, 'update').mockReturnValue(saveSubject);
+      jest.spyOn(comp, 'previousState');
+      activatedRoute.data = of({ point });
+      comp.ngOnInit();
+
+      // WHEN
+      comp.save();
+      expect(comp.isSaving).toEqual(true);
+      saveSubject.next(new HttpResponse({ body: point }));
+      saveSubject.complete();
+
+      // THEN
+      expect(comp.previousState).toHaveBeenCalled();
+      expect(pointService.update).toHaveBeenCalledWith(point);
+      expect(comp.isSaving).toEqual(false);
     });
 
-    describe('ngOnInit', () => {
-      it('Should call userInfo query and add missing value', () => {
-        const point: IPoint = { id: 456 };
-        const userInfo: IUserInfo = { id: 84806 };
-        point.userInfo = userInfo;
+    it('Should call create service on save for new entity', () => {
+      // GIVEN
+      const saveSubject = new Subject<HttpResponse<Point>>();
+      const point = new Point();
+      jest.spyOn(pointService, 'create').mockReturnValue(saveSubject);
+      jest.spyOn(comp, 'previousState');
+      activatedRoute.data = of({ point });
+      comp.ngOnInit();
 
-        const userInfoCollection: IUserInfo[] = [{ id: 86465 }];
-        spyOn(userInfoService, 'query').and.returnValue(of(new HttpResponse({ body: userInfoCollection })));
-        const expectedCollection: IUserInfo[] = [userInfo, ...userInfoCollection];
-        spyOn(userInfoService, 'addUserInfoToCollectionIfMissing').and.returnValue(expectedCollection);
+      // WHEN
+      comp.save();
+      expect(comp.isSaving).toEqual(true);
+      saveSubject.next(new HttpResponse({ body: point }));
+      saveSubject.complete();
 
-        activatedRoute.data = of({ point });
-        comp.ngOnInit();
-
-        expect(userInfoService.query).toHaveBeenCalled();
-        expect(userInfoService.addUserInfoToCollectionIfMissing).toHaveBeenCalledWith(userInfoCollection, userInfo);
-        expect(comp.userInfosCollection).toEqual(expectedCollection);
-      });
-
-      it('Should call Zone query and add missing value', () => {
-        const point: IPoint = { id: 456 };
-        const zone: IZone = { id: 26435 };
-        point.zone = zone;
-
-        const zoneCollection: IZone[] = [{ id: 80990 }];
-        spyOn(zoneService, 'query').and.returnValue(of(new HttpResponse({ body: zoneCollection })));
-        const additionalZones = [zone];
-        const expectedCollection: IZone[] = [...additionalZones, ...zoneCollection];
-        spyOn(zoneService, 'addZoneToCollectionIfMissing').and.returnValue(expectedCollection);
-
-        activatedRoute.data = of({ point });
-        comp.ngOnInit();
-
-        expect(zoneService.query).toHaveBeenCalled();
-        expect(zoneService.addZoneToCollectionIfMissing).toHaveBeenCalledWith(zoneCollection, ...additionalZones);
-        expect(comp.zonesSharedCollection).toEqual(expectedCollection);
-      });
-
-      it('Should update editForm', () => {
-        const point: IPoint = { id: 456 };
-        const userInfo: IUserInfo = { id: 3753 };
-        point.userInfo = userInfo;
-        const zone: IZone = { id: 95416 };
-        point.zone = zone;
-
-        activatedRoute.data = of({ point });
-        comp.ngOnInit();
-
-        expect(comp.editForm.value).toEqual(expect.objectContaining(point));
-        expect(comp.userInfosCollection).toContain(userInfo);
-        expect(comp.zonesSharedCollection).toContain(zone);
-      });
+      // THEN
+      expect(pointService.create).toHaveBeenCalledWith(point);
+      expect(comp.isSaving).toEqual(false);
+      expect(comp.previousState).toHaveBeenCalled();
     });
 
-    describe('save', () => {
-      it('Should call update service on save for existing entity', () => {
-        // GIVEN
-        const saveSubject = new Subject();
-        const point = { id: 123 };
-        spyOn(pointService, 'update').and.returnValue(saveSubject);
-        spyOn(comp, 'previousState');
-        activatedRoute.data = of({ point });
-        comp.ngOnInit();
+    it('Should set isSaving to false on error', () => {
+      // GIVEN
+      const saveSubject = new Subject<HttpResponse<Point>>();
+      const point = { id: 123 };
+      jest.spyOn(pointService, 'update').mockReturnValue(saveSubject);
+      jest.spyOn(comp, 'previousState');
+      activatedRoute.data = of({ point });
+      comp.ngOnInit();
 
-        // WHEN
-        comp.save();
-        expect(comp.isSaving).toEqual(true);
-        saveSubject.next(new HttpResponse({ body: point }));
-        saveSubject.complete();
+      // WHEN
+      comp.save();
+      expect(comp.isSaving).toEqual(true);
+      saveSubject.error('This is an error!');
 
-        // THEN
-        expect(comp.previousState).toHaveBeenCalled();
-        expect(pointService.update).toHaveBeenCalledWith(point);
-        expect(comp.isSaving).toEqual(false);
-      });
-
-      it('Should call create service on save for new entity', () => {
-        // GIVEN
-        const saveSubject = new Subject();
-        const point = new Point();
-        spyOn(pointService, 'create').and.returnValue(saveSubject);
-        spyOn(comp, 'previousState');
-        activatedRoute.data = of({ point });
-        comp.ngOnInit();
-
-        // WHEN
-        comp.save();
-        expect(comp.isSaving).toEqual(true);
-        saveSubject.next(new HttpResponse({ body: point }));
-        saveSubject.complete();
-
-        // THEN
-        expect(pointService.create).toHaveBeenCalledWith(point);
-        expect(comp.isSaving).toEqual(false);
-        expect(comp.previousState).toHaveBeenCalled();
-      });
-
-      it('Should set isSaving to false on error', () => {
-        // GIVEN
-        const saveSubject = new Subject();
-        const point = { id: 123 };
-        spyOn(pointService, 'update').and.returnValue(saveSubject);
-        spyOn(comp, 'previousState');
-        activatedRoute.data = of({ point });
-        comp.ngOnInit();
-
-        // WHEN
-        comp.save();
-        expect(comp.isSaving).toEqual(true);
-        saveSubject.error('This is an error!');
-
-        // THEN
-        expect(pointService.update).toHaveBeenCalledWith(point);
-        expect(comp.isSaving).toEqual(false);
-        expect(comp.previousState).not.toHaveBeenCalled();
-      });
-    });
-
-    describe('Tracking relationships identifiers', () => {
-      describe('trackUserInfoById', () => {
-        it('Should return tracked UserInfo primary key', () => {
-          const entity = { id: 123 };
-          const trackResult = comp.trackUserInfoById(0, entity);
-          expect(trackResult).toEqual(entity.id);
-        });
-      });
-
-      describe('trackZoneById', () => {
-        it('Should return tracked Zone primary key', () => {
-          const entity = { id: 123 };
-          const trackResult = comp.trackZoneById(0, entity);
-          expect(trackResult).toEqual(entity.id);
-        });
-      });
+      // THEN
+      expect(pointService.update).toHaveBeenCalledWith(point);
+      expect(comp.isSaving).toEqual(false);
+      expect(comp.previousState).not.toHaveBeenCalled();
     });
   });
 });

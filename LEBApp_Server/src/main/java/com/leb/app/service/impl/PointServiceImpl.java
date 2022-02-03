@@ -45,12 +45,11 @@ public class PointServiceImpl implements PointService {
 
         return pointRepository
             .findById(pointDTO.getId())
-            .map(
-                existingPoint -> {
-                    pointMapper.partialUpdate(existingPoint, pointDTO);
-                    return existingPoint;
-                }
-            )
+            .map(existingPoint -> {
+                pointMapper.partialUpdate(existingPoint, pointDTO);
+
+                return existingPoint;
+            })
             .map(pointRepository::save)
             .map(pointMapper::toDto);
     }
@@ -76,7 +75,14 @@ public class PointServiceImpl implements PointService {
     }
 
     @Override
-    public Boolean isPoint(Long userId){
-        return pointRepository.existsByUserInfoId(userId);
+    public PointDTO prepareNewPoint(PointDTO point, Long userId){
+
+        point.setStatus(Long.valueOf(0));
+
+        point.setNumberOfDeliveries(0);
+
+        point.setOwnerPoint(userId);
+
+        return point;
     }
 }

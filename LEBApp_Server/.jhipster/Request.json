@@ -30,29 +30,25 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "description",
-      "fieldType": "String"
-    },
-    {
       "fieldName": "specialCharacteristics",
       "fieldType": "String"
     },
     {
-      "fieldName": "productWeight",
+      "fieldName": "weight",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "hight",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "width",
       "fieldType": "Double"
     },
     {
       "fieldName": "status",
       "fieldType": "Status",
-      "fieldValues": "WAITING,OPENED,OPENING,COMPLETING,COMPLETED,REFUSING,REFUSED,PENDING,CLOSING,CLOSED,IN_PROGRESS,PROCESSING,PROCESSED,PRE_PROCESSING,PRE_PROCESSED,LOSTED,CHECKING,CHECKED,CANCELED,CANCELING,DENIED,FAIL,INCOMPLET,SHIPPED,IN_TRANSIT"
-    },
-    {
-      "fieldName": "estimatedDate",
-      "fieldType": "String"
-    },
-    {
-      "fieldName": "deliveryTime",
-      "fieldType": "String"
+      "fieldValues": "WAITING,OPENED,OPENING,COMPLETING,COMPLETED,REFUSING,REFUSED,PENDING,CLOSING,CLOSED,IN_PROGRESS,PROCESSING,PROCESSED,PRE_PROCESSING,PRE_PROCESSED,LOSTED,CHECKING,CHECKED,CANCELED,CANCELING,DENIED,FAIL,INCOMPLET,SHIPPED,IN_TRANSIT,WAITING_COLLECTION,WAITING_COLLECTION_ACCEPTED,IN_COLLECTION,WAITING_TRANSIT,WAITING_TRANSIT_ACCEPTED,WAITING_DISTRIBUTION,WAITING_DISTRIBUTION_ACCEPTED,IN_DISTRIBUTION,REJECTED,FINISHED"
     },
     {
       "fieldName": "shippingCosts",
@@ -61,29 +57,6 @@
     {
       "fieldName": "rating",
       "fieldType": "Double"
-    }
-  ],
-  "relationships": [
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "dimensions",
-      "otherEntityRelationshipName": "request",
-      "relationshipName": "dimensions",
-      "ownerSide": true
-    },
-    {
-      "relationshipType": "many-to-one",
-      "otherEntityName": "ridePath",
-      "otherEntityRelationshipName": "request",
-      "relationshipValidateRules": "required",
-      "relationshipName": "ridePath"
-    },
-    {
-      "relationshipType": "many-to-one",
-      "otherEntityName": "producer",
-      "otherEntityRelationshipName": "request",
-      "relationshipValidateRules": "required",
-      "relationshipName": "producer"
     }
   ],
   "entityTableName": "request",
@@ -95,5 +68,5 @@
   "readOnly": false,
   "embedded": false,
   "applications": "*",
-  "changelogDate": "20210514212833"
+  "changelogDate": "20211019225133"
 }

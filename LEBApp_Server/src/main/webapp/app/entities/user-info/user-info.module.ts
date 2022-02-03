@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { SharedModule } from 'app/shared/shared.module';
 import { UserInfoComponent } from './list/user-info.component';
 import { UserInfoDetailComponent } from './detail/user-info-detail.component';

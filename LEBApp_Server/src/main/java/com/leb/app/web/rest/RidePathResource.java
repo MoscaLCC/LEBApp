@@ -119,7 +119,7 @@ public class RidePathResource {
      * or with status {@code 500 (Internal Server Error)} if the ridePathDTO couldn't be updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PatchMapping(value = "/ride-paths/{id}", consumes = "application/merge-patch+json")
+    @PatchMapping(value = "/ride-paths/{id}", consumes = { "application/json", "application/merge-patch+json" })
     public ResponseEntity<RidePathDTO> partialUpdateRidePath(
         @PathVariable(value = "id", required = false) final Long id,
         @RequestBody RidePathDTO ridePathDTO

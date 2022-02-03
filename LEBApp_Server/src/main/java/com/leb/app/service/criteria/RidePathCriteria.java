@@ -3,6 +3,7 @@ package com.leb.app.service.criteria;
 import java.io.Serializable;
 import java.util.Objects;
 import tech.jhipster.service.Criteria;
+import tech.jhipster.service.filter.DoubleFilter;
 import tech.jhipster.service.filter.Filter;
 import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.service.filter.StringFilter;
@@ -30,9 +31,9 @@ public class RidePathCriteria implements Serializable, Criteria {
 
     private StringFilter estimatedTime;
 
-    private LongFilter requestId;
+    private DoubleFilter radius;
 
-    private LongFilter transportsId;
+    private Boolean distinct;
 
     public RidePathCriteria() {}
 
@@ -42,8 +43,8 @@ public class RidePathCriteria implements Serializable, Criteria {
         this.destination = other.destination == null ? null : other.destination.copy();
         this.distance = other.distance == null ? null : other.distance.copy();
         this.estimatedTime = other.estimatedTime == null ? null : other.estimatedTime.copy();
-        this.requestId = other.requestId == null ? null : other.requestId.copy();
-        this.transportsId = other.transportsId == null ? null : other.transportsId.copy();
+        this.radius = other.radius == null ? null : other.radius.copy();
+        this.distinct = other.distinct;
     }
 
     @Override
@@ -126,34 +127,27 @@ public class RidePathCriteria implements Serializable, Criteria {
         this.estimatedTime = estimatedTime;
     }
 
-    public LongFilter getRequestId() {
-        return requestId;
+    public DoubleFilter getRadius() {
+        return radius;
     }
 
-    public LongFilter requestId() {
-        if (requestId == null) {
-            requestId = new LongFilter();
+    public DoubleFilter radius() {
+        if (radius == null) {
+            radius = new DoubleFilter();
         }
-        return requestId;
+        return radius;
     }
 
-    public void setRequestId(LongFilter requestId) {
-        this.requestId = requestId;
+    public void setRadius(DoubleFilter radius) {
+        this.radius = radius;
     }
 
-    public LongFilter getTransportsId() {
-        return transportsId;
+    public Boolean getDistinct() {
+        return distinct;
     }
 
-    public LongFilter transportsId() {
-        if (transportsId == null) {
-            transportsId = new LongFilter();
-        }
-        return transportsId;
-    }
-
-    public void setTransportsId(LongFilter transportsId) {
-        this.transportsId = transportsId;
+    public void setDistinct(Boolean distinct) {
+        this.distinct = distinct;
     }
 
     @Override
@@ -171,14 +165,14 @@ public class RidePathCriteria implements Serializable, Criteria {
             Objects.equals(destination, that.destination) &&
             Objects.equals(distance, that.distance) &&
             Objects.equals(estimatedTime, that.estimatedTime) &&
-            Objects.equals(requestId, that.requestId) &&
-            Objects.equals(transportsId, that.transportsId)
+            Objects.equals(radius, that.radius) &&
+            Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, source, destination, distance, estimatedTime, requestId, transportsId);
+        return Objects.hash(id, source, destination, distance, estimatedTime, radius, distinct);
     }
 
     // prettier-ignore
@@ -190,8 +184,8 @@ public class RidePathCriteria implements Serializable, Criteria {
             (destination != null ? "destination=" + destination + ", " : "") +
             (distance != null ? "distance=" + distance + ", " : "") +
             (estimatedTime != null ? "estimatedTime=" + estimatedTime + ", " : "") +
-            (requestId != null ? "requestId=" + requestId + ", " : "") +
-            (transportsId != null ? "transportsId=" + transportsId + ", " : "") +
+            (radius != null ? "radius=" + radius + ", " : "") +
+            (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }
 }

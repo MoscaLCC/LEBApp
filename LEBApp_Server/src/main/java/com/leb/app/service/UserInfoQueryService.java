@@ -82,6 +82,10 @@ public class UserInfoQueryService extends QueryService<UserInfo> {
     protected Specification<UserInfo> createSpecification(UserInfoCriteria criteria) {
         Specification<UserInfo> specification = Specification.where(null);
         if (criteria != null) {
+            // This has to be called first, because the distinct method returns null
+            if (criteria.getDistinct() != null) {
+                specification = specification.and(distinct(criteria.getDistinct()));
+            }
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), UserInfo_.id));
             }
@@ -97,8 +101,26 @@ public class UserInfoQueryService extends QueryService<UserInfo> {
             if (criteria.getBirthday() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getBirthday(), UserInfo_.birthday));
             }
-            if (criteria.getAdress() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getAdress(), UserInfo_.address));
+            if (criteria.getAddress() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAddress(), UserInfo_.address));
+            }
+            if (criteria.getLinkSocial() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getLinkSocial(), UserInfo_.linkSocial));
+            }
+            if (criteria.getNumberRequests() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getNumberRequests(), UserInfo_.numberRequests));
+            }
+            if (criteria.getPayedValue() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getPayedValue(), UserInfo_.payedValue));
+            }
+            if (criteria.getRanking() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getRanking(), UserInfo_.ranking));
+            }
+            if (criteria.getNumberOfDeliveries() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getNumberOfDeliveries(), UserInfo_.numberOfDeliveries));
+            }
+            if (criteria.getNumberOfKm() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getNumberOfKm(), UserInfo_.numberOfKm));
             }
         }
         return specification;

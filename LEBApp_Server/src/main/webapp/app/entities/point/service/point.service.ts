@@ -12,9 +12,9 @@ export type EntityArrayResponseType = HttpResponse<IPoint[]>;
 
 @Injectable({ providedIn: 'root' })
 export class PointService {
-  public resourceUrl = this.applicationConfigService.getEndpointFor('api/points');
+  protected resourceUrl = this.applicationConfigService.getEndpointFor('api/points');
 
-  constructor(protected http: HttpClient, private applicationConfigService: ApplicationConfigService) {}
+  constructor(protected http: HttpClient, protected applicationConfigService: ApplicationConfigService) {}
 
   create(point: IPoint): Observable<EntityResponseType> {
     return this.http.post<IPoint>(this.resourceUrl, point, { observe: 'response' });
