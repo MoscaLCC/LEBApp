@@ -12,6 +12,8 @@
             <column name="opening_time" type="VARCHAR(255)"/>
             <column name="status" type="BIGINT"/>
             <column name="owner_point" type="BIGINT"/>
+            <column name="lat" type="DOUBLE"/>
+            <column name="lng" type="DOUBLE"/>
         </createTable>
     </changeSet>
     <changeSet author="luism (generated)" id="1641334630329-2">

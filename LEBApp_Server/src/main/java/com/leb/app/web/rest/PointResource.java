@@ -147,6 +147,12 @@ public class PointResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/points/list")
+    public ResponseEntity<List<PointDTO>> getAllPoints() {
+        List<PointDTO> page = pointService.findAllList();
+        return ResponseEntity.ok().body(page);
+    }
+
     @GetMapping("/points/active")
     public ResponseEntity<List<PointDTO>> getAllActivePoints(PointCriteria criteria, Pageable pageable) {
         log.debug("REST request to get Points by criteria: {}", criteria);

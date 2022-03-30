@@ -5,7 +5,11 @@ import com.leb.app.repository.PointRepository;
 import com.leb.app.service.PointService;
 import com.leb.app.service.dto.PointDTO;
 import com.leb.app.service.mapper.PointMapper;
+
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -59,6 +63,13 @@ public class PointServiceImpl implements PointService {
     public Page<PointDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Points");
         return pointRepository.findAll(pageable).map(pointMapper::toDto);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<PointDTO> findAllList() {
+        log.debug("Request to get all Points");
+        return pointRepository.findAll().stream().map(pointMapper::toDto).collect(Collectors.toList());
     }
 
     @Override
