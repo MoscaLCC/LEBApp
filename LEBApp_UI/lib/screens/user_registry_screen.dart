@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:lebapp_ui/models/User.dart';
 import 'package:lebapp_ui/screens/user_registryProfile_screen.dart';
+import 'package:lebapp_ui/screens/user_registry_screenCredent.dart';
 import 'package:lebapp_ui/widgets/UserForm.dart';
 import '../main.dart';
 import 'package:intl/intl.dart';
@@ -77,7 +78,7 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
             firstDate:DateTime(1900),
             lastDate: DateTime(2100));
 
-        birthdayController.text = DateFormat("yyyy-MM-dd").format(date);},
+        birthdayController.text = formatISOTime(date);},
     );
 
     final phoneNumberField = TextFormField(
@@ -130,10 +131,11 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
 
           // Object generation
           User uAux = new User(firstNameController.text, lastNameController.text, null,
-              null, phoneNumberController.text, int.parse(nifController.text), DateTime.parse(birthdayController.text), addressController.text,
-              false, null,false,null,false, null,null,false, null,null,null);
+              null, phoneNumberController.text, int.parse(nifController.text),null, birthdayController.text, addressController.text,
+              null,null,null);
 
-          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>User_RegistryProfile_Screen(uTest: uAux)));
+          //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>User_RegistryProfile_Screen(uTest: uAux)));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context)=>User_Registry_ScreenCredent(uTest: uAux)));
         }
       ),
     );
@@ -178,5 +180,17 @@ class _User_Registry_ScreenState extends State<User_Registry_Screen> {
         ),
         ),
     );
+  }
+
+  String formatISOTime(DateTime date) {
+    //converts date into the following format:
+// or 2019-06-04T12:08:56.235-0700
+    var duration = date.timeZoneOffset;
+    if (duration.isNegative)
+      return (DateFormat("yyyy-MM-ddTHH:mm:ss.mmm").format(date) +
+          "z");
+    else
+      return (DateFormat("yyyy-MM-ddTHH:mm:ss.mmm").format(date) +
+          "z");
   }
 }

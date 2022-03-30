@@ -8,35 +8,33 @@ import 'expandRequest.dart';
 
 //General Area User Main Page
 // ignore: camel_case_types
-class ConsultRequest extends StatefulWidget {
+class ConsultInProgressRequest extends StatefulWidget {
 
   String firstName;
   int userID;
-  String profile;
   String token;
 
-  ConsultRequest(this.firstName, this.userID,this.profile,this.token);
+  ConsultInProgressRequest(this.firstName, this.userID,this.token);
 
   @override
-  _ConsultRequestState createState() => _ConsultRequestState(firstName,userID,profile,token);
+  _ConsultInProgressRequestState createState() => _ConsultInProgressRequestState(firstName,userID,token);
 }
 
-class _ConsultRequestState extends State<ConsultRequest> {
+class _ConsultInProgressRequestState extends State<ConsultInProgressRequest> {
 
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
-  final List<String> alphabets = <String>['A', 'B', 'C'];
+  //final List<String> alphabets = <String>['A', 'B', 'C'];
 
   String firstName;
   int userID;
-  String profile;
   String token;
 
-  _ConsultRequestState(this.firstName,this.userID,this.profile,this.token);
+  _ConsultInProgressRequestState(this.firstName,this.userID,this.token);
 
   List<CreateRequestDTO> _listFinal = [];
   void _receiveListReq() async{
-    final resultList = await fetchRequests(userID.toString(), profile,token);
+    final resultList = await fetchRequests(userID.toString(),token);
     setState(() => _listFinal = resultList);
   }
 
@@ -61,7 +59,7 @@ class _ConsultRequestState extends State<ConsultRequest> {
 
     return Scaffold(
       appBar: AppBar(
-          title:Text("Consult Request")
+          title:Text("Consult In-Progress Request")
       ),
       body: ListView(
         children: [
@@ -71,7 +69,7 @@ class _ConsultRequestState extends State<ConsultRequest> {
               leading: Icon(Icons.add),
               trailing: Text("0$count"),
               onTap: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ExpandRequest(firstName, userID, profile,token,_listFinal[count-1])));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ExpandRequest(firstName, userID,token,_listFinal[count-1])));
               },
             ),
           SizedBox(height: 15.0),
@@ -82,13 +80,12 @@ class _ConsultRequestState extends State<ConsultRequest> {
   }
 }
 
-Future<List<CreateRequestDTO>> fetchRequests(String userID, String profile, String token) async {
+Future<List<CreateRequestDTO>> fetchRequests(String userID, String token) async {
 
   print(userID);
-  print(profile);
   print(token);
-
-  var url = Uri.parse('http://192.168.1.110:8080/api/requests/'+ userID.toString()+'/'+profile);
+  String profile = "";
+  var url = Uri.parse('http://ec2-54-209-6-238.compute-1.amazonaws.com:8080/api/requests/'+ userID.toString()+'/'+profile);
 
   Map<String,String> headers = {
     'Content-type' : 'application/json',

@@ -1,39 +1,38 @@
 import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:lebapp_ui/models/CreateRequestDTO.dart';
-import 'package:lebapp_ui/models/UserInfo.dart';
-import 'package:lebapp_ui/screens/user_main_area.dart';
+import 'package:lebapp_ui/models/DimensionsDTO.dart';
+import 'package:lebapp_ui/models/RidePathDTO.dart';
 
 //General Area User Main Page
 // ignore: camel_case_types
-class CreateRequest extends StatefulWidget {
+class EditRequest extends StatefulWidget {
 
   String firstName;
   int userID;
   String token;
-  UserInfo userInfoAux;
+  CreateRequestDTO requestSelected;
+  int reqID;
 
-  CreateRequest(this.firstName, this.userID,this.token, this.userInfoAux);
+  EditRequest(this.firstName, this.userID,this.token,this.requestSelected,this.reqID);
 
   @override
-  _CreateRequestState createState() => _CreateRequestState(firstName,userID,token, userInfoAux);
+  _EditRequestState createState() => _EditRequestState(firstName,userID,token,requestSelected,reqID);
 }
 
-class _CreateRequestState extends State<CreateRequest> {
+class _EditRequestState extends State<EditRequest> {
 
   TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
 
   String firstName;
   int userID;
   String token;
-  UserInfo userInfoAux;
+  CreateRequestDTO requestSelected;
+  int reqID;
 
-  _CreateRequestState(this.firstName,this.userID,this.token, this.userInfoAux);
+  _EditRequestState(this.firstName,this.userID,this.token,this.requestSelected,this.reqID);
 
   // key to form validator
   final _keyForm = GlobalKey<FormState>(); // Our created key
@@ -48,7 +47,6 @@ class _CreateRequestState extends State<CreateRequest> {
   final destinationContactMobileController = TextEditingController();
   final destinationContactEmailController = TextEditingController();
   final initDateController = TextEditingController();
-  final expirationDateController = TextEditingController();
   final productHeightController = TextEditingController();
   final productWidthController = TextEditingController();
   final productWeightController = TextEditingController();
@@ -62,10 +60,13 @@ class _CreateRequestState extends State<CreateRequest> {
   @override
   Widget build(BuildContext context) {
 
+    print(reqID.toString());
+
+    productNameController.text = requestSelected.productName;
     final productName = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Product Name',icon: Icon(Icons.people),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
+      decoration: InputDecoration(icon: Icon(Icons.people),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       controller: productNameController,
       validator: (value) {
         if (value.isEmpty) return 'You have to insert a name';
@@ -73,10 +74,11 @@ class _CreateRequestState extends State<CreateRequest> {
       },
     );
 
+    productValueController.text = requestSelected.productValue.toString();
     final productValue = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Product Value',icon: Icon(Icons.money),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
+      decoration: InputDecoration(hintText: 'Product Value',icon: Icon(Icons.people),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       controller: productValueController,
       validator: (value) {
         if (value.isEmpty) return 'You have to insert a number';
@@ -84,10 +86,11 @@ class _CreateRequestState extends State<CreateRequest> {
       },
     );
 
+    productHeightController.text = requestSelected.hight.toString();
     final productHeight = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Height',icon: Icon(Icons.height),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
+      decoration: InputDecoration(hintText: 'Height',icon: Icon(Icons.phone),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       keyboardType: TextInputType.number,
       controller: productHeightController,
       validator: (value) {
@@ -96,10 +99,11 @@ class _CreateRequestState extends State<CreateRequest> {
       },
     );
 
+    productWidthController.text = requestSelected.width.toString();
     final productWidth = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Width',icon: Icon(Icons.height),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
+      decoration: InputDecoration(hintText: 'Width',icon: Icon(Icons.phone),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       keyboardType: TextInputType.number,
       controller: productWidthController,
       validator: (value) {
@@ -108,10 +112,11 @@ class _CreateRequestState extends State<CreateRequest> {
       },
     );
 
+    productWeightController.text = requestSelected.weight.toString();
     final productWeight = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Weight',icon: Icon(Icons.height),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
+      decoration: InputDecoration(hintText: 'Weight',icon: Icon(Icons.phone),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       keyboardType: TextInputType.number,
       controller: productWeightController,
       validator: (value) {
@@ -119,10 +124,12 @@ class _CreateRequestState extends State<CreateRequest> {
         return null;
       },
     );
+
+    specialCharController.text = requestSelected.specialCharacteristics;
     final specialChar = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Product Special Characteristics',icon: Icon(Icons.star),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
+      decoration: InputDecoration(hintText: 'Product Special Characteristics',icon: Icon(Icons.people),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       controller: specialCharController,
       validator: (value) {
         if (value.isEmpty) return 'You have to insert a number';
@@ -130,10 +137,11 @@ class _CreateRequestState extends State<CreateRequest> {
       },
     );
 
+    sourceController.text = requestSelected.source;
     final source = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'source',icon: Icon(Icons.source),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
+      decoration: InputDecoration(hintText: 'source',icon: Icon(Icons.people),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       controller: sourceController,
       validator: (value) {
         if (value.isEmpty) return 'You have to insert a number';
@@ -141,10 +149,11 @@ class _CreateRequestState extends State<CreateRequest> {
       },
     );
 
+    destinationController.text = requestSelected.destination;
     final destination = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Destination',icon: Icon(Icons.flag),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
+      decoration: InputDecoration(hintText: 'Destination',icon: Icon(Icons.people),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       controller: destinationController,
       validator: (value) {
         if (value.isEmpty) return 'You have to insert a number';
@@ -152,6 +161,7 @@ class _CreateRequestState extends State<CreateRequest> {
       },
     );
 
+    destinationContactMobileController.text = requestSelected.destinationContactMobile;
     final destinationContactMobile = TextFormField(
       obscureText: false,
       style: style,
@@ -164,17 +174,19 @@ class _CreateRequestState extends State<CreateRequest> {
       },
     );
 
+    destinationContactEmailController.text = requestSelected.destinationContactEmail;
     final destinationContactEmail = TextFormField(
       obscureText: false,
       style: style,
-      decoration: InputDecoration(hintText: 'Destination Email',icon: Icon(Icons.email),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
+      decoration: InputDecoration(hintText: 'Destination Email',icon: Icon(Icons.phone),border: OutlineInputBorder(borderRadius: BorderRadius.circular(30.0)),contentPadding: EdgeInsets.fromLTRB(20.0,10.0,20.0,10.0)),
       controller: destinationContactEmailController,
       validator: (value) {
-        if (value.isEmpty) return 'You have to insert a number';
+        if (value.isEmpty) return 'You have to insert a email';
         return null;
       },
     );
 
+    initDateController.text = requestSelected.initDate.toString();
     final initDate = TextFormField(
       obscureText: false,
       style: style,
@@ -193,7 +205,9 @@ class _CreateRequestState extends State<CreateRequest> {
         initDateController.text = formatISOTime(date);},
     );
 
-    final confirmRequestButton = Material(
+
+    // ----- buttons ------
+    final confirmEditRequestButton = Material(
       child: TextButton(
         child: Text('Confirm'),
         style: TextButton.styleFrom(
@@ -206,15 +220,15 @@ class _CreateRequestState extends State<CreateRequest> {
           //button action
           _saveForm();
 
-          print(" ## Send object - Create Request ## ");
+          print(" ## Send object - Edit Request ## ");
 
-          CreateRequestDTO newReq = new CreateRequestDTO(null,double.parse(productValueController.text), productNameController.text,
+          CreateRequestDTO newReq = new CreateRequestDTO(requestSelected.id,double.parse(productValueController.text), productNameController.text,
               sourceController.text, destinationController.text, destinationContactMobileController.text, destinationContactEmailController.text,
-              initDateController.text, null,
+              initDateController.text, requestSelected.expirationDate,
               specialCharController.text,double.parse(productWeightController.text),double.parse(productHeightController.text),double.parse(productWidthController.text),
-              "WAITING_COLLECTION", null,0.0,null,null);
+              requestSelected.status,requestSelected.shippingCosts,requestSelected.rating,requestSelected.ownerRequest,requestSelected.transporter);
 
-          var url = Uri.parse('http://ec2-54-209-6-238.compute-1.amazonaws.com:8080/api/requests/create'); //+ userID.toString()
+          var url = Uri.parse('http://ec2-54-209-6-238.compute-1.amazonaws.com:8080/api/requests/'+reqID.toString());
           var body = json.encode(newReq.toJson());
           print(body);
 
@@ -224,30 +238,25 @@ class _CreateRequestState extends State<CreateRequest> {
             'Authorization' : token,
           };
 
-          var response = await http.post(url, body: body, headers: headers); // send
-          print(response.statusCode);
+          final response = await http.put(url, body: body, headers: headers);
+          print(response);
 
-          // parse response in CreateRequest DTO
-          var jsonResponse = json.decode(response.body);
-          CreateRequestDTO newReqUpdate = new CreateRequestDTO.fromJson(jsonResponse);
-
-          if(response.statusCode == 200 || response.statusCode == 201 || response.statusCode == 204){
-
-            showAlertDialogWithPayment(context, "New Request Created", "Price is "+newReqUpdate.shippingCosts.toString()+". Please choose your payment method:", newReqUpdate, userInfoAux, userID.toString(),token);
-            //Navigator.of(context).push(MaterialPageRoute(builder: (context)=>User_Main_Area(firstName, userID, token)));
+          if(response.statusCode == 200){
+            showAlertDialog(context, "Edit Request", "Success");
             return response;
 
           }else{
-            showAlertDialog(context, "Error", "Request Creation failed. Please try later");
+            showAlertDialog(context, "Edit Request", "Error");
             return response;
           }
         },
       ),
     );
 
+
     return Scaffold(
       appBar: AppBar(
-          title: Text('Create your new req . . .'),
+          title: Text('Edit your request'),
           backgroundColor: Colors.teal),
       body: SingleChildScrollView(
         child: Form(
@@ -283,13 +292,10 @@ class _CreateRequestState extends State<CreateRequest> {
                     destinationContactEmail,
                     SizedBox(height: 30.0),
                     initDate,
-                    confirmRequestButton,
-                    SizedBox(
-                      height: 15.0,
-                    ),
+                    confirmEditRequestButton,
+                    SizedBox(height: 15.0,),
                   ],
                 ),
-
               ),
             ),
           ),
@@ -297,6 +303,32 @@ class _CreateRequestState extends State<CreateRequest> {
       ),
     );
   }
+}
+
+showAlertDialog(BuildContext context, String title, String content) {
+
+  // set up the button
+  Widget okButton = TextButton(
+    child: Text("OK"),
+    onPressed: () { },
+  );
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text(title),
+    content: Text(content),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }
 
 String formatISOTime(DateTime date) {
@@ -309,116 +341,4 @@ String formatISOTime(DateTime date) {
   else
     return (DateFormat("yyyy-MM-ddTHH:mm:ss.mmm").format(date) +
         "z");
-}
-
-showAlertDialog(BuildContext context, String title, String content) {
-
-  // set up the button
-  Widget okButton = TextButton(
-    child: Text("OK"),
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text(title),
-    content: Text(content),
-    actions: [
-      okButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
-
-
-showAlertDialogWithPayment(BuildContext context, String title, String content, CreateRequestDTO newReqUpdate, UserInfo userInfoAux, String userID, String token) {
-
-  // set up the button
-  Widget lebCashButton = TextButton(
-    child: Text("LEB Cash"),
-    onPressed: () {
-      //Navigator.of(context).pop();
-      if(userInfoAux.availableBalance >= newReqUpdate.shippingCosts){
-          // Possible to pay with LEB cash
-        showAlertDialog(context, "Success", "Your wallet was updated.");
-
-      }else{
-        // Not possible to pay with LEB cash
-        showAlertDialog(context, "Error", "Insufficient money.");
-      }
-    },
-  );
-
-  // set up the button
-  Widget creditCardButton = TextButton(
-    child: Text("Credit Card"),
-    onPressed: () {
-      showAlertDialogCreditCard(context, "Simulation page", "you will pay "+newReqUpdate.shippingCosts.toString()+ "with your Credit Card.", userID.toString(),newReqUpdate, token);
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text(title),
-    content: Text(content),
-    actions: [
-      lebCashButton,
-      creditCardButton
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
-
-showAlertDialogCreditCard(BuildContext context, String title, String content, String userID, CreateRequestDTO newReqUpdate, String token) {
-
-  // set up the button
-  Widget okButton = TextButton(
-    child: Text("OK"),
-    onPressed: () async {
-      // Put to server...
-      var url = Uri.parse('http://ec2-54-209-6-238.compute-1.amazonaws.com:8080/api/user-infos/load/'+userID+'/'+newReqUpdate.shippingCosts.toString()); //+userID.toString()
-
-      Map<String,String> headers = {
-        'Content-type' : 'application/json',
-        'Accept': 'application/json',
-        'Authorization' : token,
-      };
-
-      final response =  await http.put(url,headers: headers);
-      print(response);
-    },
-  );
-
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text(title),
-    content: Text(content),
-    actions: [
-      okButton,
-    ],
-  );
-
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
 }

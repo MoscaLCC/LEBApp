@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:lebapp_ui/screens/user_login_screen.dart';
-import 'package:lebapp_ui/widgets/UserForm.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
-      home: MyHomePage(title: 'Welcome to LEB'),
+      home: MyHomePage(title: 'Welcome to LebNow'),
     );
   }
 }
@@ -49,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'In construction...',
+              'Test page...',
             ),
           ],
         ),

@@ -59,11 +59,9 @@ class _User_Registry_ScreenCredentState extends State<User_Registry_ScreenCreden
             print(" ## Send object ## ");
 
             User uAux = new User(widget.uTest.firstName, widget.uTest.lastName, emailController.text,widget.uTest.imageUrl,
-              widget.uTest.phoneNumber,widget.uTest.nif, widget.uTest.birthday, widget.uTest.address,
-                widget.uTest.isTransporter, widget.uTest.favouriteTransport, widget.uTest.isProducer,widget.uTest.linkSocial,
-                widget.uTest.isPoint, widget.uTest.openingTimePoint,widget.uTest.closingTimePoint ,widget.uTest.isDeliveryMan, widget.uTest.openingTimeDeliveryMan,widget.uTest.closingTimeDeliveryMan,passwordController.text);
+              widget.uTest.phoneNumber,widget.uTest.nif,"PT50 0054 58874 565444", widget.uTest.birthday, widget.uTest.address,"wwww.queijos.pt",passwordController.text,"PT");
 
-            var  url = Uri.parse('http://192.168.1.110:8080/api/interface/register');
+            var  url = Uri.parse('http://ec2-54-209-6-238.compute-1.amazonaws.com:8080/api/interface/register');
             var body = json.encode(uAux.toJson());
             print(body);
 
